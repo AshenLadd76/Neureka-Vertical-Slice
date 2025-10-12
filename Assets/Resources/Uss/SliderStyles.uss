@@ -1,0 +1,43 @@
+/* Base slider container */
+.slider {
+    width: 300px;           /* total slider width */
+    height: 20px;           /* total slider height */
+    display: flex;          /* horizontal layout */
+    flex-direction: row;    /* ensure horizontal */
+    align-items: center;    /* vertically center track & thumb */
+    justify-content: flex-start; /* fill starts at left */
+    background-color: #444; /* slider background */
+    border-radius: 10px;
+    padding: 0;             /* no extra spacing */
+    position: relative;     /* for thumb positioning */
+}
+
+/* Track fill (controlled by builder) */
+.slider__track {
+    width: 0%;              /* will be set dynamically */
+    height: 100%;           /* match container height */
+    background-color: #4CAF50; /* fill color */
+    border-radius: 10px;
+    transition: width 0.2s ease;
+}
+
+/* Slider thumb */
+.slider__thumb {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;      /* position over the track */
+    left: 0;                 /* initial position, builder moves it */
+    top: 50%;                /* vertical center */
+  
+  
+}
+
+/* Optional label */
+.slider__label {
+    margin-left: 8px;
+    color: white;
+    font-size: 14px;
+}
+

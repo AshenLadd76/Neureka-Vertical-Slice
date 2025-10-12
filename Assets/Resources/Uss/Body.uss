@@ -1,0 +1,14 @@
+.body {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;  /* stack children vertically */
+    justify-content: center;     /* center children vertically in the container */
+    align-items: flex-start;         /* center children horizontally */
+    height: 80%;                /* fill parent height so centering works */
+    width: 100%;        
+    padding: 10px;
+    
+     
+
+    /*background-color: #3498db;*/
+}

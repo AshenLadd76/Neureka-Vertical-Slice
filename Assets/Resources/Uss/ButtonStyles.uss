@@ -1,0 +1,43 @@
+
+
+.button-row {
+    display: flex;
+    justify-content: center; /* center buttons horizontally */
+    align-items: center;
+    width: 100%;             /* full width is required */
+    flex-grow: 0;
+    padding-bottom: 20px;    /* distance from bottom */
+}
+
+/* Button styles remain the same */
+.btn-base {
+    display: flex;           
+    justify-content: center; 
+    align-items: center;     
+    border-radius: 24px;
+    -unity-text-align: middle-center;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 36px;
+    -unity-font-style: Bold;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    flex-shrink: 0;    /* prevents button from shrinking unexpectedly */
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.btn-large {
+    width: 500px;
+    height: 100px;
+    min-width:250px;
+    min-height:50px;
+    font-size: 36px;
+}
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+.window-root {
+    flex-direction: column; /* stack children vertically */
+    height: 100%;
+    width: 100%;
+    padding: 5;
+    margin-bottom: 50;
+}
+
+.spacer {
+    width: 100%;       /* horizontal spacer spans full width (for vertical layouts) */
+    height: 10px;      /* default height; adjust as needed */
+    flex-shrink: 0;    /* prevent shrinking */
+    flex-grow: 0;      /* default: doesn’t expand unless you want a flexible spacer */
+}

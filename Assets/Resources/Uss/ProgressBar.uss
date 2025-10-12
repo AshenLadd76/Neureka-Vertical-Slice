@@ -1,0 +1,36 @@
+/* Base container */
+.progress-bar {
+    flex-direction: row;
+    width: 400px;
+    height: 80px;
+    border-radius: 8px;
+    background-color: #333333;
+    padding: 2px;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+/* Fill element */
+.progress-bar__fill {
+    background-color: #4CAF50; /* green fill */
+    height: 100%;
+    width: 0%; /* will be controlled by builder */
+    border-radius: 8px;
+    transition: width 0.2s ease;
+}
+
+/* Optional label inside the bar */
+.progress-bar__label {
+    color: white;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.progress-bar > Label {
+    display: none;
+}
+
+
+
+

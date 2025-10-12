@@ -1,0 +1,15 @@
+.header {
+                   /* fixed height */
+    flex-direction: row;          /* horizontal layout for header items */
+    justify-content: center;      /* center items horizontally */
+    align-items: center;          /* center items vertically */
+    padding: 10px 20px;           /* optional padding */
+    background-color: #222;       /* dark background for header */
+    color: white;                 /* default text color */
+    font-size: 16px;              /* default font size */
+    font-weight: bold;
+    width: 100%;                  /* stretch full width */
+    height: 10%;
+    box-sizing: border-box;       /* ensure padding included in width */
+    
+}

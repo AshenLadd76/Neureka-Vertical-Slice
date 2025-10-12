@@ -1,0 +1,35 @@
+.scroll-view {
+    width: 100%;
+    height: 80%;             /* default height, can be overridden via builder */
+    min-width: 200px;
+    min-height: 100px;
+    border-width: 1px;
+    border-color: #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    /*background-color: #f9f9f9;*/
+    overflow: hidden;          /* ensures scrollbars show only when needed */
+}
+
+/* Content container inside ScrollView */
+.scroll-view > .unity-content-container {
+    width: 100%;
+    height: auto;              /* expands as children are added */
+    flex-direction: column;    /* stack children vertically by default */
+}
+
+/* Optional: Scrollbar styling */
+.scroll-view > .unity-vertical-scroller,
+.scroll-view > .unity-horizontal-scroller {
+    width: 8px;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
+
+/* Hover effect on scrollbars */
+.scroll-view > .unity-vertical-scroller:hover,
+.scroll-view > .unity-horizontal-scroller:hover {
+    background-color: #c0c0c0;
+}
