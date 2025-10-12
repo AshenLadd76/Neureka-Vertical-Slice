@@ -120,7 +120,6 @@ namespace CodeBase
         {
             float dpiScale = Screen.dpi / 100f;
             
-            
             return new ButtonBuilder()
                 .SetText("Test Button Builder")
                 .SetWidth(500 * dpiScale)
