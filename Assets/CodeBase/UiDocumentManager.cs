@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using CodeBase.UiComponents.Footers;
 using ToolBox.Messenger;
 using ToolBox.Utils.Validation;
 using UiFrameWork.Builders;
@@ -60,7 +61,7 @@ namespace CodeBase
 
             rootBuilder.AddChild(BuildHeader(100,10, Color.gray, 0f));
             rootBuilder.AddChild(BuildBody());
-            rootBuilder.AddChild(BuildFooter(100,10, Color.gray, 0f));
+            rootBuilder.AddChild(new SingleButtonFooter(() => { Logger.Log($"I was clicked on, so im working ok"); }, $"Hit me!", "footer"));
             
             
             UssLoader.LoadAllUssFromFolder( _uiDocument.rootVisualElement, $"Uss/" );

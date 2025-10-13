@@ -29,7 +29,7 @@
 }
 
 .btn-large {
-    width: 500px;
+    width: 600px;
     height: 100px;
     min-width:250px;
     min-height:50px;
