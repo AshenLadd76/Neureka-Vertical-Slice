@@ -2,6 +2,7 @@ using System.ComponentModel;
 using ToolBox.Messenger;
 using ToolBox.Utils.Validation;
 using UiFrameWork.Builders;
+using UiFrameWork.RunTime;
 using UiFrameWork.Tools;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -124,9 +125,7 @@ namespace CodeBase
                 .SetText("Test Button Builder")
                 .SetWidth(500 * dpiScale)
                 .SetHeight(100  * dpiScale)
-                
-                
-                .OnClick(() => { Debug.Log($"this works aok !!!1"); })
+                .OnClick(() => { MessageBus.Instance.Broadcast( nameof(PageFactoryMessages.OnRequestPage), PageID.TestPage ); })
                 .SetFlexShrink(0)
                 .AddClass( "btn-base" )
                 //.AddClass("btn-large")
