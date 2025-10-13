@@ -47,6 +47,9 @@ namespace CodeBase
             
             ObjectValidator.Validate(_uiDocument);
             
+            
+            UssLoader.LoadAllUssFromFolder( _uiDocument.rootVisualElement, $"Uss/" );
+            
             // Initialize the builder for the UIDocument root
             var rootBuilder = new UIDocumentConfigurator(_uiDocument)
                 .SetWidthPercent(Length.Percent(100))
@@ -61,10 +64,8 @@ namespace CodeBase
 
             rootBuilder.AddChild(BuildHeader(100,10, Color.gray, 0f));
             rootBuilder.AddChild(BuildBody());
-            rootBuilder.AddChild(new SingleButtonFooter(() => { Logger.Log($"I was clicked on, so im working ok"); }, $"Hit me!", "footer"));
+            rootBuilder.AddChild(new SingleButtonFooter(() => { Logger.Log($"I was clicked on, so im working ok"); }, $"Hit me!"));
             
-            
-            UssLoader.LoadAllUssFromFolder( _uiDocument.rootVisualElement, $"Uss/" );
         }
 
 

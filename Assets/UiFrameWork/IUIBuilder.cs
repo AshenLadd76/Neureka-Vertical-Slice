@@ -1,5 +1,4 @@
 using UnityEngine.UIElements;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -61,6 +60,8 @@ namespace UiFrameWork
         /// Adds a USS class name to the element.
         /// </summary>
         TBuilder AddClass(string className);
+
+        public TBuilder AddClasses(string[] classes);
         
         /// <summary>
         /// Removes a USS class name to the element.

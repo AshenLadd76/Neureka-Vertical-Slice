@@ -6,7 +6,6 @@ namespace UiFrameWork.Builders
 {
     public class ButtonBuilder : BaseBuilder<Button, ButtonBuilder>
     {
-        
         public ButtonBuilder SetText(string text)
         {
             _visualElement.text = text;
@@ -17,7 +16,6 @@ namespace UiFrameWork.Builders
         {
             if (callback == null)
                 throw new System.ArgumentNullException(nameof(callback));
-            
             
             _visualElement.clicked += callback;
             return this;

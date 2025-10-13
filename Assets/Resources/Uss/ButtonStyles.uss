@@ -10,7 +10,7 @@
 }
 
 /* Button styles remain the same */
-.btn-base {
+.button-base {
     display: flex;           
     justify-content: center; 
     align-items: center;     
@@ -28,7 +28,7 @@
     margin-right: 0px;
 }
 
-.btn-large {
+.button-large {
     width: 600px;
     height: 100px;
     min-width:250px;

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using ToolBox.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
 namespace UiFrameWork
 {
@@ -26,6 +28,28 @@ namespace UiFrameWork
 
         public TBuilder AddClass(string className) { _visualElement.AddToClassList( className ); return (TBuilder)this; }
 
+        public TBuilder AddClasses(string[] classes)
+        {
+            if (classes.IsNullOrEmpty())
+            {
+                Logger.Log( $"No classes to add to UI builder : {typeof(TElement).Name}" );
+                return (TBuilder)this;
+            }
+
+            for (int i = 0; i < classes.Length; i++)
+            {
+                if (string.IsNullOrEmpty(classes[i]))
+                {
+                    Logger.Log( $"No class to add to UI builder : {typeof(TElement).Name}" );
+                    continue;
+                }
+
+                _visualElement.AddToClassList( classes[i]);
+            }
+
+            return (TBuilder)this;
+        }
+
         public TBuilder RemoveClass(string className) { _visualElement.RemoveFromClassList( className ); return (TBuilder)this; }
         
         public TBuilder SetPickingMode(PickingMode mode) { _visualElement.pickingMode = mode; return (TBuilder)this; }
@@ -43,6 +67,7 @@ namespace UiFrameWork
         
         public TBuilder AttachTo(VisualElement parent)
         {
+           if (parent == null) return (TBuilder)this; 
            parent.Add(_visualElement);
            return (TBuilder)this;
         }

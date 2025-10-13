@@ -9,6 +9,8 @@ namespace CodeBase.Pages
     {
         private VisualElement _root;
         
+        private VisualElement _page;
+        
         public void Open(VisualElement root)
         {
             _root = root ?? throw new System.ArgumentNullException(nameof(root));
