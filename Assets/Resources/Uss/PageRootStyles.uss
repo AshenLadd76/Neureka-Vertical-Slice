@@ -1,0 +1,34 @@
+.page-root {
+    /* Layout */
+    display: flex;
+    flex-direction: column;     /* stack header, content, footer vertically */
+    justify-content: space-between;  /* push header up, footer down */
+    align-items: stretch;       /* make children fill width */
+    
+    /* Size */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    
+    /* Optional styling */
+    background-color: var(--page-background, #f4f4f4);
+    padding: 10px;
+    
+    /* Rounding or shadow if desired */
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.page-root__header {
+    flex-shrink: 0;
+}
+
+.page-root__content {
+    flex-grow: 1;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.page-root__footer {
+    flex-shrink: 0;
+}

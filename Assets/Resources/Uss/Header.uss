@@ -40,6 +40,6 @@
 
 .header-button-small > Label {
     font-size: 12px;
-    color: #000000;
+    color: #ffffff;
 }
 

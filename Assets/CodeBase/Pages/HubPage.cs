@@ -14,7 +14,7 @@ namespace CodeBase.Pages
     {
         private VisualElement _root;
 
-        private VisualElement _pageContainer;
+        private VisualElement _pageRoot;
         
         public void Open(VisualElement root)
         {
@@ -25,38 +25,39 @@ namespace CodeBase.Pages
 
         public void Close()
         {
-            if (_root == null || _pageContainer == null) return;
+            if (_pageRoot == null) return;
             
             MessageBus.Instance.Broadcast(nameof(PageFactoryMessages.OnRequestClosePage), PageID.HubPage);
             
-            _root?.Remove( _pageContainer );
+            _root?.Remove( _pageRoot );
             
-            _pageContainer = null;
+            _pageRoot = null;
         }
 
         private void BuildHubPage()
         {
-            _pageContainer  = new ContainerBuilder()
-                .AddClass(UiStyleClassDefinitions.Container)
-                .AddClass(UiStyleClassDefinitions.ContainerRow)
+            _pageRoot = new ContainerBuilder()
+                .AddClass(UiStyleClassDefinitions.PageRoot)
                 .AttachTo(_root)
                 .Build();
             
+            new DefaultHeader("Main Hub", _pageRoot, 
+                () => { Logger.Log($"OnBack Selected"); },
+                Close);
             
-           new DefaultHeader("Main Hub", _pageContainer, 
-               () => { Logger.Log($"OnBack Selected"); },
-               Close);
-
-           //var container = new DefaultContainer(_root);
+            
+            var container  = new ContainerBuilder()
+                .AddClass(UiStyleClassDefinitions.Container)
+                .AddClass(UiStyleClassDefinitions.ContainerRow)
+                .AttachTo(_pageRoot)
+                .Build();
+            
+           ButtonFactory.CreateButton(ButtonType.Confirm, "1",() => { MessageBus.Instance.Broadcast(nameof(PageFactoryMessages.OnRequestOpenPage), PageID.TestPage); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            
-           
-           ButtonFactory.CreateButton(ButtonType.Confirm, "1",() => { Logger.Log("1"); }, _pageContainer).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, _pageContainer).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, _pageContainer).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, _pageContainer).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           
-           new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", _pageContainer);
-           
+           new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", _pageRoot);
         }
     }
 }

@@ -56,13 +56,9 @@ namespace CodeBase
         }
 
 
-        private IEnumerator Start()
+        private void Start()
         {
             MessageBus.Instance.Broadcast( nameof(PageFactoryMessages.OnRequestOpenPage), PageID.HubPage );
-
-            yield return new WaitForSeconds(3f);
-            
-            MessageBus.Instance.Broadcast( nameof(PageFactoryMessages.OnRequestOpenPage), PageID.TestPage );
         }
 
 
