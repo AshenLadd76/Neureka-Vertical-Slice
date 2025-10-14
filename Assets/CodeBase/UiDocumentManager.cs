@@ -1,11 +1,9 @@
-using System.ComponentModel;
-using CodeBase.UiComponents.Footers;
+using System.Collections;
 using ToolBox.Messenger;
 using ToolBox.Utils.Validation;
 using UiFrameWork.Builders;
 using UiFrameWork.RunTime;
 using UiFrameWork.Tools;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -41,8 +39,6 @@ namespace CodeBase
 
         private void Awake()
         {
-            
-            
             _uiDocument = GetComponent<UIDocument>();
             
             ObjectValidator.Validate(_uiDocument);
@@ -57,15 +53,16 @@ namespace CodeBase
                 .SetFlexDirection(FlexDirection.Column)
                 .SetAlignItems(Align.Stretch)
                 .SetJustifyContent(Justify.FlexStart);
-                
-                //.ApplySafeArea();
+        }
 
 
+        private IEnumerator Start()
+        {
+            MessageBus.Instance.Broadcast( nameof(PageFactoryMessages.OnRequestOpenPage), PageID.HubPage );
 
-            rootBuilder.AddChild(BuildHeader(100,10, Color.gray, 0f));
-            rootBuilder.AddChild(BuildBody());
-            rootBuilder.AddChild(new SingleButtonFooter(() => { Logger.Log($"I was clicked on, so im working ok"); }, $"Hit me!"));
+            yield return new WaitForSeconds(3f);
             
+            MessageBus.Instance.Broadcast( nameof(PageFactoryMessages.OnRequestOpenPage), PageID.TestPage );
         }
 
 
@@ -98,42 +95,7 @@ namespace CodeBase
             return BuildPageComponent(100, 90, Color.gray, 4f);
         }
 
-        private VisualElement BuildFooter(float width, float height, Color color, float padding)
-        {
-            var footer =  new ContainerBuilder()
-                .SetWidthPercent(Length.Percent(width))
-                .SetHeightPercent(Length.Percent(height))
-                .SetFlexDirection(FlexDirection.Row) // horizontal layout for nav items
-                .SetJustifyContent(Justify.Center)
-                .SetAlignItems(Align.Center)  
-                .SetBackgroundColor(color)
-                .SetBorder(1)
-                .SetBorderColor(Color.white)
-                .SetBorderRadius(12)
-                .SetPadding(padding, padding, padding, padding)
-              //  .AddChild(HorizontalSpacer())
-                .AddChild(BuildButton())
-                .Build();
-            
-            return footer;
-        }
-
-       
-        private VisualElement BuildButton(VisualElement parent = null)
-        {
-            float dpiScale = Screen.dpi / 100f;
-            
-            return new ButtonBuilder()
-                .SetText("Test Button Builder")
-                .SetWidth(500 * dpiScale)
-                .SetHeight(100  * dpiScale)
-                .OnClick(() => { MessageBus.Instance.Broadcast( nameof(PageFactoryMessages.OnRequestPage), PageID.TestPage ); })
-                .SetFlexShrink(0)
-                .AddClass( "btn-base" )
-                //.AddClass("btn-large")
-                //.AttachTo( parent )
-                .Build();
-        }
+        
 
         private VisualElement HorizontalSpacer()
         {

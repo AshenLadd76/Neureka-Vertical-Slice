@@ -1,0 +1,39 @@
+/* Container.uss */
+.container {
+    /* Flex layout */
+    display: flex;
+  
+    flex-direction: column;       /* default horizontal layout; can be overridden per container */
+    justify-content: center;   /* center children horizontally */
+    align-items: center;       /* center children vertically */
+    
+    /* Size */
+    width: 100%;
+    height: 100%;              /* full height, can be overridden */
+    
+    /* Styling */
+    padding: 10px;
+    margin: 0;
+    background-color: lightgrey;
+    
+  
+    
+    /* Optional rounding */
+    border-radius: 4px;
+}
+
+.container-row {
+    display: flex;
+    flex-shrink: 1;
+    flex-direction: column;
+    justify-content:center; /* pushes children apart evenly */
+    align-items: center;
+  
+            /* centers vertically */
+}
+
+.container-row > .spaced-child {
+    margin-top: 40px;
+    margin-bottom: 40px; 
+
+}

@@ -1,15 +1,45 @@
 .header {
-                   /* fixed height */
-    flex-direction: row;          /* horizontal layout for header items */
-    justify-content: center;      /* center items horizontally */
-    align-items: center;          /* center items vertically */
+     
+    display: flex;                /* enable flex layout */
+    flex-direction: row;          /* horizontal layout */
+    justify-content: space-between; /* spread children to edges */
+    align-items: center;          /* center vertically */
     padding: 10px 20px;           /* optional padding */
-    background-color: #222;       /* dark background for header */
-    color: white;                 /* default text color */
-    font-size: 16px;              /* default font size */
-    font-weight: bold;
+    background-color: #222;       /* dark background */
+    color: white;                 /* text color */
+    font-size: 48px;              /* default font size */
     width: 100%;                  /* stretch full width */
-    height: 10%;
-    box-sizing: border-box;       /* ensure padding included in width */
-    
+    height: 8%;
+    box-sizing: border-box;       /* include padding in width */   
 }
+
+/* Small header button */
+.header-button-small {
+    width: 64px;
+    height: 64px;
+    min-width: 32px;
+    min-height: 32px;
+    
+    /* Center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Styling */
+    background-color: #f0f0f0; /* Light grey background */
+    
+    border-radius: 25%;         /* Circular button */
+    
+    /* Optional hover effect */
+    transition: background-color 0.15s ease-in-out;
+}
+
+.header-button-small:hover {
+    background-color: #e0e0e0; /* Slightly darker on hover */
+}
+
+.header-button-small > Label {
+    font-size: 12px;
+    color: #000000;
+}
+

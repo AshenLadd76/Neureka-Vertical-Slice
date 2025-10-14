@@ -23,7 +23,7 @@ namespace CodeBase.UiComponents.Factories
             }
         };
 
-        public static Button CreateButton(ButtonType buttonType,  Action onClick, VisualElement parent = null)
+        public static Button CreateButton(ButtonType buttonType, string buttonText,  Action onClick, VisualElement parent = null)
         {
             if (!ButtonConfigurations.TryGetValue(buttonType, out var buttonConfiguration))
             {
@@ -31,8 +31,10 @@ namespace CodeBase.UiComponents.Factories
                 return new ButtonBuilder().SetText("Please fix me").Build();
             }
             
+            if( string.IsNullOrWhiteSpace( buttonText ) ) buttonText  = "Give me text !!";
+            
             return new ButtonBuilder()
-                .SetText(buttonConfiguration.Text)
+                .SetText(buttonText)
                 .OnClick(onClick)
                 .AddClasses(buttonConfiguration.StyleClasses)
                 .AttachTo(parent)
