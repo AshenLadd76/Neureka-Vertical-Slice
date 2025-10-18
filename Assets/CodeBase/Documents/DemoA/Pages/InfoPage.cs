@@ -2,7 +2,6 @@ using CodeBase.Documents.DemoA.Components;
 using CodeBase.Helpers;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
-using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -10,7 +9,7 @@ namespace CodeBase.Documents.DemoA.Pages
 {
     public class InfoPage : BasePage
     {
-        private const string BackgroundGradientPath = "Gradients/fade";
+        private const string PathToText = "Assets/TestText/SampleText.txt";
         
         public InfoPage()
         {
@@ -26,38 +25,23 @@ namespace CodeBase.Documents.DemoA.Pages
             //Content
             var content =  new ContainerBuilder().AddClass(UiStyleClassDefinitions.SharedContent).AttachTo(PageRoot).Build();
             
-            
-            //Main image container 
-            var shadowContainer = new ContainerBuilder().AddClass(UiStyleClassDefinitions.ImageShadowContainer).AttachTo(content).Build();
-            
-            var imageContainer = new ContainerBuilder().AddClass(UiStyleClassDefinitions.ImageContainer).AttachTo(shadowContainer).Build();
-            
-            var imageHeader = new ContainerBuilder().AddClass(UiStyleClassDefinitions.InfoImageHeader).AttachTo(imageContainer).Build();
-            
-            new ButtonBuilder().AddClass(UiStyleClassDefinitions.ImageHeaderButton).AttachTo(imageHeader).Build();
-            
-            new ButtonBuilder().AddClass(UiStyleClassDefinitions.ImageHeaderButton).AttachTo(imageHeader).Build();
-            
-            new ContainerBuilder().AddClass(UiStyleClassDefinitions.InfoImageBlurb).AttachTo(imageContainer).Build();
-            
-            //Main image ends
-            
-            
+            //Add image card to content
+            new ImageCard( content, ()=>{Logger.Log( $"left header button clicked" );}, () => { Logger.Log($"right header button clicked"); });
             
             new ContainerBuilder().AddClass(UiStyleClassDefinitions.InfoOverview).AttachTo(content).Build();
             
+            //ScrollView
             var scrollview = new ScrollViewBuilder().AddClass(UiStyleClassDefinitions.SharedScrollViewNoScrollBars).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
             
-            var text = FileReader.ReadTextFile($"Assets/TestText/SampleText.txt");
+            var text = TextReader.ReadTextFile(PathToText);
             
+            //Content Text
             new LabelBuilder().SetText( text ).AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(scrollview).Build();
             
-            var footer =  new ContainerBuilder().AddClass(UiStyleClassDefinitions.SharedFooter).AttachTo(PageRoot).Build();
-
-            new PrimaryButton( footer, $"Welcome",()=> { Logger.Log($"Primary button clicked.");});
+            //Footer
+            new PageFooter(PageRoot, "Welcome", () => { Logger.Log("Welcome to CodeBase.DemoA.Pages"); });
             
             new FadeHelper(content, false, true);
-
         }
     }
 }
