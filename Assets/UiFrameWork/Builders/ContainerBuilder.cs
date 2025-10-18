@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UIElements;
 
 namespace UiFrameWork.Builders
@@ -34,6 +35,20 @@ namespace UiFrameWork.Builders
             _visualElement.style.paddingLeft = bottom;
             
             return this;
+        }
+
+        public ContainerBuilder SetOnClick(Action onClick)
+        {
+            if (onClick == null)
+                throw new System.ArgumentNullException(nameof(onClick));
+            
+            _visualElement.RegisterCallback<ClickEvent>(evt =>
+            {
+                onClick?.Invoke();
+            });
+            return this;
+            
+
         }
         
         

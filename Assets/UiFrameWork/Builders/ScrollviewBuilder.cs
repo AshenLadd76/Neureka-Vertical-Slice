@@ -40,14 +40,13 @@ namespace UiFrameWork.Builders
         }
         
         // Enable or disable scrolling in each direction
-        public ScrollViewBuilder SetScrolling(bool enableVertical = true, bool enableHorizontal = false)
+        public ScrollViewBuilder HideScrollBars(ScrollerVisibility scrollerVisibilityVertical, ScrollerVisibility scrollerVisibilityHorizontal )
         {
-            if (_visualElement.verticalScroller != null)
-                _visualElement.verticalScroller.style.display = enableVertical ? DisplayStyle.Flex : DisplayStyle.None;
 
-            if (_visualElement.horizontalScroller != null)
-                _visualElement.horizontalScroller.style.display = enableHorizontal ? DisplayStyle.Flex : DisplayStyle.None;
-
+            _visualElement.verticalScrollerVisibility = scrollerVisibilityVertical;
+            _visualElement.horizontalScrollerVisibility = scrollerVisibilityHorizontal;
+            
+            
             return this;
         }
         

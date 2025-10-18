@@ -107,6 +107,15 @@ namespace UiFrameWork
             return (TBuilder)this;
         }
 
+        public TBuilder SetMargin(float left, float top, float right, float bottom)
+        {
+            _visualElement.style.marginLeft = left;
+            _visualElement.style.marginRight = right;
+            _visualElement.style.marginTop = top;
+            _visualElement.style.marginBottom = bottom;
+            return (TBuilder)this;
+        }
+
         public TBuilder SetMinMax(float minWidth, float minHeight, float maxWidth, float maxHeight)
         {
             _visualElement.style.minWidth = minWidth;

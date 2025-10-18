@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Uss/Label.uss?fileID=7433441132597879392&amp;guid=3f80eaf9194af524699934d0fff0c885&amp;type=3#Label" />
+    <ui:Label text="Label" style="-unity-font-definition: resource(&apos;Fonts/Lobster/Lobster&apos;);" />
+    <ui:Label text="Label" name="Label" style="-unity-font-definition: resource(&apos;Fonts/Lobster/Lobster&apos;);" />
+    <ui:Label text="Label" />
+    <ui:Label text="Label" />
+</ui:UXML>

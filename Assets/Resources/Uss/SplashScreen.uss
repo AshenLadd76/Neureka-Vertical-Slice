@@ -1,0 +1,74 @@
+/* SplashScreen.uss */
+
+/* Root container of the splash screen */
+.splash-root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute; /* make sure it overlays everything */
+    top: 0;
+    left: 0;
+}
+
+/* Full-screen gradient background */
+.splash-gradient {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+}
+
+.splash-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center; /* vertical centering */
+    align-items: center;     /* horizontal centering */
+    display: flex;
+}
+
+/* Centered content container (logo/title) */
+.splash-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* horizontal centering */
+    align-items: center;     /* vertical centering */
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+
+/* Optional: logo styling */
+.splash-logo {
+    width: 256px;
+    height: 256px;
+    margin-bottom: 20px;
+}
+
+/* Optional: title styling */
+.splash-title {
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lobster/FontAsset/Lobster.asset");
+    font-size: 32px;
+    color: white;
+    -unity-text-align: middle-center;
+    
+}
+
+.splash-blurb-text
+{
+        -unity-font-definition: url("/Assets/Resources/Fonts/Roboto/Roboto-Regular SDF.asset");
+    font-size: 36px;
+    color: white;
+    -unity-text-align: middle-center;
+   letter-spacing: 10px;
+  
+}
+
+

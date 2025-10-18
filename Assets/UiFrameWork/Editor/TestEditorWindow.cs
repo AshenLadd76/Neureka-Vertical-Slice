@@ -139,7 +139,7 @@ namespace UiFrameWork.Editor
         {
             return new ScrollViewBuilder()
                 .SetOrientation(ScrollViewMode.Vertical)
-                .SetScrolling(false, false)
+                .HideScrollBars(ScrollerVisibility.Hidden, ScrollerVisibility.Hidden)
                 .AddElement(child)
                 .AddClass( "scroll-view" )
                 .AttachTo( parent )

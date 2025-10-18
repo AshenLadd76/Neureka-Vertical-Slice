@@ -1,0 +1,83 @@
+/* Container.uss */
+.image-shadow-container {
+    /* Flex layout */
+    display: flex;
+  
+    flex-direction: column;       /* default horizontal layout; can be overridden per container */
+    justify-content: center;   /* center children horizontally */
+    align-items: center;       /* center children vertically */
+    
+    /* Size */
+    width: 100%;
+    height: 55%;              /* full height, can be overridden */
+    
+    /* Styling */
+    padding: 0px;
+    margin: 0;
+  /*  background-color: lightgrey;*/
+  background-size: cover;   /* or contain */
+    background-position: center;
+   
+    overflow: hidden;
+    
+  
+    
+    /* Optional rounding */
+    border-radius: 48px;
+}
+
+.image-container
+{
+      /* Flex layout */
+    display: flex;
+  
+    flex-direction: column;       /* default horizontal layout; can be overridden per container */
+    justify-content: flex-start;   /* center children horizontally */
+    align-items: center;       /* center children vertically */
+    
+    /* Size */
+    width: 100%;
+    height: 100%;              /* full height, can be overridden */
+    
+    /* Styling */
+    padding: 20px;
+    margin: 0;
+    background-color: lightgrey;
+  background-size: cover;   /* or contain */
+    background-position: center;
+    border-radius: 48px;
+    overflow: hidden;
+    
+  
+    
+    /* Optional rounding */
+ 
+  background-image: url("/Assets/Sprites/mountain.png");
+}
+
+.image-container-row {
+    display: flex;
+    flex-shrink: 1;
+    flex-direction: column;
+    justify-content:center; /* pushes children apart evenly */
+    align-items: center;
+  
+            /* centers vertically */
+}
+
+.image-container-row > .spaced-child {
+    margin-top: 40px;
+    margin-bottom: 40px; 
+
+}
+
+.image-shadow {
+    position: absolute;
+    background-color: lightgrey;
+
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    left: 5px;
+    top: 50px;
+}

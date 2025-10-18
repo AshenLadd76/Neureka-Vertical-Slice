@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace UiFrameWork.Builders
@@ -35,6 +36,18 @@ namespace UiFrameWork.Builders
             
             _visualElement.RegisterValueChangedCallback( evt => callback(evt.newValue) );
             
+            return this;
+        }
+
+        public TextFieldBuilder SetFont(Font font)
+        {
+            _visualElement.style.unityFont = font;
+            return this;
+        }
+
+        public TextFieldBuilder SetFontSize(float fontSize)
+        {
+            _visualElement.style.fontSize = fontSize;
             return this;
         }
     }

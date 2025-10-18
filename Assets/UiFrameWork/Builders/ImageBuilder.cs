@@ -45,7 +45,18 @@ namespace UiFrameWork.Builders
         
         public ImageBuilder SetNineSlice(RectOffset border)
         {
-            
+            return this;
+        }
+
+        public ImageBuilder FlipVertical()
+        {
+            _visualElement.transform.scale = new Vector3(1, -1, 1);
+            return this;
+        }
+
+        public ImageBuilder FlipHorizontal()
+        {
+            _visualElement.transform.scale = new Vector3(-1, 1, 1);
             return this;
         }
     }

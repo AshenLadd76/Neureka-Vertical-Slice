@@ -1,0 +1,154 @@
+.shared-header {
+     
+    display: flex;                /* enable flex layout */
+    flex-direction: row;          /* horizontal layout */
+    justify-content: space-between; /* spread children to edges */
+    align-items: center;          /* center vertically */
+    padding: 10px 20px;           /* optional padding */
+    background-color: #222;       /* dark background */
+    color: white;                 /* text color */
+    font-size: 48px;              /* default font size */
+    width: 100%;                  /* stretch full width */
+    height: 8%;
+
+}
+
+/* content.uss */
+.shared-content {
+ 
+ 
+
+ display: flex;           /* still a flex container */
+    flex-direction: column;  /* vertical stacking */
+    flex-grow: 1;            /* fills remaining space */
+    justify-content: center; 
+    align-items: top;
+    position: relative;      /* allows absolute children (fades) to be positioned inside) */
+    padding: 60px;
+}
+
+
+.shared-scroll-view {
+    flex-grow: 1;              /* Fills all remaining space in parent */
+    flex-shrink: 0;            /* Shrinks with parent resizing */
+    flex-basis: 0;             /* Prevents unwanted initial sizing */
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 100%;              /* Prevents horizontal overflow issues */
+    min-height: 100%;
+
+    overflow: hidden;            /* ✅ Scroll only when content exceeds size */
+    background-color: #ffffff; /* Optional: grey-blue tone to match your theme */
+
+    /* Optional aesthetics */
+   /* border-radius: 8px;*/
+   
+}
+
+.shared-scroll-no-scroll-bars
+{
+	  flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    show-vertical-scroller: false;
+    show-horizontal-scroller: false;
+
+    overflow: hidden;  
+}
+
+.shared-scroll-fade-top, .shared-scroll-fade-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 400px;      /* adjust fade height */
+   
+   
+}
+
+.shared-scroll-fade-top {
+    top: 0;
+    height:8%;
+   
+    
+}
+
+.shared-scroll-fade-bottom {
+    bottom: 0;
+    height:8%;
+  
+}
+
+
+/* SharedTextBox.uss */
+.shared-content-text {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+
+    padding: 100px 0px;
+   
+
+    /* Background & border */
+    background-color: #ffffff;   /* light grey-blue */
+   /* border-radius: 6px;*/
+   /* border-width: 1px;*/
+  /*  border-color: #B0BEC5;*/
+  /*  border-style: solid;*/
+
+    /* Text */
+    color: #263238;
+    font-size: 36px;
+    white-space: normal;         /* allow wrapping */
+    overflow: hidden;
+
+    /* Layout stability */
+    min-height: 40px;
+   
+-unity-font-definition: url("/Assets/Resources/Fonts/Roboto/Roboto-Regular SDF.asset");
+ 
+    
+}
+
+
+
+.shared-footer {
+    height: 10%;
+     background-color: #ffffff;
+}
+
+/* Centered Button in Footer */
+.shared-footer-button {
+    width: 80%;
+    height: 60%;
+
+    /* Rounded edges */
+    border-radius: 33px;
+
+    /* Center horizontally and vertically */
+    align-self: center;
+    justify-self: center;
+    margin: auto;
+
+    /* Background & text */
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+
+    /* Remove default styling if any */
+    
+
+    /* Subtle hover feedback (optional) */
+    transition: background-color 0.15s ease-in-out;
+    -unity-font-definition: url("/Assets/Resources/Fonts/Roboto/Roboto-Regular SDF.asset");
+}
+
+.shared-footer-button:hover {
+    background-color: #555555;
+}
+
