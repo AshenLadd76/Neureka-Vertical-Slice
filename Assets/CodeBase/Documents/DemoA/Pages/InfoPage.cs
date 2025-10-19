@@ -2,6 +2,7 @@ using CodeBase.Documents.DemoA.Components;
 using CodeBase.Helpers;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
+using UiFrameWork.RunTime;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -11,7 +12,7 @@ namespace CodeBase.Documents.DemoA.Pages
     {
         private const string PathToText = "Assets/TestText/SampleText.txt";
         
-        public InfoPage()
+        public InfoPage(IDocument document) : base(document)
         {
             PageIdentifier = PageID.InfoPage;
         }
@@ -26,7 +27,7 @@ namespace CodeBase.Documents.DemoA.Pages
             var content =  new ContainerBuilder().AddClass(UiStyleClassDefinitions.SharedContent).AttachTo(PageRoot).Build();
             
             //Add image card to content
-            new ImageCard( content, ()=>{Logger.Log( $"left header button clicked" );}, () => { Logger.Log($"right header button clicked"); });
+            new ImageCard( content, ()=>{BackAction(true);}, () => { Logger.Log($"right header button clicked"); });
             
             new ContainerBuilder().AddClass(UiStyleClassDefinitions.InfoOverview).AttachTo(content).Build();
             
@@ -42,6 +43,18 @@ namespace CodeBase.Documents.DemoA.Pages
             new PageFooter(PageRoot, "Welcome", () => { Logger.Log("Welcome to CodeBase.DemoA.Pages"); });
             
             new FadeHelper(content, false, true);
+        }
+
+        private void BackAction(bool closeSelf)
+        {
+            
+            ParentDocument.OpenPage(PageIdentifier);
+            
+            if (closeSelf)
+            {
+                ParentDocument.ClosePage(PageIdentifier, PageRoot);
+                //Close();
+            }
         }
     }
 }

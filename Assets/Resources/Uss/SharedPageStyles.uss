@@ -117,17 +117,17 @@
 
 
 .shared-footer {
-    height: 10%;
+    height: 15%;
      background-color: #ffffff;
 }
 
 /* Centered Button in Footer */
 .shared-footer-button {
-    width: 80%;
-    height: 60%;
+    width: 90%;
+    height: 45%;
 
     /* Rounded edges */
-    border-radius: 33px;
+    border-radius: 48px;
 
     /* Center horizontally and vertically */
     align-self: center;

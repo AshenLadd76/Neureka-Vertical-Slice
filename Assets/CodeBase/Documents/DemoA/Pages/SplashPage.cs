@@ -1,9 +1,7 @@
-using CodeBase.Pages;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
+using UiFrameWork.RunTime;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.DemoA.Pages
@@ -13,7 +11,7 @@ namespace CodeBase.Documents.DemoA.Pages
         private const string BackgroundGradientPath = "Gradients/blue";
         private const string LobsterFontPath = "Fonts/Lobster/FontAsset/Lobster.asset";
         
-        public SplashPage()
+        public SplashPage(IDocument document) : base(document)
         {
             PageIdentifier = PageID.Splash;
         }
@@ -21,6 +19,8 @@ namespace CodeBase.Documents.DemoA.Pages
         
         protected override void Build()
         {
+            base.Build();
+            
             if (Root == null)
             {
                 Logger.Log("Splash Page Build Failed");
@@ -29,7 +29,7 @@ namespace CodeBase.Documents.DemoA.Pages
             
             Logger.Log($"Building Splash Page {Root.name}");
             
-            PageRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SplashRoot).AttachTo(Root).SetOnClick(Close).Build();
+            PageRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SplashRoot).AttachTo(Root).SetOnClick(()=> { OnClickAction(true); }).Build();
             
             var gradientTexture = Resources.Load<Texture2D>(BackgroundGradientPath);
 
@@ -56,14 +56,9 @@ namespace CodeBase.Documents.DemoA.Pages
                 .AddClass( UiStyleClassDefinitions.SplashTitle )
                 .AttachTo(overlayContainer)  // attach first
                 .Build();
-
-
-            
             
             var robotoFont = Resources.Load<Font>("Fonts/LCD/DS-DIGI");
             
-            
-
             if (robotoFont == null)
             {
                 Logger.LogError("Splash Page Build Failed to load Roboto Font");
@@ -76,5 +71,17 @@ namespace CodeBase.Documents.DemoA.Pages
             
             Logger.Log("Splash Page Build Success");
         }
+
+        private void OnClickAction(bool closeSelf)
+        {
+            ParentDocument.OpenPage(PageID.InfoPage);
+
+            if (closeSelf)
+            {
+                ParentDocument.ClosePage(PageIdentifier, PageRoot);
+                //Close();
+            }
+        }
+        
     }
 }

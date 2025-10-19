@@ -1,17 +1,13 @@
 using CodeBase.Documents.DemoA.Pages;
-using CodeBase.Pages;
-using CodeBase.UiComponents.Styles;
-using UiFrameWork.Builders;
 
 namespace CodeBase.Documents.DemoA
 {
     public class DemoADocument : BaseDocument
     {
-        
         private void AddPageRecipes()
         {
-            PageRecipes[PageID.Splash] = () => new SplashPage();
-            PageRecipes[PageID.InfoPage] = () => new InfoPage();
+            PageRecipes[PageID.Splash] = () => new SplashPage(this);
+            PageRecipes[PageID.InfoPage] = () => new InfoPage(this);
         }
         
         protected override void Build()
@@ -21,7 +17,7 @@ namespace CodeBase.Documents.DemoA
             //Add page recipes here
             AddPageRecipes();
             
-            OpenPage(PageID.InfoPage);
+            OpenPage(PageID.Splash);
         }
     }
 }

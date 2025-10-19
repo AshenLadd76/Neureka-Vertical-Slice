@@ -4,6 +4,7 @@
     {
         Splash,
         MainHub,
-        InfoPage
+        InfoPage,
+        NavPage
     }
 }

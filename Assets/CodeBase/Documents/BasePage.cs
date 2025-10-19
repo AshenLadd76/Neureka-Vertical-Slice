@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Pages;
-using ToolBox.Messenger;
 using UiFrameWork.Page;
 using UiFrameWork.RunTime;
 using UnityEngine.UIElements;
@@ -14,27 +12,41 @@ namespace CodeBase.Documents
         protected VisualElement Root;
         
         protected VisualElement PageRoot;
-
-        protected PageID PageIdentifier;
+        
+        public PageID PageIdentifier { get; set; }
         
         protected Dictionary<PageID, Func<IPage>> PageRecipes = new();
         protected Dictionary<PageID, IPage> ActivePages = new();
-       
+
+        protected IDocument ParentDocument;
+
+
+        public BasePage(IDocument document)
+        {
+            ParentDocument = document;
+        }
         
-        public virtual void Open(VisualElement root)
+        public virtual void Open(VisualElement root, IDocument document)
         {
             Root = root ?? throw new System.ArgumentNullException(nameof(root));
+            
+            ParentDocument = document;
                 
             Build();
         }
 
         public virtual void Close()
         {
-            if (PageRoot == null) return;
+            Logger.Log( $"Implement close page logic here....." );
+
+            if (PageRoot == null)
+            {
+                Logger.Log( $"No page to close..." );
+
+                return;
+            }
             
-            MessageBus.Instance.Broadcast(nameof(DocumentFactoryMessages.OnRequestCloseDocument), PageIdentifier);
-            
-            Root?.Remove( PageRoot ); PageRoot = null;
+            Root.Remove(PageRoot);
         }
 
         protected virtual void Build()
