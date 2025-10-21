@@ -10,13 +10,13 @@ namespace UiFrameWork.Builders
         public UIDocumentConfigurator(UIDocument uiDocument)
         {
             _uiDocument = uiDocument;
-            _visualElement = _uiDocument.rootVisualElement; // use the existing root
+            VisualElement = _uiDocument.rootVisualElement; // use the existing root
         }
 
         public UIDocumentConfigurator SetUIDocument(UIDocument doc)
         {
             _uiDocument = doc;
-            _visualElement = _uiDocument.rootVisualElement;
+            VisualElement = _uiDocument.rootVisualElement;
             return this;
         }
 

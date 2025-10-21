@@ -8,14 +8,14 @@ namespace UiFrameWork.Builders
     {
         public TextFieldBuilder SetText(string text)
         {
-            _visualElement.value = text;
+            VisualElement.value = text;
 
             return this;
         }
 
         public TextFieldBuilder SetMultiline(bool multiline, string ussClassName = null)
         {
-            _visualElement.multiline = multiline;
+            VisualElement.multiline = multiline;
 
             if (!string.IsNullOrEmpty(ussClassName))
             {
@@ -34,20 +34,20 @@ namespace UiFrameWork.Builders
             if (callback == null)
                 throw new System.ArgumentNullException(nameof(callback));
             
-            _visualElement.RegisterValueChangedCallback( evt => callback(evt.newValue) );
+            VisualElement.RegisterValueChangedCallback( evt => callback(evt.newValue) );
             
             return this;
         }
 
         public TextFieldBuilder SetFont(Font font)
         {
-            _visualElement.style.unityFont = font;
+            VisualElement.style.unityFont = font;
             return this;
         }
 
         public TextFieldBuilder SetFontSize(float fontSize)
         {
-            _visualElement.style.fontSize = fontSize;
+            VisualElement.style.fontSize = fontSize;
             return this;
         }
     }

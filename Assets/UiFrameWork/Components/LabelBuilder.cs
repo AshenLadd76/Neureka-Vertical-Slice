@@ -9,7 +9,7 @@ namespace UiFrameWork.Builders
     {
         public LabelBuilder SetText(string text)
         {
-            _visualElement.text = text;
+            VisualElement.text = text;
             return this;
         }
 
@@ -19,29 +19,29 @@ namespace UiFrameWork.Builders
                 throw new ArgumentNullException(nameof(font));
 
             // Apply the font dynamically
-            _visualElement.style.unityFont = font;
+            VisualElement.style.unityFont = font;
             
-            _visualElement.MarkDirtyRepaint(); 
+            VisualElement.MarkDirtyRepaint(); 
             
             return this;
         }
 
         public LabelBuilder SetFontAsset(FontDefinition fontAsset)
         {
-            _visualElement.style.unityFontDefinition = fontAsset;
+            VisualElement.style.unityFontDefinition = fontAsset;
             return this;
         }
 
 
         public LabelBuilder SetFontSize(float size)
         {
-            _visualElement.style.fontSize = size;
+            VisualElement.style.fontSize = size;
             return this;
         }
 
         public LabelBuilder SetTextColor(Color color)
         {
-            _visualElement.style.color = color;
+            VisualElement.style.color = color;
             return this;
             
         }

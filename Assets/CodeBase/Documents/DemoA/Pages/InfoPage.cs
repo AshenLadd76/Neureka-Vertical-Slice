@@ -48,13 +48,10 @@ namespace CodeBase.Documents.DemoA.Pages
         private void BackAction(bool closeSelf)
         {
             
-            ParentDocument.OpenPage(PageIdentifier);
+            ParentDocument.OpenPage(PageID.Splash);
             
             if (closeSelf)
-            {
                 ParentDocument.ClosePage(PageIdentifier, PageRoot);
-                //Close();
-            }
         }
     }
 }

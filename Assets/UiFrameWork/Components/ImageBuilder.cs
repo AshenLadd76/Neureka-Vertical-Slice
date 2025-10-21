@@ -8,14 +8,14 @@ namespace UiFrameWork.Builders
         public ImageBuilder SetSprite(Sprite sprite)
         {
             if (sprite == null) return this;
-            _visualElement.sprite = sprite;
+            VisualElement.sprite = sprite;
             return this;
         }
 
         public ImageBuilder SetTexture(Texture2D texture)
         {
             if (texture == null) return this;
-            _visualElement.image = texture;
+            VisualElement.image = texture;
             return this;
         }
 
@@ -26,20 +26,20 @@ namespace UiFrameWork.Builders
             var tex = new Texture2D(width, height);
             tex.SetPixels(pixels);
             tex.Apply();
-            _visualElement.image = tex;
+            VisualElement.image = tex;
 
             return this;
         }
 
         public ImageBuilder SetScaleMode(ScaleMode mode)
         {
-            _visualElement.scaleMode = mode;
+            VisualElement.scaleMode = mode;
             return this;
         }
 
         public ImageBuilder SetTent(Color color)
         {
-            _visualElement.tintColor = color;
+            VisualElement.tintColor = color;
             return this;
         }
         
@@ -50,13 +50,13 @@ namespace UiFrameWork.Builders
 
         public ImageBuilder FlipVertical()
         {
-            _visualElement.transform.scale = new Vector3(1, -1, 1);
+            VisualElement.transform.scale = new Vector3(1, -1, 1);
             return this;
         }
 
         public ImageBuilder FlipHorizontal()
         {
-            _visualElement.transform.scale = new Vector3(-1, 1, 1);
+            VisualElement.transform.scale = new Vector3(-1, 1, 1);
             return this;
         }
     }

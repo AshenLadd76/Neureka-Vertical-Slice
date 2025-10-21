@@ -102,7 +102,7 @@ namespace UiFrameWork.RunTime
     }
 
     public enum DocumentID
-    {
+    { 
         Hub,
        DemoA,
        TestDocument,

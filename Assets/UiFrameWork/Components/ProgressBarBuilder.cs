@@ -35,9 +35,9 @@ namespace UiFrameWork.Builders
         {
             _fillElement = new VisualElement();
             _fillElement.AddToClassList(_fillClassName);
-            _visualElement.Add(_fillElement);
+            VisualElement.Add(_fillElement);
             
-            _label = _visualElement.Q<Label>();
+            _label = VisualElement.Q<Label>();
             
             return this;
         }
@@ -77,7 +77,7 @@ namespace UiFrameWork.Builders
 
         public ProgressBarBuilder SetLabelText(string text)
         {
-            _label ??= _visualElement.Q<Label>();
+            _label ??= VisualElement.Q<Label>();
             
             _label.style.unityTextAlign = TextAnchor.MiddleCenter;
 
@@ -89,7 +89,7 @@ namespace UiFrameWork.Builders
 
         public ProgressBarBuilder ToggleLabel(bool value)
         {
-            _label ??= _visualElement.Q<Label>();
+            _label ??= VisualElement.Q<Label>();
 
             _label.visible = value;
             return this;

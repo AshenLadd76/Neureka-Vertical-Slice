@@ -18,33 +18,33 @@ namespace UiFrameWork.Builders
 
         public SliderBuilder SetLabelText( string labelText )
         {
-            _visualElement.label = labelText;
+            VisualElement.label = labelText;
             return this;
         }
         
 
         public SliderBuilder SetDirection(SliderDirection direction)
         {
-            _visualElement.direction = direction;
+            VisualElement.direction = direction;
             return this;
         }
         
 
         public SliderBuilder SetMinValue(float minValue)
         {
-            _visualElement.lowValue = minValue;
+            VisualElement.lowValue = minValue;
             return this;
         }
 
         public SliderBuilder SetMaxValue(float maxValue)
         {
-            _visualElement.highValue = maxValue;
+            VisualElement.highValue = maxValue;
             return this;
         }
 
         public SliderBuilder SetCurrentValue(float currentValue)
         {
-            _visualElement.value = Mathf.Clamp(currentValue, _minValue, _maxValue);
+            VisualElement.value = Mathf.Clamp(currentValue, _minValue, _maxValue);
             return this;
         }
 
@@ -56,14 +56,14 @@ namespace UiFrameWork.Builders
 
         public SliderBuilder Invert(bool isInverted)
         {
-            _visualElement.inverted = isInverted;
+            VisualElement.inverted = isInverted;
             
             return this;
         }
 
         public SliderBuilder Visible(bool isVisible)
         {
-            _visualElement.visible = isVisible;
+            VisualElement.visible = isVisible;
             return this;
         }
         
@@ -71,10 +71,10 @@ namespace UiFrameWork.Builders
         {
             _onValueChanged  = callback ?? throw new ArgumentNullException(nameof(callback));
 
-            _visualElement.RegisterValueChangedCallback(evt =>
+            VisualElement.RegisterValueChangedCallback(evt =>
             {
                 float snappedValue = Mathf.Round( evt.newValue / _step ) * _step;
-                _visualElement.value = snappedValue;
+                VisualElement.value = snappedValue;
                 
                 _onValueChanged?.Invoke(snappedValue);
             });

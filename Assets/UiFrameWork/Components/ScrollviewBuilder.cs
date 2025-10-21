@@ -8,21 +8,21 @@ namespace UiFrameWork.Builders
     {
         public ScrollViewBuilder SetOrientation(ScrollViewMode mode)
         {
-            _visualElement.mode = mode;
+            VisualElement.mode = mode;
             return this;
         }
         
         public ScrollViewBuilder SetContentSize(float width, float height)
         {
-            _visualElement.contentContainer.style.width = width;
-            _visualElement.contentContainer.style.height = height;
+            VisualElement.contentContainer.style.width = width;
+            VisualElement.contentContainer.style.height = height;
             return this;
         }
 
         // Add a child element to the scroll view
         public ScrollViewBuilder AddElement(VisualElement element)
         {
-            _visualElement.Add(element);
+            VisualElement.Add(element);
             return this;
         }
         
@@ -31,9 +31,9 @@ namespace UiFrameWork.Builders
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            _visualElement.RegisterCallback<GeometryChangedEvent>(evt =>
+            VisualElement.RegisterCallback<GeometryChangedEvent>(evt =>
             {
-                callback(_visualElement.scrollOffset);
+                callback(VisualElement.scrollOffset);
             });
 
             return this;
@@ -43,8 +43,8 @@ namespace UiFrameWork.Builders
         public ScrollViewBuilder HideScrollBars(ScrollerVisibility scrollerVisibilityVertical, ScrollerVisibility scrollerVisibilityHorizontal )
         {
 
-            _visualElement.verticalScrollerVisibility = scrollerVisibilityVertical;
-            _visualElement.horizontalScrollerVisibility = scrollerVisibilityHorizontal;
+            VisualElement.verticalScrollerVisibility = scrollerVisibilityVertical;
+            VisualElement.horizontalScrollerVisibility = scrollerVisibilityHorizontal;
             
             
             return this;

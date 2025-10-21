@@ -8,7 +8,7 @@ namespace UiFrameWork.Builders
     {
         public ButtonBuilder SetText(string text)
         {
-            _visualElement.text = text;
+            VisualElement.text = text;
             return this;
         }
         
@@ -17,7 +17,7 @@ namespace UiFrameWork.Builders
             if (callback == null)
                 throw new System.ArgumentNullException(nameof(callback));
             
-            _visualElement.clicked += callback;
+            VisualElement.clicked += callback;
             return this;
         }
         
