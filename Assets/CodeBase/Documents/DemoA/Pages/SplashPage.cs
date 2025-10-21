@@ -74,7 +74,7 @@ namespace CodeBase.Documents.DemoA.Pages
 
         private void OnClickAction(bool closeSelf)
         {
-            ParentDocument.OpenPage(PageID.InfoPage);
+            ParentDocument.OpenPage(PageID.NavPage);
 
             if (closeSelf)
             {

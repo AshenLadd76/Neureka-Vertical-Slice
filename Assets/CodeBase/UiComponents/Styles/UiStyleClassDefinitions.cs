@@ -58,6 +58,9 @@ namespace CodeBase.UiComponents.Styles
         public const string ContainerRow = "container-row";
         public const string SpacedChild = "spaced-child";
         
+        //Scrollview
+        public const string ScrollViewContainer = "";
+        
         //Pages
         public const string PageRoot = "page-root";
         

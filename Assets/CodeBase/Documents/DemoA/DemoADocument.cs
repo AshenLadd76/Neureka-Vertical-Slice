@@ -7,6 +7,7 @@ namespace CodeBase.Documents.DemoA
         private void AddPageRecipes()
         {
             PageRecipes[PageID.Splash] = () => new SplashPage(this);
+            PageRecipes[PageID.NavPage] = () => new NavPage(this);
             PageRecipes[PageID.InfoPage] = () => new InfoPage(this);
         }
         
