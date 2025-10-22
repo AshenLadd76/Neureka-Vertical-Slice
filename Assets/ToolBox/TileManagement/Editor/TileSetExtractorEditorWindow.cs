@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using ToolBox.Editor;
 using ToolBox.Extensions;
+using ToolBox.TileManagement.Editor.Styling;
 using ToolBox.TileManagement.TileExtraction;
+using UiFrameWork.Helpers;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -43,26 +45,34 @@ namespace ToolBox.TileManagement.Editor
         private TextField _savePathTextField;
         
         private bool _addCollidersToTileMap = false;
-        
+
         [MenuItem("Tools/Tile Set Extractor")]
-        public static void ShowWindow() => GetWindow<TileSetExtractor>( "TileSet Extractor" );
-        
-        
-        private void SetupRootStyle(VisualElement root)
+        public static void ShowWindow()
         {
-            // Make root a flex column and center everything
-            root.style.flexDirection = FlexDirection.Column;
-            root.style.justifyContent = Justify.FlexStart;   // vertical centering
-            root.style.alignItems = Align.Center;         // horizontal centering
-            root.style.paddingTop = 10;
-            root.style.paddingBottom = 10;
+            GetWindow<TileSetExtractor>("TileSet Extractor");
         }
+
+
+        // private void SetupRootStyle(VisualElement root)
+        // {
+        //     
+        //     
+        //     
+        //     // Make root a flex column and center everything
+        //     root.style.flexDirection = FlexDirection.Column;
+        //     root.style.justifyContent = Justify.FlexStart;   // vertical centering
+        //     root.style.alignItems = Align.Center;         // horizontal centering
+        //     root.style.paddingTop = 10;
+        //     root.style.paddingBottom = 10;
+        // }
 
         public void CreateGUI()
         {
             var root = rootVisualElement;
+
+            UssStyleSheetLoader.Load(TileExtractorUss.UssFilePath, rootVisualElement);
             
-            SetupRootStyle(root);
+            //SetupRootStyle(root);
             
             AddEditorFields(root);
             

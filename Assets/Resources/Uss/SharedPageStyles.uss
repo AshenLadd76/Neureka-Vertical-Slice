@@ -71,7 +71,7 @@
 }
 
 .shared-scroll-fade-top {
-    top: 0;
+    top: 25;
     height:10%;
    
     
@@ -79,7 +79,7 @@
 
 .shared-scroll-fade-bottom {
     bottom: 0;
-    height:8%;
+    height:5%;
   
 }
 

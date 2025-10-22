@@ -1,0 +1,8 @@
+.tile-extractor-root 
+{
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
