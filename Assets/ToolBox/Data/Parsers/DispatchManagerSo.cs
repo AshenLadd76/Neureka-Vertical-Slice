@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using ToolBox.Data.Importer;
 using ToolBox.Extensions;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
@@ -16,6 +18,28 @@ namespace ToolBox.Data.Parsers
         private void OnEnable()
         {
             InitDictionary();
+            
+            // Subscribe to the FileImporter event
+#if UNITY_EDITOR
+            FileImporter.OnFileImported += HandleDispatch;
+#endif
+        }
+
+        private void HandleDispatch(string assetPath)
+        {
+            var ext = GetFileExtension(assetPath);
+            
+            if (string.IsNullOrEmpty(ext)) return;
+
+            var dispatcher = GetDispatcher(ext);
+
+            if (dispatcher == null)
+            {
+                Logger.Log($"File does not contain dispatcher for file type: {ext}");
+                return;
+            }
+            
+            dispatcher.Dispatch(assetPath);
         }
 
         private void InitDictionary()
@@ -37,7 +61,7 @@ namespace ToolBox.Data.Parsers
             }
         }
         
-        public BaseDispatcherSo GetDispatcher(string key)
+        private BaseDispatcherSo GetDispatcher(string key)
         {
             if (_dispatcherDictionary.IsNullOrEmpty()) return null;
             
@@ -50,5 +74,7 @@ namespace ToolBox.Data.Parsers
             Logger.LogWarning($"No dispatcher found for key '{key}'");
             return null;
         }
+        
+        private string GetFileExtension(string path) => string.IsNullOrEmpty(path) ? string.Empty : Path.GetExtension(path)?.TrimStart('.').ToLower();
     }
 }
