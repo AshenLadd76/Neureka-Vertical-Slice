@@ -58,7 +58,7 @@ namespace ToolBox.TileManagement.Editor
         {
             if (string.IsNullOrEmpty(path)) return;
             
-            EditorPrefs.SetString(SavePathKey, path);
+            EditorPrefs.SetString(TileExtractorKeys.SavePathKey, path);
             _savePathField.value = path;
         }
     }

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40666d97782a83b45a31dd77f826d172, type: 3}
-  m_Name: Row_1
+  m_Script: {fileID: 11500000, guid: 5d9902b454cc432db003842bcb9bb9f3, type: 3}
+  m_Name: DispatchManagerSo
   m_EditorClassIdentifier: 
-  Name: Eoghan
-  Score: 95
-  IsActive: 1
+  dispatchers:
+  - key: json
+    value: {fileID: 11400000, guid: b44670ca36f7c6049bc093ddc792741a, type: 2}

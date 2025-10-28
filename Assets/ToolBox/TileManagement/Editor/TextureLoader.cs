@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.TileManagement.Editor
 {
@@ -7,11 +8,12 @@ namespace ToolBox.TileManagement.Editor
     {
         public static Texture2D LoadTextureFromFile(string path)
         {
-            Debug.Log( "Loading " + path );
-            
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                Logger.LogError( $"Cannot load texture from path {path}" );
                 return null;
-            
+            }
+
             byte[] fileData = File.ReadAllBytes(path);
             
             Texture2D tex = new Texture2D(2, 2);
@@ -35,5 +37,17 @@ namespace ToolBox.TileManagement.Editor
             tex.Apply();
             return tex;
         }
+    }
+
+    public class TileMapFileHandler
+    {
+        
+    }
+
+    public struct TileExtractorPaths
+    {
+        public string TexturePath;
+        public string JsonPath;
+        public string SlicedPath;
     }
 }

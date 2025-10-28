@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
 namespace UiFrameWork.Helpers
 {
@@ -36,11 +37,10 @@ namespace UiFrameWork.Helpers
                     Debug.LogWarning($"UssLoader: USS file not found at path '{path}'.");
                     return null;
                 }
+                
+                Logger.Log($"UssLoader: Uss file loaded from path '{path}'.");
 
-                if (elementToApply != null)
-                {
-                    elementToApply.styleSheets.Add(sheet);
-                }
+                elementToApply?.styleSheets.Add(sheet);
             }
             catch (System.Exception ex)
             {

@@ -3,12 +3,14 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Newtonsoft.Json;
 using ToolBox.Data;
 using ToolBox.TileManagement.Editor;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+
 
 namespace ToolBox.TileManagement.TileExtraction
 {
@@ -108,8 +110,13 @@ namespace ToolBox.TileManagement.TileExtraction
            
             var jsonText =  JsonConvert.SerializeObject(_tileImageMap);
              Debug.Log(jsonText);
-            
-            JsonSaver.SaveJson(jsonText, $"{EditorPrefs.GetString("TileExtractor_SavePath")}/{_tileMapName}.json");
+
+             var path = $"{EditorPrefs.GetString(TileExtractorKeys.SavePathKey)}/";
+             
+             if( !Directory.Exists( path ) )
+                 Directory.CreateDirectory( path );
+             
+            JsonSaver.SaveJson(jsonText, $"{EditorPrefs.GetString(TileExtractorKeys.SavePathKey)}/{_tileMapName}.json");
             
             _count = 0;
 
