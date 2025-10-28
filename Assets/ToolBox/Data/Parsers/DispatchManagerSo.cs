@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using ToolBox.Extensions;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Data.Parsers
@@ -12,7 +11,7 @@ namespace ToolBox.Data.Parsers
     {
         [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseDispatcherSo>> dispatchers = new List<Wormwood.Utils.KeyValuePair<string, BaseDispatcherSo>>();
 
-        private Dictionary<string, IDispatcher> _dispatcherDictionary;
+        private Dictionary<string, BaseDispatcherSo> _dispatcherDictionary;
         
         private void OnEnable()
         {
@@ -21,25 +20,24 @@ namespace ToolBox.Data.Parsers
 
         private void InitDictionary()
         {
-           // if (!_parserDictionary.IsNullOrEmpty()) return;
-            
-            _dispatcherDictionary = new Dictionary<string, IDispatcher>();
+            _dispatcherDictionary = new Dictionary<string, BaseDispatcherSo>();
             
             foreach (var dispatcher in dispatchers)
             {
-                
-                Logger.Log(dispatcher.Key + " : " + dispatcher.Value);
-                
-                if (_dispatcherDictionary.ContainsKey(dispatcher.Key)) continue;
-                
-                if (dispatcher.Value !=  null && dispatcher.Value is IDispatcher iDispatcher)
-                    _dispatcherDictionary.Add(dispatcher.Key, iDispatcher);
+                if (_dispatcherDictionary.ContainsKey(dispatcher.Key))
+                {
+                    Logger.LogWarning($"Duplicate dispatcher key '{dispatcher.Key}' ignored");
+                    continue;
+                }
+
+                if (dispatcher.Value !=null)
+                    _dispatcherDictionary.Add(dispatcher.Key, dispatcher.Value);
                 else
-                    Debug.LogWarning($"dispatcher '{dispatcher.Key}' does not implement IDispatcher!");
+                    Logger.LogWarning($"dispatcher '{dispatcher.Key}' does not implement IDispatcher!");
             }
         }
         
-        public IDispatcher GetDispatcher(string key)
+        public BaseDispatcherSo GetDispatcher(string key)
         {
             if (_dispatcherDictionary.IsNullOrEmpty()) return null;
             
@@ -49,7 +47,7 @@ namespace ToolBox.Data.Parsers
                 return dispatcher;
             }
 
-            Debug.LogWarning($"No dispatcher found for key '{key}'");
+            Logger.LogWarning($"No dispatcher found for key '{key}'");
             return null;
         }
     }

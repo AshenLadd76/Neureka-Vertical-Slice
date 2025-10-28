@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -11,11 +13,13 @@ namespace ToolBox.Data.Parsers
     {
         private TextAsset _jsonTextAsset;
 
-        [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseTextParserSo>> jsonParserList ;
+        [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseTextParserSo>> jsonParserList;
+
+        private Dictionary<string, BaseTextParserSo> _parserDictionary;
         
-        private Dictionary<string, IParser<TextAsset>> _parserDictionary;
-
-
+        private const string MetaData = "MetaData";
+       
+        
         private void OnEnable()
         {
             InitDictionary();
@@ -23,12 +27,16 @@ namespace ToolBox.Data.Parsers
 
         private void InitDictionary()
         {
-            _parserDictionary = new Dictionary<string, IParser<TextAsset>>();
+            _parserDictionary = new Dictionary<string, BaseTextParserSo>();
 
-            foreach (var item in jsonParserList  )
+            foreach (var item in jsonParserList)
             {
-                if( _parserDictionary.ContainsKey(item.Key) ) continue;
-                
+                if (_parserDictionary.ContainsKey(item.Key))
+                {
+                    Logger.LogWarning($"Duplicate parser key '{item.Key}' ignored");
+                    continue;
+                }
+
                 _parserDictionary.Add(item.Key, item.Value);
             }
         }
@@ -41,35 +49,56 @@ namespace ToolBox.Data.Parsers
                 Logger.LogError("path is null or empty");
                 return;
             }
-            
-            _jsonTextAsset  = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
-            
-            var jsonObj = JObject.Parse(_jsonTextAsset.text);
 
-            if (jsonObj["MetaData"] == null)
-            {
-                return;
-            }
-
-            // peek at the parser type
-            string parserType = (string)jsonObj["MetaData"]["ParserType"];
+            _jsonTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
             
-            Logger.Log( $"Parser Type : {parserType}" );
-
+            var parserType = GetParserType(_jsonTextAsset);
+            
             if (string.IsNullOrEmpty(parserType)) return;
-            
-            if(_parserDictionary.TryGetValue(parserType, out var parser))
+
+            if (_parserDictionary.TryGetValue(parserType, out var parser))
                 parser.Parse(_jsonTextAsset);
             else
                 Logger.LogWarning($"No parser found for type {parserType}");
 
         }
+
+        /// <summary>
+        /// Extracts the parser type from the JSON's MetaData section.
+        /// </summary>
+        private string GetParserType(TextAsset textAsset)
+        {
+            if (textAsset == null)
+            {
+                Logger.LogError("textAsset is null");
+                return string.Empty;
+            }
+            
+            try
+            {
+                var jObject = JsonConvert.DeserializeObject<JObject>(textAsset.text);
+                if (jObject[MetaData] == null)
+                {
+                    Logger.LogWarning("MetaData section missing in JSON");
+                    return string.Empty;
+                }
+
+                var metaData = jObject[MetaData].ToObject<MetaData>();
+                return metaData.ParserType;
+            }
+            catch (System.Exception e)
+            {
+                Logger.LogError($"Failed to parse MetaData: {e}");
+                return string.Empty;
+            }
+        }
     }
 
+
+    [Serializable]
     public class MetaData
     {
         public string ParserType;
 
     }
-    
 }

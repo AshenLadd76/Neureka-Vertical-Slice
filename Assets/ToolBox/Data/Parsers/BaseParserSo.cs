@@ -1,13 +1,10 @@
 using UnityEngine;
 
-
 namespace ToolBox.Data.Parsers
 {
-    public abstract class BaseTextParserSo : ScriptableObject, IParser<TextAsset>
+    public abstract class BaseTextParserSo : ScriptableObject
     {
-        public virtual void Parse(TextAsset textAsset)
-        {
-            
-        }
+        public abstract void Parse(TextAsset textAsset);
     }
 }
+
