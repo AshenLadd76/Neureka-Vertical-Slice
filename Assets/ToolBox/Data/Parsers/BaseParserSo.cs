@@ -4,7 +4,7 @@ namespace ToolBox.Data.Parsers
 {
     public abstract class BaseTextParserSo : ScriptableObject
     {
-        public abstract void Parse(TextAsset textAsset);
+        public abstract void Parse(TextAsset textAsset, string path);
     }
 }
 

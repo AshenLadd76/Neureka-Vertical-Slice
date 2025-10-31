@@ -57,7 +57,7 @@ namespace ToolBox.Data.Parsers
             if (string.IsNullOrEmpty(parserType)) return;
 
             if (_parserDictionary.TryGetValue(parserType, out var parser))
-                parser.Parse(_jsonTextAsset);
+                parser.Parse(_jsonTextAsset, path);
             else
                 Logger.LogWarning($"No parser found for type {parserType}");
         }

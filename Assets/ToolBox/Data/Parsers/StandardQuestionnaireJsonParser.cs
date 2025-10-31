@@ -14,7 +14,7 @@ namespace ToolBox.Data.Parsers
         
         private const string QuestionnaireSavePath = "Assets/Questionnaires/Generated/";
         
-        public override void Parse(TextAsset textAsset)
+        public override void Parse(TextAsset textAsset, string pathToSourceFile)
         {
             if (textAsset == null)
             {
@@ -32,10 +32,10 @@ namespace ToolBox.Data.Parsers
 
             standardQuestionnaireTemplate = wrapper.Questionnaire;
             
-            BuildQuestionnaireSo();
+            BuildQuestionnaireSo(pathToSourceFile);
         }
 
-        private void BuildQuestionnaireSo()
+        private void BuildQuestionnaireSo(string pathToSourceFile)
         {
             var asset = CreateInstance<StandardQuestionnaireSo>();
             
@@ -57,6 +57,27 @@ namespace ToolBox.Data.Parsers
             AssetDatabase.Refresh();
             
             Logger.Log($"Created StandardQuestionnaireSO asset at {fullPath}");
+
+            if (string.IsNullOrEmpty(pathToSourceFile))
+            {
+                Logger.LogError("The source file path is null or empty");
+                return;
+            }
+
+            DeleteSourceFile( pathToSourceFile );
+        }
+
+        private void DeleteSourceFile(string pathToSourceFile)
+        {
+            try
+            {
+                File.Delete(pathToSourceFile);
+                Logger.Log($"Deleted source JSON at {pathToSourceFile}");
+            }
+            catch (System.Exception e)
+            {
+                Logger.LogError($"Failed to delete JSON file: {e.Message}");
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ToolBox.Data.Parsers
         
         private TextAsset _csvContent;
         
-        public override void Parse(TextAsset textAsset)
+        public override void Parse(TextAsset textAsset, string path)
         {
           
             
