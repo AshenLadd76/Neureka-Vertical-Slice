@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using CodeBase.Questionnaires;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
@@ -60,7 +60,6 @@ namespace ToolBox.Data.Parsers
                 parser.Parse(_jsonTextAsset);
             else
                 Logger.LogWarning($"No parser found for type {parserType}");
-
         }
 
         /// <summary>
@@ -76,15 +75,18 @@ namespace ToolBox.Data.Parsers
             
             try
             {
-                var jObject = JsonConvert.DeserializeObject<JObject>(textAsset.text);
-                if (jObject[MetaData] == null)
+                QuestionnaireWrapper wrapper = JsonConvert.DeserializeObject<QuestionnaireWrapper>(textAsset.text); 
+                
+               //var jObject = JsonConvert.DeserializeObject<JObject>(textAsset.text);
+                if (wrapper.MetaData == null)
                 {
                     Logger.LogWarning("MetaData section missing in JSON");
                     return string.Empty;
                 }
 
-                var metaData = jObject[MetaData].ToObject<MetaData>();
-                return metaData.ParserType;
+                var metaData = wrapper.MetaData;
+                
+                return metaData.ParseType;
             }
             catch (System.Exception e)
             {
@@ -98,7 +100,7 @@ namespace ToolBox.Data.Parsers
     [Serializable]
     public class MetaData
     {
-        public string ParserType;
+        public string ParseType;
 
     }
 }

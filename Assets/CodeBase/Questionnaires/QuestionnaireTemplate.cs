@@ -1,82 +1,46 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace CodeBase.Questionnaires
 {
     [Serializable]
-    public class LocalizedText
+    public class StandardQuestionnaireTemplate
     {
-        [SerializeField] private string en;
-        [SerializeField] private string fr;
+        [SerializeField] private string playerId;
+        [SerializeField] private string scientificId;
+        [SerializeField] private string scientificName;
+        [SerializeField] private string assessmentId;
+        [SerializeField] private string questionnaireID;
+        [SerializeField] private string questionnaireName;
+        [SerializeField] private string questionnaireDescription;
+        [SerializeField] private string[] questions;
+        [SerializeField] private string[] answers;
+        [SerializeField] private int[] reverseScored;
+        [SerializeField] private string answerComponentType;
+        
 
-        public string En => en;
-        public string Fr => fr;
+        // Public getters / setters
+        public string PlayerId { get => playerId; set => playerId = value; }
+        public string ScientificId { get => scientificId; set => scientificId = value; }
+        public string ScientificName { get => scientificName; set => scientificName = value; }
+        public string AssessmentId { get => assessmentId; set => assessmentId = value; }
+        public string QuestionnaireID { get => questionnaireID; set => questionnaireID = value; }
+        public string QuestionnaireName { get => questionnaireName; set => questionnaireName = value; }
+        public string QuestionnaireDescription { get => questionnaireDescription; set => questionnaireDescription = value; }
+        public string[] Questions { get => questions; set => questions = value; }
+        public string[] Answers { get => answers; set => answers = value; }
+        public int[] ReverseScored { get => reverseScored; set => reverseScored = value; }
+        public string AnswerComponentType { get => answerComponentType; set => answerComponentType = value; }
+      
     }
 
     [Serializable]
-    public class ResponseValue
+    public class MetaData
     {
-        [SerializeField] private int value;
-        [SerializeField] private LocalizedText text;
-
-        public int Value => value;
-        public LocalizedText Text => text;
-    }
-
-    [Serializable]
-    public class Response
-    {
-        [SerializeField] private string id;  // responseId
-        [SerializeField] private List<ResponseValue> values = new List<ResponseValue>();
-
-        public string Id => id;
-        public List<ResponseValue> Values => values;
-    }
-
-    [Serializable]
-    public class Question
-    {
-        [SerializeField] private string id;
-        [SerializeField] private string responseId;
-        [SerializeField] private LocalizedText text;
-
-        public string Id => id;
-        public string ResponseId => responseId;
-        public LocalizedText Text => text;
-    }
-
-    [Serializable]
-    public class ScoringMessage
-    {
-        [SerializeField] private int minScore;
-        [SerializeField] private int maxScore;
-        [SerializeField] private LocalizedText text;
-
-        public int MinScore => minScore;
-        public int MaxScore => maxScore;
-        public LocalizedText Text => text;
-    }
-
-    [CreateAssetMenu(fileName = "QuestionnaireTemplate", menuName = "Questionnaire/Template")]
-    public class QuestionnaireTemplate : ScriptableObject
-    {
-        [SerializeField] private string questionnaireId;
-        [SerializeField] private LocalizedText title;
-        [SerializeField] private LocalizedText description;
-        [SerializeField] private string type; // single-page, multi-page, etc.
-
-        [SerializeField] private List<Question> questions = new List<Question>();
-        [SerializeField] private List<Response> responses = new List<Response>();
-        [SerializeField] private List<ScoringMessage> scoringMessages = new List<ScoringMessage>();
-
-        public string QuestionnaireId => questionnaireId;
-        public LocalizedText Title => title;
-        public LocalizedText Description => description;
-        public string Type => type;
-
-        public List<Question> Questions => questions;
-        public List<Response> Responses => responses;
-        public List<ScoringMessage> ScoringMessages => scoringMessages;
+        [SerializeField] private string parseType;
+        public string ParseType { get => parseType; set => parseType = value; }
     }
 }
+
+
+
