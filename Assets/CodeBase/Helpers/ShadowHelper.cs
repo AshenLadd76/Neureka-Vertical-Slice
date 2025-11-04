@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UnityEngine.UIElements;
 using Color = UnityEngine.Color;
 

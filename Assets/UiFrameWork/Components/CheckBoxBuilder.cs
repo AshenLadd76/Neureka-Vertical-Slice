@@ -1,7 +1,8 @@
 using System;
+using UiFrameWork.Builders;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace UiFrameWork.Components
 {
     public class CheckBoxBuilder : BaseBuilder<Toggle, CheckBoxBuilder>
     {

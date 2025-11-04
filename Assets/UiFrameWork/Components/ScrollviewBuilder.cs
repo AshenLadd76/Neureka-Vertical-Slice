@@ -1,11 +1,89 @@
 using System;
+using System.Collections.Generic;
+using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
-namespace UiFrameWork.Builders
+namespace UiFrameWork.Components
 {
     public class ScrollViewBuilder : BaseBuilder<ScrollView, ScrollViewBuilder>
     {
+        
+        private Vector3 _lastPointerPosition;
+        private Vector2 _velocity;
+        
+        private bool _isDragging;
+
+        private float _deceleration = 10f;
+        
+        private readonly Queue<Vector2> _velocityHistory = new Queue<Vector2>();
+        private readonly int _maxHistoryFrames = 10;
+
+        public ScrollViewBuilder EnableInertia(bool enable = true, float deceleration = 5f)
+        {
+            if (!enable) return this;
+
+            _deceleration = deceleration;
+            
+            VisualElement.RegisterCallback<PointerDownEvent>(evt =>
+            {
+                _isDragging = true;
+                _lastPointerPosition = evt.position;
+                _velocity = Vector2.zero;
+                VisualElement.CapturePointer(evt.pointerId);
+                
+                Logger.Log( $"Pointer Id: {evt.pointerId}" );
+            });
+            
+            VisualElement.RegisterCallback<PointerMoveEvent>(evt =>
+            {
+                if (!_isDragging) return;
+
+                Vector2 delta = evt.position - _lastPointerPosition;
+                _lastPointerPosition = evt.position;
+                
+                
+                var offsetY = new Vector2(delta.x, +delta.y);
+                
+                VisualElement.scrollOffset -= offsetY;
+                
+                //Record velocity
+                Vector2 frameVelocity = delta / Time.deltaTime;
+                
+                _velocityHistory.Enqueue(frameVelocity);
+                
+                if (_velocityHistory.Count > _maxHistoryFrames) _velocityHistory.Dequeue();
+                
+            });
+            
+            VisualElement.RegisterCallback<PointerUpEvent>(evt =>
+            {
+                if (!_isDragging) return;
+                
+                _isDragging = false;
+                VisualElement.ReleasePointer(evt.pointerId);
+                
+                //compute average velocity from last N frames
+                
+                Vector2 sum = Vector2.zero;
+
+                foreach (var v in _velocityHistory)
+                {
+                    sum += v;
+                }
+                
+                _velocity = sum / _velocityHistory.Count;
+                
+                _velocityHistory.Clear();
+                
+            });
+            
+            VisualElement.schedule.Execute(UpdateInertia).Every(16);
+            
+            return this;
+        }
+        
         public ScrollViewBuilder SetOrientation(ScrollViewMode mode)
         {
             VisualElement.mode = mode;
@@ -16,6 +94,12 @@ namespace UiFrameWork.Builders
         {
             VisualElement.contentContainer.style.width = width;
             VisualElement.contentContainer.style.height = height;
+            return this;
+        }
+
+        public ScrollViewBuilder SetDecelerationRate(float decelerationRate)
+        {
+            VisualElement.scrollDecelerationRate = decelerationRate;
             return this;
         }
 
@@ -48,6 +132,14 @@ namespace UiFrameWork.Builders
             
             
             return this;
+        }
+        
+        private void UpdateInertia()
+        {
+            if (_isDragging || _velocity.sqrMagnitude < 0.01f) return;
+
+            VisualElement.scrollOffset -= _velocity * Time.deltaTime;
+            _velocity = Vector2.Lerp(_velocity, Vector2.zero, _deceleration * Time.deltaTime);
         }
         
     }

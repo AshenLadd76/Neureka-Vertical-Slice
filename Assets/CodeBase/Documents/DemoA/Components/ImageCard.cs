@@ -1,6 +1,7 @@
 using System;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UnityEngine.UIElements;
 
 namespace CodeBase.Documents.DemoA.Components

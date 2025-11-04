@@ -1,8 +1,8 @@
 using System;
-using UnityEngine.Events;
+using UiFrameWork.Builders;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace UiFrameWork.Components
 {
     public class ButtonBuilder : BaseBuilder<Button, ButtonBuilder>
     {
@@ -12,14 +12,16 @@ namespace UiFrameWork.Builders
             return this;
         }
         
-        public ButtonBuilder OnClick(Action callback)
-        {
-            if (callback == null)
-                throw new System.ArgumentNullException(nameof(callback));
-            
-            VisualElement.clicked += callback;
-            return this;
-        }
+        // public ButtonBuilder OnClick(Action callback)
+        // {
+        //     if (callback == null)
+        //         throw new System.ArgumentNullException(nameof(callback));
+        //     
+        //     VisualElement.clicked += callback;
+        //     return this;
+        // }
+
+        
         
     }
 }

@@ -2,6 +2,7 @@ using System;
 using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 

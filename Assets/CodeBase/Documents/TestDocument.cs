@@ -4,6 +4,7 @@ using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Messenger;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;

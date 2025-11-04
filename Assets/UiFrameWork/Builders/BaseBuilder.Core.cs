@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ToolBox.Extensions;
 using UnityEngine.UIElements;
@@ -71,6 +72,36 @@ using Logger = ToolBox.Utils.Logger;
          }
         
          //Ends
+         
+         
+         //Events
+         
+         private EventCallback<ClickEvent> _clickCallback;
+         
+         public TBuilder OnClick(Action onClick)
+         {
+             ClearOnClick();
+             
+             _clickCallback = evt => onClick.Invoke();
+             
+             VisualElement.RegisterCallback(_clickCallback);
+
+             // Optionally make sure pointer events are enabled
+             VisualElement.pickingMode = PickingMode.Position;
+
+             return (TBuilder)this;
+         }
+         
+         private void ClearOnClick()
+         {
+             if (_clickCallback != null)
+             {
+                 VisualElement.UnregisterCallback(_clickCallback);
+                 _clickCallback = null;
+             }
+         }
+         
+         //Events end
         
      }
  }

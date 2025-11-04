@@ -1,12 +1,15 @@
-using System.Transactions;
+using System;
 using CodeBase.Documents.DemoA.Components;
+using CodeBase.Factories;
 using CodeBase.Helpers;
-using CodeBase.UiComponents.Styles;
+using ToolBox.Messenger;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
+using Random = UnityEngine.Random;
 
 namespace CodeBase.Documents.DemoA.Pages
 {
@@ -49,17 +52,16 @@ namespace CodeBase.Documents.DemoA.Pages
 
             var scrollview = new ScrollViewBuilder().AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
 
-            for (int x = 0; x < 15; x++)
+            for (int x = 0; x < 6; x++)
             {
                 new MenuCardBuilder()
                     .SetParent(scrollview)
                     .SetTitle($"Menu Card {x+1}")
                     .SetProgress(Random.Range(0f, 1f))
+                    .SetAction(MenuActions.RequestDocument("CESD-20"))
                     .Build();
             }
-              
-           
-
+            
            //var text = TextReader.ReadTextFile(PathToText);
             
             //Content Text
@@ -105,7 +107,6 @@ namespace CodeBase.Documents.DemoA.Pages
         }
     }
     
-    
     public static class ColorUtils
     {
         private static readonly System.Random random = new System.Random();
@@ -121,5 +122,14 @@ namespace CodeBase.Documents.DemoA.Pages
         }
     }
     
-    
+    public static class MenuActions
+    {
+        public static Action RequestDocument(string questionnaireId)
+        {
+            return () => 
+            {
+                MessageBus.Instance.Broadcast(QuestionnaireFactory.OnRequestQuestionnaireMessage, questionnaireId);
+            };
+        }
+    }
 }

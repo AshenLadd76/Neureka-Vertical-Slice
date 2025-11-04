@@ -1,9 +1,12 @@
+using CodeBase.Factories;
 using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
+using CodeBase.UiComponents.Pages;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Messenger;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using Logger = ToolBox.Utils.Logger;
 
@@ -19,7 +22,7 @@ namespace CodeBase.Documents
             
             var container  = new ContainerBuilder().AddClass(UiStyleClassDefinitions.Container).AddClass(UiStyleClassDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
-           ButtonFactory.CreateButton(ButtonType.Confirm, "DEMO-A",() => { MessageBus.Instance.Broadcast( nameof(DocumentFactoryMessages.OnRequestOpenDocument), DocumentID.DemoA); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Questionnaire Test",() => { MessageBus.Instance.Broadcast( QuestionnaireFactory.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            ButtonFactory.CreateButton(ButtonType.Confirm, "TEST PAGE",() => { MessageBus.Instance.Broadcast( nameof(DocumentFactoryMessages.OnRequestOpenDocument), DocumentID.TestDocument); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );

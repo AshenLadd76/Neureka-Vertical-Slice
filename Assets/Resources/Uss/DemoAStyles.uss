@@ -70,7 +70,8 @@
     padding-right: 50px;
     padding-bottom: 20px;
   
-    overflow: hidden;  
+    overflow: scroll;
+   
 }
 
 

@@ -12,7 +12,7 @@ namespace ToolBox.Data.Parsers
     {
         [SerializeField] private StandardQuestionnaireTemplate standardQuestionnaireTemplate;
         
-        private const string QuestionnaireSavePath = "Assets/Questionnaires/Generated/";
+        private const string QuestionnaireSavePath = "Assets/Resources/Questionnaires/";
         
         public override void Parse(TextAsset textAsset, string pathToSourceFile)
         {
@@ -67,17 +67,6 @@ namespace ToolBox.Data.Parsers
             DeleteSourceFile( pathToSourceFile );
         }
 
-        private void DeleteSourceFile(string pathToSourceFile)
-        {
-            try
-            {
-                File.Delete(pathToSourceFile);
-                Logger.Log($"Deleted source JSON at {pathToSourceFile}");
-            }
-            catch (System.Exception e)
-            {
-                Logger.LogError($"Failed to delete JSON file: {e.Message}");
-            }
-        }
+       
     }
 }

@@ -1,5 +1,6 @@
 using CodeBase.UiComponents.Headers;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -24,8 +25,5 @@ namespace CodeBase.UiComponents.Containers
 
             return container;
         }
-
-
-        public static implicit operator VisualElement(DefaultContainer container) => container.VisualElement;
     }
 }

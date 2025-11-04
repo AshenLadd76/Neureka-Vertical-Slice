@@ -58,7 +58,8 @@
     show-vertical-scroller: false;
     show-horizontal-scroller: false;
 
-    overflow: hidden;  
+    overflow-y: scroll;
+    overflow-x: hidden; /* optional if vertical only */
 }
 
 .shared-scroll-fade-top, .shared-scroll-fade-bottom {

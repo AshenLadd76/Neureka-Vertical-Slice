@@ -1,5 +1,6 @@
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Builders;
+using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
@@ -29,7 +30,7 @@ namespace CodeBase.Documents.DemoA.Pages
             
             Logger.Log($"Building Splash Page {Root.name}");
             
-            PageRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SplashRoot).AttachTo(Root).SetOnClick(()=> { OnClickAction(true); }).Build();
+            PageRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SplashRoot).AttachTo(Root).OnClick(()=> { OnClickAction(true); }).Build();
             
             var gradientTexture = Resources.Load<Texture2D>(BackgroundGradientPath);
 
