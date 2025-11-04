@@ -31,6 +31,8 @@ namespace UiFrameWork.Components
                 _isDragging = true;
                 _lastPointerPosition = evt.position;
                 _velocity = Vector2.zero;
+                _velocityHistory.Clear();
+                
                 VisualElement.CapturePointer(evt.pointerId);
                 
                 Logger.Log( $"Pointer Id: {evt.pointerId}" );
@@ -44,12 +46,12 @@ namespace UiFrameWork.Components
                 _lastPointerPosition = evt.position;
                 
                 
-                var offsetY = new Vector2(delta.x, +delta.y);
+                var offset = new Vector2(delta.x, +delta.y);
                 
-                VisualElement.scrollOffset -= offsetY;
+                VisualElement.scrollOffset -= offset;
                 
                 //Record velocity
-                Vector2 frameVelocity = delta / Time.deltaTime;
+                Vector2 frameVelocity = offset / Time.deltaTime;
                 
                 _velocityHistory.Enqueue(frameVelocity);
                 
@@ -73,7 +75,8 @@ namespace UiFrameWork.Components
                     sum += v;
                 }
                 
-                _velocity = sum / _velocityHistory.Count;
+                if (_velocityHistory.Count > 0)
+                    _velocity = sum / _velocityHistory.Count;
                 
                 _velocityHistory.Clear();
                 

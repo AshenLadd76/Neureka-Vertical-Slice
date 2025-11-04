@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,6 +45,37 @@ namespace UiFrameWork.Helpers
             // Apply scroll offset
             scrollView.scrollOffset = new Vector2(scrollView.scrollOffset.x, targetY);
         }
+        
+        public static void JumpToElementSmooth(ScrollView scrollView, VisualElement element, float duration = 0.3f, long delay = 100)
+        {
+            if (scrollView == null || element == null) return;
+
+            float elementTop = element.resolvedStyle.top;
+            float maxY = scrollView.contentContainer.layout.height - scrollView.contentViewport.layout.height;
+            float targetY = Mathf.Clamp(elementTop, 0, Mathf.Max(0, maxY));
+
+            Vector2 startOffset = scrollView.scrollOffset;
+            float elapsed = 0f;
+
+            Action repeat = null;
+            repeat = () =>
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                scrollView.scrollOffset = Vector2.Lerp(startOffset, new Vector2(startOffset.x, targetY), t);
+
+                if (t < 1f)
+                {
+                    // Schedule next frame
+                    scrollView.schedule.Execute(repeat).ExecuteLater(0);
+                }
+            };
+
+            scrollView.schedule.Execute(repeat).ExecuteLater(delay);
+        }
+
+
+
 
     
         public static void JumpTo(ScrollView scrollView, float verticalOffset)
@@ -53,10 +85,7 @@ namespace UiFrameWork.Helpers
             scrollView.scrollOffset = offset;
         }
 
-        public static void ScrollToTop(ScrollView scrollView) => JumpTo(scrollView, 0f);
-        
-
-        public static void ScrollToBottom(ScrollView scrollView) => JumpTo(scrollView, scrollView.contentContainer.resolvedStyle.height);
+     
         
     }
 }

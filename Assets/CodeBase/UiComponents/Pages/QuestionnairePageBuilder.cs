@@ -71,7 +71,7 @@ namespace CodeBase.UiComponents.Pages
             int nextQuestionNumber = questionNumber + 1;
             
             if (nextQuestionNumber < _questionCount)
-                ScrollViewHelper.JumpToElement( _scrollView, _questions[nextQuestionNumber] );
+                ScrollViewHelper.JumpToElementSmooth( _scrollView, _questions[nextQuestionNumber] );
             
            
         }
