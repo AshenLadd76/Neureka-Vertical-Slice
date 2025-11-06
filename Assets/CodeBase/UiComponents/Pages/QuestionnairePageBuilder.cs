@@ -16,7 +16,7 @@ namespace CodeBase.UiComponents.Pages
     {
         private const string MainContainerStyle = "fullscreen-container";
         private readonly int _questionCount;
-        private ScrollView _scrollView;
+        private ScrollView _scrollview;
 
         private readonly List<VisualElement> _questions = new();
 
@@ -40,7 +40,7 @@ namespace CodeBase.UiComponents.Pages
             //Build content
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
 
-            _scrollView = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
+            _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
                 .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
 
 
@@ -52,14 +52,22 @@ namespace CodeBase.UiComponents.Pages
             for (int i = 0; i < _questionCount; i++)
             {
                 var questionText = questionnaireTemplate.Questions[i];
+
+                var question = new Question().SetIndex(i)
+                    .SetMultiSelection(false)
+                    .SetQuestionText(questionText)
+                    .SetAnswers(answers)
+                    .SetOnOptionSelected(HandleAnswer)
+                    .AddLabelClass("question-container-label")
+                    .AddContainerClass("question-container")
+                    .AttachTo(_scrollview.contentContainer)
+                    .Build(); 
                 
-               var question =  new Question(i, questionText, answers, _scrollView.contentContainer, HandleAnswer);
+                //new Question(i, questionText, answers, _scrollview.contentContainer, HandleAnswer);
                
-               _questions.Add(question.RootElement);
-               
+               _questions.Add(question);
             }
             
-
             //Build the footer
             new SingleButtonFooter(() => { Logger.Log( $"Button clicked" ); }, $"Submit", pageRoot );
         }
@@ -71,7 +79,7 @@ namespace CodeBase.UiComponents.Pages
             int nextQuestionNumber = questionNumber + 1;
             
             if (nextQuestionNumber < _questionCount)
-                ScrollViewHelper.JumpToElementSmooth( _scrollView, _questions[nextQuestionNumber] );
+                ScrollViewHelper.JumpToElementSmooth( _scrollview, _questions[nextQuestionNumber] );
             
            
         }
