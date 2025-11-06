@@ -39,7 +39,7 @@ namespace CodeBase.UiComponents.Footers
                 .Build();
 
 
-            ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", () => { Logger.Log($" I was clicked button factory works!"); }, container );
+            ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _buttonAction, container );
             
             return container;
         }

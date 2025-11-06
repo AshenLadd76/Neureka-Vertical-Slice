@@ -33,3 +33,8 @@
 .page-root__footer {
     flex-shrink: 0;
 }
+
+.unanswered-highlight {
+    border: 2px solid red;
+    border-radius: 5px;
+}

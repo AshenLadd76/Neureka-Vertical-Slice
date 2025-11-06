@@ -31,8 +31,13 @@ namespace CodeBase.UiComponents
         
         private const string DefaultContainerClass = "default-container-class";
         private const string DefaultLabelClass = "default-label-class";
+        private const string ValidationOutline = "unanswered-highlight";
+        
 
         private bool _isMultiSelection;
+
+        public bool IsAnswered { get; private set; }
+        public VisualElement RootVisualElement { get; private set; }
         
         /// <summary>
         /// Sets whether the question allows multiple selections.
@@ -125,13 +130,24 @@ namespace CodeBase.UiComponents
             return this;
         }
 
+        public void ToggleWarningOutline(bool b)
+        {
+            if( b )
+                RootVisualElement.AddToClassList( ValidationOutline );
+            else
+                RootVisualElement.RemoveFromClassList( ValidationOutline );
+            
+        }
+        
+        
+
         /// <summary>
         /// Builds the question UI element hierarchy and attaches it to the parent.
         /// </summary>
         /// <returns>The root VisualElement containing the question and its options.</returns>
         /// <exception cref="InvalidOperationException">Thrown if required fields (text, answers, parent) are missing.</exception>
 
-        public VisualElement Build()
+        public Question Build()
         {
             if( string.IsNullOrEmpty(_questionText) )
                 throw new InvalidOperationException("Question text is empty");
@@ -158,13 +174,16 @@ namespace CodeBase.UiComponents
             {
                 string answerText = _answers[x];
                 
-                choiceGroupBuilder.AddOption(answerText, (i, b) => { _onOptionSelected?.Invoke(_questionIndex, answerText ); });
+                choiceGroupBuilder.AddOption(answerText, (i, b) => { _onOptionSelected?.Invoke(_questionIndex, answerText ); IsAnswered = true; });
             }
 
             choiceGroupBuilder.Build();
+
+
+            RootVisualElement = outerContainer;
             
             //Add our response here
-            return outerContainer;
+            return this;
         }
 
         private string ClassCheck(string className, string defaultClass) => string.IsNullOrEmpty(className) ? defaultClass : className;

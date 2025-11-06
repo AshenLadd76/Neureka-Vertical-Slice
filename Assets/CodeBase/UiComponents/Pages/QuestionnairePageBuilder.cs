@@ -18,7 +18,7 @@ namespace CodeBase.UiComponents.Pages
         private readonly int _questionCount;
         private ScrollView _scrollview;
 
-        private readonly List<VisualElement> _questions = new();
+        private readonly List<Question> _builtQuestionsList = new();
 
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement parent)
         {
@@ -65,11 +65,20 @@ namespace CodeBase.UiComponents.Pages
                 
                 //new Question(i, questionText, answers, _scrollview.contentContainer, HandleAnswer);
                
-               _questions.Add(question);
+               _builtQuestionsList.Add(question);
             }
             
             //Build the footer
-            new SingleButtonFooter(() => { Logger.Log( $"Button clicked" ); }, $"Submit", pageRoot );
+            new SingleButtonFooter(() =>
+            {
+                if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
+                {
+                    Logger.Log("answers incomplete");
+                    return;
+                }
+                
+                Logger.Log( $"Button clicked" );
+            }, $"Submit", pageRoot );
         }
 
         private void HandleAnswer(int questionNumber, string answerText)
@@ -79,11 +88,12 @@ namespace CodeBase.UiComponents.Pages
             int nextQuestionNumber = questionNumber + 1;
             
             if (nextQuestionNumber < _questionCount)
-                ScrollViewHelper.JumpToElementSmooth( _scrollview, _questions[nextQuestionNumber] );
-            
-           
-        }
+                ScrollViewHelper.JumpToElementSmooth( _scrollview, _builtQuestionsList[nextQuestionNumber].RootVisualElement );
 
+            _builtQuestionsList[questionNumber].ToggleWarningOutline(false);
+
+        }
+        
         public PageID PageIdentifier { get; set; }
     }
 }

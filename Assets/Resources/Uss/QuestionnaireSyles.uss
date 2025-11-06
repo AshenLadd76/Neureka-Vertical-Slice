@@ -74,5 +74,17 @@ flex-direction: row;
   color:#fff;
 }
 
+.unanswered-highlight {
+      border-left-width: 4px;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-color: red;
+    border-top-color: red;
+    border-right-color: red;
+    border-bottom-color: red;
+    border-radius: 12px;
+}
+
 
 
