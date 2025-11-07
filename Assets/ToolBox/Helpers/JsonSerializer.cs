@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Logger = ToolBox.Utils.Logger;
 
 
@@ -18,7 +19,7 @@ namespace ToolBox.Helpers
             catch (Exception ex)
             {
                 Logger.LogError($"Serialization failed: {ex.Message}");
-                return null; // or "{}" or some safe fallback
+                return "{}"; 
             }
         }
 
@@ -37,7 +38,30 @@ namespace ToolBox.Helpers
 
         public (bool IsValid, List<string> Errors) ValidateJson(string json, string schemaJson = null)
         {
-            throw new NotImplementedException();
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                errors.Add("JSON string is null or empty.");
+                return (false, errors);
+            }
+
+            try
+            {
+                // Try parsing the JSON
+                JToken.Parse(json);
+                return (true, errors);
+            }
+            catch (JsonReaderException ex)
+            {
+                errors.Add($"Invalid JSON: {ex.Message}");
+                return (false, errors);
+            }
+            catch (Exception ex)
+            {
+                errors.Add($"Unexpected error: {ex.Message}");
+                return (false, errors);
+            }
         }
     }
 }
