@@ -46,6 +46,7 @@ namespace ToolBox.Performance.Fps
 
         public void TriggerTimedFpsBoost(float duration) =>_timedFrameRateBooster.TempBoostFps(boostFrameRate, defaultTargetFrameRate, duration);
         
+        
 
         
         

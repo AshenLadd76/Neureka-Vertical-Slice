@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using CodeBase.Documents;
 using CodeBase.Documents.DemoA;
 using CodeBase.Questionnaires;
+using CodeBase.Services;
 using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
-using Newtonsoft.Json;
 using ToolBox.Helpers;
+using ToolBox.Messenger;
 using ToolBox.Utils;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
@@ -20,6 +21,8 @@ namespace CodeBase.UiComponents.Pages
         private const string MainContainerStyle = "fullscreen-container";
         private readonly int _questionCount;
         private ScrollView _scrollview;
+        
+        private VisualElement _root;
 
         private readonly List<Question> _builtQuestionsList = new();
         
@@ -30,7 +33,7 @@ namespace CodeBase.UiComponents.Pages
         private ISerializer _jsonSerializer;
         
         
-        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement parent, ISerializer jsonSerializer)
+        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer)
         {
             if (questionnaireData == null)
                 throw new ArgumentNullException(nameof(questionnaireData), "Questionnaire data cannot be null.");
@@ -38,8 +41,7 @@ namespace CodeBase.UiComponents.Pages
             if (questionnaireData.Questions == null || questionnaireData.Questions.Length == 0)
                 throw new ArgumentException("Questionnaire must contain at least one question.", nameof(questionnaireData));
 
-            if (parent == null)
-                throw new ArgumentNullException(nameof(parent), "Parent VisualElement cannot be null.");
+            _root = root ?? throw new ArgumentNullException(nameof(root), "Parent VisualElement cannot be null.");
 
             _jsonSerializer = jsonSerializer ?? throw new ArgumentNullException(nameof(jsonSerializer), "JSON serializer cannot be null.");
 
@@ -49,7 +51,7 @@ namespace CodeBase.UiComponents.Pages
             
             InitializeAnswerDictionary(questionnaireData);
             
-            Build(questionnaireData, parent);
+            Build(questionnaireData, _root);
         }
 
         private void InitializeAnswerDictionary(StandardQuestionnaireTemplate questionnaireData)
@@ -77,13 +79,13 @@ namespace CodeBase.UiComponents.Pages
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
 
             //Build the scrollview and add it to the content container
-            var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
+            _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
                 .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
             
             var answers = questionnaireTemplate.Answers;
             
             //use question builder to add questions to the scroll view
-            CreateAndAddQuestionsToScrollView(questionnaireTemplate, answers, scrollview);
+            CreateAndAddQuestionsToScrollView(questionnaireTemplate, answers, _scrollview);
             
             CreateFooter(pageRoot);
         }
@@ -111,7 +113,7 @@ namespace CodeBase.UiComponents.Pages
                     return;
                 }
                 
-                Submit();
+                HandleSubmit();
                 
             }, $"Submit", parent );
             
@@ -140,26 +142,36 @@ namespace CodeBase.UiComponents.Pages
             value.AnswerText = answerText;
         }
 
-        private void Submit()
+        private void HandleSubmit()
         {
             try
             {
                 var questionnaireData = new QuestionnaireDataBuilder().SetTemplate(_questionnaireData)
                     .SetAnswers(_answerDictionary).Build();
                 
-                Logger.Log( _jsonSerializer.Serialize(questionnaireData) );
-            
-                //TODO: Implement Serialisation service
-            
-                //TODO: Send to DataUploader Service
+                var jsonData = _jsonSerializer.Serialize(questionnaireData);
+
+                var webData = new WebData
+                {
+                    Id = _questionnaireData.QuestionnaireID,
+                    Data = jsonData
+                };
+                
+                MessageBus.Instance.Broadcast( NeurekaDemoMessages.DataUploadRequestMessage, webData );
+                
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Logger.LogError($"Failed to handle submit: {e}");
             }
         }
         
-        public PageID PageIdentifier { get; set; }
+        
+        //Helper function that is will be attached to the relevant button events
+        //ensures the root visual element is cleared when the questionnaires life is ended
+        private void Clear()
+        {
+            _root.Clear();
+        }
     }
 }
