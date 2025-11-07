@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using CodeBase.Documents;
 using CodeBase.Documents.DemoA;
 using CodeBase.Questionnaires;
@@ -18,7 +17,7 @@ namespace CodeBase.UiComponents.Pages
     public class QuestionnairePageBuilder
     {
         private const string MainContainerStyle = "fullscreen-container";
-        private int _questionCount;
+        private readonly int _questionCount;
         private ScrollView _scrollview;
 
         private readonly List<Question> _builtQuestionsList = new();
@@ -44,6 +43,7 @@ namespace CodeBase.UiComponents.Pages
             _questionnaireData = questionnaireData;
             
             InitializeAnswerDictionary(questionnaireData);
+            
             Build(questionnaireData, parent);
         }
 
@@ -68,58 +68,52 @@ namespace CodeBase.UiComponents.Pages
             //Build the header
             new DefaultHeader("Main Hub", pageRoot, () => { Logger.Log($"OnBack Selected"); }, () => { Logger.Log($"OnClose Selected");  });
             
-            //Build the content 
-            //Build content
+            //Build the content container
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
 
-            _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
+            //Build the scrollview and add it to the content container
+            var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
                 .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
-
-
+            
             var answers = questionnaireTemplate.Answers;
             
             //use question builder to add questions to the scroll view
-         
+            CreateAndAddQuestionsToScrollView(questionnaireTemplate, answers, scrollview);
             
+            CreateFooter(pageRoot);
+        }
+
+        private void CreateAndAddQuestionsToScrollView(StandardQuestionnaireTemplate questionnaireTemplate, string[] answers, ScrollView scrollView)
+        {
             for (int i = 0; i < _questionCount; i++)
             {
                 var questionText = questionnaireTemplate.Questions[i];
 
-                var question = new Question().SetIndex(i)
-                    .SetMultiSelection(false)
-                    .SetQuestionText(questionText)
-                    .SetAnswers(answers)
-                    .SetOnOptionSelected(HandleAnswer)
-                    .AddLabelClass("question-container-label")
-                    .AddContainerClass("question-container")
-                    .AttachTo(_scrollview.contentContainer)
-                    .Build(); 
+                var question = QuestionFactory.BuildQuestion(i, questionText, answers,HandleAnswer, scrollView.contentContainer);
                 
-                //new Question(i, questionText, answers, _scrollview.contentContainer, HandleAnswer);
-               
-               _builtQuestionsList.Add(question);
+                _builtQuestionsList.Add(question);
             }
-            
+        }
+
+        private void CreateFooter(VisualElement parent)
+        {
             //Build the footer
             new SingleButtonFooter(() =>
             {
                 if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
                 {
-                    Logger.Log("answers incomplete");
+                    Logger.LogWarning("answers incomplete - failed validation.");
                     return;
                 }
                 
-                Logger.Log( $"Button clicked" );
                 Submit();
-            }, $"Submit", pageRoot );
-            
+                
+            }, $"Submit", parent );
             
         }
 
         private void HandleAnswer(int questionIndex, string answerText)
         {
-            Logger.Log($"OnBack Selected: {questionIndex} - {answerText}");
-            
             SetAnswer(questionIndex+1, answerText);
             
             int nextQuestionNumber = questionIndex + 1;
@@ -128,7 +122,6 @@ namespace CodeBase.UiComponents.Pages
                 ScrollViewHelper.JumpToElementSmooth( _scrollview, _builtQuestionsList[nextQuestionNumber].RootVisualElement );
 
             _builtQuestionsList[questionIndex].ToggleWarningOutline(false);
-
         }
 
         private void SetAnswer(int questionNumber, string answerText)
@@ -144,17 +137,8 @@ namespace CodeBase.UiComponents.Pages
 
         private void Submit()
         {
-            if (_answerDictionary.Values.Any(a => string.IsNullOrEmpty(a.AnswerText)))
-            {
-                Logger.LogWarning("Cannot submit: Some questions are unanswered.");
-                QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview);
-                return;
-            }
-
             try
             {
-                Logger.Log( $"Checking answers dictionary >> { _answerDictionary.Count }" );
-                
                 var questionnaireData = new QuestionnaireDataBuilder().SetTemplate(_questionnaireData)
                     .SetAnswers(_answerDictionary).Build();
                
@@ -176,44 +160,4 @@ namespace CodeBase.UiComponents.Pages
         
         public PageID PageIdentifier { get; set; }
     }
-    
-        public class QuestionnaireDataBuilder
-        {
-            private StandardQuestionnaireTemplate _template;
-            private Dictionary<int, AnswerData> _answers = new();
-
-            public QuestionnaireDataBuilder SetTemplate(StandardQuestionnaireTemplate template)
-            {
-                _template = template;
-                return this;
-            }
-
-            public QuestionnaireDataBuilder SetAnswers(Dictionary<int, AnswerData> answers)
-            {
-                _answers = answers;
-                return this;
-            }
-
-            public QuestionnaireData Build()
-            {
-                if (_template == null)
-                    throw new System.InvalidOperationException("Questionnaire template must be set.");
-                if (_answers == null)
-                    throw new System.InvalidOperationException("Answer dictionary must be set.");
-
-                return new QuestionnaireData
-                {
-                    PlayerId = _template.PlayerId,
-                    ScientificId = _template.ScientificId,
-                    ScientificName = _template.ScientificName,
-                    AssessmentId = _template.AssessmentId,
-                    QuestionnaireID = _template.QuestionnaireID,
-                    QuestionnaireName = _template.QuestionnaireName,
-                    QuestionnaireDescription = _template.QuestionnaireName,
-                    Answers = _answers,
-                    ReverseScored = _template.ReverseScored.ToList()
-                };
-            }
-        }
-        
 }
