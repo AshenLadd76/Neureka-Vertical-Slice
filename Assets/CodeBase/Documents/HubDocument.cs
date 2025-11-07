@@ -1,4 +1,4 @@
-using CodeBase.Factories;
+using CodeBase.Services;
 using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
@@ -22,7 +22,7 @@ namespace CodeBase.Documents
             
             var container  = new ContainerBuilder().AddClass(UiStyleClassDefinitions.Container).AddClass(UiStyleClassDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Questionnaire Test",() => { MessageBus.Instance.Broadcast( QuestionnaireFactory.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Questionnaire Test",() => { MessageBus.Instance.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            ButtonFactory.CreateButton(ButtonType.Confirm, "TEST PAGE",() => { MessageBus.Instance.Broadcast( nameof(DocumentFactoryMessages.OnRequestOpenDocument), DocumentID.TestDocument); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
            ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );

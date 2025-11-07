@@ -7,6 +7,7 @@ using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
 using Newtonsoft.Json;
+using ToolBox.Helpers;
 using ToolBox.Utils;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
@@ -26,8 +27,10 @@ namespace CodeBase.UiComponents.Pages
 
         private StandardQuestionnaireTemplate _questionnaireData;
         
+        private ISerializer _jsonSerializer;
         
-        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement parent)
+        
+        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement parent, ISerializer jsonSerializer)
         {
             if (questionnaireData == null)
                 throw new ArgumentNullException(nameof(questionnaireData), "Questionnaire data cannot be null.");
@@ -37,6 +40,8 @@ namespace CodeBase.UiComponents.Pages
 
             if (parent == null)
                 throw new ArgumentNullException(nameof(parent), "Parent VisualElement cannot be null.");
+
+            _jsonSerializer = jsonSerializer ?? throw new ArgumentNullException(nameof(jsonSerializer), "JSON serializer cannot be null.");
 
             _questionCount = questionnaireData.Questions.Length;
             
@@ -141,11 +146,8 @@ namespace CodeBase.UiComponents.Pages
             {
                 var questionnaireData = new QuestionnaireDataBuilder().SetTemplate(_questionnaireData)
                     .SetAnswers(_answerDictionary).Build();
-               
-            
-                var json = JsonConvert.SerializeObject(questionnaireData);
                 
-                Logger.Log( json );
+                Logger.Log( _jsonSerializer.Serialize(questionnaireData) );
             
                 //TODO: Implement Serialisation service
             

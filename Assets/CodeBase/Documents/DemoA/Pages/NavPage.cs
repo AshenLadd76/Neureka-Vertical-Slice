@@ -1,7 +1,7 @@
 using System;
 using CodeBase.Documents.DemoA.Components;
-using CodeBase.Factories;
 using CodeBase.Helpers;
+using CodeBase.Services;
 using ToolBox.Messenger;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
@@ -128,7 +128,7 @@ namespace CodeBase.Documents.DemoA.Pages
         {
             return () => 
             {
-                MessageBus.Instance.Broadcast(QuestionnaireFactory.OnRequestQuestionnaireMessage, questionnaireId);
+                MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
             };
         }
     }

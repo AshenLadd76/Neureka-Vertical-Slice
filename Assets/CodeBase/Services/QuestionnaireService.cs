@@ -3,15 +3,16 @@ using CodeBase.Questionnaires;
 using CodeBase.UiComponents.Pages;
 using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
+using ToolBox.Helpers;
 using ToolBox.Messenger;
 using ToolBox.Utils.Validation;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace CodeBase.Factories
+namespace CodeBase.Services
 {
-    public class QuestionnaireFactory : MonoBehaviour
+    public class QuestionnaireService : MonoBehaviour
     {
         private UIDocument _uiDocument;
         
@@ -20,13 +21,12 @@ namespace CodeBase.Factories
         private const string PathToQuestionnaires = "Questionnaires";
         
         //Dictionary to store all questionniares scriptable objects
-
         private readonly Dictionary<string, StandardQuestionnaireSo> _standardQuestionnaires = new();
         
-        
         public const string OnRequestQuestionnaireMessage = "OnRequestQuestionnaire";
-
-
+        
+        private ISerializer _jsonSerializer;
+        
         private void OnEnable()
         {
             MessageBus.Instance.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
@@ -44,6 +44,8 @@ namespace CodeBase.Factories
             ObjectValidator.Validate(_uiDocument);
             
             _rootVisualElement = _uiDocument.rootVisualElement;
+            
+            _jsonSerializer = new JsonSerializer();
             
             LoadQuestionnairesIntoDictionary();
         }
@@ -76,7 +78,6 @@ namespace CodeBase.Factories
                     Logger.LogWarning($"Duplicate questionnaire ID: {q.Data.QuestionnaireID}");
                 else
                     Logger.Log( $"Added questionnaire ID: {q.Data.QuestionnaireID}" );
-                
             }
         }
         
@@ -116,7 +117,7 @@ namespace CodeBase.Factories
             
             if (questionnaireData == null) return;
 
-            new QuestionnairePageBuilder(questionnaireData, _rootVisualElement);
+            new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer);
         }
     }
 }
