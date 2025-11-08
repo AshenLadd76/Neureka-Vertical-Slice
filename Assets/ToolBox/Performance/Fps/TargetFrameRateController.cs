@@ -4,7 +4,6 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Performance.Fps
 {
-    
     /// <summary>
     /// Manages the application's target frame rate dynamically using an event-driven approach.
     /// Allows adaptive frame rate adjustments to optimize performance and smoothness,
@@ -12,7 +11,7 @@ namespace ToolBox.Performance.Fps
     /// then reverting to a default or low frame rate to conserve resources.
     /// </summary>
     
-    public class TargetFrameRateController : MonoBehaviour, IFrameRateController
+    public class TargetFrameRateController : MonoBehaviour
     {
         [SerializeField] private int defaultTargetFrameRate = 30;
         [SerializeField] private int boostFrameRate = 60;
@@ -47,9 +46,6 @@ namespace ToolBox.Performance.Fps
         public void TriggerTimedFpsBoost(float duration) =>_timedFrameRateBooster.TempBoostFps(boostFrameRate, defaultTargetFrameRate, duration);
         
         
-
-        
-        
         /// <summary>
         /// Sets the frame rate to the predefined fps value for animation-heavy operations.
         /// </summary>
@@ -78,10 +74,5 @@ namespace ToolBox.Performance.Fps
             // -1 means uncapped, so you might want to estimate or return int.MaxValue
             return int.MaxValue;
         }
-    }
-
-    public interface IFrameRateController
-    {
-        void SetCustomFrameRate(int desiredFrameRate);
     }
 }

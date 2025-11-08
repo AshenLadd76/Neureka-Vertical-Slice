@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Documents;
 using CodeBase.Documents.DemoA;
 using CodeBase.Questionnaires;
 using CodeBase.Services;
@@ -26,11 +25,11 @@ namespace CodeBase.UiComponents.Pages
 
         private readonly List<Question> _builtQuestionsList = new();
         
-        private Dictionary<int, AnswerData> _answerDictionary = new();
+        private readonly Dictionary<int, AnswerData> _answerDictionary = new();
 
-        private StandardQuestionnaireTemplate _questionnaireData;
+        private readonly StandardQuestionnaireTemplate _questionnaireData;
         
-        private ISerializer _jsonSerializer;
+        private readonly ISerializer _jsonSerializer;
         
         
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer)
@@ -118,6 +117,17 @@ namespace CodeBase.UiComponents.Pages
             }, $"Submit", parent );
             
         }
+        
+        private void SetAnswer(int questionNumber, string answerText)
+        {
+            if (!_answerDictionary.TryGetValue(questionNumber, out var value))
+            {
+                Logger.LogError($"Attempted to set answer for invalid question number {questionNumber}");
+                return;
+            }
+     
+            value.AnswerText = answerText;
+        }
 
         private void HandleAnswer(int questionIndex, string answerText)
         {
@@ -131,17 +141,7 @@ namespace CodeBase.UiComponents.Pages
             _builtQuestionsList[questionIndex].ToggleWarningOutline(false);
         }
 
-        private void SetAnswer(int questionNumber, string answerText)
-        {
-            if (!_answerDictionary.TryGetValue(questionNumber, out var value))
-            {
-                Logger.LogError($"Attempted to set answer for invalid question number {questionNumber}");
-                return;
-            }
-     
-            value.AnswerText = answerText;
-        }
-
+        
         private void HandleSubmit()
         {
             try
@@ -169,9 +169,6 @@ namespace CodeBase.UiComponents.Pages
         
         //Helper function that is will be attached to the relevant button events
         //ensures the root visual element is cleared when the questionnaires life is ended
-        private void Clear()
-        {
-            _root.Clear();
-        }
+        private void Clear() => _root.Clear();
     }
 }
