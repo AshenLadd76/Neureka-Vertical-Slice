@@ -6,9 +6,11 @@ namespace ToolBox.Performance.Fps
 {
     public class FrameRateController : MonoBehaviour
     {
-        [SerializeField] private int defaultFrameRate = 60;
-        [SerializeField] private int boostedFrameRate = 120;
-        [SerializeField] private int reducedFrameRate = 30;
+        [SerializeField] private int boostedFrameRate = 60;
+        [SerializeField] private int defaultFrameRate = 30;
+        [SerializeField] private int reducedFrameRate = 15;
+        
+        private const int MaxSupportedFrameRate = 60;
         
         private Coroutine _reductionCoroutine;
         
@@ -21,21 +23,40 @@ namespace ToolBox.Performance.Fps
         private void OnEnable() => Subscribe();
         
         private void OnDisable() => UnSubscribe();
-
-        private void Start() => SetDefaultFrameRate();
         
-        private void BoostFrameRate() { }
+        private void Start() => SetDefaultFrameRate();
 
-        private void SetDefaultFrameRate() { }
+        private void BoostFrameRate()
+        {
+            if( _reductionCoroutine != null ) StopCoroutine( _reductionCoroutine );
+            
+            SetFrameRate(Mathf.Min(boostedFrameRate, MaxSupportedFrameRate));
+            
+        }
 
-        private void ReduceFrameRate() { }
+        private void SetDefaultFrameRate()
+        {
+            SetFrameRate(defaultFrameRate);
+        }
+
+        private void ReduceFrameRate()
+        {
+            if( _reductionCoroutine != null ) StopCoroutine( _reductionCoroutine );
+
+            StartFrameRateReduction(reducedFrameRate);
+        }
+
+        private void SetFrameRate(int frameRate)
+        {
+            Application.targetFrameRate = frameRate;
+        }
         
         private void StartFrameRateReduction(int target)
         {
             if (_reductionCoroutine != null)
                 StopCoroutine(_reductionCoroutine);
 
-            _reductionCoroutine = StartCoroutine(ReduceFrameRateCoroutine(_targetFrameRate, _reductionDuration));
+            _reductionCoroutine = StartCoroutine(ReduceFrameRateCoroutine(target, _reductionDuration));
         }
 
 
