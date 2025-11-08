@@ -2,21 +2,19 @@ using System.Collections;
 using ToolBox.Messenger;
 using UnityEngine;
 
+
 namespace ToolBox.Performance.Fps
 {
     public class FrameRateController : MonoBehaviour
     {
+        [SerializeField] private int maxSupportedFrameRate = 60;
         [SerializeField] private int boostedFrameRate = 60;
         [SerializeField] private int defaultFrameRate = 30;
         [SerializeField] private int reducedFrameRate = 15;
         
-        private const int MaxSupportedFrameRate = 60;
-        
         private Coroutine _reductionCoroutine;
         
         private readonly float _reductionDuration = 1f;
-        
-        private int _targetFrameRate;
         
         private bool _isSubscribed = false;
         
@@ -30,26 +28,15 @@ namespace ToolBox.Performance.Fps
         {
             if( _reductionCoroutine != null ) StopCoroutine( _reductionCoroutine );
             
-            SetFrameRate(Mathf.Min(boostedFrameRate, MaxSupportedFrameRate));
-            
+            SetFrameRate(Mathf.Min(boostedFrameRate, maxSupportedFrameRate));
         }
 
-        private void SetDefaultFrameRate()
-        {
-            SetFrameRate(defaultFrameRate);
-        }
-
-        private void ReduceFrameRate()
-        {
-            if( _reductionCoroutine != null ) StopCoroutine( _reductionCoroutine );
-
-            StartFrameRateReduction(reducedFrameRate);
-        }
-
-        private void SetFrameRate(int frameRate)
-        {
-            Application.targetFrameRate = frameRate;
-        }
+        private void SetDefaultFrameRate() => SetFrameRate(defaultFrameRate);
+        
+        private void ReduceFrameRate() => StartFrameRateReduction(reducedFrameRate);
+        
+        private void SetFrameRate(int frameRate) => Application.targetFrameRate = frameRate;
+        
         
         private void StartFrameRateReduction(int target)
         {
