@@ -155,16 +155,17 @@ namespace CodeBase.UiComponents
             if( _answers.IsNullOrEmpty() )
                 throw new InvalidOperationException( "Answers must be set before building." );
             
-            if( _parent == null )
-                throw new InvalidOperationException( "Parent must be set before building." );
+            //if( _parent == null )
+                //throw new InvalidOperationException( "Parent must be set before building." );
             
             
             var outerContainer = new ContainerBuilder()
                 .AddClass(ClassCheck(_containerClass, DefaultContainerClass))
-                .AttachTo(_parent)
-                .Build();   
-            
-           new LabelBuilder().SetText($"{_questionIndex+1}. {_questionText}").AddClass(ClassCheck(_labelClass, DefaultLabelClass)).AttachTo(outerContainer).Build();
+                .Build();
+
+            _parent?.Add(outerContainer);
+
+            new LabelBuilder().SetText($"{_questionIndex+1}. {_questionText}").AddClass(ClassCheck(_labelClass, DefaultLabelClass)).AttachTo(outerContainer).Build();
 
            var optionsContainer = new ContainerBuilder().AddClass(ClassCheck(_containerClass, DefaultContainerClass)).AttachTo(outerContainer).Build();
 

@@ -79,12 +79,14 @@ namespace CodeBase.UiComponents.Pages
 
             //Build the scrollview and add it to the content container
             _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
-                .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+                .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
             
             var answers = questionnaireTemplate.Answers;
             
             //use question builder to add questions to the scroll view
             CreateAndAddQuestionsToScrollView(questionnaireTemplate, answers, _scrollview);
+            
+            content.Add(_scrollview);
             
             CreateFooter(pageRoot);
         }
@@ -98,6 +100,11 @@ namespace CodeBase.UiComponents.Pages
                 var question = QuestionFactory.BuildQuestion(i, questionText, answers,HandleAnswer, scrollView.contentContainer);
                 
                 _builtQuestionsList.Add(question);
+            }
+
+            foreach (var question in _builtQuestionsList)
+            {
+                scrollView.contentContainer.Add(question.RootVisualElement);
             }
         }
 

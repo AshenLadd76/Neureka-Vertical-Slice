@@ -30,7 +30,7 @@ namespace CodeBase.Pages
         {
             if (_documentRoot == null) return;
             
-            MessageBus.Instance.Broadcast(nameof(DocumentFactoryMessages.OnRequestCloseDocument), DocumentID.DemoA);
+            MessageBus.Instance.Broadcast(nameof(DocumentServiceMessages.OnRequestCloseDocument), DocumentID.Nerueka);
             
             _root?.Remove( _documentRoot );
             

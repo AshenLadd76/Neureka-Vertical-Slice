@@ -10,9 +10,9 @@ namespace CodeBase.UiComponents.Pages
             string questionText,
             string[] answers,
             Action<int, string> onOptionSelected,
-            VisualElement parent)
+            VisualElement parent = null)
         {
-            return new Question()
+            var question =  new Question()
                 .SetIndex(index)
                 .SetMultiSelection(false)
                 .SetQuestionText(questionText)
@@ -20,8 +20,11 @@ namespace CodeBase.UiComponents.Pages
                 .SetOnOptionSelected(onOptionSelected)
                 .AddLabelClass("question-container-label")
                 .AddContainerClass("question-container")
-                .AttachTo(parent)
                 .Build();
+            
+            if( parent != null )  question.AttachTo(parent);
+            
+            return question;
         }
     }
 }

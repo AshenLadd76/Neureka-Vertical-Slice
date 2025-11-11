@@ -30,7 +30,7 @@ namespace CodeBase
         private void LoadEntryPointDocument()
         {
             //Load the default document, main hub
-            MessageBus.Instance.Broadcast(nameof(DocumentFactoryMessages.OnRequestOpenDocument), entryPointDocument);
+            MessageBus.Instance.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), entryPointDocument);
         }
     }
 }

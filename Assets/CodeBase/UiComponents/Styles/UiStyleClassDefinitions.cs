@@ -46,6 +46,7 @@ namespace CodeBase.UiComponents.Styles
         
         //Header
         public const string Header = "header";
+        public const string HeaderLabel = "header-label";
         
         //Footers
         public const string Footer = "footer"; 

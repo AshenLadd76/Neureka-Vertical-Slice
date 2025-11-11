@@ -1,9 +1,14 @@
+#if UNITY_EDITOR
+
 using System.IO;
 using CodeBase.Questionnaires;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
+
+
+
 
 namespace ToolBox.Data.Parsers
 {
@@ -69,4 +74,6 @@ namespace ToolBox.Data.Parsers
 
        
     }
+    
 }
+#endif

@@ -18,17 +18,27 @@ namespace CodeBase.Documents
         {
             DocumentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.PageRoot).AttachTo(Root).Build();
             
-            new DefaultHeader("Main Hub", DocumentRoot, () => { Logger.Log($"OnBack Selected"); }, Close);
+            new DefaultHeader("Demo Hub", DocumentRoot, () => { Logger.Log($"OnBack Selected"); }, Close, DemoHubUssDefinitions.Header, DemoHubUssDefinitions.HeaderButton, DemoHubUssDefinitions.HeaderLabel);
             
-            var container  = new ContainerBuilder().AddClass(UiStyleClassDefinitions.Container).AddClass(UiStyleClassDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
+            var container  = new ContainerBuilder().AddClass(DemoHubUssDefinitions.Container).AddClass(DemoHubUssDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Questionnaire Test",() => { MessageBus.Instance.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "TEST PAGE",() => { MessageBus.Instance.Broadcast( nameof(DocumentFactoryMessages.OnRequestOpenDocument), DocumentID.TestDocument); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( UiStyleClassDefinitions.SpacedChild );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Neureka App Slice",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nerueka); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "TEST PAGE",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.TestDocument); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            
            new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);
         }
+    }
+
+    public static class DemoHubUssDefinitions
+    {
+        public const string Container = "demo-container";
+        public const string ContainerRow = "demo-container-row";
+        public const string Header = "demo-header";
+        public const string HeaderLabel = "demo-header-label";
+        public const string HeaderButton = "demo-header-button";
+        public const string MenuButton = "demo-menu-button";
     }
 }

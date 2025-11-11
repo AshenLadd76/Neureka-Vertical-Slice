@@ -37,7 +37,7 @@ namespace CodeBase.Documents
         {
             if (DocumentRoot == null) return;
             
-            MessageBus.Instance.Broadcast(nameof(DocumentFactoryMessages.OnRequestCloseDocument), DocumentID);
+            MessageBus.Instance.Broadcast(nameof(DocumentServiceMessages.OnRequestCloseDocument), DocumentID);
             
             Root?.Remove( DocumentRoot );
             DocumentRoot = null;
