@@ -112,6 +112,15 @@ namespace CodeBase.Documents.Neureka.Components
                 if (!isDragging)
                     _onClick?.Invoke();
             });
+            
+            menuCard.RegisterCallback<PointerCaptureOutEvent>(evt =>
+            {
+                menuCard.ReleaseMouse(); // optional safeguard
+                
+                menuCard.ReleasePointer(evt.pointerId);
+                
+                isDragging = false;
+            });
 
             
             

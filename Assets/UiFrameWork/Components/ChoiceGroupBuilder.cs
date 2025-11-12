@@ -21,7 +21,7 @@ namespace UiFrameWork.Components
         {
             int index = _options.Count;
             
-            var checkbox = new ButtonBuilder().SetText(optionText).AddClass("option-button").AttachTo(VisualElement)
+            var response = new ButtonBuilder().SetPickingMode(PickingMode.Ignore).SetText(optionText).AddClass("option-button").AttachTo(VisualElement)
                 .OnClick(()=>
                 { 
                     if( !_allowMultipleSelection ) ResetOptions();
@@ -33,15 +33,12 @@ namespace UiFrameWork.Components
                 })
                 .Build();
             
-            _options.Add(checkbox);
+            _options.Add(response);
 
             return this;
         }
 
         
-
-     
-
         private void ToggleSelected(bool selected, int index)
         {
             var selectedCheckBox = _options[index];

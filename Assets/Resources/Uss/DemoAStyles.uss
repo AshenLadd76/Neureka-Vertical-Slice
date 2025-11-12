@@ -50,7 +50,8 @@
     flex-direction: column;      /* stack children vertically */
     justify-content: center;     /* center vertically */
     align-items: center;         /* center horizontally */
-    background-color: #ffffff;     
+    background-color: #ffffff;
+      
 }
 
 /* Scrollview container */
@@ -69,6 +70,7 @@
     padding-left: 50px;
     padding-right: 50px;
     padding-bottom: 20px;
+  
 
  
     overflow: scroll;
