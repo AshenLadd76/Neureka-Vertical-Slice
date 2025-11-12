@@ -1,4 +1,5 @@
 using CodeBase.Documents.DemoA.Pages;
+using CodeBase.Documents.Neureka.Pages;
 
 namespace CodeBase.Documents.Neureka
 {
@@ -18,7 +19,7 @@ namespace CodeBase.Documents.Neureka
             //Add page recipes here
             AddPageRecipes();
             
-            OpenPage(PageID.Splash);
+            OpenPage(PageID.NavPage);
         }
     }
 }

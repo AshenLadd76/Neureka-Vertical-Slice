@@ -22,7 +22,6 @@ namespace UiFrameWork.Builders
 
         public TBuilder SetBackgroundColor(Color backgroundColor){VisualElement.style.backgroundColor = backgroundColor; return (TBuilder)this; }
         
-        
         public TBuilder SetPickingMode(PickingMode mode) { VisualElement.pickingMode = mode; return (TBuilder)this; }
 
      

@@ -9,7 +9,6 @@ namespace UiFrameWork.Components
 {
     public class ScrollViewBuilder : BaseBuilder<ScrollView, ScrollViewBuilder>
     {
-        
         private Vector3 _lastPointerPosition;
         private Vector2 _velocity;
         
@@ -28,18 +27,19 @@ namespace UiFrameWork.Components
             
             VisualElement.RegisterCallback<PointerDownEvent>(evt =>
             {
+                Logger.Log( $"ScrollViewBuilder OnPointer Down {_isDragging})" );
                 _isDragging = true;
                 _lastPointerPosition = evt.position;
                 _velocity = Vector2.zero;
                 _velocityHistory.Clear();
                 
-                VisualElement.CapturePointer(evt.pointerId);
                 
-                Logger.Log( $"Pointer Id: {evt.pointerId}" );
             });
             
             VisualElement.RegisterCallback<PointerMoveEvent>(evt =>
             {
+                Logger.Log($"ScrollViewBuilder OnPointer Move {_isDragging})");
+                
                 if (!_isDragging) return;
 
                 Vector2 delta = evt.position - _lastPointerPosition;
@@ -61,10 +61,13 @@ namespace UiFrameWork.Components
             
             VisualElement.RegisterCallback<PointerUpEvent>(evt =>
             {
+
+                Logger.Log($"ScrollViewBuilder OnPointer Up {_isDragging})");
+                
                 if (!_isDragging) return;
                 
                 _isDragging = false;
-                VisualElement.ReleasePointer(evt.pointerId);
+           
                 
                 //compute average velocity from last N frames
                 
@@ -129,10 +132,8 @@ namespace UiFrameWork.Components
         // Enable or disable scrolling in each direction
         public ScrollViewBuilder HideScrollBars(ScrollerVisibility scrollerVisibilityVertical, ScrollerVisibility scrollerVisibilityHorizontal )
         {
-
             VisualElement.verticalScrollerVisibility = scrollerVisibilityVertical;
             VisualElement.horizontalScrollerVisibility = scrollerVisibilityHorizontal;
-            
             
             return this;
         }
@@ -144,6 +145,5 @@ namespace UiFrameWork.Components
             VisualElement.scrollOffset -= _velocity * Time.deltaTime;
             _velocity = Vector2.Lerp(_velocity, Vector2.zero, _deceleration * Time.deltaTime);
         }
-        
     }
 }

@@ -5,7 +5,7 @@ using UiFrameWork.RunTime;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
 
-namespace CodeBase.Documents.DemoA.Pages
+namespace CodeBase.Documents.Neureka.Pages
 {
     public class SplashPage : BasePage
     {

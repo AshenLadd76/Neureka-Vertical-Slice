@@ -50,10 +50,6 @@ namespace UiFrameWork.Builders
             
             _fillElement.style.width = _currentFill;
             
-            
-            
-            
-            
             if( _currentFill <= 0 ) _onMinReached?.Invoke();
             
             if( Mathf.Approximately(_currentFill, _maxFill) ) _onMaxReached?.Invoke();

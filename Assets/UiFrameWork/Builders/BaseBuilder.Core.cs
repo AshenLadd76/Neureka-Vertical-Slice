@@ -81,9 +81,15 @@ using Logger = ToolBox.Utils.Logger;
          public TBuilder OnClick(Action onClick)
          {
              ClearOnClick();
-             
-             _clickCallback = evt => onClick.Invoke();
-             
+
+             _clickCallback = evt =>
+             {
+                 onClick.Invoke();
+                 evt.StopPropagation();
+             };
+
+
+
              VisualElement.RegisterCallback(_clickCallback);
 
              // Optionally make sure pointer events are enabled

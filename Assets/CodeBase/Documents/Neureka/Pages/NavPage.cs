@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using CodeBase.Documents.DemoA;
 using CodeBase.Documents.DemoA.Components;
+using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using CodeBase.Services;
 using ToolBox.Messenger;
@@ -11,7 +14,7 @@ using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 using Random = UnityEngine.Random;
 
-namespace CodeBase.Documents.DemoA.Pages
+namespace CodeBase.Documents.Neureka.Pages
 {
     public class NavPage : BasePage
     {
@@ -50,14 +53,29 @@ namespace CodeBase.Documents.DemoA.Pages
             //Build content
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(PageRoot).Build();
 
-            var scrollview = new ScrollViewBuilder().AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+            var scrollview = new ScrollViewBuilder().EnableInertia(true).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
 
+            List<Color> colorList = new List<Color>
+            {
+                new Color(0.172549f, 0.66f, 0.78f, 255),
+                new Color(0.8f, 0.19f, 0.45f, 255),
+                new Color(0.43f, 0.61f, 0.98f, 255),
+                new Color(0.6f, 0.61f, 0.98f, 255),
+                new Color(0.9f, 0.61f, 0.98f, 255),
+                new Color(0.2f, 0.3f, 0.5f, 255),
+            
+            };
+
+
+            new MenuCardBuilder().SetParent(scrollview).SetTitle("Depression").SetIconBackgroundColor(colorList[0]).SetProgress(Random.Range(0f,1f)).SetAction(MenuActions.RequestDocument("CESD-20")).Build();
+            
             for (int x = 0; x < 6; x++)
             {
                 new MenuCardBuilder()
                     .SetParent(scrollview)
                     .SetTitle($"Menu Card {x+1}")
                     .SetProgress(Random.Range(0f, 1f))
+                    .SetIconBackgroundColor( colorList[x] )
                     .SetAction(MenuActions.RequestDocument("CESD-20"))
                     .Build();
             }
@@ -69,7 +87,7 @@ namespace CodeBase.Documents.DemoA.Pages
             
             //Build footer
             var footer = new ContainerBuilder().AddClass(UssClassNames.FooterContainer).AttachTo(PageRoot).Build();
-
+            
             new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
             new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
             new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
@@ -103,7 +121,7 @@ namespace CodeBase.Documents.DemoA.Pages
 
         private void BuildProgressBar(VisualElement parent)
         {
-            new ProgressBarBuilder().SetWidthPercent(100).SetWidthPercent(25).SetFillClass(UssClassNames.MenuCardProgressBar).SetBackgroundColor(Color.green).SetMaxFill(1f).SetFillAmount( 1f  ).AttachTo(parent).Build();
+            new ProgressBarBuilder().SetWidthPercent(100).SetWidthPercent(25).SetFillClass(UssClassNames.MenuCardProgressBar).SetBackgroundColor(Color.green).SetMaxFill(1f).SetFillAmount(1f).AttachTo(parent).Build();
         }
     }
     
@@ -128,6 +146,7 @@ namespace CodeBase.Documents.DemoA.Pages
         {
             return () => 
             {
+                Logger.Log( $"{questionnaireId}" );
                 MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
             };
         }

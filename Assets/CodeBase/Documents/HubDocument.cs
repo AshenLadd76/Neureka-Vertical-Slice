@@ -23,12 +23,12 @@ namespace CodeBase.Documents
             var container  = new ContainerBuilder().AddClass(DemoHubUssDefinitions.Container).AddClass(DemoHubUssDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
            ButtonFactory.CreateButton(ButtonType.Confirm, "Neureka App Slice",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nerueka); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "TEST PAGE",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.TestDocument); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "2",() => { Logger.Log("2"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "3",() => { Logger.Log("3"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Main Hub",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Depression Questionnaire",() => {  MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "AQ",() => { MessageBus.Instance.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "AQ" ); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            
-           new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);
+          // new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);
         }
     }
 

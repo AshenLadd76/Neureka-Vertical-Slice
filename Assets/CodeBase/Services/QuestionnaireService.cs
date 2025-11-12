@@ -114,8 +114,14 @@ namespace CodeBase.Services
             }
             
             var questionnaireData = GetQuestionnaire(id);
+
+            if (questionnaireData == null)
+            {
+                Logger.LogError($"Questionnaire not found: {id}");  
+                return;
+            }
             
-            if (questionnaireData == null) return;
+            Logger.Log( $"Loading questionnaire data for ID: {id}" );
 
             new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer);
         }

@@ -1,13 +1,12 @@
 using System;
-using CodeBase.Documents.DemoA.Pages;
+using CodeBase.Documents.DemoA;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UnityEngine;
-
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace CodeBase.Documents.DemoA.Components
+namespace CodeBase.Documents.Neureka.Components
 {
     public class MenuCardBuilder
     {
@@ -16,15 +15,22 @@ namespace CodeBase.Documents.DemoA.Components
         private string _blurb = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
         private Sprite _icon;
         private float _progress = 0f;
+        private ScrollView _scrollView;
 
         private Action _onClick;
 
         // Optional: colors or other styling can be added as needed
-        private Color _iconBackgroundColor = ColorUtils.GetRandomColor();
+        private Color _iconBackgroundColor;
 
         public MenuCardBuilder SetParent(VisualElement parent)
         {
             _parent = parent;
+            return this;
+        }
+
+        public MenuCardBuilder SetScrollView(ScrollView scrollView)
+        {
+            _scrollView = scrollView;
             return this;
         }
 
@@ -70,17 +76,50 @@ namespace CodeBase.Documents.DemoA.Components
                 throw new System.Exception("MenuCardBuilder: Parent must be set.");
 
             // Outer container
-            var outerContainer = new ContainerBuilder()
+            var menuCard = new ContainerBuilder()
                 .AddClass(UssClassNames.MenuCard)
                 .AttachTo(_parent)
-                .OnClick(_onClick)
+                //.OnClick(_onClick)
                 .Build();
 
+            Vector3 startPos = Vector3.zero;
+            bool isDragging = false;
+            
+            menuCard.RegisterCallback<PointerDownEvent>(evt =>
+            {
+                // record the pointer start position
+                startPos = evt.position;
+                isDragging = false;
+                
+                Logger.Log( $"On Pointer down event: {evt.position}" );
+                //menuCard.CapturePointer(evt.pointerId);
+                
+            });
+
+            menuCard.RegisterCallback<PointerMoveEvent>(evt =>
+            {
+                if (Vector2.Distance(evt.position, startPos) > 5f)
+                    isDragging = true;
+                
+                Logger.Log($"On pointer move event....");
+                
+               
+                
+            });
+
+            menuCard.RegisterCallback<PointerUpEvent>(evt =>
+            {
+                if (!isDragging)
+                    _onClick?.Invoke();
+            });
+
+            
+            
             // Left side: icon container
             var menuCardIconContainer = new ContainerBuilder()
                 .AddClass(UssClassNames.MenuCardIconContainer)
                 .SetBackgroundColor(_iconBackgroundColor)
-                .AttachTo(outerContainer)
+                .AttachTo(menuCard)
                 .Build();
 
             
@@ -94,7 +133,7 @@ namespace CodeBase.Documents.DemoA.Components
             // Right side: text container
             var menuTextContainer = new ContainerBuilder()
                 .AddClass(UssClassNames.MenuCardContentContainer)
-                .AttachTo(outerContainer)
+                .AttachTo(menuCard)
                 .Build();
 
             new LabelBuilder()
@@ -115,16 +154,21 @@ namespace CodeBase.Documents.DemoA.Components
                 .AttachTo(menuTextContainer)
                 .Build();
 
-            // new ProgressBarBuilder()
-            //     .SetWidthPercent(100)
-            //     .SetHeight(50)
-            //     .SetBackgroundColor(Color.green)
-            //     .SetMaxFill(1f)
-            //     .SetFillAmount(_progress)
-            //     .AttachTo(progressBarContainer)
-            //     .Build();
+            new ProgressBarBuilder()
+                .SetFillClass(UssClassNames.MenuCardProgressBar)
+                .SetWidthPercent(100)
+                .SetHeightPercent(20)
+                .SetMaxFill(1f)
+                .SetFillAmount(_progress)
+                .AttachTo(progressBarContainer)
+                .Build();
 
-            return outerContainer;
+            return menuCard;
+        }
+        
+        private void BuildProgressBar(VisualElement parent)
+        {
+            new ProgressBarBuilder().SetWidthPercent(100).SetWidthPercent(25).SetFillClass(UssClassNames.MenuCardProgressBar).SetBackgroundColor(Color.green).SetMaxFill(1f).SetFillAmount(1f).AttachTo(parent).Build();
         }
     }
 }
