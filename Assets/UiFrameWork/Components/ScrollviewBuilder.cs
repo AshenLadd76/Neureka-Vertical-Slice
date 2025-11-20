@@ -25,7 +25,7 @@ namespace UiFrameWork.Components
 
             _deceleration = deceleration;
             
-            new PointerEventHelper(VisualElement, _deceleration );
+            new ScrollViewDragHelper(VisualElement, _deceleration );
             
             return this;
         }
@@ -56,6 +56,21 @@ namespace UiFrameWork.Components
             VisualElement.Add(element);
             return this;
         }
+        
+        
+        //Add multiple child elements to the scroll view.
+        public ScrollViewBuilder AddElements(IEnumerable<VisualElement> elements)
+        {
+            if (elements == null) throw new ArgumentNullException(nameof(elements));
+
+            foreach (var element in elements)
+            {
+                VisualElement.Add(element);
+            }
+
+            return this;
+        }
+
         
         public ScrollViewBuilder OnScroll(Action<Vector2> callback)
         {

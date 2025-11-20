@@ -25,7 +25,7 @@ namespace CodeBase.UiComponents.Pages
 
         private readonly List<Question> _builtQuestionsList = new();
         
-        private readonly Dictionary<int, AnswerData> _answerDictionary = new();
+        private readonly Dictionary<int, AnswerData> _answerDataDictionary = new();
 
         private readonly StandardQuestionnaireTemplate _questionnaireData;
         
@@ -50,7 +50,6 @@ namespace CodeBase.UiComponents.Pages
             
             InitializeAnswerDictionary(questionnaireData);
             
-            Build(questionnaireData, _root);
         }
 
         private void InitializeAnswerDictionary(StandardQuestionnaireTemplate questionnaireData)
@@ -60,13 +59,13 @@ namespace CodeBase.UiComponents.Pages
                 int questionNumber = x + 1;
                 string questionText = questionnaireData.Questions[x];
                
-                _answerDictionary.Add(questionNumber, new AnswerData(questionNumber, questionText, "" ));
+                _answerDataDictionary.Add(questionNumber, new AnswerData(questionNumber, questionText, "" ));
             }
         }
         
-        private void Build(StandardQuestionnaireTemplate questionnaireTemplate, VisualElement parent)
+        public void Build()
         {
-            var documentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(parent).Build();
+            var documentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(_root).Build();
             
             //Build the container
             var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(documentRoot).Build();
@@ -81,10 +80,10 @@ namespace CodeBase.UiComponents.Pages
             _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
                 .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
             
-            var answers = questionnaireTemplate.Answers;
+            var answers = _questionnaireData.Answers;
             
             //use question builder to add questions to the scroll view
-            CreateAndAddQuestionsToScrollView(questionnaireTemplate, answers, _scrollview);
+            CreateAndAddQuestionsToScrollView(_questionnaireData, answers, _scrollview);
             
             content.Add(_scrollview);
             
@@ -96,8 +95,16 @@ namespace CodeBase.UiComponents.Pages
             for (int i = 0; i < _questionCount; i++)
             {
                 var questionText = questionnaireTemplate.Questions[i];
-
-                var question = QuestionFactory.BuildQuestion(i, questionText, answers,HandleAnswer, scrollView.contentContainer);
+                
+                var question =  new Question()
+                    .SetIndex(i)
+                    .SetMultiSelection(false)
+                    .SetQuestionText(questionText)
+                    .SetAnswers(answers)
+                    .SetOnOptionSelected(HandleAnswer)
+                    .AddLabelClass("question-container-label")
+                    .AddContainerClass("question-container")
+                    .Build();
                 
                 _builtQuestionsList.Add(question);
             }
@@ -127,7 +134,7 @@ namespace CodeBase.UiComponents.Pages
         
         private void SetAnswer(int questionNumber, string answerText)
         {
-            if (!_answerDictionary.TryGetValue(questionNumber, out var value))
+            if (!_answerDataDictionary.TryGetValue(questionNumber, out var value))
             {
                 Logger.LogError($"Attempted to set answer for invalid question number {questionNumber}");
                 return;
@@ -154,7 +161,7 @@ namespace CodeBase.UiComponents.Pages
             try
             {
                 var questionnaireData = new QuestionnaireDataBuilder().SetTemplate(_questionnaireData)
-                    .SetAnswers(_answerDictionary).Build();
+                    .SetAnswers(_answerDataDictionary).Build();
                 
                 var jsonData = _jsonSerializer.Serialize(questionnaireData);
 

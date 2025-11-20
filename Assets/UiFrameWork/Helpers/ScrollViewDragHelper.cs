@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace UiFrameWork.Helpers
 {
-    public class PointerEventHelper
+    public class ScrollViewDragHelper
     {
         private readonly ScrollView _target;
         private readonly Action<Vector2> _onDrag;
@@ -19,7 +19,7 @@ namespace UiFrameWork.Helpers
 
         public Vector2 Velocity { get; private set; } = Vector2.zero;
 
-        public PointerEventHelper(ScrollView target, float deceleration = 0f)
+        public ScrollViewDragHelper(ScrollView target, float deceleration = 0f)
         {
             _target = target ?? throw new ArgumentNullException(nameof(target));
            // _onDrag = onDrag ?? throw new ArgumentNullException(nameof(onDrag));

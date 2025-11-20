@@ -60,37 +60,31 @@ namespace CodeBase.Services
                 return;
             }
 
-            foreach (var q in allQuestionnaires)
+            foreach (var standardQuestionnaireSo in allQuestionnaires)
             {
-                if (q.Data == null)
+                if (standardQuestionnaireSo.Data == null)
                 {
-                    Logger.LogError($"Questionnaire {q.name} has no data");
+                    Logger.LogError($"Questionnaire {standardQuestionnaireSo.name} has no data");
                     continue;
                 }
 
-                if (string.IsNullOrEmpty(q.Data.QuestionnaireID))
+                if (string.IsNullOrEmpty(standardQuestionnaireSo.Data.QuestionnaireID))
                 {
-                    Logger.LogError($"No questionnaire id found in Questionnaires data { q.name }");
+                    Logger.LogError($"No questionnaire id found in Questionnaires data { standardQuestionnaireSo.name }");
                     continue;
                 }
                 
-                if (!_standardQuestionnaires.TryAdd(q.Data.QuestionnaireID, q))
-                    Logger.LogWarning($"Duplicate questionnaire ID: {q.Data.QuestionnaireID}");
+                if (!_standardQuestionnaires.TryAdd(standardQuestionnaireSo.Data.QuestionnaireID.ToLower().Trim(), standardQuestionnaireSo))
+                    Logger.LogWarning($"Duplicate questionnaire ID: {standardQuestionnaireSo.Data.QuestionnaireID}");
                 else
-                    Logger.Log( $"Added questionnaire ID: {q.Data.QuestionnaireID}" );
+                    Logger.Log( $"Added questionnaire ID: {standardQuestionnaireSo.Data.QuestionnaireID}" );
             }
         }
         
         private StandardQuestionnaireTemplate GetQuestionnaire(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                Logger.LogError("Questionnaire ID is empty");
-                return null;
-            }
             
-            
-            if (_standardQuestionnaires.TryGetValue(id.ToUpper().Trim(), out var so))
+            if (_standardQuestionnaires.TryGetValue(id.ToLower().Trim(), out var so))
             {
                 if (so.Data == null)
                 {
@@ -123,7 +117,8 @@ namespace CodeBase.Services
             
             Logger.Log( $"Loading questionnaire data for ID: {id}" );
 
-            new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer);
+            var questionnairePageBuilder = new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer);
+            questionnairePageBuilder.Build();
         }
     }
 }

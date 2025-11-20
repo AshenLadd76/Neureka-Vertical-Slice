@@ -15,7 +15,8 @@ namespace CodeBase.Documents.Neureka.Components
         private string _blurb = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
         private Sprite _icon;
         private float _progress = 0f;
-        private ScrollView _scrollView;
+        
+        private const float DragThreshold = 5f;
 
         private Action _onClick;
 
@@ -28,11 +29,7 @@ namespace CodeBase.Documents.Neureka.Components
             return this;
         }
 
-        public MenuCardBuilder SetScrollView(ScrollView scrollView)
-        {
-            _scrollView = scrollView;
-            return this;
-        }
+        
 
         public MenuCardBuilder SetTitle(string title)
         {
@@ -98,12 +95,8 @@ namespace CodeBase.Documents.Neureka.Components
 
             menuCard.RegisterCallback<PointerMoveEvent>(evt =>
             {
-                if (Vector2.Distance(evt.position, startPos) > 5f)
+                if (Vector2.Distance(evt.position, startPos) > DragThreshold)
                     isDragging = true;
-                
-                Logger.Log($"On pointer move event....");
-                
-               
                 
             });
 
@@ -115,8 +108,6 @@ namespace CodeBase.Documents.Neureka.Components
             
             menuCard.RegisterCallback<PointerCaptureOutEvent>(evt =>
             {
-                menuCard.ReleaseMouse(); // optional safeguard
-                
                 menuCard.ReleasePointer(evt.pointerId);
                 
                 isDragging = false;
