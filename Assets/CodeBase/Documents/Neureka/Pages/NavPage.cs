@@ -18,9 +18,7 @@ namespace CodeBase.Documents.Neureka.Pages
 {
     public class NavPage : BasePage
     {
-        private const string headerSpritePath = "";
-        private const string PathToText = "Assets/TestText/SampleText.txt";
-        
+        private readonly List<VisualElement> _allPages = new();
         
         public NavPage(IDocument document) : base(document)
         {
@@ -29,15 +27,11 @@ namespace CodeBase.Documents.Neureka.Pages
 
         protected override void Build()
         {
-            
-            
             if (Root == null)
             {
                 Logger.Log("Splash Page Build Failed");
                 return;
             }
-            
-            Logger.Log($"Building Splash Page {Root.name}");
             
             base.Build();
             
@@ -57,86 +51,79 @@ namespace CodeBase.Documents.Neureka.Pages
 
             List<Color> colorList = new List<Color>
             {
-                new Color(0.172549f, 0.66f, 0.78f, 255),
-                new Color(0.8f, 0.19f, 0.45f, 255),
-                new Color(0.43f, 0.61f, 0.98f, 255),
-                new Color(0.6f, 0.61f, 0.98f, 255),
-                new Color(0.9f, 0.61f, 0.98f, 255),
-                new Color(0.2f, 0.3f, 0.5f, 255),
-            
+                new Color(0.172549f, 0.66f, 0.78f, 1f),
+                new Color(0.8f, 0.19f, 0.45f, 1f),
+                new Color(0.43f, 0.61f, 0.98f, 1f),
+                new Color(0.6f, 0.61f, 0.98f, 1f),
+                new Color(0.9f, 0.61f, 0.98f, 1f),
+                new Color(0.2f, 0.3f, 0.5f, 1f),
             };
-
-
-            new MenuCardBuilder().SetParent(scrollview).SetTitle("Depression").SetIconBackgroundColor(colorList[0]).SetProgress(Random.Range(0f,1f)).SetAction(MenuActions.RequestDocument("CESD-20")).Build();
+         
+           //Questionnaires
+           BuildNavSection( scrollview, "Depression", 1, colorList[0] );
+           
+           //Games
+           BuildNavSection( scrollview, "Games", 23, colorList[1] );
+           
+           //Assessment
+           BuildNavSection( scrollview, "Assessment", 1, colorList[3] );
+           
+           //Settings
+           BuildNavSection(  scrollview, "Settings", 1, colorList[2] );
             
-            for (int x = 0; x < 6; x++)
+           BuildFooter();
+           
+           SelectNavPage(_allPages[0]);
+           
+            new FadeHelper(content, true, true);
+        }
+
+        private VisualElement BuildNavSection(ScrollView scrollView, string titlePrefix, int cardCount, Color color)
+        {
+            var container = new ContainerBuilder().AttachTo(scrollView).Build();
+
+            for (int x = 0; x < cardCount; x++)
             {
                 new MenuCardBuilder()
-                    .SetParent(scrollview)
-                    .SetTitle($"Menu Card {x+1}")
+                    .SetParent(container)
+                    .SetTitle($"{titlePrefix} {x+1}")
                     .SetProgress(Random.Range(0f, 1f))
-                    .SetIconBackgroundColor( colorList[x] )
+                    .SetIconBackgroundColor( color )
                     .SetAction(MenuActions.RequestDocument("CESD-20"))
                     .Build();
             }
             
-           //var text = TextReader.ReadTextFile(PathToText);
-            
-            //Content Text
-            //new LabelBuilder().SetText( text ).AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(scrollview).Build();
-            
+            container.style.display = DisplayStyle.None;
+            _allPages.Add(container);
+
+            return container;
+        }
+
+        private void BuildFooter()
+        {
             //Build footer
             var footer = new ContainerBuilder().AddClass(UssClassNames.FooterContainer).AttachTo(PageRoot).Build();
             
-            new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
-            new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
-            new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
-            new ButtonBuilder().AddClass(UssClassNames.FooterButton).AttachTo(footer).Build();
-            
-            
-            new FadeHelper(content, true, true);
+            Logger.Log($"All pages count : {_allPages.Count}");
+
+            for (int i = 0; i < _allPages.Count; i++)
+            {
+                int index = i;
+                new ButtonBuilder().AddClass(UssClassNames.FooterButton).OnClick(() => { SelectNavPage(_allPages[index]); })
+                    .AttachTo(footer).Build();
+            }
         }
 
-        private void BuildMenuCard(VisualElement parent)
+        
+        private void SelectNavPage(VisualElement pageToShow)
         {
-            var outerContainer = new ContainerBuilder().AddClass(UssClassNames.MenuCard).AttachTo(parent).Build();
-
-            //left side
-            var menuCardIconContainer = new ContainerBuilder().AddClass(UssClassNames.MenuCardIconContainer).SetBackgroundColor( ColorUtils.GetRandomColor() ).AttachTo(outerContainer).Build();
-
-            var menuIcon = new ImageBuilder().AddClass(UssClassNames.MenuCardIcon).AttachTo(menuCardIconContainer).Build();
+            foreach (var page in _allPages)
+            {
+                if (page == null) continue;
+                
+                page.style.display = page == pageToShow ? DisplayStyle.Flex : DisplayStyle.None;
+            }
             
-            //right side
-            var menuTextContainer = new ContainerBuilder().AddClass(UssClassNames.MenuCardContentContainer).AttachTo(outerContainer).Build();
-
-            var menuCardTitle = new LabelBuilder().SetText($"Menu Card Title").AddClass(UssClassNames.MenuCardTitle).AttachTo(menuTextContainer).Build();
-            
-            var menuCardContentText = new LabelBuilder().SetText($"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ")
-                .AddClass(UssClassNames.MenuCardBlurb).AttachTo(menuTextContainer).Build();
-
-            var progressBarContainer = new ContainerBuilder().AddClass(UssClassNames.MenuCardProgressBarContainer).AttachTo(menuTextContainer).Build();
-            
-            BuildProgressBar( progressBarContainer );
-        }
-
-        private void BuildProgressBar(VisualElement parent)
-        {
-            new ProgressBarBuilder().SetWidthPercent(100).SetWidthPercent(25).SetFillClass(UssClassNames.MenuCardProgressBar).SetBackgroundColor(Color.green).SetMaxFill(1f).SetFillAmount(1f).AttachTo(parent).Build();
-        }
-    }
-    
-    public static class ColorUtils
-    {
-        private static readonly System.Random random = new System.Random();
-
-        public static Color GetRandomColor(float alpha = 1f)
-        {
-            return new Color(
-                (float)random.NextDouble(),  // R
-                (float)random.NextDouble(),  // G
-                (float)random.NextDouble(),  // B
-                alpha                        // A
-            );
         }
     }
     

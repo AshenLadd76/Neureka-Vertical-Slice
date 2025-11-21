@@ -15,6 +15,7 @@ namespace UiFrameWork.Helpers
         private bool _isDragging;
         private readonly Queue<Vector2> _velocityHistory = new Queue<Vector2>();
         private readonly int _maxHistoryFrames = 10;
+        
         private readonly float _deceleration = 10f;
 
         public Vector2 Velocity { get; private set; } = Vector2.zero;
@@ -22,9 +23,7 @@ namespace UiFrameWork.Helpers
         public ScrollViewDragHelper(ScrollView target, float deceleration = 0f)
         {
             _target = target ?? throw new ArgumentNullException(nameof(target));
-           // _onDrag = onDrag ?? throw new ArgumentNullException(nameof(onDrag));
-          //  _onDragEnd = onDragEnd ?? throw new ArgumentNullException(nameof(onDragEnd));
-
+            
             if( deceleration > 0 ) _deceleration = deceleration;
           
             RegisterCallbacks();
@@ -42,6 +41,8 @@ namespace UiFrameWork.Helpers
 
         private void OnPointerDown(PointerDownEvent evt)
         {
+            if (!CanScroll) return;
+            
             _isDragging = true;
             _lastPointerPosition = evt.position;
             _velocityHistory.Clear();
@@ -50,13 +51,10 @@ namespace UiFrameWork.Helpers
 
         private void OnPointerMove(PointerMoveEvent evt)
         {
-            if (!_isDragging) return;
+            if (!_isDragging || !CanScroll ) return;
 
             Vector2 delta = evt.position - _lastPointerPosition;
             _lastPointerPosition = evt.position;
-
-            //_onDrag(delta);
-
             _target.scrollOffset -= delta;
 
             // track velocity
@@ -82,8 +80,6 @@ namespace UiFrameWork.Helpers
             Velocity = _velocityHistory.Count > 0 ? sum / _velocityHistory.Count : Vector2.zero;
 
             _velocityHistory.Clear();
-
-            //_onDragEnd?.Invoke();
         }
         
         private void UpdateInertia()
@@ -94,5 +90,8 @@ namespace UiFrameWork.Helpers
 
             Velocity = Vector2.Lerp(Velocity, Vector2.zero, _deceleration * Time.deltaTime);
         }
+        
+        private bool CanScroll =>
+            _target.contentContainer.resolvedStyle.height > _target.contentViewport.resolvedStyle.height;
     }
 }

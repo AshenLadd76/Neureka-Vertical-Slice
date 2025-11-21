@@ -24,7 +24,7 @@ namespace CodeBase.UiComponents.Pages
                 Logger.LogError("ScrollView is null");
             }
             
-            var missCount = 0;
+            bool jumped = false;
 
             bool passedValidation = true;
             
@@ -33,13 +33,13 @@ namespace CodeBase.UiComponents.Pages
             {
                 if (!question.IsAnswered)
                 {
-                    if( missCount == 0 )
+                    if( !jumped )
                         ScrollViewHelper.JumpToElementSmooth( scrollView, question.RootVisualElement );
                     
                     question.ToggleWarningOutline(true);
                     passedValidation = false;
                     
-                    missCount++;
+                    jumped = true;
                 }
                 else
                 {
