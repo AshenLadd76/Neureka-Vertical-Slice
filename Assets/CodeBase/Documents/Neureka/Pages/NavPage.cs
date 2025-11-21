@@ -113,7 +113,6 @@ namespace CodeBase.Documents.Neureka.Pages
                     .AttachTo(footer).Build();
             }
         }
-
         
         private void SelectNavPage(VisualElement pageToShow)
         {
@@ -126,6 +125,7 @@ namespace CodeBase.Documents.Neureka.Pages
             
         }
     }
+    
     
     public static class MenuActions
     {
