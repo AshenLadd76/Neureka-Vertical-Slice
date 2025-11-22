@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
+using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;
 using CodeBase.Services;
 using CodeBase.UiComponents.Footers;
@@ -30,6 +31,8 @@ namespace CodeBase.UiComponents.Pages
         private readonly StandardQuestionnaireTemplate _questionnaireData;
         
         private readonly ISerializer _jsonSerializer;
+        
+        private ProgressBarController _progressBarController;
         
         
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer)
@@ -72,25 +75,6 @@ namespace CodeBase.UiComponents.Pages
             
             CreateHeader(pageRoot);
             
-            // //Build the header
-            // var header = new ContainerBuilder().AddClass("header-test").AttachTo(pageRoot).Build();
-            //
-            // new ButtonBuilder().SetText("X")
-            //     .OnClick(() => { Logger.Log( $"Closing ......" ); })
-            //     .AddClass(UiStyleClassDefinitions.HeaderButton)
-            //     .AddClass(UiStyleClassDefinitions.HeaderLabel)
-            //     .AttachTo(header)
-            //     .Build();
-            //
-            // var headerTitle =  new ContainerBuilder().AddClass("header-test").AttachTo(pageRoot).Build();
-            //
-            // var label = new LabelBuilder().SetText("This works").AddClass("header-label").AttachTo(headerTitle).Build();
-            
-           // var headerNav = new ContainerBuilder().AddClass("vertical-container").AttachTo(header).Build();
-
-          //  var headerText = new LabelBuilder().SetText("Header").AttachTo(headerNav).Build();
-            
-        
             
             //Build the content container
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
@@ -149,18 +133,11 @@ namespace CodeBase.UiComponents.Pages
 
             var label = new LabelBuilder().SetText("This works").AddClass("header-label").AttachTo(headerTitle).Build();
             
-            CreateProgressBar(parent);
+            _progressBarController = new ProgressBarController("progress-bar-header", _questionCount,parent);
+            
+            _progressBarController.SetFillAmount(0);
         }
 
-        private void CreateProgressBar(VisualElement parent = null)
-        {
-            var progressBarContainer = new ContainerBuilder().AddClass("progress-bar-header").AttachTo(parent).Build();
-            
-            var progressBarBuilder = new ProgressBarBuilder().SetMaxFill(200f).SetFillAmount(195f)
-                .AttachTo(progressBarContainer);
-          
-            var progressBar = progressBarBuilder.Build();
-        }
 
         private void CreateFooter(VisualElement parent)
         {
@@ -186,7 +163,8 @@ namespace CodeBase.UiComponents.Pages
                 Logger.LogError($"Attempted to set answer for invalid question number {questionNumber}");
                 return;
             }
-     
+            
+          
             value.AnswerText = answerText;
         }
 
