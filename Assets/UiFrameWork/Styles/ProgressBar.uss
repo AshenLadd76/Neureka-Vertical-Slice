@@ -1,29 +1,27 @@
-/* Base container */
 .progress-bar {
     flex-direction: row;
-    width: 300px;
-    height: 24px;
-    border-radius: 12px;
-    background-color: #333333;
+    width: 900px;
+    height: 80px;
+    border-radius: 48px;
+    background-color: #4CAF50; /* green */
     padding: 2px;
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
-
 }
 
-/* Fill element */
-.progress-bar__fill {
-    background-color: #4CAF50; /* green fill */
+
+.progress-bar-track {
+    flex: 1;                   /* fill available horizontal space */
+    background-color: #ddd;    /* light gray track */
+    border-radius: 48px;
+    overflow: hidden;           /* clip the fill inside */
+}
+
+.progress-bar-fill {
+    width: 0%;                 /* controlled by code */
+    background-color: #5f9fff; /* blue fill */
     height: 100%;
-    width: 0%; /* will be controlled by builder */
-    border-radius: 10px;
-    transition: width 0.2s ease;
-}
-
-/* Optional label inside the bar */
-.progress-bar__label {
-    color: white;
-    font-size: 14px;
-    margin-left: 8px;
+    border-radius: 48px;
+    transition: width 0.3s ease-in-out; /* smooth animation if you want */
 }

@@ -171,17 +171,17 @@ namespace UiFrameWork.Editor
 
         private void BuildProgressBar(VisualElement parent = null)
         {
-            new ProgressBarBuilder()
-                
-                .SetFillClass("progress-bar__fill")
-                .OnMinReached(() => { Debug.Log($"Progress bar is empty"); })
-                .OnMaxReached(() => { Debug.Log($"Progress bar is full"); })
-                .AddClass("progress-bar")
-                .AddClass("progress-bar__label")
-                .SetMaxFill(300)
-                .SetFillAmount(150)
-                .AttachTo(parent)
-                .Build();
+            // new ProgressBarBuilder()
+            //     
+            //     .SetFillClass("progress-bar__fill")
+            //     .OnMinReached(() => { Debug.Log($"Progress bar is empty"); })
+            //     .OnMaxReached(() => { Debug.Log($"Progress bar is full"); })
+            //     .AddClass("progress-bar")
+            //     .AddClass("progress-bar__label")
+            //     .SetMaxFill(300)
+            //     .SetFillAmount(150)
+            //     .AttachTo(parent)
+            //     .Build();
         }
 
         private void BuildSlider(VisualElement parent = null)

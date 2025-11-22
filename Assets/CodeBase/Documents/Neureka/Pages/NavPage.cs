@@ -5,6 +5,7 @@ using CodeBase.Documents.DemoA.Components;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using CodeBase.Services;
+using ToolBox.Extensions;
 using ToolBox.Messenger;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
@@ -19,6 +20,8 @@ namespace CodeBase.Documents.Neureka.Pages
     public class NavPage : BasePage
     {
         private readonly List<VisualElement> _allPages = new();
+
+        private readonly List<SectionData> _sectionDataList = new();
         
         public NavPage(IDocument document) : base(document)
         {
@@ -35,6 +38,8 @@ namespace CodeBase.Documents.Neureka.Pages
             
             base.Build();
             
+            LoadSectionDataList();
+            
             PageRoot = new ContainerBuilder().AddClass(UssClassNames.MainContainer).AttachTo(Root).Build();
             
             //Build header 
@@ -46,49 +51,62 @@ namespace CodeBase.Documents.Neureka.Pages
             
             //Build content
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(PageRoot).Build();
-
-            var scrollview = new ScrollViewBuilder().EnableInertia(true).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
-
-            List<Color> colorList = new List<Color>
-            {
-                new Color(0.172549f, 0.66f, 0.78f, 1f),
-                new Color(0.8f, 0.19f, 0.45f, 1f),
-                new Color(0.43f, 0.61f, 0.98f, 1f),
-                new Color(0.6f, 0.61f, 0.98f, 1f),
-                new Color(0.9f, 0.61f, 0.98f, 1f),
-                new Color(0.2f, 0.3f, 0.5f, 1f),
-            };
-         
-           //Questionnaires
-           BuildNavSection( scrollview, "Depression", 1, colorList[0] );
-           
-           //Games
-           BuildNavSection( scrollview, "Games", 23, colorList[1] );
-           
-           //Assessment
-           BuildNavSection( scrollview, "Assessment", 1, colorList[3] );
-           
-           //Settings
-           BuildNavSection(  scrollview, "Settings", 1, colorList[2] );
             
+            //var scrollView = new ScrollViewBuilder().EnableInertia(true).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+
+         //   var topSpacer = new ContainerBuilder().AddClass("scrollview-top-spacer").AttachTo(scrollView).Build();
+            
+           //LoadNavSections(scrollView); 
+           
+           var progressBarContainer = new ContainerBuilder().SetWidth(900).SetHeight(100).AttachTo(content).Build();
+           
+          // var progressBar = new ProgressBarBuilder().AddClass("progress-bar").AddClass("progress-bar-fill").AddClass("progress-bar-label").AttachTo(progressBarContainer).SetFillAmount(1f).SetLabelText("Hello").Build();
+
+          var progressBarBuilder = new ProgressBarBuilder().SetMaxFill(200f).SetFillAmount(195f)
+              .AttachTo(progressBarContainer);
+          
+          var progressBar = progressBarBuilder.Build();
+
+
+          progressBar.schedule.Execute(() =>
+              {
+                  // pick a random value between 0 and MaxFill
+                  float randomValue = UnityEngine.Random.Range(0f, 200f); 
+                  progressBarBuilder.SetFillAmount(randomValue);
+              })
+              .Every(2000); 
+          
+          
+             
+          
            BuildFooter();
            
-           SelectNavPage(_allPages[0]);
+           if( !_allPages.IsNullOrEmpty() )
+            SelectNavPage(_allPages[0]);
            
-            new FadeHelper(content, true, true);
+           new FadeHelper(content, true, true);
         }
 
-        private VisualElement BuildNavSection(ScrollView scrollView, string titlePrefix, int cardCount, Color color)
-        {
-            var container = new ContainerBuilder().AttachTo(scrollView).Build();
 
-            for (int x = 0; x < cardCount; x++)
+        private void LoadNavSections(ScrollView scrollView)
+        {
+            if (_sectionDataList.IsNullOrEmpty()) return;
+
+            foreach (var t in _sectionDataList)
+                BuildNavSection(scrollView, t);
+        }
+
+        private VisualElement BuildNavSection(ScrollView scrollView, SectionData sectionData)
+        {
+            var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+
+            for (int x = 0; x < sectionData.CardCount; x++)
             {
                 new MenuCardBuilder()
                     .SetParent(container)
-                    .SetTitle($"{titlePrefix} {x+1}")
+                    .SetTitle($"{sectionData.Title} {x+1}")
                     .SetProgress(Random.Range(0f, 1f))
-                    .SetIconBackgroundColor( color )
+                    .SetIconBackgroundColor( sectionData.Color )
                     .SetAction(MenuActions.RequestDocument("CESD-20"))
                     .Build();
             }
@@ -109,7 +127,10 @@ namespace CodeBase.Documents.Neureka.Pages
             for (int i = 0; i < _allPages.Count; i++)
             {
                 int index = i;
-                new ButtonBuilder().AddClass(UssClassNames.FooterButton).OnClick(() => { SelectNavPage(_allPages[index]); })
+                
+                new ButtonBuilder().AddClass(UssClassNames.FooterButton).OnClick(() =>
+                    {
+                        if (_allPages.IsNullOrEmpty()) return; SelectNavPage(_allPages[index]); })
                     .AttachTo(footer).Build();
             }
         }
@@ -124,6 +145,16 @@ namespace CodeBase.Documents.Neureka.Pages
             }
             
         }
+
+        private void LoadSectionDataList()
+        {
+            _sectionDataList.Clear();
+            
+            _sectionDataList.Add( new SectionData( "Depression", 1,   new Color(0.43f, 0.61f, 0.98f, 1f)) );
+            _sectionDataList.Add( new SectionData( "Games", 23, new Color(0.172549f, 0.66f, 0.78f, 1f)) );
+            _sectionDataList.Add( new SectionData( "Assessment", 1,   new Color(0.43f, 0.61f, 0.98f, 1f) ) );
+            _sectionDataList.Add(new SectionData("Settings", 1, new Color(0.6f, 0.61f, 0.98f, 1f))); 
+        }
     }
     
     
@@ -136,6 +167,33 @@ namespace CodeBase.Documents.Neureka.Pages
                 Logger.Log( $"{questionnaireId}" );
                 MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
             };
+        }
+    }
+
+
+    public class SectionData
+    {
+        public string Title { get; set; }
+        public int CardCount { get; set; }
+        public Color Color { get; set; }
+
+        // Constructor with validation
+        public SectionData(string title, int cardCount, Color color)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
+
+            if (cardCount < 0)
+                throw new ArgumentOutOfRangeException(nameof(cardCount), "CardCount cannot be negative.");
+
+            // Color is a struct, it can't be null, but you can add checks if needed
+            // For example, you might not want fully transparent colors:
+            if (color.a < 0f || color.a > 1f)
+                throw new ArgumentOutOfRangeException(nameof(color), "Color alpha must be between 0 and 1.");
+
+            Title = title;
+            CardCount = cardCount;
+            Color = color;
         }
     }
 }

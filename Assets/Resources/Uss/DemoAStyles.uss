@@ -25,10 +25,10 @@
 
 /* Header label */
 .header-label {
-    font-family: 'Montserrat';
+   
     font-size: 48px;
     color: #666666; /* medium grey */
-    font-weight: bold;
+   
 }
 
 
@@ -50,14 +50,14 @@
     flex-direction: column;      /* stack children vertically */
     justify-content: center;     /* center vertically */
     align-items: center;         /* center horizontally */
-    background-color: #ffffff;
+    background-color: #fff;       /* placeholder color */
       
 }
 
 /* Scrollview container */
 .scroll-no-scroll-bars
 {
-	  flex-grow: 1;
+    flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 0;
     width: 100%;
@@ -65,7 +65,7 @@
     
     show-vertical-scroller: false;
     show-horizontal-scroller: false;
-    background:color: #000000;
+    background-color: #fff;
     padding-top: 100px;
     padding-left: 50px;
     padding-right: 50px;
@@ -76,8 +76,6 @@
     overflow: scroll;
    
 }
-
-
 
 
 
@@ -115,8 +113,8 @@
     flex-direction: row;       /* horizontal layout */
     justify-content: flex-start; /* content starts from left */
     align-items: center;       /* vertically center content */
-     background-color: rgba(192, 192, 192, 0.3); /* very faint silver */
-    border: 1px solid rgba(192, 192, 192, 0.3);
+     background-color: rgba(192, 192, 192, 1f); /* very faint silver */
+     background-color: #F7F8FA;
     margin-bottom: 50px;       /* spacing between cards */
     border-radius: 48px;        /* optional rounded corners */
     padding: 0px;
@@ -132,8 +130,10 @@
     justify-content: center;
     align-items: center;
 
- border-top-left-radius: 48px;
+    border-top-left-radius: 48px;
     border-bottom-left-radius: 48px;
+
+    unity-box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
 }
 
 .menu-card-icon {
@@ -155,9 +155,9 @@
     padding: 10px 16px;
     width:100%;
     height:100%;
-    
     border-top-right-radius: 48px;
     border-bottom-right-radius: 48px;
+    background-color: #F7F8FA;
 }
 
 .menu-card-right-container {
@@ -168,6 +168,7 @@
     flex-direction: column; /* stack title, blurb, and progress bar vertically */
     justify-content: space-between; /* title top, progress bar bottom */
     padding: 0px 16px;
+    background-color: rgba(192, 192, 192, 0.3);
   
      /* or transparent if card has bg */
 }
@@ -178,6 +179,7 @@
 {
   font-size:42px;
   -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+  color:#0C1353;
 }
 
 
@@ -206,6 +208,56 @@
   background-color: green;
   border-radius: 50%;
 }
+
+.scrollview-top-spacer {
+    height: 40px;      /* Adjust the vertical space as needed */
+    width: 100%;       /* Make it stretch across the container */
+    flex-shrink: 0;    /* Prevent it from shrinking */
+}
+
+
+/* Shadow style for VisualElement */
+.menu-card-shadow {
+    width: 100%;                 /* Make it match parent width */
+    height: 275px;                /* Match parent height */
+    position: absolute;          /* Layer behind main element */
+    top: 24px;                    /* Vertical offset */
+    left: 8px;                   /* Horizontal offset */
+    
+    background-image: url("/Assets/Resources/Gradients/fade.png");
+ 
+    border-radius: 48px;
+   
+}
+
+.progress-bar-new {
+    flex-direction: row;
+    width: 900px;           /* fill parent */
+    height: 25px;
+    border-radius: 24px;
+    
+    padding: 2px;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+
+.progress-bar-track {
+    flex: 1;                   /* fill available horizontal space */
+    background-color: #ddd;    /* light gray track */
+    border-radius: 12px;
+    overflow: hidden;           /* clip the fill inside */
+}
+
+.progress-bar-fill {
+    width: 0%;                 /* controlled by code */
+    background-color: #75E14E; /* green fill */
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.3s ease-in-out; /* smooth animation if you want */
+}
+
 
 
 

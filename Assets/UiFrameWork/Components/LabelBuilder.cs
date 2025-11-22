@@ -1,9 +1,9 @@
 using System;
+using UiFrameWork.Builders;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace UiFrameWork.Components
 {
     public class LabelBuilder : BaseBuilder<Label, LabelBuilder>
     {
@@ -45,6 +45,23 @@ namespace UiFrameWork.Builders
             return this;
             
         }
-        
+
+        public LabelBuilder SetTextAlignment(TextAnchor alignment)
+        {
+            VisualElement.style.unityTextAlign = alignment;
+            return this;
+        }
+
+        public void Hide(bool hide)
+        {
+            VisualElement.style.display = hide ? DisplayStyle.Flex : DisplayStyle.None;
+         }
+
+        public LabelBuilder SetVisibility(Visibility visibility)
+        {
+            VisualElement.style.visibility = visibility;
+            return this;
+            
+        }
     }
 }

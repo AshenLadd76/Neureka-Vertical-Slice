@@ -8,6 +8,8 @@ namespace UiFrameWork.Builders
         
         #region Layout & Styling
         
+        public TBuilder SetPosition(Position position) { VisualElement.style.position = position; return (TBuilder)this; }
+        
         public TBuilder SetWidth(float width) { VisualElement.style.width = width; return (TBuilder)this; }
 
         public TBuilder SetHeight(float height) { VisualElement.style.height = height; return (TBuilder)this; }

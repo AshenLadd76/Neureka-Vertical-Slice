@@ -72,12 +72,18 @@ namespace CodeBase.Documents.Neureka.Components
             if (_parent == null)
                 throw new System.Exception("MenuCardBuilder: Parent must be set.");
 
+            var menuCardParent = new ContainerBuilder().AttachTo(_parent).Build();
+            
+            var shadow =  new ContainerBuilder().AddClass("menu-card-shadow").AttachTo(menuCardParent).Build();
+            
             // Outer container
             var menuCard = new ContainerBuilder()
                 .AddClass(UssClassNames.MenuCard)
-                .AttachTo(_parent)
+                .AttachTo(menuCardParent)
                 //.OnClick(_onClick)
                 .Build();
+            
+            
 
             Vector3 startPos = Vector3.zero;
             bool isDragging = false;
@@ -154,21 +160,21 @@ namespace CodeBase.Documents.Neureka.Components
                 .AttachTo(menuTextContainer)
                 .Build();
 
-            new ProgressBarBuilder()
-                .SetFillClass(UssClassNames.MenuCardProgressBar)
-                .SetWidthPercent(100)
-                .SetHeightPercent(20)
-                .SetMaxFill(1f)
-                .SetFillAmount(_progress)
-                .AttachTo(progressBarContainer)
-                .Build();
+            // new ProgressBarBuilder()
+            //     .SetFillClass(UssClassNames.MenuCardProgressBar)
+            //     .SetWidthPercent(100)
+            //     .SetHeightPercent(20)
+            //     .SetMaxFill(1f)
+            //     .SetFillAmount(_progress)
+            //     .AttachTo(progressBarContainer)
+            //     .Build();
 
             return menuCard;
         }
         
         private void BuildProgressBar(VisualElement parent)
         {
-            new ProgressBarBuilder().SetWidthPercent(100).SetWidthPercent(25).SetFillClass(UssClassNames.MenuCardProgressBar).SetBackgroundColor(Color.green).SetMaxFill(1f).SetFillAmount(1f).AttachTo(parent).Build();
+           // new ProgressBarBuilder().SetWidthPercent(100).SetWidthPercent(25).SetFillClass(UssClassNames.MenuCardProgressBar).SetBackgroundColor(Color.green).SetMaxFill(1f).SetFillAmount(1f).AttachTo(parent).Build();
         }
     }
 }
