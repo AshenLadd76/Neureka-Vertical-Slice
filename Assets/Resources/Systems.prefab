@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6540610550676454668}
   - component: {fileID: 3793332112268720095}
   - component: {fileID: 1351544198707785268}
+  - component: {fileID: 5107898078530330198}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -91,6 +92,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db8cb16be743dd549818acc07e221b95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5107898078530330198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6376434274949306235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4058f497ea2dd944386385907cdf337e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6670771896644624004
@@ -181,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4ac4c976993884fa806af034400259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultFrameRate: 60
+  maxSupportedFrameRate: 60
   boostedFrameRate: 120
+  defaultFrameRate: 60
   reducedFrameRate: 30

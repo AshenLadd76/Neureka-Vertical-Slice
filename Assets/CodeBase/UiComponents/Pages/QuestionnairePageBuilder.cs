@@ -70,8 +70,27 @@ namespace CodeBase.UiComponents.Pages
             //Build the container
             var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(documentRoot).Build();
             
-            //Build the header
-            new DefaultHeader("Main Hub", pageRoot, () => { Logger.Log($"OnBack Selected"); }, () => { Logger.Log($"OnClose Selected");  });
+            CreateHeader(pageRoot);
+            
+            // //Build the header
+            // var header = new ContainerBuilder().AddClass("header-test").AttachTo(pageRoot).Build();
+            //
+            // new ButtonBuilder().SetText("X")
+            //     .OnClick(() => { Logger.Log( $"Closing ......" ); })
+            //     .AddClass(UiStyleClassDefinitions.HeaderButton)
+            //     .AddClass(UiStyleClassDefinitions.HeaderLabel)
+            //     .AttachTo(header)
+            //     .Build();
+            //
+            // var headerTitle =  new ContainerBuilder().AddClass("header-test").AttachTo(pageRoot).Build();
+            //
+            // var label = new LabelBuilder().SetText("This works").AddClass("header-label").AttachTo(headerTitle).Build();
+            
+           // var headerNav = new ContainerBuilder().AddClass("vertical-container").AttachTo(header).Build();
+
+          //  var headerText = new LabelBuilder().SetText("Header").AttachTo(headerNav).Build();
+            
+        
             
             //Build the content container
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
@@ -113,6 +132,34 @@ namespace CodeBase.UiComponents.Pages
             {
                 scrollView.contentContainer.Add(question.RootVisualElement);
             }
+        }
+
+        private void CreateHeader(VisualElement parent)
+        {
+            var header = new ContainerBuilder().AddClass("header-test").AttachTo(parent).Build();
+            
+            new ButtonBuilder().SetText("X")
+                .OnClick(() => { Logger.Log( $"Closing ......" ); })
+                .AddClass(UiStyleClassDefinitions.HeaderButton)
+                .AddClass(UiStyleClassDefinitions.HeaderLabel)
+                .AttachTo(header)
+                .Build();
+            
+            var headerTitle =  new ContainerBuilder().AddClass("header-test").AttachTo(parent).Build();
+
+            var label = new LabelBuilder().SetText("This works").AddClass("header-label").AttachTo(headerTitle).Build();
+            
+            CreateProgressBar(parent);
+        }
+
+        private void CreateProgressBar(VisualElement parent = null)
+        {
+            var progressBarContainer = new ContainerBuilder().AddClass("progress-bar-header").AttachTo(parent).Build();
+            
+            var progressBarBuilder = new ProgressBarBuilder().SetMaxFill(200f).SetFillAmount(195f)
+                .AttachTo(progressBarContainer);
+          
+            var progressBar = progressBarBuilder.Build();
         }
 
         private void CreateFooter(VisualElement parent)

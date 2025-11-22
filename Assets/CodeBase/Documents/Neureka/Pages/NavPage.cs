@@ -58,26 +58,6 @@ namespace CodeBase.Documents.Neureka.Pages
             
            //LoadNavSections(scrollView); 
            
-           var progressBarContainer = new ContainerBuilder().SetWidth(900).SetHeight(100).AttachTo(content).Build();
-           
-          // var progressBar = new ProgressBarBuilder().AddClass("progress-bar").AddClass("progress-bar-fill").AddClass("progress-bar-label").AttachTo(progressBarContainer).SetFillAmount(1f).SetLabelText("Hello").Build();
-
-          var progressBarBuilder = new ProgressBarBuilder().SetMaxFill(200f).SetFillAmount(195f)
-              .AttachTo(progressBarContainer);
-          
-          var progressBar = progressBarBuilder.Build();
-
-
-          progressBar.schedule.Execute(() =>
-              {
-                  // pick a random value between 0 and MaxFill
-                  float randomValue = UnityEngine.Random.Range(0f, 200f); 
-                  progressBarBuilder.SetFillAmount(randomValue);
-              })
-              .Every(2000); 
-          
-          
-             
           
            BuildFooter();
            
