@@ -17,7 +17,7 @@ namespace CodeBase.UiComponents.Footers
         private readonly string _buttonText;
         private readonly VisualElement _parent;
         
-        private readonly string _defaultContainerStyleClass = "single-button-footer";
+        private readonly string _defaultContainerStyleClass = "questionnaire-footer";
         private readonly string _defaultButtonStyleClass = "btn-large";
         private readonly string _defaultButtonText = "Click Me";
         private readonly Action _defaultAction = () => {  Logger.Log( $"Hey i need you to add a proper action!" ); }; 

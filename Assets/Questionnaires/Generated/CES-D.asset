@@ -18,7 +18,7 @@ MonoBehaviour:
     scientificName: Center for Epidemiologic Studies Depression Scale
     assessmentId: CESD-20
     questionnaireID: CESD-20
-    questionnaireName: CES-D Scale
+    questionnaireName: Depression
     questionnaireDescription: A 20-item self-report scale designed to measure depressive
       symptomatology in the general population.
     questions:

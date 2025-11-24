@@ -66,6 +66,7 @@
     border: none; /* optional, ensures no default border */
     color: white; /* text color */
    
+   
     padding-left: 12px;
     padding-right: 12px;
     -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");

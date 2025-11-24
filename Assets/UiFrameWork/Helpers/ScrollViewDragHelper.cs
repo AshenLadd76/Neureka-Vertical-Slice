@@ -28,7 +28,7 @@ namespace UiFrameWork.Helpers
           
             RegisterCallbacks();
 
-            _target.schedule.Execute(UpdateInertia).Every(16);
+            _target.schedule.Execute(UpdateInertia).Every(1);
         }
 
         private void RegisterCallbacks()

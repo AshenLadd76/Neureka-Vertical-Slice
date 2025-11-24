@@ -57,8 +57,7 @@ namespace CodeBase.Documents.Neureka.Components
             var fill = _progressBarBuilder.Fill;
             var root = _progressBarBuilder.Root;
             
-            fill.ChangeColorAfterDelay( new Color32(255, 232, 29, 255), 500 );
-            root.BounceSmooth(1.2f, 1f);
+            fill.ChangeColorAfterDelay( new Color32(255, 232, 29, 255), 1000 );
         }
         
     

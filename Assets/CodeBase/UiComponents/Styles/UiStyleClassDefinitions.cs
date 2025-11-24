@@ -49,7 +49,7 @@ namespace CodeBase.UiComponents.Styles
         public const string HeaderLabel = "header-label";
         
         //Footers
-        public const string Footer = "footer"; 
+        public const string Footer = "questionnaire-footer"; 
         
         //Page
         

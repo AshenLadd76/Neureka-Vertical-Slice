@@ -27,10 +27,10 @@
     align-items: stretch;
     justify-content: flex-start;
     gap: 8px;
-    padding: 12px;
+    padding: 20px;
     margin: 8px 0;
     background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    border: 2px solid #000;
     border-radius: 6px;
     margin-bottom: 30px;
 
@@ -47,17 +47,19 @@
    white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word; /* extra safety for long words */
+   -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+     color:#0C1353;
 }
 
 
 .option-button {
     width: 100%;
-    height: 80px;                  /* take up full row */
+    height: 100px;                  /* take up full row */
     padding: 10px 16px;           /* spacing inside button */
     margin: 4px 0;                /* vertical spacing between buttons */
-    background-color: #fff;    /* light blue background */
-      border-radius: 24px;           /* rounded corners */
-    color: #000000;               /* text color */
+    background-color: #fff;    /*  background */
+      border-radius: 48px;           /* rounded corners */
+    color: #0C1353;               /* text color */
     font-size: 36px;
     text-align: left;             /* align text to the left */
     cursor: pointer;
@@ -65,12 +67,20 @@
     transition: background-color 0.2s, border-color 0.2s;
 flex-direction: row;
    white-space: normal;
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+   border-width: 1px;
+   border-color: #0C1353;
+   border-style: solid;
+
 
 }
 
 .option-button-selected
 {
-  background-color: #000;
+  background-color: #3382CC;
+   border-width: 1px;
+  border-color: #fff;
+  border-style: solid;
   color:#fff;
 }
 
@@ -86,5 +96,31 @@ flex-direction: row;
     border-radius: 12px;
 }
 
+.questionnaire-footer
+{
+   
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    background-color: #3382CC;
+    color: white;
+    width: 100%;
+    height: 12%;
+    border-top-left-radius: 48px;
+    border-top-right-radius: 48px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 
+.questionnaire-footer-button
+{
+    width: 80%;
+    height: 20%;
+    min-width:50%;
+    min-height:20%;
+    font-size: 36px;
+    color: #0C1353;   
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+}
 

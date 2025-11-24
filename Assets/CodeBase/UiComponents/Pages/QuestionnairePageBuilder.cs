@@ -52,7 +52,6 @@ namespace CodeBase.UiComponents.Pages
             _questionnaireData = questionnaireData;
             
             InitializeAnswerDictionary(questionnaireData);
-            
         }
 
         private void InitializeAnswerDictionary(StandardQuestionnaireTemplate questionnaireData)
@@ -117,18 +116,18 @@ namespace CodeBase.UiComponents.Pages
 
         private void CreateHeader(VisualElement parent)
         {
-            var header = new ContainerBuilder().AddClass("header-test").AttachTo(parent).Build();
+            var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
             
             new ButtonBuilder().SetText("X")
                 .OnClick(() => { Logger.Log( $"Closing ......" ); })
-                .AddClass(UiStyleClassDefinitions.HeaderButton)
+                .AddClass("demo-header-button")
                 .AddClass(UiStyleClassDefinitions.HeaderLabel)
-                .AttachTo(header)
+                .AttachTo(headerNav)
                 .Build();
             
-            var headerTitle =  new ContainerBuilder().AddClass("header-test").AttachTo(parent).Build();
+            var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
 
-            var label = new LabelBuilder().SetText("This works").AddClass("header-label").AttachTo(headerTitle).Build();
+            var label = new LabelBuilder().SetText(_questionnaireData.QuestionnaireName).AddClass("header-label").AttachTo(headerTitle).Build();
             
             _progressBarController = new ProgressBarController("progress-bar-header", 1f,_questionCount,parent);
             
@@ -176,7 +175,7 @@ namespace CodeBase.UiComponents.Pages
             int nextQuestionNumber = questionIndex + 1;
             
             if (nextQuestionNumber < _questionCount)
-                ScrollViewHelper.JumpToElementSmooth( _scrollview, _builtQuestionsList[nextQuestionNumber].RootVisualElement );
+                ScrollViewHelper.JumpToElementSmooth( _scrollview, _builtQuestionsList[nextQuestionNumber].RootVisualElement, 0.3f,  300);
 
             _builtQuestionsList[questionIndex].ToggleWarningOutline(false);
         }

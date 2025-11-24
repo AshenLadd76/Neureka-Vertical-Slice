@@ -28,7 +28,7 @@ namespace CodeBase.Documents
            ButtonFactory.CreateButton(ButtonType.Confirm, "AQ",() => { MessageBus.Instance.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "AQ" ); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            
-          // new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);
+           new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);
         }
     }
 
