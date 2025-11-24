@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -79,6 +80,33 @@ namespace UiFrameWork.Extensions
 
             }).Every(0); // every frame
         }
+        
+        /// <summary>
+        /// Fades in the element from 0 to target opacity over the given duration.
+        /// </summary>
+        public static void FadeIn(this VisualElement ve, float targetOpacity = 0.5f, float duration = 0.3f, Action onComplete = null)
+        {
+            ve.style.opacity = 0f;
+            ve.style.display = DisplayStyle.Flex; // make sure it's visible
+
+            float elapsed = 0f;
+            float startOpacity = 0f;
+
+            IVisualElementScheduledItem scheduledItem = null;
+
+            scheduledItem = ve.schedule.Execute((sched) =>
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
+                ve.style.opacity = Mathf.Lerp(startOpacity, targetOpacity, t);
+
+                if (t >= 1f)
+                {
+                    onComplete?.Invoke();
+                }
+            }).Every(1); // run every frame
+        }
+        
 
     }
 }

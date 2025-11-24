@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
+using CodeBase.Documents;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;
 using CodeBase.Services;
+using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
-using ToolBox.Utils;
+using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
+using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.UiComponents.Pages
 {
@@ -74,7 +78,6 @@ namespace CodeBase.UiComponents.Pages
             
             CreateHeader(pageRoot);
             
-            
             //Build the content container
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
 
@@ -119,7 +122,7 @@ namespace CodeBase.UiComponents.Pages
             var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
             
             new ButtonBuilder().SetText("X")
-                .OnClick(() => { Logger.Log( $"Closing ......" ); })
+                .OnClick(Quit)
                 .AddClass("demo-header-button")
                 .AddClass(UiStyleClassDefinitions.HeaderLabel)
                 .AttachTo(headerNav)
@@ -134,21 +137,76 @@ namespace CodeBase.UiComponents.Pages
             _progressBarController.SetFillAmount(0);
         }
 
+        private void Quit()
+        {
+           
+            
+            CreatePopUp();
 
+        }
+
+        private void CreatePopUp()
+        {
+            var background = new ContainerBuilder().AddClass("fullscreen-fade-container").AttachTo(_root).Build();
+
+            background.schedule.Execute(_ =>
+            {
+                background.AddToClassList("fullscreen-fade-container-active");
+            }).StartingIn(1);
+            
+            var popUpContainer =  new ContainerBuilder().AddClass("popup-container").AttachTo(_root).Build();
+            
+            var popUpContent = new ContainerBuilder().AddClass("popup-content").AttachTo(popUpContainer).Build();
+            
+            var popupTitleContainer =  new ContainerBuilder().AddClass("popup-title").AttachTo(popUpContent).Build();
+            
+            var popupImage = new ContainerBuilder().AddClass("popup-image").AttachTo(popUpContent).Build();
+            
+            var popupTitle = new LabelBuilder().SetText($"Are you sure you want to quit this survey?! \n\n If you quit you will.... KILL SCIENCE!").AddClass("popup-label").AttachTo(popUpContent).Build();
+            
+            var popupFooter = new ContainerBuilder().AddClass("popup-footer").AttachTo(popUpContent).Build();
+            
+            ButtonFactory.CreateButton(ButtonType.Confirm, "Quit",() => { Logger.Log($"Quitting Questionnaire"); }, popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
+            
+            ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
+            {
+                popUpContainer.style.bottom = new Length(-60, LengthUnit.Percent);
+                
+                background.schedule.Execute(_ =>
+                {
+                    background.AddToClassList("fullscreen-fade-container-inactive");
+                }).StartingIn(1);
+
+                popUpContainer.schedule.Execute(_ =>
+                {
+                    _root.Remove(popUpContainer);
+                    _root.Remove(background);
+                }).StartingIn(500);
+
+            }, popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
+            
+            popUpContainer.schedule.Execute(_ =>
+            {
+                popUpContainer.style.bottom = 0; // slide into view
+            }).StartingIn(1);
+
+        }
+
+
+        
         private void CreateFooter(VisualElement parent)
         {
-            //Build the footer
-            new SingleButtonFooter(() =>
+            
+            var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
+            
+            var submitButton = new ButtonBuilder().SetText("Check").AddClass("questionnaire-footer-button").OnClick(() =>
             {
                 if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
                 {
                     Logger.LogWarning("answers incomplete - failed validation.");
                     return;
                 }
-                
-                HandleSubmit();
-                
-            }, $"Submit", parent );
+            }).AttachTo(footerContainer).Build();
             
         }
         

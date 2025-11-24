@@ -116,11 +116,107 @@ flex-direction: row;
 .questionnaire-footer-button
 {
     width: 80%;
-    height: 20%;
+    height: 40%;
     min-width:50%;
     min-height:20%;
-    font-size: 36px;
+    font-size: 46px;
     color: #0C1353;   
     -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+    background-color: #fff;
+    border-radius:48px
 }
+
+.fullscreen-fade-container {
+    background-color: rgba(0, 0, 0, 0); /* or whatever overlay color you want */
+    transition: background-color 0.5s;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.fullscreen-fade-container-active {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.fullscreen-fade-container-inactive {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.popup-container {
+    position: absolute;
+    bottom: 0;          /* anchor to bottom of screen */
+    left: 0;
+    right: 0;
+
+    height: 60%;       /* half the screen height */
+    /* or height: 60%; if parent is full height */
+
+    bottom: -60%;
+    background-color: #fff; /* optional, just to see it */
+    border-width:2px;
+    border-color: #000;
+    border-top-left-radius: 48px;
+    border-top-right-radius: 48px;
+    padding-top: 45px;
+    padding-left: 45px;
+    padding-right: 45px;
+    padding-bottom: 5px;
+    
+    transition: bottom 0.5s ease; /* smooth slide */
+   
+}
+
+.popup-content {
+    display: flex;           /* enable flex layout */
+    flex-direction: column;  /* or row if you prefer */
+    width: 100%;
+    height: 100%;            /* fills the popup */
+    background-color: #fff;
+    align-items:center;
+}
+
+popup-title-container
+{
+}
+
+.popup-label {
+    width: 90%;
+    font-size: 48px;
+    color: #0C1353;
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+
+
+    /* new properties */
+    white-space: normal;        /* enable text wrapping */
+    text-align: center;         /* center text horizontally */
+    word-wrap: break-word;      /* break long words if needed */
+}
+
+
+.popup-image {
+    width: 757px;
+    height: 566px; /* fixed height */
+    background-image: url("/Assets/Resources/Sprites/panicked_scientist.png");
+ 
+   
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.popup-footer
+{
+     margin-top: auto;  
+    display: flex;           /* enable flex layout */
+    flex-direction: column;  /* or row if you prefer */
+    width:100%;
+    height: 30%;            /* fills the popup */
+    background-color: #fff;
+    align-items:center;
+    padding:20px;
+}
+
+
+
 
