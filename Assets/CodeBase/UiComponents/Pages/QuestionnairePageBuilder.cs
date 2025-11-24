@@ -110,10 +110,7 @@ namespace CodeBase.UiComponents.Pages
                     .Build();
                 
                 _builtQuestionsList.Add(question);
-            }
-
-            foreach (var question in _builtQuestionsList)
-            {
+                
                 scrollView.contentContainer.Add(question.RootVisualElement);
             }
         }
@@ -133,7 +130,7 @@ namespace CodeBase.UiComponents.Pages
 
             var label = new LabelBuilder().SetText("This works").AddClass("header-label").AttachTo(headerTitle).Build();
             
-            _progressBarController = new ProgressBarController("progress-bar-header", _questionCount,parent);
+            _progressBarController = new ProgressBarController("progress-bar-header", 1f,_questionCount,parent);
             
             _progressBarController.SetFillAmount(0);
         }
@@ -164,8 +161,12 @@ namespace CodeBase.UiComponents.Pages
                 return;
             }
             
-          
             value.AnswerText = answerText;
+
+            if (value.IsAnswered) return;
+            
+            _progressBarController?.IncrementFill();
+            value.IsAnswered = true;
         }
 
         private void HandleAnswer(int questionIndex, string answerText)
@@ -179,7 +180,6 @@ namespace CodeBase.UiComponents.Pages
 
             _builtQuestionsList[questionIndex].ToggleWarningOutline(false);
         }
-
         
         private void HandleSubmit()
         {
@@ -204,7 +204,6 @@ namespace CodeBase.UiComponents.Pages
                 Logger.LogError($"Failed to handle submit: {e}");
             }
         }
-        
         
         //Helper function that is will be attached to the relevant button events
         //ensures the root visual element is cleared when the questionnaires life is ended

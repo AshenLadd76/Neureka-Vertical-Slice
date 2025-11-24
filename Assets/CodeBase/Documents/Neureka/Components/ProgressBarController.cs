@@ -1,6 +1,7 @@
 using UiFrameWork.Components;
+using UnityEngine;
 using UnityEngine.UIElements;
-using Logger = ToolBox.Utils.Logger;
+
 
 namespace CodeBase.Documents.Neureka.Components
 {
@@ -8,9 +9,17 @@ namespace CodeBase.Documents.Neureka.Components
     {
         private ProgressBarBuilder _progressBarBuilder;
 
-        public ProgressBarController( string ussClass, float maxFillAmount, VisualElement parent )
+        private readonly float _maxFillAmount;
+        private readonly float _increment;
+        
+        private float _currentFillAmount;
+
+        public ProgressBarController( string ussClass, float increment,  float maxFillAmount, VisualElement parent )
         {
             CreateProgressBar( ussClass, maxFillAmount, parent );
+            
+            _maxFillAmount = maxFillAmount;
+            _increment = increment;
         }
         
         private void CreateProgressBar(string ussClass, float maxFillAmount, VisualElement parent )
@@ -27,6 +36,17 @@ namespace CodeBase.Documents.Neureka.Components
 
         public void SetFillAmount(float fillAmount) => _progressBarBuilder.SetFillAmount(fillAmount);
         
-        public void SetFillAmountAimatated( float filAmount ) => _progressBarBuilder.SetFillAmount(filAmount);
+        public void IncrementFill()
+        {
+            _currentFillAmount = Mathf.Min(_currentFillAmount + _increment, _maxFillAmount);
+
+            SetFillAmount(_currentFillAmount);
+        }
+
+        public void DecrementFill()
+        {
+            _currentFillAmount = Mathf.Max(0, _currentFillAmount - _increment);
+            SetFillAmount(_currentFillAmount);
+        }
     }
 }

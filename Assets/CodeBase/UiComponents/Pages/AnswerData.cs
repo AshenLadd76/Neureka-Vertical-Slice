@@ -9,13 +9,16 @@ namespace CodeBase.UiComponents.Pages
         public string QuestionText { get; set; }
         public string AnswerText { get; set; }
         public DateTime Timestamp { get; set; }
-        
+
+        public bool IsAnswered { get; set; }
+
         public AnswerData(int questionNumber, string questionText, string answerText)
         {
             QuestionNumber = questionNumber;
             QuestionText = questionText;
             AnswerText = answerText;
             Timestamp = DateTime.UtcNow;
+            IsAnswered = false;
         }
     }
 }
