@@ -189,6 +189,8 @@ namespace CodeBase.UiComponents.Pages
                     .SetAnswers(_answerDataDictionary).Build();
                 
                 var jsonData = _jsonSerializer.Serialize(questionnaireData);
+                
+                Logger.Log( jsonData );
 
                 var webData = new WebData
                 {

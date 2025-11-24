@@ -2,6 +2,7 @@ using System;
 using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
 namespace UiFrameWork.Components
 {
@@ -17,14 +18,21 @@ namespace UiFrameWork.Components
         
         private float _maxFill;
         private float _currentFill;
-        
-        private VisualElement _fillElement;
+
+        public VisualElement FillElement { get; set; }
+
         private string _fillClassName = "default-progress-fill";
         
         // UI elements
         private readonly VisualElement _root;
+
+        public VisualElement Root => _root;
+
         private readonly VisualElement _track;
         private readonly VisualElement _fill;
+
+        public VisualElement Fill => _fill;
+
         private  VisualElement _label;
         
         //Call backs
@@ -41,7 +49,6 @@ namespace UiFrameWork.Components
             // Root element (always exists)
             VisualElement.AddToClassList(_rootClass);
             _root = VisualElement; // BaseBuilder.VisualElement is now the root
-
             
             
             // Track element (background)
@@ -168,6 +175,8 @@ namespace UiFrameWork.Components
         
         private void HandleThresholds(float prevValue, float newValue)
         {
+            Logger.Log( $"current value: {newValue} max value: { _maxFill }" );
+            
             // min threshold
             if (newValue <= 0f)
             {
