@@ -168,6 +168,18 @@ flex-direction: row;
    
 }
 
+
+
+.popup-container-active {
+    bottom: 0;             /* slide into view */
+    
+}
+
+.popup-container-inactive {
+    bottom: -60%;          /* slide down offscreen */
+    opacity: 0;
+}
+
 .popup-content {
     display: flex;           /* enable flex layout */
     flex-direction: column;  /* or row if you prefer */

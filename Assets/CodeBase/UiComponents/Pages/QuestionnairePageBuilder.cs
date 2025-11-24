@@ -185,11 +185,11 @@ namespace CodeBase.UiComponents.Pages
 
             }, popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
             
+            _root.MarkDirtyRepaint();
             popUpContainer.schedule.Execute(_ =>
             {
                 popUpContainer.style.bottom = 0; // slide into view
             }).StartingIn(1);
-
         }
 
 
