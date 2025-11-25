@@ -10,21 +10,9 @@ namespace CodeBase.Documents.Neureka.Components
 {
     public class PopUpBuilder
     {
-        private const string BackgroundOverlayStyle = "fullscreen-fade-container";
-        private const string BackgroundActiveStyle = "fullscreen-fade-container-active";
-        private const string BackgroundInactiveStyle = "fullscreen-fade-container-inactive";
-        
-        private const string PopUpContainerStyle = "popup-container";
-        private const string PopUpContentStyle = "popup-content";
-        private const string PopUpImageStyle = "popup-image";
-        private const string PopUpLabelStyle = "popup-label";
-        private const string PopUpFooterStyle = "popup-footer";
-
         private string _blurbText;
 
         private VisualElement _popUpRoot;
-        
-        
         private VisualElement _root;
 
         private Action _confirmAction;
@@ -36,13 +24,7 @@ namespace CodeBase.Documents.Neureka.Components
         private string _imageResourcePath;
         private int _imageWidth;
         private int _imageHeight;
-        
-        
-        public PopUpBuilder()
-        {
-            
-        }
-
+      
         public PopUpBuilder SetImage(Texture2D image)
         {
             _imageTexture2D = image;
@@ -97,22 +79,16 @@ namespace CodeBase.Documents.Neureka.Components
 
         public VisualElement Build()
         {
-           
-            
             var background = BuildBackgroundOverlay(_root);
             
-            var popUpContainer =  new ContainerBuilder().AddClass(PopUpContainerStyle).AttachTo(_root).Build();
-            var popUpContent =  new ContainerBuilder().AddClass(PopUpContentStyle).AttachTo(popUpContainer).Build();
-           
-            //var popupImage = new ContainerBuilder().AddClass(PopUpImageStyle).AttachTo(popUpContent).Build();
-
-           // var popUpImage = new ImageBuilder().SetTexture(_imageTexture2D).Build();
-           
+            var popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(_root).Build();
+            var popUpContent =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContentStyle).AttachTo(popUpContainer).Build();
+            
            BuildImage(popUpContent);
            
-            var popupTitle = new LabelBuilder().SetText(_blurbText).AddClass(PopUpLabelStyle).AttachTo(popUpContent).Build();
+            var popupTitle = new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(popUpContent).Build();
             
-            var popupFooter = new ContainerBuilder().AddClass(PopUpFooterStyle).AttachTo(popUpContent).Build();
+            var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(popUpContent).Build();
             
             ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction , popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
             
@@ -135,13 +111,13 @@ namespace CodeBase.Documents.Neureka.Components
 
         private VisualElement BuildBackgroundOverlay(VisualElement parent)
         {
-            const long startInMs = 1;
+            const long startInMs = 5;
             
-            var background = new ContainerBuilder().AddClass(BackgroundOverlayStyle).AttachTo(parent).Build();
+            var background = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.BackgroundOverlayStyle).AttachTo(parent).Build();
 
             background.schedule.Execute(_ =>
             {
-                background.AddToClassList(BackgroundActiveStyle);
+                background.AddToClassList(PopupBuilderUssClassNames.BackgroundActiveStyle);
             }).StartingIn(startInMs);
             
             return background;
@@ -194,7 +170,7 @@ namespace CodeBase.Documents.Neureka.Components
                 
             background.schedule.Execute(_ =>
             {
-                background.AddToClassList(BackgroundInactiveStyle);
+                background.AddToClassList(PopupBuilderUssClassNames.BackgroundInactiveStyle);
             }).StartingIn(backgroundStartingInMs);
 
             popUpContainer.schedule.Execute(_ =>
@@ -212,7 +188,26 @@ namespace CodeBase.Documents.Neureka.Components
             _blurbText = null;
             _confirmAction = null;
             _cancelAction = null;
+            _imageTexture2D = null;
+            _imageSprite = null;
+            _imageResourcePath = null;
+            _imageWidth = 0;
+            _imageHeight = 0;
             _root = null;
         }
+
+    }
+
+    public static class PopupBuilderUssClassNames
+    {
+        public const string BackgroundOverlayStyle = "fullscreen-fade-container";
+        public const string BackgroundActiveStyle = "fullscreen-fade-container-active";
+        public const string BackgroundInactiveStyle = "fullscreen-fade-container-inactive";
+        
+        public const string PopUpContainerStyle = "popup-container";
+        public const string PopUpContentStyle = "popup-content";
+        public const string PopUpImageStyle = "popup-image";
+        public const string PopUpLabelStyle = "popup-label";
+        public const string PopUpFooterStyle = "popup-footer";
     }
 }
