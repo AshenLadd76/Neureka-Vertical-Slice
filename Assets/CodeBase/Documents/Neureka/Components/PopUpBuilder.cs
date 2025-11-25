@@ -27,6 +27,8 @@ namespace CodeBase.Documents.Neureka.Components
         private Length  _percentageHeight = new Length(60, LengthUnit.Percent);
 
         private string _contentText;
+        
+        private const string MissingText = "Missing Text";
 
 
         public PopUpBuilder SetPercentageHeight(float height)
@@ -177,15 +179,14 @@ namespace CodeBase.Documents.Neureka.Components
             
             var titleContainer = new ContainerBuilder().AttachTo(parent).AddClass( PopupBuilderUssClassNames.PopUpTitleStyle ).Build();
 
-            if (string.IsNullOrEmpty(_blurbText))
-                _blurbText = "Missing TEXT !!!";
+            _blurbText ??= MissingText;
             
             var popupTitle = new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(titleContainer).Build();
         }
 
         private void BuildContentText(VisualElement parent)
         {
-            if (string.IsNullOrEmpty(_contentText)) return;
+            _contentText ??= MissingText;
             
             var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
                 .AddClass(PopupBuilderUssClassNames.PopUpScrollViewStyle).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(parent).Build();
