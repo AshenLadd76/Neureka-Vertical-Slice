@@ -145,6 +145,7 @@ flex-direction: row;
 }
 
 .popup-container {
+    
     position: absolute;
     bottom: 0;          /* anchor to bottom of screen */
     left: 0;
@@ -179,10 +180,18 @@ flex-direction: row;
 
 popup-title-container
 {
+      display: flex;           /* enable flex layout */
+    flex-direction: column;  /* or row if you prefer */
+    width: 100%;
+           
+    background-color: #eee;
+    align-items:center;
+    padding-top:100px;
 }
 
+
 .popup-label {
-    width: 90%;
+    width: 100%;
     font-size: 48px;
     color: #0C1353;
     -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
@@ -205,16 +214,43 @@ popup-title-container
     background-position: center;
 }
 
-.popup-footer
-{
-     margin-top: auto;  
-    display: flex;           /* enable flex layout */
-    flex-direction: column;  /* or row if you prefer */
-    width:100%;
-    height: 30%;            /* fills the popup */
-    background-color: #fff;
-    align-items:center;
-    padding:20px;
+.popup-scrollview {
+    max-height: 30%;      /* or px, or % — whatever you prefer */
+    width: 100%;
+
+    overflow-y: auto;      /* enable scrolling if needed */
+    overflow-x: hidden;    /* keep it clean */
+    
+    padding: 12px;         /* optional but recommended */
+      align-items:center;
+}
+
+.popup-content-text {
+    font-size: 42px;           /* Comfortable reading size */
+    color: #0C1353;             /* Dark text, can adjust for theme */
+    line-height: 1.5;          /* Space between lines */
+    white-space: normal;       /* Wrap text normally */
+    word-wrap: break-word;     /* Break long words if necessary */
+    padding: 4px 8px;          /* Inner spacing from edges of scrollview */
+    flex-shrink: 0;            /* Prevent text from shrinking inside scrollview */
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+}
+
+
+.popup-footer {
+    position: absolute;
+    bottom: 10px; /* your offset */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center; /* center buttons horizontally */
+    align-items: center;
+    padding: 10px; /* optional spacing between buttons */
+}
+
+.popup-spacer {
+    min-height: 50px;
+    width: 100%; /* stretch across the container */
 }
 
 

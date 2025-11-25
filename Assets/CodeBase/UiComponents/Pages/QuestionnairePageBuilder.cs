@@ -146,8 +146,10 @@ namespace CodeBase.UiComponents.Pages
 
         private void CreatePopUp()
         {
-            new PopUpBuilder().SetBlurbText("Don't quit Nooooo!!!")
-                .SetImage( $"Sprites/panicked_scientist" )
+            new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
+                .SetContentText($"If you do you will.....KILL SCIENCE!")
+                .SetPercentageHeight( 60 )
+                .SetImage( $"Sprites/panicked_scientist")
                 .SetConfirmAction(() => { Logger.Log( $"Quitting the questionnaire" ); })
                 .SetCancelAction(() => { Logger.Log( $"Canceling the quit!!!" ); })
                 .AttachTo(_root).Build();

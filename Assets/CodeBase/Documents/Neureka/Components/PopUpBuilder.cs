@@ -1,4 +1,5 @@
 using System;
+using CodeBase.Documents.DemoA;
 using CodeBase.UiComponents.Factories;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
@@ -24,7 +25,18 @@ namespace CodeBase.Documents.Neureka.Components
         private string _imageResourcePath;
         private int _imageWidth;
         private int _imageHeight;
-      
+
+        private Length  _percentageHeight = new Length(60, LengthUnit.Percent);
+
+        private string _contentText;
+
+
+        public PopUpBuilder SetPercentageHeight(int height)
+        {
+            _percentageHeight = new Length(height, LengthUnit.Percent);
+            return this;
+        }
+        
         public PopUpBuilder SetImage(Texture2D image)
         {
             _imageTexture2D = image;
@@ -52,10 +64,16 @@ namespace CodeBase.Documents.Neureka.Components
             return this;
         }
 
-        public PopUpBuilder SetBlurbText(string blurbText)
+        public PopUpBuilder SetTitleText(string blurbText)
         {
             _blurbText = blurbText;
 
+            return this;
+        }
+
+        public PopUpBuilder SetContentText(string contentText)
+        {
+            _contentText = contentText;
             return this;
         }
 
@@ -82,12 +100,23 @@ namespace CodeBase.Documents.Neureka.Components
             var background = BuildBackgroundOverlay(_root);
             
             var popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(_root).Build();
+            
+            var negativeHeight = new Length( -_percentageHeight.value, LengthUnit.Percent );
+
+            if (_percentageHeight.value > 0)
+                popUpContainer.style.height = _percentageHeight;
+            
             var popUpContent =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContentStyle).AttachTo(popUpContainer).Build();
             
            BuildImage(popUpContent);
            
-            var popupTitle = new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(popUpContent).Build();
-            
+           BuildTitle( popUpContent );
+           
+           var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
+               .AddClass(PopupBuilderUssClassNames.PopUpScrollViewStyle).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(popUpContent).Build();
+           
+           BuildContentText(scrollview);
+           
             var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(popUpContent).Build();
             
             ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction , popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
@@ -129,15 +158,12 @@ namespace CodeBase.Documents.Neureka.Components
 
             // Prioritize passed-in texture, then sprite (converted to texture), then resource
             if (texture == null && _imageSprite != null)
-            {
                 texture = _imageSprite.texture;
-            }
+            
 
             if (texture == null && !string.IsNullOrEmpty(_imageResourcePath))
-            {
-                Logger.Log($"Loading image {_imageResourcePath}");
                 texture = Resources.Load<Texture2D>(_imageResourcePath);
-            }
+            
 
             if (texture == null)
             {
@@ -159,14 +185,34 @@ namespace CodeBase.Documents.Neureka.Components
                 .Build();
         }
 
+        private void BuildTitle(VisualElement parent)
+        {
+            var spacer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpSpacerStyle).AttachTo(parent).Build();
+            
+            var titleContainer = new ContainerBuilder().AttachTo(parent).AddClass( PopupBuilderUssClassNames.PopUpTitleStyle ).Build();
+           
+            var popupTitle = new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(titleContainer).Build();
+        }
+
+        private void BuildContentText(VisualElement parent)
+        {
+            if (string.IsNullOrEmpty(_contentText)) return;
+            
+            var contentText = new LabelBuilder()
+                .SetText(_contentText)
+                .AttachTo(parent).AddClass(PopupBuilderUssClassNames.PopUpContentTextStyle).Build();
+            
+        }
+
 
         private void Close(VisualElement popUpContainer, VisualElement background)
         {
-            const int bottomPosition = -60;
+           
             const long backgroundStartingInMs = 1;
             const long popUpContainerStartingInMs = 500;
             
-            popUpContainer.style.bottom = new Length(bottomPosition, LengthUnit.Percent);
+            var negativeHeight = new Length( -_percentageHeight.value, LengthUnit.Percent );
+            popUpContainer.style.bottom = negativeHeight;
                 
             background.schedule.Execute(_ =>
             {
@@ -205,9 +251,13 @@ namespace CodeBase.Documents.Neureka.Components
         public const string BackgroundInactiveStyle = "fullscreen-fade-container-inactive";
         
         public const string PopUpContainerStyle = "popup-container";
+        public const string PopUpTitleStyle = "popup-title-container";
         public const string PopUpContentStyle = "popup-content";
+        public const string PopUpScrollViewStyle = "popup-scrollview";
+        public const string PopUpContentTextStyle = "popup-content-text";
         public const string PopUpImageStyle = "popup-image";
         public const string PopUpLabelStyle = "popup-label";
         public const string PopUpFooterStyle = "popup-footer";
+        public const string PopUpSpacerStyle = "popup-spacer";
     }
 }
