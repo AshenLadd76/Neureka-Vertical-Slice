@@ -5,6 +5,8 @@ namespace UiFrameWork.Builders
 {
     public class ImageBuilder : BaseBuilder<Image, ImageBuilder>
     {
+        private Texture2D _texture;
+        
         public ImageBuilder SetSprite(Sprite sprite)
         {
             if (sprite == null) return this;
@@ -15,6 +17,8 @@ namespace UiFrameWork.Builders
         public ImageBuilder SetTexture(Texture2D texture)
         {
             if (texture == null) return this;
+            
+            _texture = texture;
             VisualElement.image = texture;
             return this;
         }
@@ -34,6 +38,16 @@ namespace UiFrameWork.Builders
         public ImageBuilder SetScaleMode(ScaleMode mode)
         {
             VisualElement.scaleMode = mode;
+            return this;
+        }
+        
+        public ImageBuilder UseNativeSize()
+        {
+            if (_texture != null)
+            {
+                VisualElement.style.width = _texture.width;
+                VisualElement.style.height = _texture.height;
+            }
             return this;
         }
 

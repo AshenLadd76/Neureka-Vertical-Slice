@@ -6,15 +6,14 @@ using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;
 using CodeBase.Services;
 using CodeBase.UiComponents.Factories;
-using CodeBase.UiComponents.Footers;
-using CodeBase.UiComponents.Headers;
+
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
-using UiFrameWork.Builders;
+
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
-using UnityEngine;
+
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -147,49 +146,11 @@ namespace CodeBase.UiComponents.Pages
 
         private void CreatePopUp()
         {
-            var background = new ContainerBuilder().AddClass("fullscreen-fade-container").AttachTo(_root).Build();
-
-            background.schedule.Execute(_ =>
-            {
-                background.AddToClassList("fullscreen-fade-container-active");
-            }).StartingIn(1);
-            
-            var popUpContainer =  new ContainerBuilder().AddClass("popup-container").AttachTo(_root).Build();
-            
-            var popUpContent = new ContainerBuilder().AddClass("popup-content").AttachTo(popUpContainer).Build();
-            
-            var popupTitleContainer =  new ContainerBuilder().AddClass("popup-title").AttachTo(popUpContent).Build();
-            
-            var popupImage = new ContainerBuilder().AddClass("popup-image").AttachTo(popUpContent).Build();
-            
-            var popupTitle = new LabelBuilder().SetText($"Are you sure you want to quit this survey?! \n\n If you quit you will.... KILL SCIENCE!").AddClass("popup-label").AttachTo(popUpContent).Build();
-            
-            var popupFooter = new ContainerBuilder().AddClass("popup-footer").AttachTo(popUpContent).Build();
-            
-            ButtonFactory.CreateButton(ButtonType.Confirm, "Quit",() => { Logger.Log($"Quitting Questionnaire"); }, popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
-            
-            ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
-            {
-                popUpContainer.style.bottom = new Length(-60, LengthUnit.Percent);
-                
-                background.schedule.Execute(_ =>
-                {
-                    background.AddToClassList("fullscreen-fade-container-inactive");
-                }).StartingIn(1);
-
-                popUpContainer.schedule.Execute(_ =>
-                {
-                    _root.Remove(popUpContainer);
-                    _root.Remove(background);
-                }).StartingIn(500);
-
-            }, popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
-            
-            _root.MarkDirtyRepaint();
-            popUpContainer.schedule.Execute(_ =>
-            {
-                popUpContainer.style.bottom = 0; // slide into view
-            }).StartingIn(1);
+            new PopUpBuilder().SetBlurbText("Don't quit Nooooo!!!")
+                .SetImage( $"Sprites/panicked_scientist" )
+                .SetConfirmAction(() => { Logger.Log( $"Quitting the questionnaire" ); })
+                .SetCancelAction(() => { Logger.Log( $"Canceling the quit!!!" ); })
+                .AttachTo(_root).Build();
         }
 
 
