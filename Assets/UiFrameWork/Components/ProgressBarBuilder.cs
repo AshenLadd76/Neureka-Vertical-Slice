@@ -175,8 +175,6 @@ namespace UiFrameWork.Components
         
         private void HandleThresholds(float prevValue, float newValue)
         {
-            Logger.Log( $"current value: {newValue} max value: { _maxFill }" );
-            
             // min threshold
             if (newValue <= 0f)
             {
