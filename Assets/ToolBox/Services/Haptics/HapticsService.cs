@@ -6,7 +6,7 @@ namespace ToolBox.Services.Haptics
 {
     public class HapticsService : MonoBehaviour
     {
-        private const string HapticsKey = "Haptics";
+ 
         
         private bool _isSubscribed = false;
         
@@ -18,7 +18,21 @@ namespace ToolBox.Services.Haptics
 
         private void HandleHaptics(HapticType hapticType)
         {
-            Logger.Log($"Haptics: {hapticType}");
+            Logger.Log("Handling Haptic Type: " + hapticType);
+
+
+            if (!AndroidHapticsWrapper.HasVibrator())
+            {
+                Logger.Log("This device does not have a vibration feature");
+                return;
+            }
+            else
+            {
+                Logger.Log("Good To go with the vibrations");
+            }
+            
+            AndroidHapticsWrapper.Vibrate(200, 254);
+
         }
         
 
@@ -26,7 +40,7 @@ namespace ToolBox.Services.Haptics
         {
             if( _isSubscribed ) return;
             
-            MessageBus.Instance.AddListener<HapticType>(HapticsKey, HandleHaptics );
+            MessageBus.Instance.AddListener<HapticType>(HapticsMessages.OnHapticsRequest, HandleHaptics );
             
             _isSubscribed = true;
         }
@@ -35,7 +49,7 @@ namespace ToolBox.Services.Haptics
         {
             if(!_isSubscribed) return;
             
-            MessageBus.Instance.RemoveListener<HapticType>(HapticsKey, HandleHaptics );
+            MessageBus.Instance.RemoveListener<HapticType>(HapticsMessages.OnHapticsRequest, HandleHaptics );
             
             _isSubscribed = false;
         }
@@ -47,5 +61,10 @@ namespace ToolBox.Services.Haptics
         Low,
         Medium,
         High
+    }
+
+    public static class HapticsMessages
+    {
+        public const string OnHapticsRequest = "OnHapticsRequest";
     }
 }

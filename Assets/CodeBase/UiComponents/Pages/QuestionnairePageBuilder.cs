@@ -10,7 +10,7 @@ using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
-
+using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
 
@@ -166,6 +166,7 @@ namespace CodeBase.UiComponents.Pages
             {
                 if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
                 {
+                    MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, HapticType.High );
                     Logger.LogWarning("answers incomplete - failed validation.");
                     return;
                 }
