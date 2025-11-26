@@ -99,7 +99,7 @@ namespace CodeBase.Documents.Neureka.Components
         {
             var background = BuildBackgroundOverlay(_root);
             
-            var popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(_root).Build();
+            var popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(background).Build();
             
             if (_percentageHeight.value > 0)
                 popUpContainer.style.height = _percentageHeight;
@@ -130,7 +130,7 @@ namespace CodeBase.Documents.Neureka.Components
             }).StartingIn(1);
 
 
-            return popUpContainer;
+            return background;
         }
 
         private VisualElement BuildBackgroundOverlay(VisualElement parent)
@@ -211,8 +211,12 @@ namespace CodeBase.Documents.Neureka.Components
 
             popUpContainer.schedule.Execute(_ =>
             {
-                _root.Remove(background);
-                _root.Remove(popUpContainer);
+                
+                popUpContainer?.RemoveFromHierarchy();
+                popUpContainer = null;
+                
+                background?.RemoveFromHierarchy();
+                background = null;
                 
                 Reset();
                 

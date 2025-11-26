@@ -1,6 +1,7 @@
 using System;
 using ToolBox.Messenger;
 using UnityEngine;
+using UnityEngine.Events;
 using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Services
@@ -14,6 +15,11 @@ namespace CodeBase.Services
         private void OnEnable() => Subscribe();
         
         private void OnDisable() => Unsubscribe();
+        
+        [SerializeField] private UnityEvent <WebData> onUploadRequestReceived = null;
+        [SerializeField] private UnityEvent<string> onSuccessfulUpload;
+        
+        private WebData _webData;
         
         
         private void Subscribe()
@@ -37,9 +43,13 @@ namespace CodeBase.Services
         private void HandleUploadDataRequest(WebData data)
         {
             Logger.Log( $"Data upload request: I am about to save your data {  data.Id } { data.Data } to file and then I will attempt to upload it" );
+            
+            _webData = data;
+            
+            onUploadRequestReceived.Invoke( _webData );
            
             //TODO Validate data
-           
+            
             //TODO Save the data using file service
            
             //Attempt Upload using web service
@@ -47,7 +57,22 @@ namespace CodeBase.Services
             //if successful upload delete saved data
            
             //if unsuccessful keep saved file and try on app launch
-          
+        }
+        
+        
+        public void OnServerResponse(string response)
+        {
+            if (response == "200")
+            {
+                Logger.Log( $"Data upload was successful. So im going to delete the temp saved data now." );
+                onSuccessfulUpload?.Invoke( _webData.Id );
+            }
+            else
+            {
+                Logger.Log($"Data upload failed, so i will keep the saved data and try again later...");
+            }
+                
+                
         }
     }
 

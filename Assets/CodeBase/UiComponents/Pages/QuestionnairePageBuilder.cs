@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;
 using CodeBase.Services;
-
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
@@ -21,6 +21,8 @@ namespace CodeBase.UiComponents.Pages
     {
         private const string MainContainerStyle = "fullscreen-container";
         private readonly int _questionCount;
+        private int _questionsAnsweredCount;
+        
         private ScrollView _scrollview;
         
         private VisualElement _root;
@@ -34,6 +36,8 @@ namespace CodeBase.UiComponents.Pages
         private readonly ISerializer _jsonSerializer;
         
         private ProgressBarController _progressBarController;
+
+        private VisualElement _documentRoot;
         
         
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer)
@@ -68,10 +72,10 @@ namespace CodeBase.UiComponents.Pages
         
         public void Build()
         {
-            var documentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(_root).Build();
+            _documentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(_root).Build();
             
             //Build the container
-            var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(documentRoot).Build();
+            var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(_documentRoot).Build();
             
             CreateHeader(pageRoot);
             
@@ -133,12 +137,14 @@ namespace CodeBase.UiComponents.Pages
             
             _progressBarController.SetFillAmount(0);
         }
-        
+
+
+        private VisualElement _popup;
         private void CreateQuitPopUp()
         {
             HapticsHelper.RequestHaptics(HapticType.Low);
             
-            new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
+            _popup = new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
                 .SetContentText($"If you do you will.....KILL SCIENCE!")
                 .SetPercentageHeight( 60 )
                 .SetImage( $"Sprites/panicked_scientist")
@@ -146,6 +152,7 @@ namespace CodeBase.UiComponents.Pages
                 {
                     HapticsHelper.RequestHaptics();
                     Logger.Log( $"Quitting the questionnaire" );
+                    Close();
                     
                 })
                 .SetCancelAction(() =>
@@ -157,12 +164,12 @@ namespace CodeBase.UiComponents.Pages
         }
 
 
-        
+        private Button _submitButton;
         private void CreateFooter(VisualElement parent)
         {
             var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
             
-            var submitButton = new ButtonBuilder().SetText("Check").AddClass("questionnaire-footer-button").OnClick(() =>
+            _submitButton = new ButtonBuilder().SetText("Check").AddClass("questionnaire-footer-button").OnClick(() =>
             {
                 if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
                 {
@@ -191,7 +198,17 @@ namespace CodeBase.UiComponents.Pages
             if (value.IsAnswered) return;
             
             _progressBarController?.IncrementFill();
+
+            _questionsAnsweredCount++;
+            
             value.IsAnswered = true;
+
+            if (_questionsAnsweredCount >= _questionCount)
+            {
+                Logger.Log( $"All questions have been answered" );
+                
+                _submitButton.text = "Submit";
+            }
         }
 
         private void HandleAnswer(int questionIndex, string answerText)
@@ -227,6 +244,8 @@ namespace CodeBase.UiComponents.Pages
                 
                 RequestDataUpload(webData);
                 
+                Close();
+                
             }
             catch (Exception e)
             {
@@ -239,8 +258,15 @@ namespace CodeBase.UiComponents.Pages
         private void RequestDataUpload( WebData webData ) =>  MessageBus.Instance.Broadcast( NeurekaDemoMessages.DataUploadRequestMessage, webData );
         
         
-        //Helper function that is will be attached to the relevant button events
-        //ensures the root visual element is cleared when the questionnaires life is ended
-        private void Clear() => _root.Clear();
+        
+      //Ensure all questionnaire visual elements are removed and GC collected
+        private void Close()
+        {
+            _documentRoot?.RemoveFromHierarchy();
+            _documentRoot = null;
+
+            _popup?.RemoveFromHierarchy();
+            _popup = null;
+        }
     }
 }
