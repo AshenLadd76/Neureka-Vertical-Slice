@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Documents;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;
 using CodeBase.Services;
-using CodeBase.UiComponents.Factories;
 
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
@@ -121,7 +119,7 @@ namespace CodeBase.UiComponents.Pages
             var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
             
             new ButtonBuilder().SetText("X")
-                .OnClick(Quit)
+                .OnClick(CreateQuitPopUp)
                 .AddClass("demo-header-button")
                 .AddClass(UiStyleClassDefinitions.HeaderLabel)
                 .AttachTo(headerNav)
@@ -135,23 +133,26 @@ namespace CodeBase.UiComponents.Pages
             
             _progressBarController.SetFillAmount(0);
         }
-
-        private void Quit()
+        
+        private void CreateQuitPopUp()
         {
-           
+            HapticsHelper.RequestHaptics(HapticType.Low);
             
-            CreatePopUp();
-
-        }
-
-        private void CreatePopUp()
-        {
             new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
                 .SetContentText($"If you do you will.....KILL SCIENCE!")
                 .SetPercentageHeight( 60 )
                 .SetImage( $"Sprites/panicked_scientist")
-                .SetConfirmAction(() => { Logger.Log( $"Quitting the questionnaire" ); })
-                .SetCancelAction(() => { Logger.Log( $"Canceling the quit!!!" ); })
+                .SetConfirmAction(() =>
+                {
+                    HapticsHelper.RequestHaptics();
+                    Logger.Log( $"Quitting the questionnaire" );
+                    
+                })
+                .SetCancelAction(() =>
+                {
+                    HapticsHelper.RequestHaptics();
+                    Logger.Log( $"Canceling the quit!!!" );
+                })
                 .AttachTo(_root).Build();
         }
 
@@ -159,17 +160,20 @@ namespace CodeBase.UiComponents.Pages
         
         private void CreateFooter(VisualElement parent)
         {
-            
             var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
             
             var submitButton = new ButtonBuilder().SetText("Check").AddClass("questionnaire-footer-button").OnClick(() =>
             {
                 if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
                 {
-                    MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, HapticType.High );
+                    HapticsHelper.RequestHaptics( HapticType.High );
                     Logger.LogWarning("answers incomplete - failed validation.");
                     return;
                 }
+                
+                HapticsHelper.RequestHaptics( HapticType.Low );
+                HandleSubmit();
+                
             }).AttachTo(footerContainer).Build();
             
         }
@@ -192,6 +196,8 @@ namespace CodeBase.UiComponents.Pages
 
         private void HandleAnswer(int questionIndex, string answerText)
         {
+            HapticsHelper.RequestHaptics(HapticType.Low);
+            
             SetAnswer(questionIndex+1, answerText);
             
             int nextQuestionNumber = questionIndex + 1;
@@ -219,7 +225,7 @@ namespace CodeBase.UiComponents.Pages
                     Data = jsonData
                 };
                 
-                MessageBus.Instance.Broadcast( NeurekaDemoMessages.DataUploadRequestMessage, webData );
+                RequestDataUpload(webData);
                 
             }
             catch (Exception e)
@@ -227,6 +233,11 @@ namespace CodeBase.UiComponents.Pages
                 Logger.LogError($"Failed to handle submit: {e}");
             }
         }
+
+      //  private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
+        
+        private void RequestDataUpload( WebData webData ) =>  MessageBus.Instance.Broadcast( NeurekaDemoMessages.DataUploadRequestMessage, webData );
+        
         
         //Helper function that is will be attached to the relevant button events
         //ensures the root visual element is cleared when the questionnaires life is ended

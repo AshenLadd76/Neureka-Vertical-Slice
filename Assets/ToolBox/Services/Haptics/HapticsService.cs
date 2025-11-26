@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ToolBox.Messenger;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
@@ -6,33 +7,34 @@ namespace ToolBox.Services.Haptics
 {
     public class HapticsService : MonoBehaviour
     {
- 
-        
         private bool _isSubscribed = false;
+        
+        private readonly Dictionary<HapticType, HapticConfig> _hapticConfigs = new();
         
         private void OnEnable() => Subscribe();
         
         private void OnDisable() => UnSubscribe();
+
+        private void Awake()
+        {
+            _hapticConfigs.Add( HapticType.Low, new HapticConfig( 50, 75 ) );
+            _hapticConfigs.Add( HapticType.Medium, new HapticConfig( 200, 150 ) );
+            _hapticConfigs.Add( HapticType.High, new HapticConfig( 250, 225 ) );
+        }
         
 
 
         private void HandleHaptics(HapticType hapticType)
         {
-            Logger.Log("Handling Haptic Type: " + hapticType);
-
-
             if (!AndroidHapticsWrapper.HasVibrator())
             {
                 Logger.Log("This device does not have a vibration feature");
                 return;
             }
-            else
-            {
-                Logger.Log("Good To go with the vibrations");
-            }
             
-            AndroidHapticsWrapper.Vibrate(200, 254);
-
+            var config = _hapticConfigs[hapticType];
+            
+            AndroidHapticsWrapper.Vibrate(config.DurationMilliSeconds, config.Amplitude);
         }
         
 
@@ -66,5 +68,18 @@ namespace ToolBox.Services.Haptics
     public static class HapticsMessages
     {
         public const string OnHapticsRequest = "OnHapticsRequest";
+    }
+
+    public class HapticConfig
+    {
+        public HapticConfig(int durationMilliSeconds, int amplitude)
+        {
+            DurationMilliSeconds = durationMilliSeconds;
+            Amplitude = amplitude;
+        }
+        
+        public int DurationMilliSeconds { get; set; }
+        public int Amplitude { get; set; }
+        
     }
 }

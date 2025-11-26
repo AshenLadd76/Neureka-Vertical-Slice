@@ -78,7 +78,7 @@ using Logger = ToolBox.Utils.Logger;
          
          private EventCallback<ClickEvent> _clickCallback;
          
-         public TBuilder OnClick(Action onClick)
+         public virtual TBuilder OnClick(Action onClick)
          {
              ClearOnClick();
 
