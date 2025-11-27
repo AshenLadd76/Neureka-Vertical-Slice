@@ -149,7 +149,10 @@ namespace CodeBase.Documents.Neureka.Components
 
         private void BuildImage(VisualElement parent)
         {
+            
             Texture2D texture = ResolveTexture();
+
+            if (texture == null) return;
 
             
             // Use local variables for width/height, fallback to texture native size

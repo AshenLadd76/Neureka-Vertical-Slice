@@ -244,13 +244,37 @@ namespace CodeBase.UiComponents.Pages
                 
                 RequestDataUpload(webData);
                 
-                Close();
+                CreateConfirmationPopUp();
                 
             }
             catch (Exception e)
             {
                 Logger.LogError($"Failed to handle submit: {e}");
             }
+        }
+
+
+        private VisualElement _confirmationPopup;
+        private void CreateConfirmationPopUp()
+        {
+             
+            _confirmationPopup = new PopUpBuilder().SetTitleText("Thank you!")
+                .SetContentText($"For taking the time to complete this questionnaire")
+                .SetPercentageHeight( 40 )
+                //.SetImage( $"Sprites/panicked_scientist")
+                .SetConfirmAction(() =>
+                {
+                    HapticsHelper.RequestHaptics();
+                    Logger.Log( $"Quitting the questionnaire" );
+                    Close();
+                    
+                })
+                .SetCancelAction(() =>
+                {
+                    HapticsHelper.RequestHaptics();
+                    Logger.Log( $"Canceling the quit!!!" );
+                })
+                .AttachTo(_root).Build();
         }
 
       //  private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
@@ -267,6 +291,9 @@ namespace CodeBase.UiComponents.Pages
 
             _popup?.RemoveFromHierarchy();
             _popup = null;
+            
+            _confirmationPopup?.RemoveFromHierarchy();
+            _confirmationPopup = null;
         }
     }
 }
