@@ -22,7 +22,7 @@ namespace CodeBase.Documents
             
             var container  = new ContainerBuilder().AddClass(DemoHubUssDefinitions.Container).AddClass(DemoHubUssDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Neureka App Slice",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nerueka); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Risk Factors",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "Main Hub",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "Depression Questionnaire",() => {  MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "AQ",() => { MessageBus.Instance.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "AQ" ); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );

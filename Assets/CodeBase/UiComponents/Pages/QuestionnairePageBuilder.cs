@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CodeBase.Documents;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka;
+using CodeBase.Documents.Neureka.Assessments;
 using CodeBase.Pages;
 using ToolBox.Messenger;
 using ToolBox.Utils.Validation;
@@ -65,7 +66,8 @@ namespace UiFrameWork.RunTime
             {
                 [DocumentID.Nerueka] = () => new NeurekaDocument(),
                 [DocumentID.Hub] = () => new HubDocument(),
-                [DocumentID.TestDocument] = () => new TestDocument()
+                [DocumentID.TestDocument] = () => new TestDocument(),
+                [DocumentID.RiskFactors] = () => new RiskFactorsDocument()
               
             };
         }
@@ -105,8 +107,9 @@ namespace UiFrameWork.RunTime
     public enum DocumentID
     { 
         Hub,
-       Nerueka,
-       TestDocument,
+        Nerueka,
+        TestDocument,
+        RiskFactors,
        
        
     }
