@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Documents;
-using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments;
 using CodeBase.Pages;
+using ToolBox.Helpers;
 using ToolBox.Messenger;
+using ToolBox.Services.Data;
+using ToolBox.Services.Encryption;
 using ToolBox.Utils.Validation;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -25,6 +27,9 @@ namespace UiFrameWork.RunTime
         private VisualElement _rootVisualElement;
 
         private bool _isSubscribed = false;
+        
+       
+        private IFileDataService _fileDataService;
         
         private void OnEnable()
         {
@@ -58,6 +63,8 @@ namespace UiFrameWork.RunTime
             InitRecipeDictionary();
             
             _activeDocuments = new Dictionary<DocumentID, IDocument>();
+
+            _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), ".json");
         }
 
         private void InitRecipeDictionary()
@@ -67,7 +74,8 @@ namespace UiFrameWork.RunTime
                 [DocumentID.Nerueka] = () => new NeurekaDocument(),
                 [DocumentID.Hub] = () => new HubDocument(),
                 [DocumentID.TestDocument] = () => new TestDocument(),
-                [DocumentID.RiskFactors] = () => new RiskFactorsDocument()
+                [DocumentID.RiskFactors] = () => new RiskFactorsDocument(_fileDataService)
+                
               
             };
         }

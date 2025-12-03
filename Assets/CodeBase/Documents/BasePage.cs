@@ -25,7 +25,9 @@ namespace CodeBase.Documents
         {
             ParentDocument = document;
         }
-        
+
+      
+
         public virtual void Open(VisualElement root, IDocument document)
         {
             Root = root ?? throw new System.ArgumentNullException(nameof(root));

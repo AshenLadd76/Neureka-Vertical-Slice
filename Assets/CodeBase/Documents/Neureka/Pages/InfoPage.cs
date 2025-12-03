@@ -1,13 +1,12 @@
 using CodeBase.Documents.DemoA.Components;
 using CodeBase.Helpers;
 using CodeBase.UiComponents.Styles;
-using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace CodeBase.Documents.DemoA.Pages
+namespace CodeBase.Documents.Neureka.Pages
 {
     public class InfoPage : BasePage
     {
@@ -44,6 +43,16 @@ namespace CodeBase.Documents.DemoA.Pages
             new PageFooter(PageRoot, "Welcome", () => { Logger.Log("Welcome to CodeBase.DemoA.Pages"); });
             
             new FadeHelper(content, false, true);
+        }
+
+        private void Next()
+        {
+            
+        }
+
+        private void Previous()
+        {
+            
         }
 
         private void BackAction(bool closeSelf)

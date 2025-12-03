@@ -1,7 +1,7 @@
-using CodeBase.Documents.DemoA;
-using CodeBase.UiComponents.Styles;
-using ToolBox.Services.Haptics;
-using UiFrameWork.Components;
+using System;
+using System.Collections.Generic;
+using ToolBox.Extensions;
+using ToolBox.Services.Data;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -9,24 +9,70 @@ namespace CodeBase.Documents.Neureka.Assessments
 {
     public class RiskFactorsDocument : BaseDocument
     {
-        private const string MainContainerStyle = "fullscreen-container";
+        private const string Directory = "RiskFactors";
+        private const string FileName = "RiskFactorsData.json";
         
         private VisualElement _documentRoot;
         
         private AssessmentState _assessmentState;
 
-        private int _progressIndex; 
+        private int _progressIndex = -1;
+        private int _blurbIndex = -1;
+        private int _blurbContentCount;
         
+        private readonly IFileDataService _fileDataService;
+
+
         protected override void Build()
         {
             base.Build();
-            Logger.Log( $"Building Risk factors assessment document" );
-
-            _assessmentState = AssessmentState.Continuing;
             
+            AddPageRecipes();
+            
+            var doesFileExist = _fileDataService.FileExists(Directory, FileName);
+             
+            if (!doesFileExist)
+            {
+                _assessmentState = AssessmentState.New;
+            }
+            else
+            {
+                //Load data and check progress...
+            }
+            
+             
+            //Check if assessment data exists
             CheckAssessmentStatus();
+            
+            CreateAssessmentData();
+            
+            
+        }
+        
+
+        public RiskFactorsDocument(IFileDataService fileDataService)
+        {
+            _fileDataService = fileDataService;
+        }
+        
+        
+        private void AddPageRecipes()
+        {
+            string title = "Risk Factors";
+            
+            var blurbContentList = new List<BlurbContent>
+            {
+                new BlurbContent("001",  $"Thanks for clicking on the Risk Factors  science challenge!\n\nThis challenge is all about helping researchers find new ways to detect dementia early.", "Riskfactors/Images/blurb001"),
+                new BlurbContent("002", $"You'll be asked to complete 6 questionnaires about yourself. You can complete all questionnaires in one go or complete them one by one, over several days. \n\nYour progress will be saved each time you finish a game or questionnaire.", "Riskfactors/Images/blurb002"),
+              
+                
+            };
+            var content = new IntroPageContent( title, blurbContentList );
+            
+            PageRecipes[PageID.RiskFactorsIntro] = () => new IntroPage(this, content);
         }
 
+        
         private void CheckAssessmentStatus()
         {
             switch (_assessmentState)
@@ -50,6 +96,22 @@ namespace CodeBase.Documents.Neureka.Assessments
         private void LoadIntro()
         {
             Logger.Log( $"Loading intro pages" );
+            OpenPage(PageID.RiskFactorsIntro);
+        }
+
+        private void CreateAssessmentData()
+        {
+            if (_fileDataService.FileExists(Directory, FileName)) return;
+            
+            var assessmentData = new RiskFactorsData();
+            assessmentData.AssessmentIdList.Shuffle();
+            
+            _fileDataService.Save(assessmentData, Directory, FileName, false);
+        }
+
+        private void OnFinishedIntro()
+        {
+            //Create a new riskfactors data object and save it
             
         }
 
@@ -71,66 +133,6 @@ namespace CodeBase.Documents.Neureka.Assessments
             Logger.Log( $"Loading end section" );
         }
         
-        
-
-        private void BuildIntroPage()
-        {
-            var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(DocumentRoot).Build();
-            
-            CreateHeader(pageRoot);
-            
-            CreateContent(pageRoot);
-            
-            CreateFooter(pageRoot);
-        }
-        
-        private void CreateHeader(VisualElement parent)
-        {
-            var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
-            
-            new ButtonBuilder().SetText("X")
-                .OnClick(() => { Logger.Log( "Click X Button" ); })
-                .AddClass("demo-header-button")
-                .AddClass(UiStyleClassDefinitions.HeaderLabel)
-                .AttachTo(headerNav)
-                .Build();
-            
-            var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
-
-            var label = new LabelBuilder().SetText("Risk Factors").AddClass("header-label").AttachTo(headerTitle).Build();
-            
-        }
-
-        private void CreateContent(VisualElement parent)
-        {
-            var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(parent).Build();
-
-            //Build the scrollview and add it to the content container
-            var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
-                .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
-            
-            
-            content.Add(scrollview);
-        }
-        
-        private Button _continueButton;
-        private void CreateFooter(VisualElement parent)
-        {
-            var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
-            
-            _continueButton = new ButtonBuilder().SetText("Continue").AddClass("questionnaire-footer-button").OnClick(() =>
-            {
-                HapticsHelper.RequestHaptics( HapticType.Low );
-                HandleContinue();
-                
-            }).AttachTo(footerContainer).Build();
-            
-        }
-
-        private void HandleContinue()
-        {
-            Logger.Log( "Click Continue Button" );
-        }
     }
 
     public enum AssessmentState
@@ -138,5 +140,34 @@ namespace CodeBase.Documents.Neureka.Assessments
         New,
         Continuing,
         Completed
+    }
+
+    public class BlurbContent
+    {
+        public BlurbContent(string id, string blurb, string imagePath)
+        {
+            Id = id;
+            Blurb = blurb;
+            ImagePath = imagePath;
+                
+        }
+        
+        public string Id { get; set; }
+        public string Blurb { get; set; }
+        public string ImagePath { get; set; }
+    }
+
+    [Serializable]
+    public class IntroPageContent
+    {
+        public IntroPageContent(string title, List<BlurbContent> blurbContentList)
+        {
+            Title = title;
+            ContentList = blurbContentList;
+            
+        }
+        
+        public string Title { get; set; }
+        public List<BlurbContent> ContentList { get; set; }
     }
 }

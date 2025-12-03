@@ -3,10 +3,20 @@ using ToolBox.Helpers;
 using System;
 using System.IO;
 using UnityEngine;
+using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Services.Data
 {
-    public class FileDataService 
+    public interface IFileDataService
+    {
+        Result Save<T>(T data, string folder, string fileName, bool encrypt = true);
+        Result<T> Load<T>(string folder, string fileName, bool encrypted = true);
+        Result<string[]> GetAllFiles(string folder, string extension = null);
+        Result<string[]> GetSubdirectories(string folder);
+        bool FileExists(string folder, string fileName);
+    }
+
+    public class FileDataService : IFileDataService
     {
         private readonly string _basePath;
         private readonly string _fileExtension;
@@ -29,7 +39,7 @@ namespace ToolBox.Services.Data
             if (string.IsNullOrWhiteSpace(folder) || string.IsNullOrWhiteSpace(fileName))
                 throw new ArgumentException("Folder and fileName must not be null or empty.");
 
-            string fullPath = Path.Combine(_basePath, folder, $"{fileName}.{_fileExtension}");
+            string fullPath = Path.Combine(_basePath, folder, $"{fileName}");
             
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
             
@@ -43,6 +53,8 @@ namespace ToolBox.Services.Data
             {
                 string path = BuildPath(folder, fileName);
                 string serialized = _serializer.Serialize(data);
+                
+                Logger.Log(serialized);
 
                 if (encrypt)
                     serialized = _encryptionService.Encrypt(serialized);
@@ -116,7 +128,10 @@ namespace ToolBox.Services.Data
         
         public bool FileExists(string folder, string fileName)
         {
-            string path = Path.Combine(_basePath, "Data", folder, $"{fileName}.{_fileExtension}");
+            string path = Path.Combine(_basePath, folder, $"{fileName}");
+
+            Logger.Log( $"Checking path {path}  " );
+            
             return File.Exists(path);
         }
         

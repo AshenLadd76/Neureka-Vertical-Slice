@@ -5,6 +5,8 @@
         Splash,
         MainHub,
         InfoPage,
-        NavPage
+        NavPage,
+        RiskFactorsIntro,
+        RiskFactorsOutro,
     }
 }
