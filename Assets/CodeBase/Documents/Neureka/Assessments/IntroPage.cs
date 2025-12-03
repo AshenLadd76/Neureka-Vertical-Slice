@@ -131,6 +131,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             var footer = new StandardFooter.Builder()
                 .SetParent(parent)
                 .SetPrimaryButton(Next, "Continue")
+                .SetSecondaryButton(Previous, "Cancel")
                 .SetFooterStyle("questionnaire-footer")
                 .SetButtonStyle("questionnaire-footer-button")
                 .Build();

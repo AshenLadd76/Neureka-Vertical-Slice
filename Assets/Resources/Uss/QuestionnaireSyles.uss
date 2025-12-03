@@ -99,14 +99,15 @@ flex-direction: row;
 .questionnaire-footer
 {
    
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 0px;
     background-color: #3382CC;
     color: white;
     width: 100%;
-    height: 12%;
+    height: auto;
+    max-height:35%;
     border-top-left-radius: 48px;
     border-top-right-radius: 48px;
     border-bottom-left-radius: 0;
@@ -119,11 +120,13 @@ flex-direction: row;
     height: 40%;
     min-width:50%;
     min-height:20%;
+     max-height:30%;
     font-size: 46px;
     color: #0C1353;   
     -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
     background-color: #fff;
-    border-radius:48px
+    border-radius:48px;
+    margin-bottom:20px;
 }
 
 .fullscreen-fade-container {
@@ -252,6 +255,27 @@ popup-title-container
     min-height: 50px;
     width: 100%; /* stretch across the container */
 }
+
+/* Footer container */
+.standard-footer {
+    display: flex;               /* enable flex layout */
+    flex-direction: column;      /* stack buttons vertically */
+    justify-content: flex-start; /* buttons start at top */
+    align-items: stretch;        /* buttons take full width */
+    padding: 20px;
+    min-height: 0;               /* allow container to shrink if needed */
+    height: auto;    
+}
+
+/* Button style */
+.standard-footer-button {
+    flex-grow: 0;        /* don’t expand vertically */
+    flex-shrink: 0;      /* prevent shrinking */
+    height: 40px;        /* fixed height */
+    margin-top: 5px;  
+    margin-bottom: 5px;     /* vertical spacing between buttons */
+}
+
 
 
 
