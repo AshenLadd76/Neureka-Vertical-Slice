@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
+using CodeBase.Documents.Neureka.Components;
 using CodeBase.UiComponents.Footers;
+using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Extensions;
 using ToolBox.Services.Haptics;
@@ -21,23 +23,20 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private List<BlurbContent> _blurbContentList;
         
-        private IDocument _parentDocument;
-        
         private IntroPageContent _introPageContent;
         
         private Label _blurbLabel;
-        
+
+        private VisualElement _pageRoot;
         
         public IntroPage(IDocument document, IntroPageContent content) : base(document)
         {
-            _parentDocument = document;
             PageIdentifier = PageID.InfoPage;
             _introPageContent = content;
 
             _blurbContentList = _introPageContent.ContentList;
         }
-
-
+        
         protected override void Build()
         {
             base.Build();
@@ -47,66 +46,51 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private void CreatePage()
         {
-            var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(Root).Build();
+            _pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(Root).Build();
             
-            CreateHeader(pageRoot);
+            CreateHeader(_pageRoot);
             
-            CreateContent(pageRoot);
+            CreateContent(_pageRoot);
             
-            CreateFooter(pageRoot);
+            CreateFooter(_pageRoot);
             
             UpdateContent(0);
         }
 
         
-        private void Next()
-        {
-            if (_blurbContentList.IsNullOrEmpty()) return;
-
-            UpdateContent(_blurbIndex + 1);
-        }
-
-        private void Previous()
-        {
-            if (_blurbContentList.IsNullOrEmpty()) return;
-
-            UpdateContent(_blurbIndex - 1);
-        }
+        private void Next() => UpdateContent(_blurbIndex + 1);
         
-
+        private void Previous() => UpdateContent(_blurbIndex - 1);
+        
+        
         private void UpdateContent(int newIndex)
         {
-            if (_blurbContentList == null || _blurbContentList.Count == 0) return;
+            if (_blurbContentList.IsNullOrEmpty()) return;
+            
+            HapticsHelper.RequestHaptics(HapticType.Low);
 
             // Clamp between 0 and last index
             _blurbIndex = Math.Clamp(newIndex, 0, _blurbContentList.Count - 1);
 
-            Logger.Log($"Blurb {_blurbIndex}: { _blurbContentList[_blurbIndex].Blurb }");
-
+            _header.SetBackButtonActive(_blurbIndex != 0);
+            
             _blurbLabel.text = _blurbContentList[_blurbIndex].Blurb;
         }
-        
+
+
+        private StandardHeader _header;
         private void CreateHeader(VisualElement parent)
         {
-            var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
-
-            new ButtonBuilder().SetText("<")
-                .OnClick(Previous)
-                .AddClass("demo-header-button")
-                .AddClass(UiStyleClassDefinitions.HeaderLabel)
-                .AttachTo(headerNav)
+            _header = new StandardHeader.Builder()
+                .SetParent(parent)
+                .SetBackButton(Previous)
+                .SetQuitButton(CreateQuitPopUp)
+                .SetHeaderStyle("header-nav")
+                .SetTitleTextStyle("header-label")
+                .SetButtonStyle("demo-header-button")
                 .Build();
             
-            new ButtonBuilder().SetText("X")
-                .OnClick(() => { Logger.Log( "X" ); })
-                .AddClass("demo-header-button")
-                .AddClass(UiStyleClassDefinitions.HeaderLabel)
-                .AttachTo(headerNav)
-                .Build();
-            
-            var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
-
-            var label = new LabelBuilder().SetText(_introPageContent.Title).AddClass("header-label").AttachTo(headerTitle).Build();
+            _header.SetBackButtonActive(false);
         }
         
         private void CreateContent(VisualElement parent)
@@ -120,7 +104,6 @@ namespace CodeBase.Documents.Neureka.Assessments
             scrollview.contentContainer.style.flexDirection = FlexDirection.Column;
             scrollview.contentContainer.style.flexGrow = 1;
             
-              
             _blurbLabel = new LabelBuilder().AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(scrollview.contentContainer).Build();
             _blurbLabel.style.flexShrink = 0;
             _blurbLabel.style.whiteSpace = WhiteSpace.Normal; // allow wrapping
@@ -131,10 +114,46 @@ namespace CodeBase.Documents.Neureka.Assessments
             var footer = new StandardFooter.Builder()
                 .SetParent(parent)
                 .SetPrimaryButton(Next, "Continue")
-                .SetSecondaryButton(Previous, "Cancel")
+               // .SetSecondaryButton(Previous, "Cancel")
                 .SetFooterStyle("questionnaire-footer")
                 .SetButtonStyle("questionnaire-footer-button")
                 .Build();
+        }
+        
+        
+        private VisualElement _popup;
+        private void CreateQuitPopUp()
+        {
+            HapticsHelper.RequestHaptics(HapticType.Low);
+            
+            _popup = new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
+                .SetContentText($"If you do you will.....KILL SCIENCE!")
+                .SetPercentageHeight( 60 )
+                .SetImage( $"Sprites/panicked_scientist")
+                .SetConfirmAction(() =>
+                {
+                    HapticsHelper.RequestHaptics();
+                    Logger.Log( $"Quitting the questionnaire" );
+                    Close();
+                    
+                })
+                .SetCancelAction(() =>
+                {
+                    HapticsHelper.RequestHaptics();
+                    Logger.Log( $"Canceling the quit!!!" );
+                })
+                .AttachTo(Root).Build();
+        }
+
+        public override void Close()
+        {
+            _pageRoot?.RemoveFromHierarchy();
+            _pageRoot = null;
+
+            _popup?.RemoveFromHierarchy();
+            _popup = null;
+            
+            base.Close();
         }
     }
 }

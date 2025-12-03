@@ -1,5 +1,4 @@
 using System;
-using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UnityEngine.UIElements;
 
@@ -7,48 +6,48 @@ namespace CodeBase.UiComponents.Footers
 {
     public class StandardFooter
     {
-        private Action PrimaryAction { get; set; }
-        private Action SecondaryAction { get; set; }
-        private string PrimaryText { get; set; } = "Continue";
-        private string SecondaryText { get; set; } = "Back";
-        private VisualElement Parent { get; set; } = null!;
-        private string FooterStyle { get; set; } = "questionnaire-footer";
-        private string ButtonStyle { get; set; } = "questionnaire-footer-button";
+        private Action _primaryAction;
+        private Action _secondaryAction;
+        
+        private string _primaryText = "Continue";
+        private string _secondaryText = "Back";
+        private VisualElement _parent;
+        
+        private string _footerStyle = "questionnaire-footer";
+        private string _buttonStyle  = "questionnaire-footer-button";
 
-        public VisualElement Root { get; private set; }
+        private VisualElement _root;
 
         private void BuildFooter()
         {
-            Root = new ContainerBuilder()
-                .AddClass(FooterStyle)
-                .AttachTo(Parent)
+            _root = new ContainerBuilder()
+                .AddClass(_footerStyle)
+                .AttachTo(_parent)
                 .Build();
 
-            if (PrimaryAction != null)
+            if (_primaryAction != null)
             {
                 new ButtonBuilder()
-                    .SetText(PrimaryText)
-                    .AddClass(ButtonStyle)
+                    .SetText(_primaryText)
+                    .AddClass(_buttonStyle)
                     .OnClick(() =>
                     {
-                        HapticsHelper.RequestHaptics(HapticType.Low);
-                        PrimaryAction.Invoke();
+                        _primaryAction.Invoke();
                     })
-                    .AttachTo(Root)
+                    .AttachTo(_root)
                     .Build();
             }
 
-            if (SecondaryAction != null)
+            if (_secondaryAction != null)
             {
                 new ButtonBuilder()
-                    .SetText(SecondaryText)
-                    .AddClass(ButtonStyle)
+                    .SetText(_secondaryText)
+                    .AddClass(_buttonStyle)
                     .OnClick(() =>
                     {
-                        HapticsHelper.RequestHaptics(HapticType.Low);
-                        SecondaryAction.Invoke();
+                        _secondaryAction.Invoke();
                     })
-                    .AttachTo(Root)
+                    .AttachTo(_root)
                     .Build();
             }
         }
@@ -60,39 +59,39 @@ namespace CodeBase.UiComponents.Footers
 
             public Builder SetParent(VisualElement parent)
             {
-                _footer.Parent = parent ?? throw new ArgumentNullException(nameof(parent));
+                _footer._parent = parent ?? throw new ArgumentNullException(nameof(parent));
                 return this;
             }
 
             public Builder SetPrimaryButton(Action action, string text = "Continue")
             {
-                _footer.PrimaryAction = action;
-                _footer.PrimaryText = text;
+                _footer._primaryAction = action;
+                _footer._primaryText = text;
                 return this;
             }
 
             public Builder SetSecondaryButton(Action action, string text = "Back")
             {
-                _footer.SecondaryAction = action;
-                _footer.SecondaryText = text;
+                _footer._secondaryAction = action;
+                _footer._secondaryText = text;
                 return this;
             }
 
             public Builder SetFooterStyle(string style)
             {
-                _footer.FooterStyle = style;
+                _footer._footerStyle = style;
                 return this;
             }
 
             public Builder SetButtonStyle(string style)
             {
-                _footer.ButtonStyle = style;
+                _footer._buttonStyle = style;
                 return this;
             }
 
             public StandardFooter Build()
             {
-                if (_footer.Parent == null)
+                if (_footer._parent == null)
                     throw new InvalidOperationException("Parent must be set before building the footer.");
 
                 _footer.BuildFooter();
