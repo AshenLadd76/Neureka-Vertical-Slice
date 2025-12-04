@@ -76,6 +76,8 @@ namespace CodeBase.Documents.Neureka.Components
             _contentText = contentText;
             return this;
         }
+        
+      
 
         public PopUpBuilder SetConfirmAction(Action confirmAction)
         {
@@ -95,6 +97,9 @@ namespace CodeBase.Documents.Neureka.Components
             return this;
         }
 
+        
+        private Button _confirmButton;
+        private Button _cancelButton;
         public VisualElement Build()
         {
             var background = BuildBackgroundOverlay(_root);
@@ -114,14 +119,17 @@ namespace CodeBase.Documents.Neureka.Components
            
             var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(popUpContent).Build();
             
-            ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction , popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
+            _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction , popupFooter);
+                _confirmButton.AddToClassList( DemoHubUssDefinitions.MenuButton );
             
-            ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
+            _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
             {
                 _cancelAction?.Invoke();
                 Close(popUpContainer,background);
 
-            }, popupFooter).AddToClassList( DemoHubUssDefinitions.MenuButton );
+            }, popupFooter);
+                
+                _cancelButton.AddToClassList( DemoHubUssDefinitions.MenuButton );
             
             _root.MarkDirtyRepaint();
             popUpContainer.schedule.Execute(_ =>
@@ -132,6 +140,9 @@ namespace CodeBase.Documents.Neureka.Components
 
             return background;
         }
+        
+        public void SetConfirmButtonActive( bool isActive ) => _confirmButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
+        public void SetCancelButtonActive( bool isActive ) => _cancelButton.style.display = isActive ?  DisplayStyle.Flex : DisplayStyle.None;
 
         private VisualElement BuildBackgroundOverlay(VisualElement parent)
         {

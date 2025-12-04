@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
-using CodeBase.UiComponents.Footers;
-using CodeBase.UiComponents.Headers;
+using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Extensions;
 using ToolBox.Services.Haptics;
@@ -24,10 +23,15 @@ namespace CodeBase.Documents.Neureka.Assessments
         private List<BlurbContent> _blurbContentList;
         
         private IntroPageContent _introPageContent;
+
+        private Action _onFinishedIntro;
+        
+       
         
         private Label _blurbLabel;
 
         private VisualElement _pageRoot;
+        
         
         public IntroPage(IDocument document, IntroPageContent content) : base(document)
         {
@@ -35,6 +39,8 @@ namespace CodeBase.Documents.Neureka.Assessments
             _introPageContent = content;
 
             _blurbContentList = _introPageContent.ContentList;
+            
+            _onFinishedIntro = _introPageContent.OnFinished;
         }
         
         protected override void Build()
@@ -61,8 +67,10 @@ namespace CodeBase.Documents.Neureka.Assessments
         private void Next() => UpdateContent(_blurbIndex + 1);
         
         private void Previous() => UpdateContent(_blurbIndex - 1);
-        
-        
+
+
+        private bool _hasScheduledFinalAction;
+        private Action _currentPrimaryButtonAction;
         private void UpdateContent(int newIndex)
         {
             if (_blurbContentList.IsNullOrEmpty()) return;
@@ -73,8 +81,13 @@ namespace CodeBase.Documents.Neureka.Assessments
             _blurbIndex = Math.Clamp(newIndex, 0, _blurbContentList.Count - 1);
 
             _header.SetBackButtonActive(_blurbIndex != 0);
-            
             _blurbLabel.text = _blurbContentList[_blurbIndex].Blurb;
+            
+            bool isLastPage = _blurbIndex == _blurbContentList.Count - 1;
+            
+            _footer.SetPrimaryButtonActive(!isLastPage);
+            _footer.SetSecondaryButtonActive(isLastPage);
+            
         }
 
 
@@ -83,6 +96,7 @@ namespace CodeBase.Documents.Neureka.Assessments
         {
             _header = new StandardHeader.Builder()
                 .SetParent(parent)
+                .SetTitle("Risk Factors")
                 .SetBackButton(Previous)
                 .SetQuitButton(CreateQuitPopUp)
                 .SetHeaderStyle("header-nav")
@@ -109,15 +123,18 @@ namespace CodeBase.Documents.Neureka.Assessments
             _blurbLabel.style.whiteSpace = WhiteSpace.Normal; // allow wrapping
         }
 
+        private StandardFooter _footer;
         private void CreateFooter(VisualElement parent)
         {
-            var footer = new StandardFooter.Builder()
+            _footer = new StandardFooter.Builder()
                 .SetParent(parent)
                 .SetPrimaryButton(Next, "Continue")
-               // .SetSecondaryButton(Previous, "Cancel")
+                .SetSecondaryButton(OnFinishedIntro, "Start")
                 .SetFooterStyle("questionnaire-footer")
                 .SetButtonStyle("questionnaire-footer-button")
                 .Build();
+
+            _currentPrimaryButtonAction = Next;
         }
         
         
@@ -145,6 +162,12 @@ namespace CodeBase.Documents.Neureka.Assessments
                 .AttachTo(Root).Build();
         }
 
+        private void OnFinishedIntro()
+        {
+            _onFinishedIntro?.Invoke();
+            Close();
+        }
+
         public override void Close()
         {
             _pageRoot?.RemoveFromHierarchy();
@@ -152,6 +175,8 @@ namespace CodeBase.Documents.Neureka.Assessments
 
             _popup?.RemoveFromHierarchy();
             _popup = null;
+            
+            
             
             base.Close();
         }

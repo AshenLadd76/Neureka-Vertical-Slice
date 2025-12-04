@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace CodeBase.Documents.Neureka.Assessments
 {
@@ -7,24 +8,19 @@ namespace CodeBase.Documents.Neureka.Assessments
     public class RiskFactorsData
     {
         
-        private List<string> assessmentIdList = new();
+        private List<string> _assessmentIdList;
         public List<string> AssessmentIdList
         {
-            get => assessmentIdList;
-            set => assessmentIdList = value;
+            get => _assessmentIdList;
+            set => _assessmentIdList = value;
         }
         
-        public int progressIndex = -1;
+        public int ProgressIndex = -1;
 
         
         public RiskFactorsData()
         {
-            assessmentIdList.Add( "hhi" );
-            assessmentIdList.Add( "dfh" );
-            assessmentIdList.Add( "atoa" );
-            assessmentIdList.Add( "sds" );
-            assessmentIdList.Add( "ses" );
-            assessmentIdList.Add( "ucla" );
+            
         }
 
         public static class RiskFactorsContent

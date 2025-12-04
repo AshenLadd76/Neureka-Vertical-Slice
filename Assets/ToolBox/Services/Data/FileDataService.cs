@@ -78,6 +78,9 @@ namespace ToolBox.Services.Data
                     return Result<T>.Fail($"File does not exist: {path}");
 
                 string content = File.ReadAllText(path);
+                
+                Logger.Log(content);
+                
                 if (encrypted)
                     content = _encryptionService.Decrypt(content);
 

@@ -37,9 +37,11 @@ namespace CodeBase.UiComponents.Pages
         private ProgressBarController _progressBarController;
 
         private VisualElement _documentRoot;
+
+        private Action _onFinished;
         
         
-        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer)
+        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer, Action onFinished = null)
         {
             if (questionnaireData == null)
                 throw new ArgumentNullException(nameof(questionnaireData), "Questionnaire data cannot be null.");
@@ -54,6 +56,8 @@ namespace CodeBase.UiComponents.Pages
             _questionCount = questionnaireData.Questions.Length;
             
             _questionnaireData = questionnaireData;
+            
+            _onFinished = onFinished;
             
             InitializeAnswerDictionary(questionnaireData);
         }
@@ -256,24 +260,32 @@ namespace CodeBase.UiComponents.Pages
         private VisualElement _confirmationPopup;
         private void CreateConfirmationPopUp()
         {
-             
-            _confirmationPopup = new PopUpBuilder().SetTitleText("Thank you!")
+
+            var popUpBuilder = new PopUpBuilder().SetTitleText("Thank you!")
                 .SetContentText($"For taking the time to complete this questionnaire")
-                .SetPercentageHeight( 40 )
+                .SetPercentageHeight(40)
                 //.SetImage( $"Sprites/panicked_scientist")
                 .SetConfirmAction(() =>
                 {
                     HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Quitting the questionnaire" );
+                    Logger.Log($"Quitting the questionnaire");
+
+                    _onFinished?.Invoke();
+
                     Close();
-                    
+
                 })
-                .SetCancelAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Canceling the quit!!!" );
-                })
-                .AttachTo(_root).Build();
+                // .SetCancelAction(() =>
+                // {
+                //     HapticsHelper.RequestHaptics();
+                //     Logger.Log( $"Canceling the quit!!!" );
+                // })
+                .AttachTo(_root);
+            
+            _confirmationPopup = popUpBuilder.Build();
+            
+            popUpBuilder.SetCancelButtonActive(false);
+            
         }
 
       //  private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );

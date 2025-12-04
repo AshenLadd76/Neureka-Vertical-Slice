@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using CodeBase.Services;
 using ToolBox.Extensions;
+using ToolBox.Messenger;
 using ToolBox.Services.Data;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -17,12 +19,12 @@ namespace CodeBase.Documents.Neureka.Assessments
         private AssessmentState _assessmentState;
 
         private int _progressIndex = -1;
-        private int _blurbIndex = -1;
         private int _blurbContentCount;
         
         private readonly IFileDataService _fileDataService;
-
-
+        
+        private RiskFactorsData _riskFactorsData;
+        
         protected override void Build()
         {
             base.Build();
@@ -30,23 +32,12 @@ namespace CodeBase.Documents.Neureka.Assessments
             AddPageRecipes();
             
             var doesFileExist = _fileDataService.FileExists(Directory, FileName);
-             
-            if (!doesFileExist)
-            {
-                _assessmentState = AssessmentState.New;
-            }
-            else
-            {
-                //Load data and check progress...
-            }
             
+            CreateAssessmentData(doesFileExist);
              
-            //Check if assessment data exists
+            _assessmentState = !doesFileExist ? AssessmentState.New : AssessmentState.Continuing;
+            
             CheckAssessmentStatus();
-            
-            CreateAssessmentData();
-            
-            
         }
         
 
@@ -55,21 +46,21 @@ namespace CodeBase.Documents.Neureka.Assessments
             _fileDataService = fileDataService;
         }
         
-        
         private void AddPageRecipes()
         {
             string title = "Risk Factors";
             
-            var blurbContentList = new List<BlurbContent>
+            var introContentList = new List<BlurbContent>
             {
                 new BlurbContent("001",  $"Thanks for clicking on the Risk Factors  science challenge!\n\nThis challenge is all about helping researchers find new ways to detect dementia early.", "Riskfactors/Images/blurb001"),
                 new BlurbContent("002", $"You'll be asked to complete 6 questionnaires about yourself. You can complete all questionnaires in one go or complete them one by one, over several days. \n\nYour progress will be saved each time you finish a game or questionnaire.", "Riskfactors/Images/blurb002"),
-              
                 
             };
-            var content = new IntroPageContent( title, blurbContentList );
+            var introContent = new IntroPageContent( title, introContentList, OnFinishedIntro );
             
-            PageRecipes[PageID.RiskFactorsIntro] = () => new IntroPage(this, content);
+            
+            PageRecipes[PageID.RiskFactorsIntro] = () => new IntroPage(this, introContent);
+            PageRecipes[PageID.RiskFactorsOutro] = () => new IntroPage(this, introContent);
         }
 
         
@@ -77,97 +68,88 @@ namespace CodeBase.Documents.Neureka.Assessments
         {
             switch (_assessmentState)
             {
-                case AssessmentState.New:
-                    LoadIntro();
-                    break;
-                case AssessmentState.Continuing:
-                    LoadNextSection();
-                    break;
-                case AssessmentState.Completed:
-                    LoadEndSection();
-                    break;
-                default:
-                    Logger.LogError("Unknown assessment state");
-                    break;
+                case AssessmentState.New: LoadIntro(); break;
+                case AssessmentState.Continuing: RequestQuestionnaire(); break;
+                case AssessmentState.Completed: LoadOutro(); break;
+                default: Logger.LogError("Unknown assessment state"); break;
+            }
+        }
+
+      
+        
+        private void CreateAssessmentData(bool doesDataExist)
+        {
+            if (doesDataExist)
+            {
+                _riskFactorsData = _fileDataService.Load<RiskFactorsData>(Directory, FileName).Value;
+                _progressIndex = _riskFactorsData.ProgressIndex;
+                
+                Logger.Log( $"Data already exists so im skipping it " );
+                return;
             }
 
-        }
-
-        private void LoadIntro()
-        {
-            Logger.Log( $"Loading intro pages" );
-            OpenPage(PageID.RiskFactorsIntro);
-        }
-
-        private void CreateAssessmentData()
-        {
-            if (_fileDataService.FileExists(Directory, FileName)) return;
+            _riskFactorsData = new RiskFactorsData
+            {
+                AssessmentIdList = new List<string>
+                {
+                    "hhi-10",
+                    "AQ",
+                    "cesd-20",
+                    "sqs-30",
+                    "hhi-10",
+                    "cesd-20"
+                }
+            };
             
-            var assessmentData = new RiskFactorsData();
-            assessmentData.AssessmentIdList.Shuffle();
+            _riskFactorsData.AssessmentIdList.Shuffle();
             
-            _fileDataService.Save(assessmentData, Directory, FileName, false);
+            _fileDataService.Save(_riskFactorsData, Directory, FileName, false);
         }
-
+        
         private void OnFinishedIntro()
         {
-            //Create a new riskfactors data object and save it
+            _assessmentState = AssessmentState.Continuing;
+            _progressIndex = 0;
             
-        }
-
-        private void LoadNextSection()
-        {
-            Logger.Log( $"Loading next section" );
-            //Increment progress index;
-            
-            //Get next questionnaire id
-            
-            //Request questionnaire from questionnaire builder
-            
-            //Pass this method as a callback
-            
-        }
-
-        private void LoadEndSection()
-        {
-            Logger.Log( $"Loading end section" );
+            CheckAssessmentStatus();
         }
         
-    }
-
-    public enum AssessmentState
-    {
-        New,
-        Continuing,
-        Completed
-    }
-
-    public class BlurbContent
-    {
-        public BlurbContent(string id, string blurb, string imagePath)
+        private void IncrementProgressIndex()
         {
-            Id = id;
-            Blurb = blurb;
-            ImagePath = imagePath;
-                
-        }
-        
-        public string Id { get; set; }
-        public string Blurb { get; set; }
-        public string ImagePath { get; set; }
-    }
-
-    [Serializable]
-    public class IntroPageContent
-    {
-        public IntroPageContent(string title, List<BlurbContent> blurbContentList)
-        {
-            Title = title;
-            ContentList = blurbContentList;
+            _riskFactorsData ??= _fileDataService.Load<RiskFactorsData>(Directory, FileName, false).Value;
             
+            // Advance progress
+            _progressIndex =  Math.Clamp(_riskFactorsData.ProgressIndex + 1, 0, _riskFactorsData.AssessmentIdList.Count);
+            _riskFactorsData.ProgressIndex = _progressIndex;
+
+            // Persist updated progress
+            _fileDataService.Save(_riskFactorsData, Directory, FileName, false);
+        }
+
+        private void RequestQuestionnaire()
+        {
+            var nextAssessmentId = _riskFactorsData?.AssessmentIdList[_progressIndex];
+            
+            MessageBus.Instance.Broadcast<string, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, OnFinishedQuestionnaire);
+        }
+
+        private bool CheckForEndAssessment() => _progressIndex >= _riskFactorsData?.AssessmentIdList.Count - 1;
+
+        private void OnFinishedQuestionnaire()
+        {
+            IncrementProgressIndex();
+            
+            if (CheckForEndAssessment())
+            {
+                Logger.Log( $"We are finished the assessment......." );
+                LoadOutro();
+                return;
+            }
+            
+            RequestQuestionnaire();
         }
         
-        public string Title { get; set; }
-        public List<BlurbContent> ContentList { get; set; }
+        private void LoadIntro() => OpenPage(PageID.RiskFactorsIntro);
+        private void LoadOutro() => OpenPage(PageID.RiskFactorsOutro);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CodeBase.Questionnaires;
 using CodeBase.UiComponents.Pages;
@@ -24,17 +25,21 @@ namespace CodeBase.Services
         private readonly Dictionary<string, StandardQuestionnaireSo> _standardQuestionnaires = new();
         
         public const string OnRequestQuestionnaireMessage = "OnRequestQuestionnaire";
+        public const string OnRequestAssessmentQuestionnaireMessage = "OnRequestAssessmentQuestionnaire";
         
         private ISerializer _jsonSerializer;
         
         private void OnEnable()
         {
             MessageBus.Instance.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
+            MessageBus.Instance.AddListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
         }
 
+       
         private void OnDisable()
         {
             MessageBus.Instance.RemoveListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
+            MessageBus.Instance.RemoveListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
         }
 
         private void Awake()
@@ -68,16 +73,21 @@ namespace CodeBase.Services
                     continue;
                 }
 
-                if (string.IsNullOrEmpty(standardQuestionnaireSo.Data.QuestionnaireID))
+                var rawId = standardQuestionnaireSo.Data.QuestionnaireID;
+
+                if (string.IsNullOrEmpty(rawId))
                 {
-                    Logger.LogError($"No questionnaire id found in Questionnaires data { standardQuestionnaireSo.name }");
+                    Logger.LogError($"No questionnaire ID found in {standardQuestionnaireSo.name}");
                     continue;
                 }
-                
-                if (!_standardQuestionnaires.TryAdd(standardQuestionnaireSo.Data.QuestionnaireID.ToLower().Trim(), standardQuestionnaireSo))
-                    Logger.LogWarning($"Duplicate questionnaire ID: {standardQuestionnaireSo.Data.QuestionnaireID}");
+
+                // Normalize the ID once here
+                var normalizedId = rawId.Trim().ToLowerInvariant();
+
+                if (!_standardQuestionnaires.TryAdd(normalizedId, standardQuestionnaireSo))
+                    Logger.LogWarning($"Duplicate questionnaire ID: {rawId}");
                 else
-                    Logger.Log( $"Added questionnaire ID: {standardQuestionnaireSo.Data.QuestionnaireID}" );
+                    Logger.Log($"Added questionnaire ID: {rawId}");
             }
         }
         
@@ -99,26 +109,50 @@ namespace CodeBase.Services
             return null;
         }
 
-        private void OnRequestQuestionnaire(string id)
+        private StandardQuestionnaireTemplate GetQuestionnaireData(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
                 Logger.LogError("Questionnaire ID is empty");
-                return;
+                return null;
             }
-            
-            var questionnaireData = GetQuestionnaire(id);
+
+            var normalizedId = id.Trim().ToLowerInvariant();
+            if (_standardQuestionnaires.TryGetValue(normalizedId, out var so))
+                return so.Data;
+
+            Logger.LogError($"Questionnaire not found: {id}");
+            return null;
+        }
+
+        private void OnRequestQuestionnaire(string id)
+        {
+            var questionnaireData = GetQuestionnaireData(id);
 
             if (questionnaireData == null)
             {
-                Logger.LogError($"Questionnaire not found: {id}");  
+                Logger.LogError($"Questionnaire not found: {id}");
                 return;
             }
-            
-            Logger.Log( $"Loading questionnaire data for ID: {id}" );
 
             var questionnairePageBuilder = new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer);
             questionnairePageBuilder.Build();
+            
         }
+        
+        private void OnRequestAssessmentQuestionnaire(string id, Action action)
+        {
+            var questionnaireData = GetQuestionnaireData(id);
+
+            if (questionnaireData == null)
+            {
+                Logger.LogError($"Questionnaire not found: {id}");
+                return;
+            }
+            
+            var questionnairePageBuilder = new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer, action);
+            questionnairePageBuilder.Build();
+        }
+
     }
 }
