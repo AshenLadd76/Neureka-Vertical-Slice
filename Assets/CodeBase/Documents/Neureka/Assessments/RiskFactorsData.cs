@@ -15,7 +15,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             set => _assessmentIdList = value;
         }
         
-        public int ProgressIndex = -1;
+        public int ProgressIndex = 0;
 
         
         public RiskFactorsData()

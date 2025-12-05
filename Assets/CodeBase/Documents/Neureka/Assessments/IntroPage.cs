@@ -6,31 +6,34 @@ using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Extensions;
 using ToolBox.Services.Haptics;
-using ToolBox.Utils;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
+using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.Neureka.Assessments
 {
     public class IntroPage : BasePage
     {
-        private int _blurbIndex = -1;
+        private int _blurbIndex = 0;
         private int _blurbContentCount;
         
         private const string MainContainerStyle = "fullscreen-container";
         
-        private List<BlurbContent> _blurbContentList;
+        private readonly List<BlurbContent> _blurbContentList;
+        private readonly IntroPageContent _introPageContent;
+        private readonly Action _onFinishedIntro;
         
-        private IntroPageContent _introPageContent;
-
-        private Action _onFinishedIntro;
-        
-       
-        
+        private StandardHeader _header;
+        private VisualElement _contentContainer;
+        private Image _currentContentImage;
         private Label _blurbLabel;
+        private StandardFooter _footer;
 
         private VisualElement _pageRoot;
+        
+        private bool _hasScheduledFinalAction;
         
         
         public IntroPage(IDocument document, IntroPageContent content) : base(document)
@@ -60,38 +63,33 @@ namespace CodeBase.Documents.Neureka.Assessments
             
             CreateFooter(_pageRoot);
             
-            UpdateContent(0);
+            _header.SetBackButtonActive(false);
+            
+            ToggleFooterButtons();
         }
 
         
         private void Next() => UpdateContent(_blurbIndex + 1);
         
         private void Previous() => UpdateContent(_blurbIndex - 1);
-
-
-        private bool _hasScheduledFinalAction;
-        private Action _currentPrimaryButtonAction;
+        
+       
         private void UpdateContent(int newIndex)
         {
             if (_blurbContentList.IsNullOrEmpty()) return;
             
             HapticsHelper.RequestHaptics(HapticType.Low);
-
+            
             // Clamp between 0 and last index
             _blurbIndex = Math.Clamp(newIndex, 0, _blurbContentList.Count - 1);
 
             _header.SetBackButtonActive(_blurbIndex != 0);
-            _blurbLabel.text = _blurbContentList[_blurbIndex].Blurb;
             
-            bool isLastPage = _blurbIndex == _blurbContentList.Count - 1;
-            
-            _footer.SetPrimaryButtonActive(!isLastPage);
-            _footer.SetSecondaryButtonActive(isLastPage);
-            
+            UpdateImage();
+            UpdateContentText();  
+            ToggleFooterButtons();
         }
-
-
-        private StandardHeader _header;
+        
         private void CreateHeader(VisualElement parent)
         {
             _header = new StandardHeader.Builder()
@@ -109,21 +107,71 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private void CreateContent(VisualElement parent)
         {
-            var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(parent).Build();
-
-            //Build the scrollview and add it to the content container
-            var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
-                .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+            _contentContainer = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(parent).Build();
             
-            scrollview.contentContainer.style.flexDirection = FlexDirection.Column;
-            scrollview.contentContainer.style.flexGrow = 1;
+            BuildContentImage(_introPageContent.ContentList[_blurbIndex].ImagePath);
             
-            _blurbLabel = new LabelBuilder().AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(scrollview.contentContainer).Build();
-            _blurbLabel.style.flexShrink = 0;
-            _blurbLabel.style.whiteSpace = WhiteSpace.Normal; // allow wrapping
+            //Build the scrollView and add it to the content container
+            var scrollView = BuildScrollView(_contentContainer);
+            
+            BuildContentText(scrollView);
+            
+            UpdateContentText();
+        }
+        
+        private void BuildContentImage(string imagePath)
+        {
+            if (string.IsNullOrWhiteSpace(imagePath))
+            {
+                Logger.LogError($"imagePath is empty");
+                return;
+            }
+            
+            _currentContentImage = new StandardImageBuilder().SetWidth(800).SetHeight(600).SetScaleMode(ScaleMode.StretchToFill).SetResourcePath(imagePath).AddClass("rounded-image").AttachTo(_contentContainer).Build();
         }
 
-        private StandardFooter _footer;
+        private void UpdateImage()
+        {
+            if (_currentContentImage == null)
+            {
+                Logger.LogError($"currentContentImage is null");
+                return;
+            }
+            
+            var imagePath = _introPageContent.ContentList[_blurbIndex].ImagePath;
+
+            if (string.IsNullOrWhiteSpace(imagePath))
+            {
+                Logger.LogError($"imagePath is empty");
+                return;
+            }
+            
+            _currentContentImage.image = Resources.Load<Texture2D>(_blurbContentList[_blurbIndex].ImagePath);
+        }
+        
+        private VisualElement BuildScrollView(VisualElement parent)
+        {
+            var scrollView = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
+                .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(parent).Build();
+            
+            scrollView.contentContainer.style.flexDirection = FlexDirection.Column;
+            scrollView.contentContainer.style.flexGrow = 1;
+            
+            return scrollView;
+        }
+        
+        private void BuildContentText(VisualElement parent)
+        {
+            _blurbLabel = new LabelBuilder().AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(parent.contentContainer).Build();
+            
+            _blurbLabel.style.flexShrink = 0;
+            _blurbLabel.style.whiteSpace = WhiteSpace.Normal; // allow wrapping
+
+        }
+        
+        private void UpdateContentText() => _blurbLabel.text = _blurbContentList[_blurbIndex].Blurb;
+
+        
         private void CreateFooter(VisualElement parent)
         {
             _footer = new StandardFooter.Builder()
@@ -133,8 +181,14 @@ namespace CodeBase.Documents.Neureka.Assessments
                 .SetFooterStyle("questionnaire-footer")
                 .SetButtonStyle("questionnaire-footer-button")
                 .Build();
+        }
 
-            _currentPrimaryButtonAction = Next;
+        private void ToggleFooterButtons()
+        {
+            bool isLastPage = _blurbIndex == _blurbContentList.Count - 1;
+            
+            _footer.SetPrimaryButtonActive(!isLastPage);
+            _footer.SetSecondaryButtonActive(isLastPage);
         }
         
         
@@ -161,7 +215,7 @@ namespace CodeBase.Documents.Neureka.Assessments
                 })
                 .AttachTo(Root).Build();
         }
-
+        
         private void OnFinishedIntro()
         {
             _onFinishedIntro?.Invoke();
@@ -175,8 +229,6 @@ namespace CodeBase.Documents.Neureka.Assessments
 
             _popup?.RemoveFromHierarchy();
             _popup = null;
-            
-            
             
             base.Close();
         }

@@ -279,6 +279,18 @@ popup-title-container
     margin-bottom: 5px;     /* vertical spacing between buttons */
 }
 
+.rounded-image {
+    
+ 
+ 
+    /* Make sure the image scales properly */
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    margin-top: 50px;
+}
+
+
 
 
 
