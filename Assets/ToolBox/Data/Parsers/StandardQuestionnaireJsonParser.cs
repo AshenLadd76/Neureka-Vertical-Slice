@@ -1,21 +1,41 @@
 #if UNITY_EDITOR
-
+using System;
 using System.IO;
 using CodeBase.Questionnaires;
-using Newtonsoft.Json;
+using ToolBox.Helpers;
 using UnityEditor;
 using UnityEngine;
+using JsonSerializer = ToolBox.Helpers.JsonSerializer;
 using Logger = ToolBox.Utils.Logger;
 
 
 namespace ToolBox.Data.Parsers
 {
+    /// <summary>
+    /// Parses a standard questionnaire JSON file and creates a corresponding 
+    /// <see cref="StandardQuestionnaireSo"/> asset in the project.
+    /// </summary>
+    
     [CreateAssetMenu(fileName = "StandardQuestionnaireJsonParserSo", menuName = "ToolBox/Parsers/Standard Questionnaire Json Parser")]
     public class StandardQuestionnaireJsonParser : BaseTextParserSo
     {
         [SerializeField] private StandardQuestionnaireTemplate standardQuestionnaireTemplate;
+        [SerializeField] private string questionnaireSavePath = "Assets/Resources/Questionnaires/";
+        [SerializeField] private string questionnaireSuffix = "_questionnaire";
+        [SerializeField] private string textAssetExt = ".asset";
         
-        private const string QuestionnaireSavePath = "Assets/Resources/Questionnaires/";
+        private ISerializer _serializer;
+
+        private void OnEnable()
+        {
+            _serializer = new JsonSerializer();
+        }
+        
+        /// <summary>
+        /// Parses a JSON TextAsset representing a standard questionnaire and creates a corresponding SO asset.
+        /// </summary>
+        /// <param name="textAsset">The JSON TextAsset to parse.</param>
+        /// <param name="pathToSourceFile">The file path of the source JSON file, used for cleanup after parsing.</param>
         
         public override void Parse(TextAsset textAsset, string pathToSourceFile)
         {
@@ -24,8 +44,14 @@ namespace ToolBox.Data.Parsers
                 Logger.LogError("The text asset is null");
                 return;
             }
-            
-            QuestionnaireWrapper wrapper = JsonConvert.DeserializeObject<QuestionnaireWrapper>(textAsset.text);
+
+            if (string.IsNullOrEmpty(pathToSourceFile))
+            {
+                Logger.LogError("The path to the source file is null or empty");
+                return;
+            }
+
+            QuestionnaireWrapper wrapper = _serializer.Deserialize<QuestionnaireWrapper>(textAsset.text); 
 
             if (wrapper.Questionnaire == null)
             {
@@ -37,39 +63,49 @@ namespace ToolBox.Data.Parsers
             
             BuildQuestionnaireSo(pathToSourceFile);
         }
-
+        
+        /// <summary>
+        /// Creates a <see cref="StandardQuestionnaireSo"/> asset from the parsed template 
+        /// and saves it to the configured folder. Deletes the source JSON file afterward.
+        /// </summary>
+        /// <param name="pathToSourceFile">The full path to the source JSON file.</param>
+        
         private void BuildQuestionnaireSo(string pathToSourceFile)
         {
             var asset = CreateInstance<StandardQuestionnaireSo>();
             
             asset.SetData( standardQuestionnaireTemplate ); 
-            asset.name = $"{standardQuestionnaireTemplate.ScientificId}_questionnaire";
+            asset.name = $"{standardQuestionnaireTemplate.ScientificId}{questionnaireSuffix}";
 
-            var fileName = $"{standardQuestionnaireTemplate.ScientificId}.asset";
-            var fullPath = $"{QuestionnaireSavePath}/{fileName}";
+            var fileName = $"{standardQuestionnaireTemplate.ScientificId}{textAssetExt}";
+            var fullPath = $"{questionnaireSavePath}{fileName}";
 
-            // Ensure the folder exists
-            if (!Directory.Exists(QuestionnaireSavePath))
+         
+            if (!Directory.Exists(questionnaireSavePath))
             {
-                Directory.CreateDirectory(QuestionnaireSavePath);
-                Logger.Log($"Created folder: {QuestionnaireSavePath}");
+                Directory.CreateDirectory(questionnaireSavePath);
+                Logger.Log($"Created folder: {questionnaireSavePath}");
             }
-            
-            AssetDatabase.CreateAsset(asset, $"{fullPath}");
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            
-            Logger.Log($"Created StandardQuestionnaireSO asset at {fullPath}");
 
-            if (string.IsNullOrEmpty(pathToSourceFile))
+
+            try
             {
-                Logger.LogError("The source file path is null or empty");
+                AssetDatabase.CreateAsset(asset, $"{fullPath}");
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError($"Failed to create SO asset at {fullPath}: {e.Message}");
                 return;
             }
+            
+            Logger.Log($"Created StandardQuestionnaireSO asset at {fullPath}");
+            
+            if (!DeleteSourceFile(pathToSourceFile))
+                Logger.LogWarning($"Failed to delete source file: {pathToSourceFile}");
 
-            DeleteSourceFile( pathToSourceFile );
         }
     }
-    
 }
 #endif

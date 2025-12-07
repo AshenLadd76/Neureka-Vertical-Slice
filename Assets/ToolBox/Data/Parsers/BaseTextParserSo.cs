@@ -48,7 +48,6 @@ namespace ToolBox.Data.Parsers
             
             return true;
         }
-       
     }
 }
 
