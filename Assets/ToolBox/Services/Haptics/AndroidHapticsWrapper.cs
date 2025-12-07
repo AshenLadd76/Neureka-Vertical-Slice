@@ -5,6 +5,8 @@ namespace ToolBox.Services.Haptics
     public static class AndroidHapticsWrapper
     {
         private static AndroidJavaObject _plugin;
+        
+        private static bool? _hasVibratorCache;
 
         static AndroidHapticsWrapper()
         {
@@ -29,7 +31,11 @@ namespace ToolBox.Services.Haptics
 #if UNITY_ANDROID && !UNITY_EDITOR
             if (_plugin == null) return false;
 
-            return _plugin.Call<bool>("HasVibrator");
+             if (_hasVibratorCache.HasValue) return _hasVibratorCache.Value;
+
+             _hasVibratorCache = _plugin.Call<bool>("HasVibrator");
+
+            return _hasVibratorCache.Value;
 #else
             return false;
 #endif
