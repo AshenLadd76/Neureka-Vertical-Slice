@@ -124,12 +124,15 @@ namespace CodeBase.Services
         private void BuildQuestionnairePage(string id, Action onComplete = null)
         {
             var data = GetQuestionnaireData(id);
+            
             if (data == null)
             {
                 Logger.LogError($"Questionnaire not found: {id}");
                 return;
             }
+            
             var builder = new QuestionnairePageBuilder(data, _rootVisualElement, _jsonSerializer, onComplete);
+            
             builder.Build();
         }
         
@@ -140,8 +143,6 @@ namespace CodeBase.Services
         /// </summary>
         /// <param name="id">The questionnaire ID.</param>
         private void OnRequestQuestionnaire(string id) => BuildQuestionnairePage(id);
-      
-        
         
         /// <summary>
         /// Handles requests for an assessment questionnaire with a completion callback.
