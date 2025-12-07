@@ -19,31 +19,31 @@ namespace UiFrameWork.RunTime
     [RequireComponent(typeof(UIDocument))]
     public class DocumentService : BaseService
     {
-        private Dictionary<DocumentID, Func<IDocument>> _documents;
+        [Validate] private Dictionary<DocumentID, Func<IDocument>> _documents;
 
-        private Dictionary<DocumentID, IDocument> _activeDocuments;
+        [Validate] private Dictionary<DocumentID, IDocument> _activeDocuments;
         
-        private UIDocument _uiDocument;
+        [Validate] private UIDocument _uiDocument;
         
-        private VisualElement _rootVisualElement;
+        [Validate] private VisualElement _rootVisualElement;
+        
+        [Validate] private IFileDataService _fileDataService;
 
-        private bool _isSubscribed = false;
-        
-        private IFileDataService _fileDataService;
-        
-        private void Awake()
+        private void Awake() => Init();
+
+        private void Init()
         {
             _uiDocument = GetComponent<UIDocument>();
             
-            ObjectValidator.Validate(_uiDocument);
+            _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), ".json");
             
             _rootVisualElement = _uiDocument.rootVisualElement;
             
+            _activeDocuments = new Dictionary<DocumentID, IDocument>();
+            
             InitRecipeDictionary();
             
-            _activeDocuments = new Dictionary<DocumentID, IDocument>();
-
-            _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), ".json");
+            ObjectValidator.Validate(_uiDocument);
         }
 
         private void InitRecipeDictionary()
@@ -54,16 +54,15 @@ namespace UiFrameWork.RunTime
                 [DocumentID.Hub] = () => new HubDocument(),
                 [DocumentID.TestDocument] = () => new TestDocument(),
                 [DocumentID.RiskFactors] = () => new RiskFactorsDocument(_fileDataService)
-                
-              
             };
         }
 
         private void OnRequestOpenDocument(DocumentID documentID)
         {
-            if (_activeDocuments.ContainsKey(documentID))
+            if (_activeDocuments.TryGetValue(documentID, out var activeDocument))
             {
                 Logger.Log($"Document {documentID} is already open.");
+                TryOpenDocument(activeDocument);
                 return;
             }
             
@@ -75,9 +74,8 @@ namespace UiFrameWork.RunTime
             
             IDocument document = documentFunc();
             
-            _activeDocuments.Add( documentID, document );
-            
-            document.Open(_rootVisualElement);
+            if( TryOpenDocument(document) )
+                _activeDocuments.Add( documentID, document );
         }
 
         private void OnRequestCloseDocument(DocumentID documentID)
@@ -85,8 +83,25 @@ namespace UiFrameWork.RunTime
             Logger.Log($"Request to close Page {documentID}");
 
             if (_activeDocuments.ContainsKey(documentID))
-            {
                 _activeDocuments.Remove(documentID);
+            
+        }
+        
+        /// <summary>
+        /// Tries to open a document and logs any errors that occur.
+        /// Returns true if successful, false otherwise.
+        /// </summary>
+        private bool TryOpenDocument(IDocument document)
+        {
+            try
+            {
+                document.Open(_rootVisualElement);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Failed to open document {document.GetType().Name}: {ex.Message}");
+                return false;
             }
         }
         
