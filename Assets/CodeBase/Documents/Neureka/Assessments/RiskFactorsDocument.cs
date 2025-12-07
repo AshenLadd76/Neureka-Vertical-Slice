@@ -30,7 +30,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             var introContentList = new List<BlurbContent>
             {
                 new("001",  $"Thanks for clicking on the Risk Factors  science challenge!\n\nThis challenge is all about helping researchers find new ways to detect dementia early.", $"Assessments/RiskFactors/Images/intro_image_1"),
-                new("002", $"You'll be asked to complete 6 questionnaires about yourself. You can complete all questionnaires in one go or complete them one by one, over several days. \n\nYour progress will be saved each time you finish a game or questionnaire.", "Assessments/RiskFactors/Images/intro_image_2"),
+                new("002", $"You'll be asked to complete 6 questionnaires about yourself. You can complete all questionnaires in one go or complete them one by one, over several days. \n\nYour progress will be saved each time you finish a questionnaire.", "Assessments/RiskFactors/Images/intro_image_2"),
                 
             };
             var introContent = new IntroPageContent( title, introContentList, OnFinishedIntro );

@@ -7,40 +7,50 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Data.Parsers
 {
+    
+    /// <summary>
+    /// Manages dispatching imported files to the appropriate parser based on file extension.
+    /// Subscribes to the <see cref="FileImporter.OnFileImported"/> event in the editor.
+    /// </summary>
+    
     [CreateAssetMenu(fileName = "DispatchManagerSo", menuName = "ToolBox/Parsers/Dispatch Manager", order = 0)]
-
     public class DispatchManagerSo : ScriptableObject
     {
-        [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseDispatcherSo>> dispatchers = new List<Wormwood.Utils.KeyValuePair<string, BaseDispatcherSo>>();
+        [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseDispatcherSo>> dispatchers = new ();
 
         private Dictionary<string, BaseDispatcherSo> _dispatcherDictionary;
         
+        private bool _isSubscribed = false;
+        
+        #if UNITY_EDITOR    
         private void OnEnable()
         {
             InitDictionary();
             
             // Subscribe to the FileImporter event
-#if UNITY_EDITOR
+            if (_isSubscribed) return;
+            
             FileImporter.OnFileImported += HandleDispatch;
-#endif
+            
+            _isSubscribed = true;
         }
 
-        private void HandleDispatch(string assetPath)
+        private void OnDisable()
         {
-            var ext = GetFileExtension(assetPath);
-            
-            if (string.IsNullOrEmpty(ext)) return;
 
-            var dispatcher = GetDispatcher(ext);
-
-            if (dispatcher == null)
-            {
-                Logger.Log($"File does not contain dispatcher for file type: {ext}");
-                return;
-            }
+            if(!_isSubscribed) return;
             
-            dispatcher.Dispatch(assetPath);
+            FileImporter.OnFileImported -= HandleDispatch;
+            
+            _isSubscribed = false;
         }
+        #endif
+        
+      
+        /// <summary>
+        ///Initializes the dispatcher dictionary from the serialized list.
+        /// Logs warnings for duplicates or null values.
+        /// </summary>
 
         private void InitDictionary()
         {
@@ -60,7 +70,47 @@ namespace ToolBox.Data.Parsers
                     Logger.LogWarning($"dispatcher '{dispatcher.Key}' does not implement IDispatcher!");
             }
         }
+
         
+      
+        /// <summary>
+        /// Handles an imported file by dispatching it to the appropriate parser based on its extension.
+        /// </summary>
+        /// <param name="assetPath">The path to the imported asset file.</param>
+        
+        private void HandleDispatch(string assetPath)
+        {
+            var ext = GetFileExtension(assetPath);
+            
+            if (string.IsNullOrEmpty(ext)) return;
+
+            var dispatcher = GetDispatcher(ext);
+
+            if (dispatcher == null)
+            {
+                Logger.Log($"File does not contain dispatcher for file type: {ext}");
+                return;
+            }
+            
+            dispatcher.Dispatch(assetPath);
+        }
+
+        
+        /// <summary>
+        /// Extracts the file extension from a given path.
+        /// </summary>
+        /// <param name="path">The path to extract the extension from.</param>
+        /// <returns>The file extension in lowercase, without the leading dot, or an empty string if invalid.</returns>
+        
+        private string GetFileExtension(string path) => string.IsNullOrEmpty(path) ? string.Empty : Path.GetExtension(path)?.TrimStart('.').ToLower();
+        
+        
+        /// <summary>
+        /// Returns the dispatcher associated with a given key (file extension).
+        /// </summary>
+        /// <param name="key">The file extension key.</param>
+        /// <returns>The associated <see cref="BaseDispatcherSo"/> or null if none found.</returns>
+
         private BaseDispatcherSo GetDispatcher(string key)
         {
             if (_dispatcherDictionary.IsNullOrEmpty()) return null;
@@ -75,6 +125,5 @@ namespace ToolBox.Data.Parsers
             return null;
         }
         
-        private string GetFileExtension(string path) => string.IsNullOrEmpty(path) ? string.Empty : Path.GetExtension(path)?.TrimStart('.').ToLower();
     }
 }

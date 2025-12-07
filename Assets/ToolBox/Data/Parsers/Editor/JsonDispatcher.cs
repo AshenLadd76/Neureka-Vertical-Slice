@@ -2,32 +2,40 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Questionnaires;
 using Newtonsoft.Json;
+using ToolBox.Extensions;
 using UnityEditor;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Data.Parsers.Editor
 {
+    /// <summary>
+    /// Dispatches JSON files to the appropriate parser based on the parser type 
+    /// specified in the JSON's MetaData section. 
+    /// </summary>
+    
+    
     [CreateAssetMenu(fileName = "JsonDispatcherSo", menuName = "ToolBox/Parsers/JSON Dispatcher")]
     public class JsonDispatcher : BaseDispatcherSo
     {
-        private TextAsset _jsonTextAsset;
-
-        [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseTextParserSo>> jsonParserList;
+        [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseTextParserSo>> jsonParserList = new();
 
         private Dictionary<string, BaseTextParserSo> _parserDictionary;
         
         private const string MetaData = "MetaData";
        
         
-        private void OnEnable()
-        {
-            InitDictionary();
-        }
+        private void OnEnable() => InitDictionary();
+        
 
         private void InitDictionary()
         {
             _parserDictionary = new Dictionary<string, BaseTextParserSo>();
+
+            if (jsonParserList.IsNullOrEmpty())
+            {
+                jsonParserList = new List<Wormwood.Utils.KeyValuePair<string, BaseTextParserSo>>();
+            }
 
             foreach (var item in jsonParserList)
             {
@@ -42,6 +50,12 @@ namespace ToolBox.Data.Parsers.Editor
         }
 
 
+        /// <summary>
+        /// Dispatches a JSON file to the appropriate parser based on the parser type
+        /// defined in the file's MetaData.
+        /// </summary>
+        /// <param name="path">The full path to the JSON file asset.</param>
+
         public override void Dispatch(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -50,14 +64,24 @@ namespace ToolBox.Data.Parsers.Editor
                 return;
             }
 
-            _jsonTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+            var jsonTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
+
+            if (jsonTextAsset == null)
+            {
+                Logger.LogError("Failed to load json text");
+                return;
+            }
             
-            var parserType = GetParserType(_jsonTextAsset);
-            
-            if (string.IsNullOrEmpty(parserType)) return;
+            var parserType = GetParserType(jsonTextAsset);
+
+            if (string.IsNullOrEmpty(parserType))
+            {  
+                Logger.LogError("Failed to get parser type");
+                return;
+            }
 
             if (_parserDictionary.TryGetValue(parserType, out var parser))
-                parser.Parse(_jsonTextAsset, path);
+                parser.Parse(jsonTextAsset, path);
             else
                 Logger.LogWarning($"No parser found for type {parserType}");
         }
@@ -65,6 +89,8 @@ namespace ToolBox.Data.Parsers.Editor
         /// <summary>
         /// Extracts the parser type from the JSON's MetaData section.
         /// </summary>
+        /// <param name="textAsset">The JSON TextAsset to extract the parser type from.</param>
+        /// <returns>The parser type string if found; otherwise, an empty string.</returns>
         private string GetParserType(TextAsset textAsset)
         {
             if (textAsset == null)
@@ -97,9 +123,16 @@ namespace ToolBox.Data.Parsers.Editor
     }
 
 
+    
+    /// <summary>
+    /// Represents the MetaData section of a JSON questionnaire file.
+    /// </summary>
     [Serializable]
     public class MetaData
     {
+        /// <summary>
+        /// Type of parser to use for this JSON file.
+        /// </summary>
         public string ParseType;
 
     }

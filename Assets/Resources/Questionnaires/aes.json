@@ -1,0 +1,117 @@
+{
+    "MetaData": {
+        "ParseType": "standard"
+    },
+    "Questionnaire": {
+        "PlayerId": "0001",
+        "ScientificId": "AES",
+        "ScientificName": "Apathy Evaluation Scale",
+        "AssessmentId": "AES-18",
+        "QuestionnaireID": "AES-18",
+        "QuestionnaireName": "Apathy Evaluation Scale",
+        "QuestionnaireDescription": "An 18-item questionnaire assessing apathy and motivation levels.",
+        "Questions": [
+            {
+                "QuestionId": 1,
+                "Text": "I am interested in things",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 2,
+                "Text": "I get things done during the day",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 3,
+                "Text": "Getting things started on my own is important to me",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 4,
+                "Text": "I am interested in having new experiences",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 5,
+                "Text": "I am interested in learning new things",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 6,
+                "Text": "I put little effort into anything",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 7,
+                "Text": "I approach life with intensity",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 8,
+                "Text": "Seeing a job through to the end is important to me",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 9,
+                "Text": "I spend time doing things that interest me",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 10,
+                "Text": "Someone has to tell me what to do each day",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 11,
+                "Text": "I am less concerned about my problems than I should be",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 12,
+                "Text": "I have friends",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 13,
+                "Text": "Getting together with friends is important to me",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 14,
+                "Text": "When something good happens, I get excited",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 15,
+                "Text": "I have an accurate understanding of my problems",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 16,
+                "Text": "Getting things done during the day is important to me",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 17,
+                "Text": "I have initiative",
+                "AnswerTypeId": "MCQ"
+            },
+            {
+                "QuestionId": 18,
+                "Text": "I have motivation",
+                "AnswerTypeId": "MCQ"
+            }
+        ],
+        "AnswerTypes": [
+            {
+                "AnswerTypeId": "MCQ",
+                "Answers": [
+                    "Not at all characteristic",
+                    "Slightly characteristic",
+                    "Somewhat characteristic",
+                    "Very characteristic"
+                ]
+            }
+        ]
+    }
+}

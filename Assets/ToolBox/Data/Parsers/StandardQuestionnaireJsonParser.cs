@@ -8,8 +8,6 @@ using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
 
 
-
-
 namespace ToolBox.Data.Parsers
 {
     [CreateAssetMenu(fileName = "StandardQuestionnaireJsonParserSo", menuName = "ToolBox/Parsers/Standard Questionnaire Json Parser")]
@@ -71,8 +69,6 @@ namespace ToolBox.Data.Parsers
 
             DeleteSourceFile( pathToSourceFile );
         }
-
-       
     }
     
 }
