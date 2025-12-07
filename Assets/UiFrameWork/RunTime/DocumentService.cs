@@ -21,7 +21,7 @@ namespace UiFrameWork.RunTime
     {
         [Validate] private Dictionary<DocumentID, Func<IDocument>> _documents;
 
-        [Validate] private Dictionary<DocumentID, IDocument> _activeDocuments;
+        [Validate] private Dictionary<DocumentID, IDocument> _cachedDocuments;
         
         [Validate] private UIDocument _uiDocument;
         
@@ -39,7 +39,7 @@ namespace UiFrameWork.RunTime
             
             _rootVisualElement = _uiDocument.rootVisualElement;
             
-            _activeDocuments = new Dictionary<DocumentID, IDocument>();
+            _cachedDocuments = new Dictionary<DocumentID, IDocument>();
             
             InitRecipeDictionary();
             
@@ -59,9 +59,8 @@ namespace UiFrameWork.RunTime
 
         private void OnRequestOpenDocument(DocumentID documentID)
         {
-            if (_activeDocuments.TryGetValue(documentID, out var activeDocument))
+            if (_cachedDocuments.TryGetValue(documentID, out var activeDocument))
             {
-                Logger.Log($"Document {documentID} is already open.");
                 TryOpenDocument(activeDocument);
                 return;
             }
@@ -75,17 +74,11 @@ namespace UiFrameWork.RunTime
             IDocument document = documentFunc();
             
             if( TryOpenDocument(document) )
-                _activeDocuments.Add( documentID, document );
+                _cachedDocuments.Add( documentID, document );
         }
 
-        private void OnRequestCloseDocument(DocumentID documentID)
-        {
-            Logger.Log($"Request to close Page {documentID}");
-
-            if (_activeDocuments.ContainsKey(documentID))
-                _activeDocuments.Remove(documentID);
-            
-        }
+        private void OnRequestCloseDocument(DocumentID documentID) => Logger.Log($"Document {documentID} has been closed");
+        
         
         /// <summary>
         /// Tries to open a document and logs any errors that occur.
@@ -124,8 +117,6 @@ namespace UiFrameWork.RunTime
         Nerueka,
         TestDocument,
         RiskFactors,
-       
-       
     }
 
     public enum DocumentServiceMessages

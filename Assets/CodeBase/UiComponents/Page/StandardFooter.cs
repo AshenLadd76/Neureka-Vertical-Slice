@@ -21,8 +21,6 @@ namespace CodeBase.UiComponents.Page
         private Button _primaryButton;
         private Button _secondaryButton;
         
-
-
         private void BuildFooter()
         {
             _root = new ContainerBuilder()

@@ -124,6 +124,5 @@ namespace ToolBox.Data.Parsers
             Logger.LogWarning($"No dispatcher found for key '{key}'");
             return null;
         }
-        
     }
 }

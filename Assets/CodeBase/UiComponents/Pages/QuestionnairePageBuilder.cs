@@ -10,7 +10,7 @@ using ToolBox.Messenger;
 using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
-
+using UiFrameWork.RunTime;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -38,10 +38,12 @@ namespace CodeBase.UiComponents.Pages
 
         private VisualElement _documentRoot;
 
-        private Action _onFinished;
+        private readonly Action _onFinished;
+        
+        private readonly IDocument _parentDocument;
         
         
-        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer, Action onFinished = null)
+        public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer, IDocument parentDocument = null, Action onFinished = null)
         {
             if (questionnaireData == null)
                 throw new ArgumentNullException(nameof(questionnaireData), "Questionnaire data cannot be null.");
@@ -58,6 +60,8 @@ namespace CodeBase.UiComponents.Pages
             _questionnaireData = questionnaireData;
             
             _onFinished = onFinished;
+            
+            _parentDocument = parentDocument;
             
             InitializeAnswerDictionary(questionnaireData);
         }
@@ -305,6 +309,8 @@ namespace CodeBase.UiComponents.Pages
             
             _confirmationPopup?.RemoveFromHierarchy();
             _confirmationPopup = null;
+            
+            _parentDocument?.Close();
         }
     }
 }

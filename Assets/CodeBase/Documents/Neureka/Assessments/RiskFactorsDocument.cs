@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CodeBase.Services;
 using ToolBox.Messenger;
 using ToolBox.Services.Data;
+using UiFrameWork.RunTime;
 using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.Neureka.Assessments
@@ -68,7 +69,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             
             var nextAssessmentId = _riskFactorsDataHandler.GetAssessmentId();
             
-            MessageBus.Instance.Broadcast<string, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, OnFinishedQuestionnaire);
+            MessageBus.Instance.Broadcast<string, IDocument, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, this, OnFinishedQuestionnaire);
         }
 
         
@@ -88,5 +89,12 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private void LoadIntro() => OpenPage(PageID.RiskFactorsIntro);
         private void LoadOutro() => OpenPage(PageID.RiskFactorsOutro);
+
+        public override void Close()
+        {
+            Logger.Log( $"Closing Risk Factors Document" );
+            
+            base.Close();
+        }
     }
 }

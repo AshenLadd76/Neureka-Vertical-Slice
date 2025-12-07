@@ -34,6 +34,8 @@ namespace CodeBase.Documents.Neureka.Assessments
         private VisualElement _pageRoot;
         
         private bool _hasScheduledFinalAction;
+
+        private IDocument _parentDocument;
         
         
         public IntroPage(IDocument document, IntroPageContent content) : base(document)
@@ -44,6 +46,8 @@ namespace CodeBase.Documents.Neureka.Assessments
             _blurbContentList = _introPageContent.ContentList;
             
             _onFinishedIntro = _introPageContent.OnFinished;
+            
+            _parentDocument = document;
         }
         
         protected override void Build()
@@ -231,6 +235,8 @@ namespace CodeBase.Documents.Neureka.Assessments
             _popup = null;
             
             base.Close();
+            
+            _parentDocument.Close();
         }
     }
 }

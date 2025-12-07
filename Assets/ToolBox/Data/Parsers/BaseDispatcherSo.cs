@@ -1,7 +1,6 @@
 ﻿using System;
- using UnityEngine;
- using Logger = ToolBox.Utils.Logger;
- 
+using UnityEngine;
+
  namespace ToolBox.Data.Parsers
  {
      [Serializable]

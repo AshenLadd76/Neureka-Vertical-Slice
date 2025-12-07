@@ -8,6 +8,7 @@ using ToolBox.Helpers;
 using ToolBox.Messenger;
 using ToolBox.Services;
 using ToolBox.Utils.Validation;
+using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -120,8 +121,9 @@ namespace CodeBase.Services
         /// Builds and displays the questionnaire page.
         /// </summary>
         /// <param name="id">The questionnaire ID.</param>
+        /// <param name="parentDocument">The parent document for an assessment, only relevant if questionnaire is called from an assessment</param> 
         /// <param name="onComplete">Callback to invoke when the assessment is complete.</param>
-        private void BuildQuestionnairePage(string id, Action onComplete = null)
+        private void BuildQuestionnairePage(string id, IDocument parentDocument = null,Action onComplete = null)
         {
             var data = GetQuestionnaireData(id);
             
@@ -131,7 +133,7 @@ namespace CodeBase.Services
                 return;
             }
             
-            var builder = new QuestionnairePageBuilder(data, _rootVisualElement, _jsonSerializer, onComplete);
+            var builder = new QuestionnairePageBuilder(data, _rootVisualElement, _jsonSerializer, parentDocument, onComplete);
             
             builder.Build();
         }
@@ -149,15 +151,16 @@ namespace CodeBase.Services
         /// Builds and displays the questionnaire page.
         /// </summary>
         /// <param name="id">The questionnaire ID.</param>
+        /// <param name="parentDocument">The parent document for an assessment, only relevant if questionnaire is called from an assessment</param> 
         /// <param name="onComplete">Callback to invoke when the assessment is complete.</param>
-        private void OnRequestAssessmentQuestionnaire(string id, Action onComplete) => BuildQuestionnairePage(id, onComplete);
+        private void OnRequestAssessmentQuestionnaire(string id,IDocument parentDocument, Action onComplete) => BuildQuestionnairePage(id,parentDocument,onComplete);
        
         
         // Subscribes to message bus events when the service is enabled.
         protected override void SubscribeToService()
         {
             MessageBus.Instance.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
-            MessageBus.Instance.AddListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+            MessageBus.Instance.AddListener<string, IDocument,  Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
 
         }
 
@@ -165,7 +168,7 @@ namespace CodeBase.Services
         protected override void UnsubscribeFromService()
         {
             MessageBus.Instance.RemoveListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
-            MessageBus.Instance.RemoveListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+            MessageBus.Instance.RemoveListener<string, IDocument, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
         }
         
         //Little method to normalise the questionnaire id 
