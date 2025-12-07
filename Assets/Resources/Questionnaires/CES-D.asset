@@ -18,7 +18,7 @@ MonoBehaviour:
     scientificName: Center for Epidemiologic Studies Depression Scale
     assessmentId: CESD-20
     questionnaireID: CESD-20
-    questionnaireName: Depression
+    questionnaireName: CES-D Scale
     questionnaireDescription: A 20-item self-report scale designed to measure depressive
       symptomatology in the general population.
     questions:
@@ -44,9 +44,9 @@ MonoBehaviour:
     - I felt that people disliked me.
     - I could not get going.
     answers:
-    - 'Rarely or none of the time '
-    - Some or a little of the time
-    - 'A moderate amount of time '
-    - 'Most or all of the time '
+    - Rarely or none of the time (less than one day)
+    - Some or a little of the time (1-2 days)
+    - Occasionally or a moderate amount of time (3-4 days)
+    - Most or all of the time (5-7 days)
     reverseScored: 04000000080000000c00000010000000
     answerComponentType: MultipleChoice
