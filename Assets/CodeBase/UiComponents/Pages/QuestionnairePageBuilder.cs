@@ -158,7 +158,7 @@ namespace CodeBase.UiComponents.Pages
                 .SetConfirmAction(() =>
                 {
                     HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Quitting the questionnaire" );
+                    Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
                     Close();
                     
                 })
@@ -279,11 +279,6 @@ namespace CodeBase.UiComponents.Pages
                     Close();
 
                 })
-                // .SetCancelAction(() =>
-                // {
-                //     HapticsHelper.RequestHaptics();
-                //     Logger.Log( $"Canceling the quit!!!" );
-                // })
                 .AttachTo(_root);
             
             _confirmationPopup = popUpBuilder.Build();
@@ -292,7 +287,7 @@ namespace CodeBase.UiComponents.Pages
             
         }
 
-      //  private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
+        //private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
         
         private void RequestDataUpload( WebData webData ) =>  MessageBus.Instance.Broadcast( NeurekaDemoMessages.DataUploadRequestMessage, webData );
         
