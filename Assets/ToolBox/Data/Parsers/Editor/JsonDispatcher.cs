@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Questionnaires;
-using Newtonsoft.Json;
 using ToolBox.Extensions;
+using ToolBox.Helpers;
 using UnityEditor;
 using UnityEngine;
+using JsonSerializer = ToolBox.Helpers.JsonSerializer;
 using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Data.Parsers.Editor
@@ -23,10 +24,19 @@ namespace ToolBox.Data.Parsers.Editor
         private Dictionary<string, BaseTextParserSo> _parserDictionary;
         
         private const string MetaData = "MetaData";
-       
         
-        private void OnEnable() => InitDictionary();
-        
+        private ISerializer _serializer;
+
+
+        private void OnEnable()
+        {
+            _serializer = new JsonSerializer();
+            
+            InitDictionary();
+        }
+
+
+
 
         private void InitDictionary()
         {
@@ -101,7 +111,7 @@ namespace ToolBox.Data.Parsers.Editor
             
             try
             {
-                QuestionnaireWrapper wrapper = JsonConvert.DeserializeObject<QuestionnaireWrapper>(textAsset.text); 
+                QuestionnaireWrapper wrapper = _serializer.Deserialize<QuestionnaireWrapper>(textAsset.text); 
                 
                //var jObject = JsonConvert.DeserializeObject<JObject>(textAsset.text);
                 if (wrapper.MetaData == null)
