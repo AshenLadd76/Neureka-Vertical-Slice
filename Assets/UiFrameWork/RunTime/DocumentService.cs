@@ -6,6 +6,7 @@ using CodeBase.Documents.Neureka.Assessments;
 using CodeBase.Pages;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
+using ToolBox.Services;
 using ToolBox.Services.Data;
 using ToolBox.Services.Encryption;
 using ToolBox.Utils.Validation;
@@ -16,7 +17,7 @@ using Logger = ToolBox.Utils.Logger;
 namespace UiFrameWork.RunTime
 {
     [RequireComponent(typeof(UIDocument))]
-    public class DocumentService : MonoBehaviour
+    public class DocumentService : BaseService
     {
         private Dictionary<DocumentID, Func<IDocument>> _documents;
 
@@ -28,29 +29,7 @@ namespace UiFrameWork.RunTime
 
         private bool _isSubscribed = false;
         
-       
         private IFileDataService _fileDataService;
-        
-        private void OnEnable()
-        {
-            if (_isSubscribed) return;
-            
-            MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
-            MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument  );
-            
-            _isSubscribed = true;
-        }
-
-        private void OnDisable()
-        {
-            if( !_isSubscribed) return;
-            
-            MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
-            MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument);
-            
-            _isSubscribed = false;
-        }
-        
         
         private void Awake()
         {
@@ -109,6 +88,18 @@ namespace UiFrameWork.RunTime
             {
                 _activeDocuments.Remove(documentID);
             }
+        }
+        
+        protected override void SubscribeToService()
+        {
+            MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+            MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument  );
+        }
+
+        protected override void UnsubscribeFromService()
+        {
+            MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+            MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument);
         }
     }
 

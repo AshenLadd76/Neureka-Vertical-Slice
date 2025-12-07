@@ -6,6 +6,7 @@ using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
+using ToolBox.Services;
 using ToolBox.Utils.Validation;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,36 +14,33 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Services
 {
-    public class QuestionnaireService : MonoBehaviour
+    /// <summary>
+    /// Service responsible for handling requests to display questionnaire.
+    /// Listens for request messages and produces Questionnaire UI pages
+    /// based on the requested StandardQuestionnaireSo assets.
+    /// </summary>
+    
+    public class QuestionnaireService : BaseService
     {
+        // Reference to the UIDocument containing the root UI element.
         private UIDocument _uiDocument;
         
+        // Root VisualElement parent of all questionnaires
         private VisualElement _rootVisualElement;
         
-        private const string PathToQuestionnaires = "Questionnaires";
-        
-        //Dictionary to store all questionniares scriptable objects
+        //Dictionary of scriptable objects that contain questionniare data
         private readonly Dictionary<string, StandardQuestionnaireSo> _standardQuestionnaires = new();
-        
-        public const string OnRequestQuestionnaireMessage = "OnRequestQuestionnaire";
-        public const string OnRequestAssessmentQuestionnaireMessage = "OnRequestAssessmentQuestionnaire";
         
         private ISerializer _jsonSerializer;
         
-        private void OnEnable()
-        {
-            MessageBus.Instance.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
-            MessageBus.Instance.AddListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
-        }
+        private const string PathToQuestionnaires = "Questionnaires";
+        public const string OnRequestQuestionnaireMessage = "OnRequestQuestionnaire";
+        public const string OnRequestAssessmentQuestionnaireMessage = "OnRequestAssessmentQuestionnaire";
+        
+        private void Awake() => Init();
+        
 
-       
-        private void OnDisable()
-        {
-            MessageBus.Instance.RemoveListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
-            MessageBus.Instance.RemoveListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
-        }
-
-        private void Awake()
+        private void Init()
         {
             _uiDocument = GetComponent<UIDocument>();
             
@@ -54,7 +52,12 @@ namespace CodeBase.Services
             
             LoadQuestionnairesIntoDictionary();
         }
+        
 
+        /// <summary>
+        /// Loads all StandardQuestionnaireSo assets from Resources
+        /// and stores them in the dictionary with normalized IDs.
+        /// </summary>
         private void LoadQuestionnairesIntoDictionary()
         {
             var allQuestionnaires = Resources.LoadAll<StandardQuestionnaireSo>(PathToQuestionnaires);
@@ -82,7 +85,7 @@ namespace CodeBase.Services
                 }
 
                 // Normalize the ID once here
-                var normalizedId = rawId.Trim().ToLowerInvariant();
+                var normalizedId = NormalizeId(rawId);
 
                 if (!_standardQuestionnaires.TryAdd(normalizedId, standardQuestionnaireSo))
                     Logger.LogWarning($"Duplicate questionnaire ID: {rawId}");
@@ -91,24 +94,12 @@ namespace CodeBase.Services
             }
         }
         
-        private StandardQuestionnaireTemplate GetQuestionnaire(string id)
-        {
-            
-            if (_standardQuestionnaires.TryGetValue(id.ToLower().Trim(), out var so))
-            {
-                if (so.Data == null)
-                {
-                    Logger.LogError($"Questionnaire data is missing for ID: {id}");
-                    return null;
-                }
-                
-                return so.Data;
-            }
-
-            Logger.LogError($"Questionnaire not found: {id}");
-            return null;
-        }
-
+        /// <summary>
+        /// Retrieves the StandardQuestionnaireTemplate by ID.
+        /// Logs an error if the ID is empty or not found.
+        /// </summary>
+        /// <param name="id">The questionnaire ID.</param>
+        /// <returns>The corresponding StandardQuestionnaireTemplate, or null if not found.</returns>
         private StandardQuestionnaireTemplate GetQuestionnaireData(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -117,42 +108,66 @@ namespace CodeBase.Services
                 return null;
             }
 
-            var normalizedId = id.Trim().ToLowerInvariant();
+            var normalizedId = NormalizeId(id);
             if (_standardQuestionnaires.TryGetValue(normalizedId, out var so))
                 return so.Data;
 
             Logger.LogError($"Questionnaire not found: {id}");
             return null;
         }
-
-        private void OnRequestQuestionnaire(string id)
+        
+        /// <summary>
+        /// Builds and displays the questionnaire page.
+        /// </summary>
+        /// <param name="id">The questionnaire ID.</param>
+        /// <param name="onComplete">Callback to invoke when the assessment is complete.</param>
+        private void BuildQuestionnairePage(string id, Action onComplete = null)
         {
-            var questionnaireData = GetQuestionnaireData(id);
-
-            if (questionnaireData == null)
+            var data = GetQuestionnaireData(id);
+            if (data == null)
             {
                 Logger.LogError($"Questionnaire not found: {id}");
                 return;
             }
-
-            var questionnairePageBuilder = new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer);
-            questionnairePageBuilder.Build();
-            
+            var builder = new QuestionnairePageBuilder(data, _rootVisualElement, _jsonSerializer, onComplete);
+            builder.Build();
         }
         
-        private void OnRequestAssessmentQuestionnaire(string id, Action action)
-        {
-            var questionnaireData = GetQuestionnaireData(id);
 
-            if (questionnaireData == null)
-            {
-                Logger.LogError($"Questionnaire not found: {id}");
-                return;
-            }
-            
-            var questionnairePageBuilder = new QuestionnairePageBuilder(questionnaireData, _rootVisualElement, _jsonSerializer, action);
-            questionnairePageBuilder.Build();
+        /// <summary>
+        /// Handles requests for a standard questionnaire.
+        /// Builds and displays the questionnaire page.
+        /// </summary>
+        /// <param name="id">The questionnaire ID.</param>
+        private void OnRequestQuestionnaire(string id) => BuildQuestionnairePage(id);
+      
+        
+        
+        /// <summary>
+        /// Handles requests for an assessment questionnaire with a completion callback.
+        /// Builds and displays the questionnaire page.
+        /// </summary>
+        /// <param name="id">The questionnaire ID.</param>
+        /// <param name="onComplete">Callback to invoke when the assessment is complete.</param>
+        private void OnRequestAssessmentQuestionnaire(string id, Action onComplete) => BuildQuestionnairePage(id, onComplete);
+       
+        
+        // Subscribes to message bus events when the service is enabled.
+        protected override void SubscribeToService()
+        {
+            MessageBus.Instance.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
+            MessageBus.Instance.AddListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+
         }
 
+        // Unsubscribes from message bus events when the service is disabled.
+        protected override void UnsubscribeFromService()
+        {
+            MessageBus.Instance.RemoveListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
+            MessageBus.Instance.RemoveListener<string, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+        }
+        
+        //Little method to normalise the questionnaire id 
+        private string NormalizeId(string rawId) => rawId.Trim().ToLowerInvariant();
     }
 }
