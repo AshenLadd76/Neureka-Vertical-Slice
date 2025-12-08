@@ -3,7 +3,7 @@ using ToolBox.Extensions;
 using ToolBox.Services.Data;
 using ToolBox.Utils;
 
-namespace CodeBase.Documents.Neureka.Assessments
+namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 {
     public class RiskFactorsDataHandler
     {

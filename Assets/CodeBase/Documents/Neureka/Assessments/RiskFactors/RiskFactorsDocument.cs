@@ -1,0 +1,138 @@
+using System;
+using System.Collections.Generic;
+using CodeBase.Services;
+using ToolBox.Extensions;
+using ToolBox.Messenger;
+using ToolBox.Services.Data;
+using UiFrameWork.RunTime;
+using UnityEngine;
+using Logger = ToolBox.Utils.Logger;
+
+namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
+{
+    public class RiskFactorsDocument : BaseDocument
+    {
+        private readonly RiskFactorsDataHandler _riskFactorsDataHandler;
+        
+        private const string RiskFactorsSoPath = "Assessments/RiskFactors/RiskFactorsSO";
+        
+        private RiskFactorsSO _riskFactorsSo;
+        
+        private IFileDataService _fileDataService;
+        
+        public RiskFactorsDocument(IFileDataService fileDataService)
+        {
+            _fileDataService = fileDataService ?? throw new ArgumentNullException(nameof(fileDataService), "IFileDataService cannot be null.");
+            
+            _riskFactorsDataHandler = new RiskFactorsDataHandler(_fileDataService);
+
+        }
+        
+        protected override void Build()
+        {
+            base.Build();
+
+            if (!LoadRiskFactorsSo())
+            {
+                Logger.LogError("RiskFactorsSO could not be loaded!");
+                return;
+            }
+
+            AddPageRecipes();
+
+            if (_riskFactorsDataHandler.CheckAssessmentState() == AssessmentState.Continuing)
+                LoadContinuePage();
+            else
+                CheckAssessmentProgress();
+            
+        }
+        
+        private void AddPageRecipes()
+        {
+            CreatePage(PageID.RiskFactorsIntro, _riskFactorsSo.IntroTitle, _riskFactorsSo.IntroButtonText, _riskFactorsSo.IntroBlurbContents, OnIntroCompleted);
+            CreatePage(PageID.RiskFactorsContinue, _riskFactorsSo.ContinueTitle, _riskFactorsSo.ContinueButtonText, _riskFactorsSo.ContinueBlurbContents, CheckAssessmentProgress);
+            CreatePage(PageID.RiskFactorsOutro, _riskFactorsSo.OutroTitle, _riskFactorsSo.OutroButtonText, _riskFactorsSo.OutroBlurbContents, OnAssessmentCompleted);
+        }
+
+        private bool LoadRiskFactorsSo()
+        {
+            _riskFactorsSo = Resources.Load<RiskFactorsSO>(RiskFactorsSoPath);
+            
+            if (_riskFactorsSo == null)
+            {
+                Logger.LogError("Failed to load RiskFactorsSO from Resources!");
+                return false;
+            }
+
+            return true;
+        }
+        
+        private void CreatePage(PageID pageId, string title, string buttonText, List<BlurbContent> blurbs, Action onCompleted = null)
+        {
+            if (blurbs.IsNullOrEmpty())
+            {
+                Logger.LogError($"RiskFactorsSO list for {pageId} is empty or null!");
+                return;
+            }
+
+            var content = new InfoPageContent(title, buttonText, blurbs, onCompleted);
+            
+            PageRecipes[pageId] = () => new InfoPage(this, content);
+        }
+        
+        
+        private void CheckAssessmentProgress()
+        {
+            switch (_riskFactorsDataHandler.CheckAssessmentState())
+            {
+                case AssessmentState.New: LoadIntroPage(); break;
+                case AssessmentState.Continuing: RequestQuestionnaire(); break;
+                case AssessmentState.Completed: LoadOutroPage(); break;
+                default: Logger.LogError("Unknown assessment state"); break;
+            }
+        }
+        
+        private void OnIntroCompleted()
+        {
+            _riskFactorsDataHandler.CreateAssessmentData();
+            
+            CheckAssessmentProgress();
+        }
+        
+        private void RequestQuestionnaire()
+        {
+            if (!_riskFactorsDataHandler.HasData())
+            {
+                Logger.LogError("No assessment data found");
+                return;
+            }
+            
+            var nextAssessmentId = _riskFactorsDataHandler.GetAssessmentId();
+            
+            MessageBus.Instance.Broadcast<string, IDocument, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, this, OnFinishedQuestionnaire);
+        }
+        
+        private void OnFinishedQuestionnaire()
+        {
+            _riskFactorsDataHandler.IncrementProgressIndex();
+            
+            if (_riskFactorsDataHandler.CheckForEndAssessment())
+            {
+                Logger.Log( $"We are finished the assessment......." );
+                LoadOutroPage();
+                return;
+            }
+            
+            RequestQuestionnaire();
+        }
+
+        private void OnAssessmentCompleted()
+        {
+            
+        }
+        
+        private void LoadIntroPage() => OpenPage(PageID.RiskFactorsIntro);
+        private void LoadContinuePage() => OpenPage(PageID.RiskFactorsContinue);
+        private void LoadOutroPage() => OpenPage(PageID.RiskFactorsOutro);
+    }
+}

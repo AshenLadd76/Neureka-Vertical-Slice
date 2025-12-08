@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
-namespace CodeBase.Documents.Neureka.Assessments
+namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 {
     [Serializable]
     public class RiskFactorsData

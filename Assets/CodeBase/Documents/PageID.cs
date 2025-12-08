@@ -7,6 +7,7 @@
         InfoPage,
         NavPage,
         RiskFactorsIntro,
+        RiskFactorsContinue,
         RiskFactorsOutro,
     }
 }

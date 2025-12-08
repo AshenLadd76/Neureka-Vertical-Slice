@@ -9,8 +9,9 @@ namespace ToolBox.Services.Data
 {
     public interface IFileDataService
     {
-        Result Save<T>(T data, string folder, string fileName, bool encrypt = true);
+        Result Save<T>(T data, string folder, string fileName, bool encrypt = true, bool createFolder = false);
         Result<T> Load<T>(string folder, string fileName, bool encrypted = true);
+        public Result Delete(string folder, string fileName);
         Result<string[]> GetAllFiles(string folder, string extension = null);
         Result<string[]> GetSubdirectories(string folder);
         bool FileExists(string folder, string fileName);
@@ -22,40 +23,44 @@ namespace ToolBox.Services.Data
         private readonly string _fileExtension;
         private readonly IEncryptionService _encryptionService;
         private readonly ISerializer _serializer;
+        private const string DefaultFileExtension = ".json";
         
         public FileDataService(
             IEncryptionService encryptionService,
             ISerializer serializer,
-            string fileExtension = "json")
+            string fileExtension, string path = null)
         {
-            _basePath = Application.persistentDataPath;
-            _fileExtension = fileExtension;
+            _fileExtension = string.IsNullOrWhiteSpace(fileExtension)
+                ? DefaultFileExtension
+                : (fileExtension.StartsWith(".") ? fileExtension : $".{fileExtension}");
+
+
             _encryptionService = encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _basePath = path ?? Application.persistentDataPath;
         }
         
-        private string BuildPath(string folder, string fileName)
+        private string BuildPath(string folder, string fileName, bool createDirectory = false)
         {
             if (string.IsNullOrWhiteSpace(folder) || string.IsNullOrWhiteSpace(fileName))
                 throw new ArgumentException("Folder and fileName must not be null or empty.");
 
-            string fullPath = Path.Combine(_basePath, folder, $"{fileName}");
+            var fullPath = Path.Combine(_basePath, folder, $"{fileName}");
             
-            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+            if( createDirectory )
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
             
             return fullPath;
         }
         
         // --- Save Generic ---
-        public Result Save<T>(T data, string folder, string fileName, bool encrypt = true)
+        public Result Save<T>(T data, string folder, string fileName, bool encrypt = true, bool createFolder = false)
         {
             try
             {
-                string path = BuildPath(folder, fileName);
+                string path = BuildPath(folder, fileName, true);
                 string serialized = _serializer.Serialize(data);
                 
-                Logger.Log(serialized);
-
                 if (encrypt)
                     serialized = _encryptionService.Encrypt(serialized);
 
@@ -73,13 +78,11 @@ namespace ToolBox.Services.Data
         {
             try
             {
-                string path = BuildPath(folder, fileName);
+                string path = BuildPath(folder, fileName, false);
                 if (!File.Exists(path))
                     return Result<T>.Fail($"File does not exist: {path}");
 
                 string content = File.ReadAllText(path);
-                
-                Logger.Log(content);
                 
                 if (encrypted)
                     content = _encryptionService.Decrypt(content);
@@ -93,13 +96,32 @@ namespace ToolBox.Services.Data
             }
         }
         
+        public Result Delete(string folder, string fileName)
+        {
+            try
+            {
+                string path = BuildPath(folder, fileName, false);
+
+                if (!File.Exists(path))
+                    return Result.Fail($"File does not exist: {path}");
+
+                File.Delete(path);
+                Logger.Log($"Deleted file: {path}");
+                return Result.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"Failed to delete '{fileName}': {ex.Message}");
+            }
+        }
+        
         
         //Utility methods
         public Result<string[]> GetAllFiles(string folder, string extension = null)
         {
             try
             {
-                string dir = Path.Combine(_basePath, "Data", folder);
+                string dir = Path.Combine(_basePath, folder);
                 if (!Directory.Exists(dir))
                     return Result<string[]>.Fail($"Directory does not exist: {dir}");
 
@@ -116,7 +138,7 @@ namespace ToolBox.Services.Data
         {
             try
             {
-                string dir = Path.Combine(_basePath, "Data", folder);
+                string dir = Path.Combine(_basePath,  folder);
                 if (!Directory.Exists(dir))
                     return Result<string[]>.Fail($"Directory does not exist: {dir}");
 
@@ -137,6 +159,5 @@ namespace ToolBox.Services.Data
             
             return File.Exists(path);
         }
-        
     }
 }

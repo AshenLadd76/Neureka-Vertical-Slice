@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
+using CodeBase.Documents.Neureka.Assessments.RiskFactors;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
@@ -14,7 +15,7 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.Neureka.Assessments
 {
-    public class IntroPage : BasePage
+    public class InfoPage : BasePage
     {
         private int _blurbIndex = 0;
         private int _blurbContentCount;
@@ -22,7 +23,7 @@ namespace CodeBase.Documents.Neureka.Assessments
         private const string MainContainerStyle = "fullscreen-container";
         
         private readonly List<BlurbContent> _blurbContentList;
-        private readonly IntroPageContent _introPageContent;
+        private readonly InfoPageContent _infoPageContent;
         private readonly Action _onFinishedIntro;
         
         private StandardHeader _header;
@@ -31,6 +32,8 @@ namespace CodeBase.Documents.Neureka.Assessments
         private Label _blurbLabel;
         private StandardFooter _footer;
 
+        private string _footerButtonText;
+
         private VisualElement _pageRoot;
         
         private bool _hasScheduledFinalAction;
@@ -38,14 +41,14 @@ namespace CodeBase.Documents.Neureka.Assessments
         private IDocument _parentDocument;
         
         
-        public IntroPage(IDocument document, IntroPageContent content) : base(document)
+        public InfoPage(IDocument document, InfoPageContent content) : base(document)
         {
             PageIdentifier = PageID.InfoPage;
-            _introPageContent = content;
+            _infoPageContent = content;
 
-            _blurbContentList = _introPageContent.ContentList;
+            _blurbContentList = _infoPageContent.ContentList;
             
-            _onFinishedIntro = _introPageContent.OnFinished;
+            _onFinishedIntro = _infoPageContent.OnFinished;
             
             _parentDocument = document;
         }
@@ -98,7 +101,7 @@ namespace CodeBase.Documents.Neureka.Assessments
         {
             _header = new StandardHeader.Builder()
                 .SetParent(parent)
-                .SetTitle("Risk Factors")
+                .SetTitle(_infoPageContent.Title)
                 .SetBackButton(Previous)
                 .SetQuitButton(CreateQuitPopUp)
                 .SetHeaderStyle("header-nav")
@@ -113,7 +116,7 @@ namespace CodeBase.Documents.Neureka.Assessments
         {
             _contentContainer = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(parent).Build();
             
-            BuildContentImage(_introPageContent.ContentList[_blurbIndex].ImagePath);
+            BuildContentImage(_infoPageContent.ContentList[_blurbIndex].ImagePath);
             
             //Build the scrollView and add it to the content container
             var scrollView = BuildScrollView(_contentContainer);
@@ -142,7 +145,7 @@ namespace CodeBase.Documents.Neureka.Assessments
                 return;
             }
             
-            var imagePath = _introPageContent.ContentList[_blurbIndex].ImagePath;
+            var imagePath = _infoPageContent.ContentList[_blurbIndex].ImagePath;
 
             if (string.IsNullOrWhiteSpace(imagePath))
             {
@@ -173,7 +176,7 @@ namespace CodeBase.Documents.Neureka.Assessments
 
         }
         
-        private void UpdateContentText() => _blurbLabel.text = _blurbContentList[_blurbIndex].Blurb;
+        private void UpdateContentText() => _blurbLabel.text = _blurbContentList[_blurbIndex].Text;
 
         
         private void CreateFooter(VisualElement parent)
@@ -181,7 +184,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             _footer = new StandardFooter.Builder()
                 .SetParent(parent)
                 .SetPrimaryButton(Next, "Continue")
-                .SetSecondaryButton(OnFinishedIntro, "Start")
+                .SetSecondaryButton(OnFinishedIntro, _infoPageContent.ButtonText)
                 .SetFooterStyle("questionnaire-footer")
                 .SetButtonStyle("questionnaire-footer-button")
                 .Build();

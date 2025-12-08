@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0c5070d6e11884487574c23f9e7506, type: 3}
+  m_Name: RiskFactorsSO
+  m_EditorClassIdentifier: 
+  introTitle: Risk Factors
+  introButtonText: Start
+  introBlurbContents:
+  - id: 001
+    text: "Thanks for clicking on the Risk Factors  science challenge! \n\nThis challenge
+      is all about helping researchers find new ways to detect dementia early.\n\nYou'll
+      be asked to play 3 games and complete 10 questionnaires about yourself. You
+      can complete all the games and questionnaires in one go or complete them one
+      by one, over several days. Your progress will be saved each time you finish
+      a game or questionnaire."
+    imagePath: Assessments/RiskFactors/intro_image_1
+  - id: 002
+    text: You'll be asked to play 3 games and complete 10 questionnaires about yourself.
+      You can complete all the games and questionnaires in one go or complete them
+      one by one, over several days. Your progress will be saved each time you finish
+      a game or questionnaire.
+    imagePath: Assessments/RiskFactors/intro_image_2
+  continueTitle: Risk Factors
+  continueButtonText: Continue
+  continueBlurbContents:
+  - id: 
+    text: Click continue to pick up where you left off.
+    imagePath: 
+  outroTitle: Why This Matters
+  outroButtonText: Finish
+  outroBlurbContents:
+  - id: 
+    text: "<size=125%>Why this matters</size>\n\n\nThere is a growing body of knowledge
+      that up to 45% of cases of dementia could be prevented through what are called
+      \u201Cmodifiable risk factors\u201D."
+    imagePath: 
+  - id: 
+    text: '<size=125%>Why this matters</size>
+
+
+
+      Did you know that being more
+      physically active reduces risk of developing Dementia?
+
+
+
+      The goal of
+      this study is to understand why this is the case - to link together lots of
+      pieces of data to help us unpack the complex relationship between mind, body
+      and environment so we can figure out new ways to harness it in the fight against
+      dementia'
+    imagePath: 
+  - id: 
+    text: 'Thanks again for taking the time to help us with this important research.
+      We hope you will continue to play games and complete other challenges in the
+      app, which aim to address other important challenges in brain health research!
+
+
+
+'
+    imagePath: 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CodeBase.Documents;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments;
+using CodeBase.Documents.Neureka.Assessments.RiskFactors;
 using CodeBase.Pages;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
@@ -28,6 +29,8 @@ namespace UiFrameWork.RunTime
         [Validate] private VisualElement _rootVisualElement;
         
         [Validate] private IFileDataService _fileDataService;
+        
+        private const string DefaultFileExtension = ".json";
 
         private void Awake() => Init();
 
@@ -35,7 +38,7 @@ namespace UiFrameWork.RunTime
         {
             _uiDocument = GetComponent<UIDocument>();
             
-            _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), ".json");
+            _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), DefaultFileExtension);
             
             _rootVisualElement = _uiDocument.rootVisualElement;
             
