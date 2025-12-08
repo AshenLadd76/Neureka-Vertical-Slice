@@ -7,16 +7,11 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Services.Data
 {
-    public interface IFileDataService
-    {
-        Result Save<T>(T data, string folder, string fileName, bool encrypt = true, bool createFolder = false);
-        Result<T> Load<T>(string folder, string fileName, bool encrypted = true);
-        public Result Delete(string folder, string fileName);
-        Result<string[]> GetAllFiles(string folder, string extension = null);
-        Result<string[]> GetSubdirectories(string folder);
-        bool FileExists(string folder, string fileName);
-    }
-
+    /// <summary>
+    /// Provides a file storage service with optional encryption and serialization support.
+    /// Handles saving, loading, deleting files, and directory management.
+    /// </summary>
+    
     public class FileDataService : IFileDataService
     {
         private readonly string _basePath;
@@ -25,6 +20,14 @@ namespace ToolBox.Services.Data
         private readonly ISerializer _serializer;
         private const string DefaultFileExtension = ".json";
         
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileDataService"/> class.
+        /// </summary>
+        /// <param name="encryptionService">Service used to encrypt and decrypt file contents.</param>
+        /// <param name="serializer">Service used to serialize and deserialize objects.</param>
+        /// <param name="fileExtension">Default file extension used when saving files.</param>
+        /// <param name="path">Base path where files are stored. Defaults to Application.persistentDataPath.</param>
         public FileDataService(
             IEncryptionService encryptionService,
             ISerializer serializer,
@@ -40,6 +43,16 @@ namespace ToolBox.Services.Data
             _basePath = path ?? Application.persistentDataPath;
         }
         
+        
+        /// <summary>
+        /// Builds a full file path from a folder and file name, optionally creating the directory.
+        /// </summary>
+        /// <param name="folder">Folder path relative to base path.</param>
+        /// <param name="fileName">File name.</param>
+        /// <param name="createDirectory">Whether to create the folder if it does not exist.</param>
+        /// <returns>The full file path.</returns>
+        /// <exception cref="ArgumentException">Thrown if folder or fileName is null or empty.</exception>
+        
         private string BuildPath(string folder, string fileName, bool createDirectory = false)
         {
             if (string.IsNullOrWhiteSpace(folder) || string.IsNullOrWhiteSpace(fileName))
@@ -47,18 +60,30 @@ namespace ToolBox.Services.Data
 
             var fullPath = Path.Combine(_basePath, folder, $"{fileName}");
             
-            if( createDirectory )
-                Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+            var dir  = Path.GetDirectoryName(fullPath);
+            
+            if( createDirectory && !string.IsNullOrWhiteSpace(dir) )
+                Directory.CreateDirectory(dir);
             
             return fullPath;
         }
         
-        // --- Save Generic ---
-        public Result Save<T>(T data, string folder, string fileName, bool encrypt = true, bool createFolder = false)
+        /// <summary>
+        /// Saves an object to a file in the specified folder.
+        /// </summary>
+        /// <typeparam name="T">Type of the object to save.</typeparam>
+        /// <param name="data">The object to serialize and save.</param>
+        /// <param name="folder">Folder path relative to base path.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="encrypt">Whether to encrypt the file contents.</param>
+        /// <param name="createFolder">Whether to create the folder if it does not exist.</param>
+        /// <returns>A <see cref="Result"/> indicating success or failure.</returns>
+
+        public Result Save<T>(T data, string folder, string fileName, bool encrypt = true, bool createFolder = true)
         {
             try
             {
-                string path = BuildPath(folder, fileName, true);
+                string path = BuildPath(folder, fileName, createFolder);
                 string serialized = _serializer.Serialize(data);
                 
                 if (encrypt)
@@ -100,7 +125,7 @@ namespace ToolBox.Services.Data
         {
             try
             {
-                string path = BuildPath(folder, fileName, false);
+                string path = BuildPath(folder, fileName,false);
 
                 if (!File.Exists(path))
                     return Result.Fail($"File does not exist: {path}");
@@ -124,8 +149,11 @@ namespace ToolBox.Services.Data
                 string dir = Path.Combine(_basePath, folder);
                 if (!Directory.Exists(dir))
                     return Result<string[]>.Fail($"Directory does not exist: {dir}");
+                
+                string ext = extension ?? _fileExtension;
+                if (!ext.StartsWith(".")) ext = "." + ext;
 
-                var files = Directory.GetFiles(dir, $"*{extension ?? _fileExtension}");
+                var files = Directory.GetFiles(dir, $"*{ext}");
                 return Result<string[]>.Ok(files);
             }
             catch (Exception ex)
@@ -151,13 +179,18 @@ namespace ToolBox.Services.Data
             }
         }
         
-        public bool FileExists(string folder, string fileName)
+        public Result<bool> FileExists(string folder, string fileName)
         {
-            string path = Path.Combine(_basePath, folder, $"{fileName}");
-
-            Logger.Log( $"Checking path {path}  " );
-            
-            return File.Exists(path);
+            try
+            {
+                string path = Path.Combine(_basePath, folder, fileName);
+                
+                return Result<bool>.Ok(File.Exists(path));
+            }
+            catch (Exception ex)
+            {
+                return Result<bool>.Fail($"Error checking file existence: {ex.Message}");
+            }
         }
     }
 }

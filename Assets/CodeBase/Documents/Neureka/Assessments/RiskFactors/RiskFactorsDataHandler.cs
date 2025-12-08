@@ -62,7 +62,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
            
         }
         
-        public bool CheckDataExists() => _fileDataService.FileExists(Directory, FileName);
+        public bool CheckDataExists() => _fileDataService.FileExists(Directory, FileName).Value;
         
         public bool CheckForEndAssessment() => _progressIndex >= _riskFactorsData?.AssessmentIdList.Count;
         
