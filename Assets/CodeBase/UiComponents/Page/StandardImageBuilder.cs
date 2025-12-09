@@ -89,7 +89,14 @@ namespace CodeBase.UiComponents.Page
             }
             
             Texture2D texture = ResolveTexture();
-            if (texture == null) return null;
+            
+            Logger.Log( $"Resource path: {_resourcePath}" );
+            
+            if (texture == null)
+            {
+                Logger.Log($"texture is null in StandardImageBuilder");
+                return null;
+            }
 
             int width = _width != 0 ? _width : texture.width;
             int height = _height != 0 ? _height : texture.height;

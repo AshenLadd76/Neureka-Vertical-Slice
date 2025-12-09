@@ -17,24 +17,24 @@ MonoBehaviour:
   introBlurbContents:
   - id: 001
     text: "Thanks for clicking on the Risk Factors  science challenge! \n\nThis challenge
-      is all about helping researchers find new ways to detect dementia early.\n\nYou'll
-      be asked to play 3 games and complete 10 questionnaires about yourself. You
-      can complete all the games and questionnaires in one go or complete them one
-      by one, over several days. Your progress will be saved each time you finish
-      a game or questionnaire."
-    imagePath: Assessments/RiskFactors/intro_image_1.png
+      is all about helping researchers find new ways to detect dementia early.\n\n"
+    imagePath: Assessments/RiskFactors/Images/intro_image_1
   - id: 002
-    text: You'll be asked to play 3 games and complete 10 questionnaires about yourself.
-      You can complete all the games and questionnaires in one go or complete them
-      one by one, over several days. Your progress will be saved each time you finish
-      a game or questionnaire.
-    imagePath: Assessments/RiskFactors/intro_image_2
+    text: "You'll be asked to play 3 games and complete 10 questionnaires about yourself.
+      \n\nYou can complete all the games and questionnaires in one go or complete
+      them one by one, over several days. Your progress will be saved each time you
+      finish a game or questionnaire."
+    imagePath: Assessments/RiskFactors/Images/intro_image_2
   continueTitle: Risk Factors
   continueButtonText: Continue
   continueBlurbContents:
-  - id: 
-    text: Click continue to pick up where you left off.
-    imagePath: 
+  - id: 003
+    text: '<size=48>Welcome back!</size>
+
+
+      Click continue to pick up where
+      you left off.'
+    imagePath: Assessments/RiskFactors/Images/intro_image_3
   outroTitle: Why This Matters
   outroButtonText: Finish
   outroBlurbContents:
@@ -44,20 +44,19 @@ MonoBehaviour:
       \u201Cmodifiable risk factors\u201D."
     imagePath: 
   - id: 
-    text: '<size=125%>Why this matters</size>
+    text: '
 
 
 
-      Did you know that being more
-      physically active reduces risk of developing Dementia?
+      Did you know that being more physically active reduces risk
+      of developing Dementia?
 
 
 
-      The goal of
-      this study is to understand why this is the case - to link together lots of
-      pieces of data to help us unpack the complex relationship between mind, body
-      and environment so we can figure out new ways to harness it in the fight against
-      dementia'
+      The goal of this study is to understand why
+      this is the case - to link together lots of pieces of data to help us unpack
+      the complex relationship between mind, body and environment so we can figure
+      out new ways to harness it in the fight against dementia'
     imagePath: 
   - id: 
     text: 'Thanks again for taking the time to help us with this important research.

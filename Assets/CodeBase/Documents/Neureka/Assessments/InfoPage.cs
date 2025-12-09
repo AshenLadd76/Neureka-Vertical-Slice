@@ -134,7 +134,7 @@ namespace CodeBase.Documents.Neureka.Assessments
                 return;
             }
             
-            _currentContentImage = new StandardImageBuilder().SetWidth(800).SetHeight(600).SetScaleMode(ScaleMode.StretchToFill).SetResourcePath(imagePath).AddClass("rounded-image").AttachTo(_contentContainer).Build();
+            _currentContentImage = new StandardImageBuilder().SetWidth(800).SetHeight(600).SetScaleMode(ScaleMode.ScaleToFit).SetResourcePath(imagePath).AddClass("rounded-image").AttachTo(_contentContainer).Build();
         }
 
         private void UpdateImage()
@@ -169,8 +169,9 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private void BuildContentText(VisualElement parent)
         {
-            _blurbLabel = new LabelBuilder().AddClass("info-page-text").AttachTo(parent.contentContainer).Build();
-            
+            _blurbLabel = new LabelBuilder().AddClass("info-page-content-text").AttachTo(parent.contentContainer).Build();
+
+            _blurbLabel.style.flexGrow = 1;
             _blurbLabel.style.flexShrink = 0;
             _blurbLabel.style.whiteSpace = WhiteSpace.Normal; // allow wrapping
 

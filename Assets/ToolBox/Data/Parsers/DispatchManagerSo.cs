@@ -14,39 +14,18 @@ namespace ToolBox.Data.Parsers
     /// </summary>
     
     [CreateAssetMenu(fileName = "DispatchManagerSo", menuName = "ToolBox/Parsers/Dispatch Manager", order = 0)]
-    public class DispatchManagerSo : ScriptableObject
+    public class DispatchManagerSo : ScriptableObject, IFileDispatcher
     {
         [SerializeField] private List<Wormwood.Utils.KeyValuePair<string, BaseDispatcherSo>> dispatchers = new ();
 
         private Dictionary<string, BaseDispatcherSo> _dispatcherDictionary;
         
         private bool _isSubscribed = false;
-        
-        #if UNITY_EDITOR    
-        private void OnEnable()
-        {
-            InitDictionary();
-            
-            // Subscribe to the FileImporter event
-            if (_isSubscribed) return;
-            
-            FileImporter.OnFileImported += HandleDispatch;
-            
-            _isSubscribed = true;
-        }
 
-        private void OnDisable()
-        {
 
-            if(!_isSubscribed) return;
-            
-            FileImporter.OnFileImported -= HandleDispatch;
-            
-            _isSubscribed = false;
-        }
-        #endif
+        private void OnEnable() => InitDictionary();
         
-      
+
         /// <summary>
         ///Initializes the dispatcher dictionary from the serialized list.
         /// Logs warnings for duplicates or null values.
@@ -78,9 +57,13 @@ namespace ToolBox.Data.Parsers
         /// </summary>
         /// <param name="assetPath">The path to the imported asset file.</param>
         
-        private void HandleDispatch(string assetPath)
+        public void Dispatch(string assetPath, string fullPath)
         {
+            if( _dispatcherDictionary.IsNullOrEmpty() ) InitDictionary();
+            
             var ext = GetFileExtension(assetPath);
+            
+            Logger.Log( $"Dispatch asset path '{assetPath}' ext: {ext}" );
             
             if (string.IsNullOrEmpty(ext)) return;
 

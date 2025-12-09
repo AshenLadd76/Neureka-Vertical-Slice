@@ -47,7 +47,7 @@ MonoBehaviour:
     answers:
     - Rarely or none of the time
     - Some or a little of the time
-    - Occasionally or a moderate amount of time
+    - Occasionally
     - Most or all of the time
     reverseScored: 04000000080000000c00000010000000
     answerComponentType: MultipleChoice

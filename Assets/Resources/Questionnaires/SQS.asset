@@ -21,6 +21,7 @@ MonoBehaviour:
     questionnaireName: Sleep Quality Scale
     questionnaireDescription: A 30-item self-report scale designed to assess overall
       sleep quality, disturbances, and daytime sleepiness.
+    questionnaireIcon: 
     questions:
     - I have trouble falling asleep at night.
     - I wake up during the night and have difficulty getting back to sleep.

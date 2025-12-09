@@ -21,22 +21,23 @@ MonoBehaviour:
     questionnaireName: Hearing Handicap Inventory
     questionnaireDescription: A 10-item questionnaire assessing how hearing difficulties
       affect daily life.
+    questionnaireIcon: 
     questions:
-    - 1. Do you have difficulty hearing when someone speaks in a whisper?
-    - 2. Do you feel handicapped by a hearing problem?
-    - 3. Does a hearing problem cause you difficulty when visiting friends, relatives
+    - Do you have difficulty hearing when someone speaks in a whisper?
+    - Do you feel handicapped by a hearing problem?
+    - Does a hearing problem cause you difficulty when visiting friends, relatives
       or neighbours?
-    - 4. Does a hearing problem cause you difficulty when in a restaurant with relatives
+    - Does a hearing problem cause you difficulty when in a restaurant with relatives
       or friends?
-    - 5. Does a hearing problem cause you to feel embarrassed when you meet new people?
-    - 6. Does a hearing problem cause you to feel frustrated when talking to members
+    - Does a hearing problem cause you to feel embarrassed when you meet new people?
+    - Does a hearing problem cause you to feel frustrated when talking to members
       of your family?
-    - 7. Does a hearing problem cause you to attend religious services less often
-      than you would like?
-    - 8. Does a hearing problem cause you to have arguments with family members?
-    - 9. Does a hearing problem cause you difficulty when listening to TV or radio?
-    - 10. Do you feel that any difficulty with your hearing limits or hampers your
-      social life?
+    - Does a hearing problem cause you to attend religious services less often than
+      you would like?
+    - Does a hearing problem cause you to have arguments with family members?
+    - Does a hearing problem cause you difficulty when listening to TV or radio?
+    - Do you feel that any difficulty with your hearing limits or hampers your social
+      life?
     answers:
     - Yes
     - No
