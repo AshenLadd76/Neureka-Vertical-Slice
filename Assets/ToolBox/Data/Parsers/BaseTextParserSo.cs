@@ -34,11 +34,13 @@ namespace ToolBox.Data.Parsers
             
             try
             {
-                if( !File.Exists(pathToSourceFile)) return false;
+                DeleteFile(pathToSourceFile);
                 
-                File.Delete(pathToSourceFile);
+                // Attempt to delete the .meta file
+                string metaFile = pathToSourceFile + ".meta";
                 
-                Logger.Log($"Deleted source file at {pathToSourceFile}");
+                DeleteFile(metaFile);
+                
             }
             catch (System.Exception e)
             {
@@ -47,6 +49,21 @@ namespace ToolBox.Data.Parsers
             }
             
             return true;
+        }
+
+        
+        //Deletes the actual file ..
+        private void DeleteFile(string pathToSourceFile)
+        {
+            if (!File.Exists(pathToSourceFile)) return;
+            
+            var fileInfo = new FileInfo(pathToSourceFile);
+            if (fileInfo.IsReadOnly)
+                fileInfo.IsReadOnly = false;
+            
+            File.Delete(pathToSourceFile);
+               
+            Logger.Log($"Deleted file at {pathToSourceFile}");
         }
     }
 }

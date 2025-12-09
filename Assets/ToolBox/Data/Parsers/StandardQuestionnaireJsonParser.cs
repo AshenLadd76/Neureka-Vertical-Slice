@@ -78,16 +78,14 @@ namespace ToolBox.Data.Parsers
             asset.name = $"{standardQuestionnaireTemplate.ScientificId}{questionnaireSuffix}";
 
             var fileName = $"{standardQuestionnaireTemplate.ScientificId}{textAssetExt}";
-            var fullPath = $"{questionnaireSavePath}{fileName}";
-
-         
+            var fullPath = Path.Combine( questionnaireSavePath, fileName );
+            
             if (!Directory.Exists(questionnaireSavePath))
             {
                 Directory.CreateDirectory(questionnaireSavePath);
                 Logger.Log($"Created folder: {questionnaireSavePath}");
             }
-
-
+            
             try
             {
                 AssetDatabase.CreateAsset(asset, $"{fullPath}");
