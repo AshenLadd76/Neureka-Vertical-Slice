@@ -57,9 +57,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
             _riskFactorsData.AssessmentIdList.Shuffle();
             
-            _fileDataService.Save(_riskFactorsData, Directory, FileName, false);
-            
-           
+            _fileDataService.Save(_riskFactorsData, Directory, FileName, false, true);
         }
         
         public bool CheckDataExists() => _fileDataService.FileExists(Directory, FileName).Value;

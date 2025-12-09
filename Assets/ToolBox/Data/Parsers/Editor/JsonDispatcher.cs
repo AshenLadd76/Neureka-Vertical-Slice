@@ -86,7 +86,7 @@ namespace ToolBox.Data.Parsers.Editor
 
             if (string.IsNullOrEmpty(parserType))
             {  
-                Logger.LogError("Failed to get parser type");
+                Logger.LogWarning("Failed to get parser type");
                 return;
             }
 

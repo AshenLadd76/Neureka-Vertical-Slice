@@ -28,7 +28,6 @@ namespace ToolBox.Services.Haptics
                 Logger.LogError($"No haptic config found for {hapticType}");
                 return;
             }
-
             
             AndroidHapticsWrapper.Vibrate(config.DurationMilliSeconds, config.Amplitude);
         }

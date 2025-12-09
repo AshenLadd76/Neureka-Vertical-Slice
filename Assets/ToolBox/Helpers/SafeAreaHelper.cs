@@ -7,7 +7,6 @@ namespace ToolBox.Helpers
     [RequireComponent(typeof(UIDocument))]
     public class SafeAreaHelper : MonoBehaviour
     {
-        
         private UIDocument _uiDocument;
         
          private VisualElement _rootVisualElement; // Assign your root VisualElement
@@ -35,10 +34,10 @@ namespace ToolBox.Helpers
         private void Update()
         {
             // Only update if safe area changed (orientation/device rotation)
-            if (Screen.safeArea != _lastSafeArea)
-            {
-                ApplySafeArea();
-            }
+            if (Screen.safeArea == _lastSafeArea) return;
+            
+            ApplySafeArea();
+            
         }
 
         private void ApplySafeArea()
@@ -46,19 +45,12 @@ namespace ToolBox.Helpers
             Rect safeArea = Screen.safeArea;
             _lastSafeArea = safeArea;
 
-            // Normalized offsets
-            float top = 1f - safeArea.yMax / Screen.height;
-            float bottom = safeArea.yMin / Screen.height;
-            float left = safeArea.xMin / Screen.width;
-            float right = 1f - safeArea.xMax / Screen.width;
+            // Set padding in pixels correctly
+            _rootVisualElement.style.paddingTop = safeArea.yMin;
+            _rootVisualElement.style.paddingBottom = Screen.height - safeArea.yMax;
+            _rootVisualElement.style.paddingLeft = safeArea.xMin;
+            _rootVisualElement.style.paddingRight = Screen.width - safeArea.xMax;
 
-            // Convert to pixels
-            _rootVisualElement.style.paddingTop = safeArea.height * top + safeArea.yMin;
-            _rootVisualElement.style.paddingBottom = safeArea.height * bottom;
-            _rootVisualElement.style.paddingLeft = safeArea.width * left + safeArea.xMin;
-            _rootVisualElement.style.paddingRight = safeArea.width * right;
-
-            // Optional: Debug
             Logger.Log($"SafeArea applied: {safeArea}");
         }
     }
