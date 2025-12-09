@@ -13,6 +13,7 @@ namespace CodeBase.Questionnaires
         [SerializeField] private string questionnaireID;
         [SerializeField] private string questionnaireName;
         [SerializeField] private string questionnaireDescription;
+        [SerializeField] private string questionnaireIcon;
         [SerializeField] private string[] questions;
         [SerializeField] private string[] answers;
         [SerializeField] private int[] reverseScored;
@@ -27,6 +28,7 @@ namespace CodeBase.Questionnaires
         public string QuestionnaireID { get => questionnaireID; set => questionnaireID = value; }
         public string QuestionnaireName { get => questionnaireName; set => questionnaireName = value; }
         public string QuestionnaireDescription { get => questionnaireDescription; set => questionnaireDescription = value; }
+        public string QuestionnaireIcon { get => questionnaireIcon; set => questionnaireIcon = value; }
         public string[] Questions { get => questions; set => questions = value; }
         public string[] Answers { get => answers; set => answers = value; }
         public int[] ReverseScored { get => reverseScored; set => reverseScored = value; }

@@ -232,7 +232,15 @@
 
 
 .menu-card-blurb {
-    font-size: 32px;
+    font-size: 38px;
+    white-space: normal;      /* allows wrapping */
+    overflow: visible;        /* ensures text isn’t clipped */
+    flex-wrap: wrap;          /* extra safety in flex containers */
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+}
+
+.info-page-text {
+    font-size: 40px;
     white-space: normal;      /* allows wrapping */
     overflow: visible;        /* ensures text isn’t clipped */
     flex-wrap: wrap;          /* extra safety in flex containers */

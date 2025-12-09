@@ -23,6 +23,8 @@ namespace ToolBox.Data.Importer
 
             var fullPath = GetFullPath(assetPath);
             
+            Logger.Log($"Processing file {fullPath}");
+            
             if (!File.Exists(fullPath))
             {
                 Logger.Log($"File does not exist: {fullPath}");

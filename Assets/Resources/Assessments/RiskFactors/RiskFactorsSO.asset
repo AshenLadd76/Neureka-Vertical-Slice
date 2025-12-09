@@ -22,7 +22,7 @@ MonoBehaviour:
       can complete all the games and questionnaires in one go or complete them one
       by one, over several days. Your progress will be saved each time you finish
       a game or questionnaire."
-    imagePath: Assessments/RiskFactors/intro_image_1
+    imagePath: Assessments/RiskFactors/intro_image_1.png
   - id: 002
     text: You'll be asked to play 3 games and complete 10 questionnaires about yourself.
       You can complete all the games and questionnaires in one go or complete them

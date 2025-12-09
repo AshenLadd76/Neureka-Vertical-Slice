@@ -169,7 +169,7 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private void BuildContentText(VisualElement parent)
         {
-            _blurbLabel = new LabelBuilder().AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(parent.contentContainer).Build();
+            _blurbLabel = new LabelBuilder().AddClass("info-page-text").AttachTo(parent.contentContainer).Build();
             
             _blurbLabel.style.flexShrink = 0;
             _blurbLabel.style.whiteSpace = WhiteSpace.Normal; // allow wrapping

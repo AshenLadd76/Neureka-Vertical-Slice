@@ -25,7 +25,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             _fileDataService = fileDataService ?? throw new ArgumentNullException(nameof(fileDataService), "IFileDataService cannot be null.");
             
             _riskFactorsDataHandler = new RiskFactorsDataHandler(_fileDataService);
-
         }
         
         protected override void Build()
@@ -44,7 +43,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
                 LoadContinuePage();
             else
                 CheckAssessmentProgress();
-            
         }
         
         private void AddPageRecipes()
