@@ -45,7 +45,7 @@ namespace UiFrameWork.RunTime
             
             _messageBus = MessageBus.Instance;
             
-            ObjectValidator.Validate(_uiDocument);
+            ObjectValidator.Validate( _messageBus );
         }
 
         private void InitUi()
