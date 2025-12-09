@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace ToolBox.Services
 {
-    
     /// <summary>
     /// Base class for all services that need to subscribe/unsubscribe 
     /// to events, message buses, or other external systems.
@@ -13,8 +12,17 @@ namespace ToolBox.Services
     {
         private bool _isSubscribed = false;
 
-        protected virtual void OnEnable() => Subscribe();
-        protected virtual void OnDisable() => Unsubscribe();
+        private void OnEnable()
+        {
+            Subscribe();
+            OnServiceEnabled();
+        }
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+            OnServiceDisabled();
+        }
 
         /// <summary>
         /// Ensures the service subscribes only once.
@@ -44,29 +52,11 @@ namespace ToolBox.Services
         protected abstract void SubscribeToService();
         protected abstract void UnsubscribeFromService();
         
+        protected virtual void OnServiceEnabled() { }
+        protected virtual void OnServiceDisabled() { }
         
-        /// <summary>
-        /// Implement to define how the service unsubscribes from events/messages.
-        /// </summary>
-
-        [ContextMenu("Subscribe to service (Editor)")]
-        public void SubscribeEditor()
-        {
-            if (_isSubscribed) return;
-            
-            SubscribeToService();
-            
-            _isSubscribed = true;
-        }
-
-        [ContextMenu("Unsubscribe from service (Editor)")]
-        public void UnsubscribeEditor()
-        {
-            if( !_isSubscribed ) return;
-            
-            UnsubscribeFromService();
-            
-            _isSubscribed = false;
-        }
+        
+        //In case of domain reload quirks
+        private void OnDestroy() => Unsubscribe();
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents;
 using CodeBase.Documents.Neureka;
-using CodeBase.Documents.Neureka.Assessments;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
 using CodeBase.Pages;
 using ToolBox.Helpers;
@@ -30,34 +29,45 @@ namespace UiFrameWork.RunTime
         
         [Validate] private IFileDataService _fileDataService;
         
+        [Validate] private MessageBus _messageBus;
+        
         private const string DefaultFileExtension = ".json";
 
         private void Awake() => Init();
 
         private void Init()
         {
-            _uiDocument = GetComponent<UIDocument>();
+            InitUi();
             
-            _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), DefaultFileExtension);
+            InitFileDataService();
             
-            _rootVisualElement = _uiDocument.rootVisualElement;
+            InitRecipeDictionaries();
             
-            _cachedDocuments = new Dictionary<DocumentID, IDocument>();
-            
-            InitRecipeDictionary();
+            _messageBus = MessageBus.Instance;
             
             ObjectValidator.Validate(_uiDocument);
         }
 
-        private void InitRecipeDictionary()
+        private void InitUi()
+        {
+            _uiDocument = GetComponent<UIDocument>();
+            
+            _rootVisualElement = _uiDocument.rootVisualElement;
+        }
+        
+        private void InitFileDataService() => _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), DefaultFileExtension);
+
+        private void InitRecipeDictionaries()
         {
             _documents = new Dictionary<DocumentID, Func<IDocument>>
             {
-                [DocumentID.Nerueka] = () => new NeurekaDocument(),
+                [DocumentID.Neureka] = () => new NeurekaDocument(),
                 [DocumentID.Hub] = () => new HubDocument(),
                 [DocumentID.TestDocument] = () => new TestDocument(),
                 [DocumentID.RiskFactors] = () => new RiskFactorsDocument(_fileDataService)
             };
+            
+            _cachedDocuments = new Dictionary<DocumentID, IDocument>();
         }
 
         private void OnRequestOpenDocument(DocumentID documentID)
@@ -76,8 +86,13 @@ namespace UiFrameWork.RunTime
             
             IDocument document = documentFunc();
             
-            if( TryOpenDocument(document) )
-                _cachedDocuments.Add( documentID, document );
+            _cachedDocuments[documentID] = document;
+
+            if (TryOpenDocument(document)) return;
+            
+            Logger.LogError($"Failed to open document {documentID}, retry may fail.");
+   
+            _cachedDocuments.Remove(documentID);
         }
 
         private void OnRequestCloseDocument(DocumentID documentID) => Logger.Log($"Document {documentID} has been closed");
@@ -103,13 +118,13 @@ namespace UiFrameWork.RunTime
         
         protected override void SubscribeToService()
         {
-            MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+            _messageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
             //MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument  );
         }
 
         protected override void UnsubscribeFromService()
         {
-            MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+            _messageBus.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
            // MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument);
         }
     }
@@ -117,7 +132,7 @@ namespace UiFrameWork.RunTime
     public enum DocumentID
     { 
         Hub,
-        Nerueka,
+        Neureka,
         TestDocument,
         RiskFactors,
     }
