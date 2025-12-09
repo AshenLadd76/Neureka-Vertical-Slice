@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using ToolBox.Data.Importer;
 using ToolBox.Extensions;
 using UnityEngine;
 using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Data.Parsers
 {
-    
     /// <summary>
     /// Manages dispatching imported files to the appropriate parser based on file extension.
-    /// Subscribes to the <see cref="FileImporter.OnFileImported"/> event in the editor.
     /// </summary>
     
     [CreateAssetMenu(fileName = "DispatchManagerSo", menuName = "ToolBox/Parsers/Dispatch Manager", order = 0)]
@@ -20,9 +17,6 @@ namespace ToolBox.Data.Parsers
 
         private Dictionary<string, BaseDispatcherSo> _dispatcherDictionary;
         
-        private bool _isSubscribed = false;
-
-
         private void OnEnable() => InitDictionary();
         
 
@@ -56,6 +50,7 @@ namespace ToolBox.Data.Parsers
         /// Handles an imported file by dispatching it to the appropriate parser based on its extension.
         /// </summary>
         /// <param name="assetPath">The path to the imported asset file.</param>
+        /// <param name="fullPath">Absolute system path of the file.</param>
         
         public void Dispatch(string assetPath, string fullPath)
         {
