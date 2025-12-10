@@ -4,6 +4,6 @@ namespace ToolBox.Services.Web
     {
         string ResponseCode { get; set; }
         ServerResponse Response { get; set; }
-        bool IsResponseDone { get; set; }
+        bool Success { get; set; }
     }
 }

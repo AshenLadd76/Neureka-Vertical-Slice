@@ -13,26 +13,24 @@ namespace ToolBox.Services.Web
         /// <summary>
         /// Sends a POST request to the specified URI with the given data.
         /// </summary>
-        /// <param name="coroutineRunner"></param>
+      
         /// <param name="postData">The data to include in the POST request.</param>
         /// <returns>An IEnumerator for coroutine execution.</returns>
-        IEnumerator Post(ICoroutineRunner coroutineRunner,  IFormData postData);
+        IEnumerator Post(IFormData postData);
 
         /// <summary>
         /// Sends a PUT request to the specified URI with the given data.
         /// </summary>
-        /// <param name="coroutineRunner"></param>
         /// <param name="putData">The data to include in the PUT request.</param>
         /// <returns>An IEnumerator for coroutine execution.</returns>
-        IEnumerator Put(ICoroutineRunner coroutineRunner, IFormData putData);
+        IEnumerator Put(IFormData putData);
 
         /// <summary>
         /// Sends a GET request to the specified URL.
         /// </summary>
-        /// <param name="coroutineRunner"></param>
         /// <param name="url"></param>
         /// <returns>An IEnumerator for coroutine execution.</returns>
-        IEnumerator Get(ICoroutineRunner coroutineRunner, string url);
+        IEnumerator Get(string url);
 
         /// <summary>
         /// Gets the server response received from the last web request.

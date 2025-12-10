@@ -78,7 +78,6 @@ namespace ToolBox.Services.Data
         /// <param name="encrypt">Whether to encrypt the file contents.</param>
         /// <param name="createFolder">Whether to create the folder if it does not exist.</param>
         /// <returns>A <see cref="Result"/> indicating success or failure.</returns>
-
         public Result Save<T>(T data, string folder, string fileName, bool encrypt = true, bool createFolder = true)
         {
             try
@@ -97,6 +96,40 @@ namespace ToolBox.Services.Data
                 return Result.Fail($"Failed to save '{fileName}': {ex.Message}");
             }
         }
+        
+        /// <summary>
+        /// Saves an object to a file in the specified folder.
+        /// </summary>
+        /// <param name="data">The string to save.</param>
+        /// <param name="folder">Folder path relative to base path.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="encrypt">Whether to encrypt the file contents.</param>
+        /// <param name="createFolder">Whether to create the folder if it does not exist.</param>
+        /// <returns>A <see cref="Result"/> indicating success or failure.</returns>
+        public Result Save(string data, string folder, string fileName, bool encrypt = true, bool createFolder = true)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(data))
+                {
+                    return Result.Fail("Data is empty.");
+                }
+                
+                string path = BuildPath(folder, fileName, createFolder);
+               
+                
+                if (encrypt)
+                    data = _encryptionService.Encrypt(data);
+
+                File.WriteAllText(path, data);
+                return Result.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"Failed to save '{fileName}': {ex.Message}");
+            }
+        }
+        
         
         // --- Load Generic ---
         public Result<T> Load<T>(string folder, string fileName, bool encrypted = true)

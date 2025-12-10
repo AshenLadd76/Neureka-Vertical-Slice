@@ -19,19 +19,20 @@ namespace ToolBox.Services.Web
 
         private string _token = "";
         
-        public WebService(ISerializer serializer, ITokenService tokenService)
+        public WebService(ISerializer serializer, ITokenService tokenService, ICoroutineRunner coroutineRunner)
         {
             _serializer = serializer;
             _tokenService = tokenService;
+            _coroutineRunner = coroutineRunner;
         }
         
-        public IEnumerator Post(ICoroutineRunner coroutineRunner, IFormData formData) => Send(coroutineRunner, formData, UnityWebRequest.kHttpVerbPOST);
+        public IEnumerator Post(IFormData formData) => Send(formData, UnityWebRequest.kHttpVerbPOST);
         
-        public IEnumerator Put(ICoroutineRunner coroutineRunner, IFormData formData) => Send(coroutineRunner, formData, UnityWebRequest.kHttpVerbPUT);
+        public IEnumerator Put(IFormData formData) => Send(formData, UnityWebRequest.kHttpVerbPUT);
         
-        public IEnumerator Get(ICoroutineRunner coroutineRunner, string url)
+        public IEnumerator Get(string url)
         {
-            if (coroutineRunner == null)
+            if (_coroutineRunner == null)
             {
                 Logger.LogError("Coroutine runner not set");
                 yield break;
@@ -45,12 +46,12 @@ namespace ToolBox.Services.Web
 
             using UnityWebRequest request = UnityWebRequest.Get(url);
 
-            yield return coroutineRunner.StartCoroutine(SendRequest(request));
+            yield return _coroutineRunner.StartCoroutine(SendRequest(request));
         }
         
-        private IEnumerator Send(ICoroutineRunner coroutineRunner, IFormData data, string requestType )
+        private IEnumerator Send(IFormData data, string requestType )
         {
-            if (coroutineRunner == null)
+            if (_coroutineRunner == null)
             {
                 Logger.LogError( "Coroutine runner not set" );
                 yield break;
@@ -68,7 +69,7 @@ namespace ToolBox.Services.Web
             
             try
             {
-                yield return coroutineRunner.StartCoroutine(SendRequest(request));
+                yield return _coroutineRunner.StartCoroutine(SendRequest(request));
             }
             finally
             {

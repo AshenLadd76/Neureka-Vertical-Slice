@@ -8,6 +8,7 @@ using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messenger;
 using ToolBox.Services.Haptics;
+using ToolBox.Services.Web;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
 using UiFrameWork.RunTime;
@@ -289,7 +290,7 @@ namespace CodeBase.UiComponents.Pages
 
         //private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
         
-        private void RequestDataUpload( WebData webData ) =>  MessageBus.Instance.Broadcast( NeurekaDemoMessages.DataUploadRequestMessage, webData );
+        private void RequestDataUpload( WebData webData ) =>  MessageBus.Instance.Broadcast( WebServiceMessages.OnPostRequestMessage, webData );
         
         
         

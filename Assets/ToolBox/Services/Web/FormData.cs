@@ -4,16 +4,17 @@ namespace ToolBox.Services.Web
 {
     public interface IFormData
     {
-        string JsonData { get; set; }
-        string Url { get; set; }
-        string Title { get; set; }
+        public string Title { get;  }
+        string JsonData { get;  }
+        string Url { get;  }
+  
     }
 
     public class FormData : IFormData
     {
-        public string JsonData { get; set; }
-        public string Url { get; set; }
-        public string Title { get; set; }
+        public string JsonData { get;  }
+        public string Url { get;  }
+        public string Title { get;  }
 
         public FormData( string title, string url, string jsonData )
         {
