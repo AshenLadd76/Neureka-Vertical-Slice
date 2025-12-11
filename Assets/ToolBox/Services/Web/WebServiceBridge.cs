@@ -36,22 +36,21 @@ namespace ToolBox.Services.Web
 
          private void Awake()
          {
-            _messageBus = MessageBus.Instance;
-           
-            InitServices();
+             InitServices();
            
             ObjectValidator.Validate(this, null, true);
          }
        
        
         private void InitServices()
-        {
-           _serializer = new JsonSerializer();
-           _encryptionService = new EncryptionService();
-           _tokenService = new TokenService(_encryptionService);
-           _coroutineRunner = new CoroutineRunner(this);
-           _fileDataService = new FileDataService(_encryptionService, _serializer, FileExtenstion, GetDataPath() );
-           _webService = new WebService(_serializer, _tokenService, _coroutineRunner);
+        { 
+            _messageBus = MessageBus.Instance;
+            _serializer = new JsonSerializer();
+            _encryptionService = new EncryptionService();
+            _tokenService = new TokenService(_encryptionService);
+            _coroutineRunner = new CoroutineRunner(this);
+            _fileDataService = new FileDataService(_encryptionService, _serializer, FileExtenstion, GetDataPath() );
+            _webService = new WebService(_serializer, _tokenService, _coroutineRunner);
         }
 
         
@@ -96,7 +95,7 @@ namespace ToolBox.Services.Web
             if (success)
             {
                 Logger.Log($"Request for {title} succeeded!");
-                // Optionally remove cached file
+          
                 string fileToDelete = $"{title}.json";
                 
                 _fileDataService.Delete("Data", fileToDelete);

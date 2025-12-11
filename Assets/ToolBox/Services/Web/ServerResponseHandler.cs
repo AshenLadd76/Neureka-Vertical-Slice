@@ -1,45 +1,46 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine.Networking;
+using CodeBase.Services.ToolBox.Services.Web;
+using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Services.Web
 {
     public interface IServerResponseHandler<T>
     {
-       // void HandleResponse(UnityWebRequest request);
-        IServerResponseData ResponseData { get; }
+
+        public void AddHandler(ServerResponseCode responseCode, Action<T> handler);
+        public bool RemoveHandler(ServerResponseCode responseCode);
+
+        public bool HandleResponse(ServerResponseCode responseCode, T param);
     }
-    
     
     public class ServerResponseHandler<T> : IServerResponseHandler<T>
     {
-        private readonly Dictionary<ServerResponse, Action<T>> _handlers = new();
-        public void AddHandler(ServerResponse response, Action<T> handler)
+        private readonly Dictionary<ServerResponseCode, Action<T>> _handlers = new();
+        public void AddHandler(ServerResponseCode responseCode, Action<T> handler)
         {
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
-            _handlers[response] = handler;
-        }
-
-        public bool RemoveHandler(ServerResponse response)
-        {
-            return _handlers.Remove(response);
-        }
-
-        public bool HandleResponse(ServerResponse response, T param)
-        {
-            if (_handlers.TryGetValue(response, out var handler))
+            if (!_handlers.TryAdd(responseCode, handler))
             {
-                handler.Invoke(param);
-                return true;
+                Logger.LogError( $"Failed to add handler for {responseCode}" );
             }
-            return false;
         }
 
-        public void Handle(UnityWebRequest request)
+        public bool RemoveHandler(ServerResponseCode responseCode)
         {
-            throw new NotImplementedException();
+            if (!_handlers.ContainsKey(responseCode)) return false;
+            
+            _handlers.Remove(responseCode);
+            
+            return true;
         }
-        
-        public IServerResponseData ResponseData { get; }
+
+        public bool HandleResponse(ServerResponseCode responseCode, T param)
+        {
+            if (!_handlers.TryGetValue(responseCode, out var handler)) return false;
+            
+            handler.Invoke(param);
+            
+            return true;
+        }
     }
 }

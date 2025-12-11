@@ -44,50 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db260b1974b622540b2b91f70a64a570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2395759443525229279
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5359824584373251723}
-  - component: {fileID: 218640546235530231}
-  m_Layer: 0
-  m_Name: FileService
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5359824584373251723
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2395759443525229279}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1507956477377149339}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &218640546235530231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2395759443525229279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5512b45700d9dd4dab534c72c7f1b66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4506621882805931640
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +91,7 @@ MonoBehaviour:
   onServerResponse:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 952569393893774988}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CodeBase.Services.DataUploadService, Assembly-CSharp
         m_MethodName: OnServerResponse
         m_Mode: 0
@@ -181,9 +137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 778882776975856846}
   - {fileID: 8091185381942464749}
-  - {fileID: 5359824584373251723}
   - {fileID: 6610822798286714508}
   - {fileID: 5397165638214238976}
   m_Father: {fileID: 0}
@@ -256,92 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4058f497ea2dd944386385907cdf337e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6670771896644624004
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 778882776975856846}
-  - component: {fileID: 952569393893774988}
-  m_Layer: 0
-  m_Name: DataUploadService
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &778882776975856846
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6670771896644624004}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1507956477377149339}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &952569393893774988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6670771896644624004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dfb1eed802377f428bb994911de1e82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onUploadRequestReceived:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 218640546235530231}
-        m_TargetAssemblyTypeName: CodeBase.Services.FileService, Assembly-CSharp
-        m_MethodName: SaveData
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 938868512499027366}
-        m_TargetAssemblyTypeName: CodeBase.Services.WebService, Assembly-CSharp
-        m_MethodName: DataUploadRequest
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  onSuccessfulUpload:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 218640546235530231}
-        m_TargetAssemblyTypeName: CodeBase.Services.FileService, Assembly-CSharp
-        m_MethodName: DeleteData
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &6910003587866506136
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,3 +258,4 @@ MonoBehaviour:
   boostedFrameRate: 120
   defaultFrameRate: 60
   reducedFrameRate: 30
+  adjustmentDuration: 1

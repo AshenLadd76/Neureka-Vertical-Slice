@@ -38,27 +38,28 @@ MonoBehaviour:
   outroTitle: Why This Matters
   outroButtonText: Finish
   outroBlurbContents:
-  - id: 
+  - id: 004
     text: "<size=125%>Why this matters</size>\n\n\nThere is a growing body of knowledge
       that up to 45% of cases of dementia could be prevented through what are called
       \u201Cmodifiable risk factors\u201D."
     imagePath: 
-  - id: 
-    text: '
+  - id: 005
+    text: '<size=125%>Why this matters</size>
 
 
 
-      Did you know that being more physically active reduces risk
-      of developing Dementia?
+      Did you know that being more
+      physically active reduces risk of developing Dementia?
 
 
 
-      The goal of this study is to understand why
-      this is the case - to link together lots of pieces of data to help us unpack
-      the complex relationship between mind, body and environment so we can figure
-      out new ways to harness it in the fight against dementia'
+      The goal of
+      this study is to understand why this is the case - to link together lots of
+      pieces of data to help us unpack the complex relationship between mind, body
+      and environment so we can figure out new ways to harness it in the fight against
+      dementia'
     imagePath: 
-  - id: 
+  - id: 006
     text: 'Thanks again for taking the time to help us with this important research.
       We hope you will continue to play games and complete other challenges in the
       app, which aim to address other important challenges in brain health research!
