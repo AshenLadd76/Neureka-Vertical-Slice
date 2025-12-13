@@ -160,11 +160,9 @@ namespace CodeBase.Documents.Neureka.Components
 
         private void BuildImage(VisualElement parent)
         {
-            
             Texture2D texture = ResolveTexture();
 
             if (texture == null) return;
-
             
             // Use local variables for width/height, fallback to texture native size
             int width = _imageWidth != 0 ? _imageWidth : texture.width;
@@ -203,7 +201,7 @@ namespace CodeBase.Documents.Neureka.Components
             _contentText ??= MissingText;
             
             var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
-                .AddClass(PopupBuilderUssClassNames.PopUpScrollViewStyle).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(parent).Build();
+                .AddClass(PopupBuilderUssClassNames.PopUpContentStyle).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(parent).Build();
             
             var contentText = new LabelBuilder()
                 .SetText(_contentText)

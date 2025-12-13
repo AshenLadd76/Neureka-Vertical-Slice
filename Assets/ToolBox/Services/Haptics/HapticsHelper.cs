@@ -1,5 +1,5 @@
 using System;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 
 namespace ToolBox.Services.Haptics
 {
@@ -11,7 +11,7 @@ namespace ToolBox.Services.Haptics
         ///
         public static void RequestHaptics(HapticType type = HapticType.Low)
         {
-            MessageBus.Instance.Broadcast(HapticsMessages.OnHapticsRequest, type);
+            MessageBus.Broadcast(HapticsMessages.OnHapticsRequest, type);
         }
        
     }

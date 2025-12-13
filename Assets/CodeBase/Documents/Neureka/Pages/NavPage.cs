@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
-using CodeBase.Documents.DemoA.Components;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using CodeBase.Services;
 using ToolBox.Extensions;
-using ToolBox.Messenger;
-using UiFrameWork.Builders;
+using ToolBox.Messaging;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
@@ -145,7 +143,7 @@ namespace CodeBase.Documents.Neureka.Pages
             return () => 
             {
                 Logger.Log( $"{questionnaireId}" );
-                MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
+                MessageBus.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
             };
         }
     }

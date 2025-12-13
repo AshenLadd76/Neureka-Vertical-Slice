@@ -18,7 +18,6 @@ namespace CodeBase.Documents.Neureka.Assessments
         public string Title { get; set; }
         public string ButtonText { get; set; }
         public List<BlurbContent> ContentList { get; set; }
-        
         public Action OnFinished { get; set; }
     }
 }

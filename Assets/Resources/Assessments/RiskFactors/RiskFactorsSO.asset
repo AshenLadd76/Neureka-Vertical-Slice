@@ -42,7 +42,7 @@ MonoBehaviour:
     text: "<size=125%>Why this matters</size>\n\n\nThere is a growing body of knowledge
       that up to 45% of cases of dementia could be prevented through what are called
       \u201Cmodifiable risk factors\u201D."
-    imagePath: 
+    imagePath: Assessments/RiskFactors/Images/intro_image_1
   - id: 005
     text: '<size=125%>Why this matters</size>
 
@@ -58,7 +58,7 @@ MonoBehaviour:
       pieces of data to help us unpack the complex relationship between mind, body
       and environment so we can figure out new ways to harness it in the fight against
       dementia'
-    imagePath: 
+    imagePath: Assessments/RiskFactors/Images/intro_image_1
   - id: 006
     text: 'Thanks again for taking the time to help us with this important research.
       We hope you will continue to play games and complete other challenges in the
@@ -67,4 +67,4 @@ MonoBehaviour:
 
 
 '
-    imagePath: 
+    imagePath: Assessments/RiskFactors/Images/intro_image_1

@@ -59,7 +59,7 @@
 {
     width: 96px;
     height:96px;
-    margin-left:auto;
+   
    
     background-color: #3382CC;
     border-radius: 64px; /* curved corners */

@@ -6,7 +6,7 @@ using CodeBase.Questionnaires;
 using CodeBase.Services;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Services.Haptics;
 using ToolBox.Services.Web;
 using UiFrameWork.Components;
@@ -129,6 +129,8 @@ namespace CodeBase.UiComponents.Pages
         private void CreateHeader(VisualElement parent)
         {
             var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
+            
+            new ContainerBuilder().AddClass("header-spacer").AttachTo(headerNav).Build();
             
             new ButtonBuilder().SetText("X")
                 .OnClick(CreateQuitPopUp)
@@ -290,7 +292,7 @@ namespace CodeBase.UiComponents.Pages
 
         //private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
         
-        private void RequestDataUpload( WebData webData ) =>  MessageBus.Instance.Broadcast( WebServiceMessages.OnPostRequestMessage, webData );
+        private void RequestDataUpload( WebData webData ) =>  MessageBus.Broadcast( WebServiceMessages.OnPostRequestMessage, webData );
         
         
         
@@ -306,7 +308,7 @@ namespace CodeBase.UiComponents.Pages
             _confirmationPopup?.RemoveFromHierarchy();
             _confirmationPopup = null;
             
-            _parentDocument?.Close();
+            //_parentDocument?.Close();
         }
     }
 }

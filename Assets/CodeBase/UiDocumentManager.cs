@@ -1,4 +1,4 @@
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Utils.Validation;
 using UiFrameWork.RunTime;
 using UiFrameWork.Tools;
@@ -30,7 +30,7 @@ namespace CodeBase
         private void LoadEntryPointDocument()
         {
             //Load the default document, main hub
-            MessageBus.Instance.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), entryPointDocument);
+            MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), entryPointDocument);
         }
     }
 }

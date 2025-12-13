@@ -4,7 +4,7 @@ using System.IO;
 using CodeBase.Services;
 using CodeBase.Services.Encryption;
 using ToolBox.Helpers;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Services.Auth;
 using ToolBox.Services.Data;
 using ToolBox.Services.Encryption;
@@ -31,8 +31,7 @@ namespace ToolBox.Services.Web
         private const string FileExtenstion = ".json";
        
         [SerializeField] private UnityEvent<string> onServerResponse;
-       
-        [Validate] private MessageBus _messageBus;
+        
 
          private void Awake()
          {
@@ -44,7 +43,6 @@ namespace ToolBox.Services.Web
        
         private void InitServices()
         { 
-            _messageBus = MessageBus.Instance;
             _serializer = new JsonSerializer();
             _encryptionService = new EncryptionService();
             _tokenService = new TokenService(_encryptionService);
@@ -133,19 +131,17 @@ namespace ToolBox.Services.Web
 
         protected override void SubscribeToService()
         {
-            _messageBus.AddListener<WebData>( WebServiceMessages.OnPostRequestMessage, OnPostRequest );
+            MessageBus.AddListener<WebData>( WebServiceMessages.OnPostRequestMessage, OnPostRequest );
         }
 
         protected override void UnsubscribeFromService()
         {
-            _messageBus.RemoveListener<WebData>( WebServiceMessages.OnPostRequestMessage, OnPostRequest );
+            MessageBus.RemoveListener<WebData>( WebServiceMessages.OnPostRequestMessage, OnPostRequest );
         }
-        
     }
 
     public static class WebServiceMessages
     {
         public const string OnPostRequestMessage = "OnPostRequest";
     }
-    
 }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Services.Haptics
@@ -32,8 +32,8 @@ namespace ToolBox.Services.Haptics
             AndroidHapticsWrapper.Vibrate(config.DurationMilliSeconds, config.Amplitude);
         }
         
-        protected override void SubscribeToService() => MessageBus.Instance.AddListener<HapticType>(HapticsMessages.OnHapticsRequest, HandleHaptics );
+        protected override void SubscribeToService() => MessageBus.AddListener<HapticType>(HapticsMessages.OnHapticsRequest, HandleHaptics );
         
-        protected override void UnsubscribeFromService() => MessageBus.Instance.RemoveListener<HapticType>(HapticsMessages.OnHapticsRequest, HandleHaptics );
+        protected override void UnsubscribeFromService() => MessageBus.RemoveListener<HapticType>(HapticsMessages.OnHapticsRequest, HandleHaptics );
     }
 }

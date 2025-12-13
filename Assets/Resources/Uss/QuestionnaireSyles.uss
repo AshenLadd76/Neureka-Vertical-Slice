@@ -296,12 +296,8 @@ popup-title-container
    padding: 5px;
    font-size: 42px;
    white-space: normal;
-
-       /* Remove word breaking */
-    overflow-wrap: normal;
-    word-break: normal;
-  
-   
+    overflow-wrap: break-word;
+    word-break: break-word; /* extra safety for long words */
    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Bold-sdf.asset");
      color:#0C1353;
 }

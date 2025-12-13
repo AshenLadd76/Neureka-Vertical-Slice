@@ -2,10 +2,8 @@ using CodeBase.Services;
 using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
-using CodeBase.UiComponents.Pages;
 using CodeBase.UiComponents.Styles;
-using ToolBox.Messenger;
-using UiFrameWork.Builders;
+using ToolBox.Messaging;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using Logger = ToolBox.Utils.Logger;
@@ -22,10 +20,10 @@ namespace CodeBase.Documents
             
             var container  = new ContainerBuilder().AddClass(DemoHubUssDefinitions.Container).AddClass(DemoHubUssDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Risk Factors",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Main Hub",() => { MessageBus.Instance.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Depression Questionnaire",() => {  MessageBus.Instance.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
-           ButtonFactory.CreateButton(ButtonType.Confirm, "AQ",() => { MessageBus.Instance.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "AQ" ); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Risk Factors",() => { MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Main Hub",() => { MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Depression Questionnaire",() => {  MessageBus.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "AQ",() => { MessageBus.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "AQ" ); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            
            new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);

@@ -2,7 +2,7 @@ using CodeBase.Documents;
 using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
@@ -18,19 +18,11 @@ namespace CodeBase.Pages
         
         private VisualElement _documentRoot;
         
-        
-        // public override void Open(VisualElement root)
-        // {
-        //     _root = root ?? throw new System.ArgumentNullException(nameof(root));
-        //     
-        //     Build();
-        // }
-
         public void Close()
         {
             if (_documentRoot == null) return;
             
-            MessageBus.Instance.Broadcast(nameof(DocumentServiceMessages.OnRequestCloseDocument), DocumentID.Neureka);
+            MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestCloseDocument), DocumentID.Neureka);
             
             _root?.Remove( _documentRoot );
             

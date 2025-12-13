@@ -5,7 +5,7 @@ using CodeBase.UiComponents.Pages;
 using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
 using ToolBox.Helpers;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Services;
 using ToolBox.Utils.Validation;
 using UiFrameWork.RunTime;
@@ -159,16 +159,16 @@ namespace CodeBase.Services
         // Subscribes to message bus events when the service is enabled.
         protected override void SubscribeToService()
         {
-            MessageBus.Instance.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
-            MessageBus.Instance.AddListener<string, IDocument,  Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+            MessageBus.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
+            MessageBus.AddListener<string, IDocument,  Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
 
         }
 
         // Unsubscribes from message bus events when the service is disabled.
         protected override void UnsubscribeFromService()
         {
-            MessageBus.Instance.RemoveListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
-            MessageBus.Instance.RemoveListener<string, IDocument, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+            MessageBus.RemoveListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
+            MessageBus.RemoveListener<string, IDocument, Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
         }
         
         //Little method to normalise the questionnaire id 

@@ -5,7 +5,7 @@ using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
 using CodeBase.Pages;
 using ToolBox.Helpers;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Services;
 using ToolBox.Services.Data;
 using ToolBox.Services.Encryption;
@@ -29,7 +29,7 @@ namespace UiFrameWork.RunTime
         
         [Validate] private IFileDataService _fileDataService;
         
-        [Validate] private MessageBus _messageBus;
+     
         
         private const string DefaultFileExtension = ".json";
 
@@ -42,10 +42,6 @@ namespace UiFrameWork.RunTime
             InitFileDataService();
             
             InitRecipeDictionaries();
-            
-            _messageBus = MessageBus.Instance;
-            
-            ObjectValidator.Validate( _messageBus );
         }
 
         private void InitUi()
@@ -118,13 +114,13 @@ namespace UiFrameWork.RunTime
         
         protected override void SubscribeToService()
         {
-            _messageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+            MessageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
             //MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument  );
         }
 
         protected override void UnsubscribeFromService()
         {
-            _messageBus.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+            MessageBus.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
            // MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument);
         }
     }

@@ -1,8 +1,7 @@
 using System.Collections;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Services;
 using UnityEngine;
-using Logger = ToolBox.Utils.Logger;
 
 namespace ToolBox.Performance.Fps
 {
@@ -22,21 +21,6 @@ namespace ToolBox.Performance.Fps
         private int _currentFrameRate;
         
         private Coroutine _adjustFrameRateCoroutine;
-        
-        private MessageBus _messageBus;
-        
-        private void Awake()
-        {
-            _messageBus = MessageBus.Instance;
-
-            if (_messageBus == null)
-            {
-               
-                Logger.Assert( false, "MessageBus null" );
-            }
-            
-            SetFrameRate(defaultFrameRate);
-        }
         
         private void BoostFrameRate() => StartFrameRateAdjustment(_currentFrameRate, Mathf.Min(boostedFrameRate, maxSupportedFrameRate));
         
@@ -74,16 +58,16 @@ namespace ToolBox.Performance.Fps
         
         protected override void SubscribeToService()
         {
-            _messageBus.AddListener( FrameRateControllerMessages.BoostFrameRateMessage, BoostFrameRate );
-            _messageBus.AddListener( FrameRateControllerMessages.ReduceFrameRateMessage, ReduceFrameRate );
-            _messageBus.AddListener(FrameRateControllerMessages.SetDefaultFrameRateMessage, SetDefaultFrameRate );
+            MessageBus.AddListener( FrameRateControllerMessages.BoostFrameRateMessage, BoostFrameRate );
+            MessageBus.AddListener( FrameRateControllerMessages.ReduceFrameRateMessage, ReduceFrameRate );
+            MessageBus.AddListener(FrameRateControllerMessages.SetDefaultFrameRateMessage, SetDefaultFrameRate );
         }
 
         protected override void UnsubscribeFromService()
         {
-            _messageBus.RemoveListener( FrameRateControllerMessages.BoostFrameRateMessage, BoostFrameRate );
-            _messageBus.RemoveListener( FrameRateControllerMessages.ReduceFrameRateMessage, ReduceFrameRate );
-            _messageBus.RemoveListener( FrameRateControllerMessages.SetDefaultFrameRateMessage, SetDefaultFrameRate );
+            MessageBus.RemoveListener( FrameRateControllerMessages.BoostFrameRateMessage, BoostFrameRate );
+            MessageBus.RemoveListener( FrameRateControllerMessages.ReduceFrameRateMessage, ReduceFrameRate );
+            MessageBus.RemoveListener( FrameRateControllerMessages.SetDefaultFrameRateMessage, SetDefaultFrameRate );
         }
     }
 

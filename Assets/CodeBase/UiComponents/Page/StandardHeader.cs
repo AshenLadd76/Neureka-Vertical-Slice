@@ -52,6 +52,8 @@ namespace CodeBase.UiComponents.Page
                 .AttachTo(headerNav)
                 .Build();
             
+            new ContainerBuilder().AttachTo(headerNav).AddClass("header-spacer").Build();
+            
             new ButtonBuilder().SetText(_quitButtonText)
                 .OnClick(() =>
                 {

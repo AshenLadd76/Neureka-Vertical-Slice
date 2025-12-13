@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Services;
 using ToolBox.Extensions;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using ToolBox.Services.Data;
 using UiFrameWork.RunTime;
 using UnityEngine;
@@ -107,7 +107,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
             var nextAssessmentId = _riskFactorsDataHandler.GetAssessmentId();
             
-            MessageBus.Instance.Broadcast<string, IDocument, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, this, OnFinishedQuestionnaire);
+            MessageBus.Broadcast<string, IDocument, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, this, OnFinishedQuestionnaire);
         }
         
         private void OnFinishedQuestionnaire()

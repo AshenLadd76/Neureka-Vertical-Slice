@@ -1,5 +1,5 @@
 using System;
-using ToolBox.Messenger;
+using ToolBox.Messaging;
 using UnityEngine;
 using UnityEngine.Events;
 using Logger = ToolBox.Utils.Logger;
@@ -26,7 +26,7 @@ namespace CodeBase.Services
         {
             if (_isSubscribed) return;
             
-            MessageBus.Instance.AddListener<WebData>(NeurekaDemoMessages.DataUploadRequestMessage, HandleUploadDataRequest);
+            MessageBus.AddListener<WebData>(NeurekaDemoMessages.DataUploadRequestMessage, HandleUploadDataRequest);
             
             _isSubscribed = true;
         }
@@ -35,7 +35,7 @@ namespace CodeBase.Services
         {
             if (!_isSubscribed) return;
             
-            MessageBus.Instance.RemoveListener<WebData>(NeurekaDemoMessages.DataUploadRequestMessage, HandleUploadDataRequest);
+            MessageBus.RemoveListener<WebData>(NeurekaDemoMessages.DataUploadRequestMessage, HandleUploadDataRequest);
             
             _isSubscribed = false;
         }
