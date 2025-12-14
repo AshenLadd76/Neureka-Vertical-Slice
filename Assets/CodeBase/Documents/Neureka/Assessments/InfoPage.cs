@@ -62,6 +62,8 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private void CreatePage()
         {
+            Logger.Log( $"Creating Page {PageIdentifier}" );
+            
             _pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(Root).Build();
             
             CreateHeader(_pageRoot);
@@ -240,7 +242,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             
             base.Close();
             
-            _parentDocument.Close();
+            //_parentDocument.Close();
         }
     }
 }

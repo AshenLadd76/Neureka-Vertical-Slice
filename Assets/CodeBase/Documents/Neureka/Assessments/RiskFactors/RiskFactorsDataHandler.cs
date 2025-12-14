@@ -14,6 +14,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         
         private RiskFactorsData _riskFactorsData;
         
+        private AssessmentState _currentAssessmentState;
+        
         public RiskFactorsData RiskFactorsData
         {
             get => _riskFactorsData;
@@ -69,6 +71,13 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             _riskFactorsData = _fileDataService.Load<RiskFactorsData>(Directory, FileName).Value;
             _progressIndex = _riskFactorsData.ProgressIndex;
         }
+
+        public void DeleteAssessmentData()
+        {
+            _fileDataService.Delete(Directory, FileName);
+            _currentAssessmentState = AssessmentState.New;
+
+        }
         
         public void IncrementProgressIndex()
         {
@@ -96,14 +105,15 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         {
             if (_riskFactorsData == null && CheckDataExists())
                 LoadRiskFactorsData();
-    
-            if (_riskFactorsData != null && _progressIndex >= _riskFactorsData.AssessmentIdList.Count)
-                return AssessmentState.Completed;
 
-            return CheckDataExists() ? AssessmentState.Continuing : AssessmentState.New;
+            if (_riskFactorsData != null && _progressIndex >= _riskFactorsData.AssessmentIdList.Count)
+                _currentAssessmentState = AssessmentState.Completed;
+            
+            _currentAssessmentState = CheckDataExists() ? AssessmentState.Continuing : AssessmentState.New;
+
+            return _currentAssessmentState;
         }
         
         public bool HasData() => _riskFactorsData != null;
-        
     }
 }

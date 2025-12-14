@@ -32,15 +32,23 @@ namespace CodeBase.Documents
 
         public virtual void Close()
         {
+            Logger.Log( $"Close Document : {Root.name} that means Document root is getting nulled which is what we dont want at all..." );
+            
+            
             if (DocumentRoot == null) return;
             
             Root?.Remove( DocumentRoot );
-            DocumentRoot = null;
+        
         }
 
         protected virtual void Build()
         {
             Logger.Log( $"BaseDocument.Build() starting..." );
+            SetDocumentRoot();
+        }
+
+        private void SetDocumentRoot()
+        {
             DocumentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(Root).Build();
         }
         
@@ -71,6 +79,12 @@ namespace CodeBase.Documents
 
                 // Open the page with the document's root and pass the document itself
                 pageToOpen.PageIdentifier = id;
+                
+                if( DocumentRoot == null ) Logger.Log( $"Document Root is null." );
+                
+                SetDocumentRoot();
+                
+                Logger.Log( $"Opening the page...." );
                 pageToOpen.Open(DocumentRoot, this);
             }
             else

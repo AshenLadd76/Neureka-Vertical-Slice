@@ -29,8 +29,6 @@ namespace UiFrameWork.RunTime
         
         [Validate] private IFileDataService _fileDataService;
         
-     
-        
         private const string DefaultFileExtension = ".json";
 
         private void Awake() => Init();

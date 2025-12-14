@@ -39,7 +39,7 @@ namespace CodeBase.Documents
 
         public virtual void Close()
         {
-            Logger.Log( $"Implement close page logic here....." );
+            
 
             if (PageRoot == null)
             {

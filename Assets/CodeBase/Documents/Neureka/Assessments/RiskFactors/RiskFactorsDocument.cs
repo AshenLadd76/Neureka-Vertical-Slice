@@ -18,13 +18,14 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         
         private RiskFactorsSO _riskFactorsSo;
         
-        private IFileDataService _fileDataService;
+       
         
         public RiskFactorsDocument(IFileDataService fileDataService)
         {
-            _fileDataService = fileDataService ?? throw new ArgumentNullException(nameof(fileDataService), "IFileDataService cannot be null.");
+            if( fileDataService == null )
+                throw new ArgumentNullException(nameof(fileDataService), "IFileDataService cannot be null.");
             
-            _riskFactorsDataHandler = new RiskFactorsDataHandler(_fileDataService);
+            _riskFactorsDataHandler = new RiskFactorsDataHandler(fileDataService);
         }
         
         protected override void Build()
@@ -38,7 +39,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             }
 
             AddPageRecipes();
-
+            
+            //Open a welcome back/ continue page when previous progress exists.
             if (_riskFactorsDataHandler.CheckAssessmentState() == AssessmentState.Continuing)
                 LoadContinuePage();
             else
@@ -106,6 +108,12 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             }
             
             var nextAssessmentId = _riskFactorsDataHandler.GetAssessmentId();
+
+            if (string.IsNullOrEmpty(nextAssessmentId))
+            {
+                Logger.LogError("Invalid assessment ID");
+                return;
+            }
             
             MessageBus.Broadcast<string, IDocument, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, this, OnFinishedQuestionnaire);
         }
@@ -116,7 +124,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
             if (_riskFactorsDataHandler.CheckForEndAssessment())
             {
-                Logger.Log( $"We are finished the assessment......." );
                 LoadOutroPage();
                 return;
             }
@@ -126,8 +133,14 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
         private void OnAssessmentCompleted()
         {
+            _riskFactorsDataHandler.DeleteAssessmentData();
             
+            OpenHub();
+            
+            Close();
         }
+        
+        private void OpenHub() => MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub );
         
         private void LoadIntroPage() => OpenPage(PageID.RiskFactorsIntro);
         private void LoadContinuePage() => OpenPage(PageID.RiskFactorsContinue);
