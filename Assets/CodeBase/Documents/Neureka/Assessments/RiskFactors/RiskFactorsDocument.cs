@@ -10,6 +10,21 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 {
+    
+    /// <summary>
+    /// Controls the Risk Factors assessment document lifecycle.
+    /// 
+    /// Responsible for:
+    /// - Loading assessment configuration data
+    /// - Building and registering document pages
+    /// - Managing assessment flow (new, continuing, completed)
+    /// - Requesting questionnaires and handling completion callbacks
+    /// - Cleaning up persisted assessment data and returning to the hub
+    /// 
+    /// This document acts as the orchestration layer between UI pages,
+    /// persisted assessment state, and the questionnaire service.
+    /// </summary>
+    
     public class RiskFactorsDocument : BaseDocument
     {
         private readonly RiskFactorsDataHandler _riskFactorsDataHandler;
@@ -18,8 +33,17 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         
         private RiskFactorsSO _riskFactorsSo;
         
-       
         
+        /// <summary>
+        /// Creates a new RiskFactorsDocument instance.
+        /// </summary>
+        /// <param name="fileDataService">
+        /// Service used to persist and retrieve assessment progress data.
+        /// Must not be null.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="fileDataService"/> is null.
+        /// </exception>
         public RiskFactorsDocument(IFileDataService fileDataService)
         {
             if( fileDataService == null )
@@ -81,6 +105,10 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         }
         
         
+        /// <summary>
+        /// Determines the current assessment state and routes the user
+        /// to the appropriate page or questionnaire flow.
+        /// </summary>
         private void CheckAssessmentProgress()
         {
             switch (_riskFactorsDataHandler.CheckAssessmentState())
