@@ -328,6 +328,17 @@
     transition: width 1s ease-in-out; /* smooth animation if you want */
 }
 
+.logo {
+    width: 75%; /* or whatever size you want */
+    height: 25%;
+   
+    background-size: cover; /* make image fill the element */
+    background-position: center;
+    border-radius: 1px; /* optional, for rounded corners */
+   
+}
+
+
 
 
 

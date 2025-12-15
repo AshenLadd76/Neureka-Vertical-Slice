@@ -20,7 +20,7 @@ namespace CodeBase.Documents
             
             var container  = new ContainerBuilder().AddClass(DemoHubUssDefinitions.Container).AddClass(DemoHubUssDefinitions.ContainerRow).AttachTo(DocumentRoot).Build();
             
-           ButtonFactory.CreateButton(ButtonType.Confirm, "Risk Factors",() => { MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
+           ButtonFactory.CreateButton(ButtonType.Confirm, "Risk Factors",() => { MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Neureka); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "Main Hub",() => { MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "Depression Questionnaire",() => {  MessageBus.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, "CESD-20"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            ButtonFactory.CreateButton(ButtonType.Confirm, "AQ",() => { MessageBus.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, "AQ" ); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );

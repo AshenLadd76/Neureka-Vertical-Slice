@@ -26,9 +26,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    justify-content: center; /* vertical centering */
+    justify-content: flex-start; /* vertical centering */
     align-items: center;     /* horizontal centering */
     display: flex;
+    padding-top: 38%;  
 }
 
 /* Centered content container (logo/title) */

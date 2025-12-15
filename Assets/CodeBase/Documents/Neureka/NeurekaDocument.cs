@@ -18,7 +18,7 @@ namespace CodeBase.Documents.Neureka
             //Add page recipes here
             AddPageRecipes();
             
-            OpenPage(PageID.NavPage);
+            OpenPage(PageID.Splash);
         }
     }
 }
