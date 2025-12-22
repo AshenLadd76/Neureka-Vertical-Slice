@@ -66,9 +66,14 @@ namespace UiFrameWork.RunTime
 
         private void OnRequestOpenDocument(DocumentID documentID)
         {
+            Logger.Log($"RequestOpenDocument: DocumentID: {documentID}");
+            
             if (_cachedDocuments.TryGetValue(documentID, out var activeDocument))
             {
-                TryOpenDocument(activeDocument);
+                
+                Logger.Log($"Docuement is cached: {activeDocument}");
+                _cachedDocuments[documentID].Open(_rootVisualElement);
+               // TryOpenDocument(activeDocument);
                 return;
             }
             
@@ -82,11 +87,12 @@ namespace UiFrameWork.RunTime
             
             _cachedDocuments[documentID] = document;
 
-            if (TryOpenDocument(document)) return;
+             document.Build(_rootVisualElement);
+             //document.Open(_rootVisualElement);
             
-            Logger.LogError($"Failed to open document {documentID}, retry may fail.");
+            
    
-            _cachedDocuments.Remove(documentID);
+            //_cachedDocuments.Remove(documentID);
         }
 
         private void OnRequestCloseDocument(DocumentID documentID) => Logger.Log($"Document {documentID} has been closed");
@@ -96,19 +102,19 @@ namespace UiFrameWork.RunTime
         /// Tries to open a document and logs any errors that occur.
         /// Returns true if successful, false otherwise.
         /// </summary>
-        private bool TryOpenDocument(IDocument document)
-        {
-            try
-            {
-                document.Open(_rootVisualElement);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError($"Failed to open document {document.GetType().Name}: {ex.Message}");
-                return false;
-            }
-        }
+        // private bool TryOpenDocument(IDocument document)
+        // {
+        //     try
+        //     {
+        //         document.Open(_rootVisualElement);
+        //         return true;
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Logger.LogError($"Failed to open document {document.GetType().Name}: {ex.Message}");
+        //         return false;
+        //     }
+        // }
         
         protected override void SubscribeToService()
         {

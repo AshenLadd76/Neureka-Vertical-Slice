@@ -6,6 +6,7 @@ using ToolBox.Messaging;
 using ToolBox.Services.Data;
 using UiFrameWork.RunTime;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
@@ -27,7 +28,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
     
     public class RiskFactorsDocument : BaseDocument
     {
-        private readonly RiskFactorsDataHandler _riskFactorsDataHandler;
+        private  RiskFactorsDataHandler _riskFactorsDataHandler;
         
         private const string RiskFactorsSoPath = "Assessments/RiskFactors/RiskFactorsSO";
         
@@ -51,10 +52,11 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
             _riskFactorsDataHandler = new RiskFactorsDataHandler(fileDataService);
         }
+
         
-        protected override void Build()
+        public override void Build(VisualElement root)
         {
-            base.Build();
+            base.Build(root);
 
             if (!LoadRiskFactorsSo())
             {
@@ -65,11 +67,23 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             AddPageRecipes();
             
             //Open a welcome back/ continue page when previous progress exists.
+            // if (_riskFactorsDataHandler.CheckAssessmentState() == AssessmentState.Continuing)
+            //     LoadContinuePage();
+            // else
+            //     CheckAssessmentProgress();
+            
+            Open( root );
+        }
+        
+        public override void Open(VisualElement visualElement)
+        {
+            //Open a welcome back/ continue page when previous progress exists.
             if (_riskFactorsDataHandler.CheckAssessmentState() == AssessmentState.Continuing)
                 LoadContinuePage();
             else
                 CheckAssessmentProgress();
         }
+        
         
         private void AddPageRecipes()
         {
@@ -101,7 +115,9 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
             var content = new InfoPageContent(title, buttonText, blurbs, onCompleted);
             
-            PageRecipes[pageId] = () => new InfoPage(this, content);
+           // PageRecipes[pageId] = () => new InfoPage(this, content);
+           
+           PageRecipes[pageId] = new InfoPage(this, content);
         }
         
         
@@ -163,15 +179,24 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         {
             _riskFactorsDataHandler.DeleteAssessmentData();
             
-            OpenHub();
+            CloseInfoPages();
             
-            Close();
+            OpenHub();
         }
         
-        private void OpenHub() => MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Hub );
+        private void OpenHub() => MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Neureka);
         
         private void LoadIntroPage() => OpenPage(PageID.RiskFactorsIntro);
         private void LoadContinuePage() => OpenPage(PageID.RiskFactorsContinue);
         private void LoadOutroPage() => OpenPage(PageID.RiskFactorsOutro);
+
+
+        private void CloseInfoPages()
+        {
+            foreach (var page in PageRecipes)
+            {
+                page.Value.Close();
+            }
+        }
     }
 }

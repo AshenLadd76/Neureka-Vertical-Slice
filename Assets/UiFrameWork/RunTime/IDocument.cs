@@ -5,6 +5,8 @@ namespace UiFrameWork.RunTime
 {
     public interface IDocument
     {
+        void Build(VisualElement root);
+        
         void Open(VisualElement root);
 
         void Close();

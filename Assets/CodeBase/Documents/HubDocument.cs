@@ -6,15 +6,16 @@ using CodeBase.UiComponents.Styles;
 using ToolBox.Messaging;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
+using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents
 {
     public class HubDocument : BaseDocument
     {
-        protected override void Build()
+        public override void Build(VisualElement root)
         {
-            DocumentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.PageRoot).AttachTo(Root).Build();
+            DocumentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.PageRoot).AttachTo(root).Build();
             
             new DefaultHeader("Demo Hub", DocumentRoot, () => { Logger.Log($"OnBack Selected"); }, Close, DemoHubUssDefinitions.Header, DemoHubUssDefinitions.HeaderButton, DemoHubUssDefinitions.HeaderLabel);
             
@@ -27,6 +28,16 @@ namespace CodeBase.Documents
            ButtonFactory.CreateButton(ButtonType.Confirm, "4",() => { Logger.Log("4"); }, container).AddToClassList( DemoHubUssDefinitions.MenuButton );
            
            new SingleButtonFooter(()=> { Logger.Log("Close"); }, "Close", DocumentRoot);
+           
+           root.style.display = DisplayStyle.None;
+           
+           Open(root);
+        }
+
+
+        public override void Open(VisualElement root)
+        {
+            root.style.display = DisplayStyle.Flex;
         }
     }
 

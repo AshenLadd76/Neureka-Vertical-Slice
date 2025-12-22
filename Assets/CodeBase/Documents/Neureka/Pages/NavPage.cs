@@ -28,6 +28,8 @@ namespace CodeBase.Documents.Neureka.Pages
 
         protected override void Build()
         {
+            Logger.Log("Building Nav Page");
+            
             if (Root == null)
             {
                 Logger.Log("Splash Page Build Failed");
@@ -41,26 +43,24 @@ namespace CodeBase.Documents.Neureka.Pages
             PageRoot = new ContainerBuilder().AddClass(UssClassNames.MainContainer).AttachTo(Root).Build();
             
             //Build header 
-            var header = new ContainerBuilder().AddClass(UssClassNames.HeaderContainer).AttachTo(PageRoot).Build();
+          //   var header = new ContainerBuilder().AddClass(UssClassNames.HeaderContainer).AttachTo(PageRoot).Build();
 
-            var headerText = new LabelBuilder().SetText("Hi, Dean \n Welcome back!").AddClass(UssClassNames.HeaderLabel).AttachTo(header).Build();
+          //  var headerText = new LabelBuilder().SetText("Hi, Dean \n Welcome back!").AddClass(UssClassNames.HeaderLabel).AttachTo(header).Build();
             
-            var headerImage = new ContainerBuilder().AddClass(UssClassNames.HeaderImage).AttachTo(header).Build();
+           // var headerImage = new ContainerBuilder().AddClass(UssClassNames.HeaderImage).AttachTo(header).Build();
             
             //Build content
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(PageRoot).Build();
             
-            //var scrollView = new ScrollViewBuilder().EnableInertia(true).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+            var scrollView = new ScrollViewBuilder().EnableInertia(true).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
 
-         //   var topSpacer = new ContainerBuilder().AddClass("scrollview-top-spacer").AttachTo(scrollView).Build();
-            
-           //LoadNavSections(scrollView); 
+           var topSpacer = new ContainerBuilder().AddClass("scrollview-top-spacer").AttachTo(scrollView).Build();
            
-          
+           LoadNavSections(scrollView); 
+           
            BuildFooter();
            
-           if( !_allPages.IsNullOrEmpty() )
-            SelectNavPage(_allPages[0]);
+           SelectNavPage(_allPages[0]);
            
            new FadeHelper(content, true, true);
         }
@@ -68,8 +68,14 @@ namespace CodeBase.Documents.Neureka.Pages
 
         private void LoadNavSections(ScrollView scrollView)
         {
-            if (_sectionDataList.IsNullOrEmpty()) return;
-
+            if (_sectionDataList.IsNullOrEmpty())
+            {
+                Logger.Log("Loading Nav Sections Failed");
+                return;
+            }
+            
+            _allPages.Clear();
+            
             foreach (var t in _sectionDataList)
                 BuildNavSection(scrollView, t);
         }
@@ -80,21 +86,26 @@ namespace CodeBase.Documents.Neureka.Pages
 
             for (int x = 0; x < sectionData.CardCount; x++)
             {
+                Logger.Log($"Adding card {x}");
+                
                 new MenuCardBuilder()
                     .SetParent(container)
                     .SetTitle($"{sectionData.Title} {x+1}")
                     .SetProgress(Random.Range(0f, 1f))
                     .SetIconBackgroundColor( sectionData.Color )
-                    .SetAction(MenuActions.RequestDocument("CESD-20"))
+                    .SetAction(MenuActions.RequestDocument(sectionData.DcoumentID))
                     .Build();
             }
             
-            container.style.display = DisplayStyle.None;
+            container.style.display = DisplayStyle.Flex;
+            
             _allPages.Add(container);
 
             return container;
         }
 
+
+        private List<Button> _footerButtonList = new();
         private void BuildFooter()
         {
             //Build footer
@@ -102,14 +113,20 @@ namespace CodeBase.Documents.Neureka.Pages
             
             Logger.Log($"All pages count : {_allPages.Count}");
 
+        
+
             for (int i = 0; i < _allPages.Count; i++)
             {
                 int index = i;
                 
-                new ButtonBuilder().AddClass(UssClassNames.FooterButton).OnClick(() =>
-                    {
-                        if (_allPages.IsNullOrEmpty()) return; SelectNavPage(_allPages[index]); })
-                    .AttachTo(footer).Build();
+                var footerButton = new ButtonBuilder().AddClass(UssClassNames.FooterButton).OnClick(() =>
+                {
+                    if (_allPages.IsNullOrEmpty()) return;
+
+                    Logger.Log($"Clicked on page {index}");
+                    SelectNavPage(_allPages[index]);
+                        
+                }).AttachTo(footer).Build();
             }
         }
         
@@ -117,8 +134,12 @@ namespace CodeBase.Documents.Neureka.Pages
         {
             foreach (var page in _allPages)
             {
-                if (page == null) continue;
-                
+                if (page == null)
+                {
+                    Logger.Log("SelectNavPage Failed");
+                    continue;
+                }
+
                 page.style.display = page == pageToShow ? DisplayStyle.Flex : DisplayStyle.None;
             }
             
@@ -128,10 +149,10 @@ namespace CodeBase.Documents.Neureka.Pages
         {
             _sectionDataList.Clear();
             
-            _sectionDataList.Add( new SectionData( "Depression", 1,   new Color(0.43f, 0.61f, 0.98f, 1f)) );
-            _sectionDataList.Add( new SectionData( "Games", 23, new Color(0.172549f, 0.66f, 0.78f, 1f)) );
-            _sectionDataList.Add( new SectionData( "Assessment", 1,   new Color(0.43f, 0.61f, 0.98f, 1f) ) );
-            _sectionDataList.Add(new SectionData("Settings", 1, new Color(0.6f, 0.61f, 0.98f, 1f))); 
+            _sectionDataList.Add( new SectionData( "RiskFactors", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), nameof(DocumentID.RiskFactors)));
+            _sectionDataList.Add( new SectionData( "Games", 23, new Color(0.172549f, 0.66f, 0.78f, 1f), "CESD-20"));
+            _sectionDataList.Add( new SectionData( "Assessment", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "CESD-20" ));
+            _sectionDataList.Add(new SectionData("Settings", 1, new Color(0.6f, 0.61f, 0.98f, 1f), "CESD-20")); 
         }
     }
     
@@ -143,7 +164,8 @@ namespace CodeBase.Documents.Neureka.Pages
             return () => 
             {
                 Logger.Log( $"{questionnaireId}" );
-                MessageBus.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
+                MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors );
+                //MessageBus.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
             };
         }
     }
@@ -154,9 +176,11 @@ namespace CodeBase.Documents.Neureka.Pages
         public string Title { get; set; }
         public int CardCount { get; set; }
         public Color Color { get; set; }
+        
+        public string DcoumentID { get; set; }
 
         // Constructor with validation
-        public SectionData(string title, int cardCount, Color color)
+        public SectionData(string title, int cardCount, Color color, string dcoumentID)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title cannot be null or empty.", nameof(title));
@@ -172,6 +196,7 @@ namespace CodeBase.Documents.Neureka.Pages
             Title = title;
             CardCount = cardCount;
             Color = color;
+            DcoumentID = dcoumentID;
         }
     }
 }

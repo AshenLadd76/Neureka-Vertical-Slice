@@ -26,7 +26,7 @@ namespace CodeBase.Documents.DemoA.Components
             var imageContainer = new ContainerBuilder().AddClass(UiStyleClassDefinitions.ImageContainer).AttachTo(shadowContainer).Build();
             
             var imageHeader = new ContainerBuilder().AddClass(UiStyleClassDefinitions.InfoImageHeader).AttachTo(imageContainer).Build();
-            
+
             new ButtonBuilder().AddClass(UiStyleClassDefinitions.ImageHeaderButton).OnClick(headerButton1Action).AttachTo(imageHeader).Build();
             
             new ButtonBuilder().AddClass(UiStyleClassDefinitions.ImageHeaderButton).OnClick(headerButton2Action).AttachTo(imageHeader).Build();

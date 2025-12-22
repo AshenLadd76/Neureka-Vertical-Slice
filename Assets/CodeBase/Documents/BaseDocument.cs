@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.UiComponents.Styles;
+using ToolBox.Extensions;
 using UiFrameWork.Components;
 using UiFrameWork.Page;
 using UiFrameWork.RunTime;
@@ -17,33 +18,42 @@ namespace CodeBase.Documents
 
         protected DocumentID DocumentID;
         
-        protected readonly Dictionary<PageID, Func<IPage>> PageRecipes = new();
+         protected readonly Dictionary<PageID, IPage> PageRecipes = new();
+        //protected readonly Dictionary<PageID, Func<IPage>> PageRecipes = new();
         protected Dictionary<PageID, IPage> ActivePages = new();
-       
+
+
+        private bool _isBuilt = false;
+
         
         public virtual void Open(VisualElement root)
         {
             Root = root ?? throw new System.ArgumentNullException(nameof(root));
             
             Logger.Log( $"Open Document : {Root.name}" );
-                
-            Build();
+            
+           // Root.style.display = DisplayStyle.Flex;
         }
 
         public virtual void Close()
         {
             Logger.Log( $"Close Document : {Root.name} that means Document root is getting nulled which is what we dont want at all..." );
             
+            //
+            //if (DocumentRoot == null) return;
+            //
+           // Root.Remove( DocumentRoot );
             
-            if (DocumentRoot == null) return;
-            
-            Root?.Remove( DocumentRoot );
+            Root.style.display = DisplayStyle.None;
         
         }
 
-        protected virtual void Build()
+        public virtual void Build(VisualElement root)
         {
             Logger.Log( $"BaseDocument.Build() starting..." );
+            
+            Root = root ?? throw new System.ArgumentNullException(nameof(root));
+            
             SetDocumentRoot();
         }
 
@@ -54,48 +64,65 @@ namespace CodeBase.Documents
         
         public void OpenPage(PageID id)
         {
-            if (ActivePages.TryGetValue(id, out var page))
+            // if (ActivePages.TryGetValue(id, out var page))
+            // {
+            //     Logger.Log( $"Page : {id} is already loaded....opening" );
+            //     page.Open(DocumentRoot,this);
+            //     return;
+            // }
+
+
+            if (PageRecipes.IsNullOrEmpty())
             {
-                Logger.Log( $"Page : {id} is already loaded....opening" );
-                page.Open(DocumentRoot,this);
                 return;
             }
             
-            if (PageRecipes.TryGetValue(id, out var recipe))
-            {
-                Logger.Log($"BaseDocument.OpenPage() starting... id: {id}");
-
-                // Instantiate the page from the recipe
-                var pageToOpen = recipe();
-
-                if (pageToOpen == null)
-                {
-                    Logger.LogError($"Failed to create page for id: {id}");
-                    return;
-                }
-
-                // Add to ActivePages
-                ActivePages[id] = pageToOpen;
-
-                // Open the page with the document's root and pass the document itself
-                pageToOpen.PageIdentifier = id;
-                
-                if( DocumentRoot == null ) Logger.Log( $"Document Root is null." );
-                
-                SetDocumentRoot();
-                
-                Logger.Log( $"Opening the page...." );
-                pageToOpen.Open(DocumentRoot, this);
-            }
-            else
-            {
-                Logger.LogError($"BaseDocument.OpenPage() page not found... id: {id}");
-            }
+            
+            var pageToOpen = PageRecipes[id];
+            
+            pageToOpen.PageIdentifier = id;
+            
+            SetDocumentRoot();
+            
+            pageToOpen.Open(DocumentRoot, this);
+            
+            // if (PageRecipes.TryGetValue(id, out var recipe))
+            // {
+            //     Logger.Log($"BaseDocument.OpenPage() starting... id: {id}");
+            //
+            //     // Instantiate the page from the recipe
+            //     var pageToOpen = PageRecipes[id];
+            //
+            //     if (pageToOpen == null)
+            //     {
+            //         Logger.LogError($"Failed to create page for id: {id}");
+            //         return;
+            //     }
+            //
+            //     // Add to ActivePages
+            //     ActivePages[id] = pageToOpen;
+            //
+            //     // Open the page with the document's root and pass the document itself
+            //     pageToOpen.PageIdentifier = id;
+            //     
+            //     if( DocumentRoot == null ) Logger.Log( $"Document Root is null." );
+            //     
+            //     SetDocumentRoot();
+            //     
+            //     Logger.Log( $"Opening the page...." );
+            //     pageToOpen.Open(DocumentRoot, this);
+            // }
+            // else
+            // {
+            //     Logger.LogError($"BaseDocument.OpenPage() page not found... id: {id}");
+            // }
         }
 
         public void ClosePage(PageID id, VisualElement page)
         {
-            RemoveActivePage(id);
+            //RemoveActivePage(id);
+            
+            PageRecipes.Remove(id);
             
             RemovePageFromDocument(page);
         }
@@ -103,6 +130,8 @@ namespace CodeBase.Documents
         private void RemovePageFromDocument(VisualElement page)
         {
             if(page == null) return;
+
+            if (DocumentRoot != page.parent) return;
             
             DocumentRoot?.Remove(page);
         }

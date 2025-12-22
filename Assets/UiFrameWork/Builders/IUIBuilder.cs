@@ -34,6 +34,9 @@ namespace UiFrameWork.Builders
             where TChildElement : VisualElement
             where TChildBuilder : IUIBuilder<TChildElement, TChildBuilder>;
 
+        public TBuilder AttachTo(VisualElement parent);
+        
+
         /// <summary>
         /// Adds a style sheet reference to the element.
         /// </summary>

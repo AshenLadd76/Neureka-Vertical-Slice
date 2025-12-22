@@ -15,8 +15,8 @@ namespace CodeBase.Documents
         
         public PageID PageIdentifier { get; set; }
         
-        protected Dictionary<PageID, Func<IPage>> PageRecipes = new();
-        protected Dictionary<PageID, IPage> ActivePages = new();
+        protected Dictionary<PageID, IPage> PageRecipes = new();
+       // protected Dictionary<PageID, IPage> ActivePages = new();
 
         protected IDocument ParentDocument;
 
@@ -39,8 +39,6 @@ namespace CodeBase.Documents
 
         public virtual void Close()
         {
-            
-
             if (PageRoot == null)
             {
                 Logger.Log( $"No page to close..." );
@@ -48,7 +46,8 @@ namespace CodeBase.Documents
                 return;
             }
             
-            Root.Remove(PageRoot);
+            PageRoot.RemoveFromHierarchy();
+            
         }
 
         protected virtual void Build()

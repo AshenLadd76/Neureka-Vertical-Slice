@@ -30,7 +30,7 @@ namespace CodeBase.Pages
         }
 
 
-        protected override void Build()
+        public override void Build(VisualElement root)
         {
             var sprite = Resources.Load<Sprite>($"Sprites/MotherShip");
             

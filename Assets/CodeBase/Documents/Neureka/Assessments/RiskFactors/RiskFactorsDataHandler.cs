@@ -67,6 +67,9 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         public void DeleteAssessmentData()
         {
             _fileDataService.Delete(Directory, FileName);
+            
+            _riskFactorsData = null;
+            
             _currentAssessmentState = AssessmentState.New;
 
         }

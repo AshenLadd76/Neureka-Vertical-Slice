@@ -241,8 +241,6 @@ namespace CodeBase.Documents.Neureka.Assessments
             _popup = null;
             
             base.Close();
-            
-            //_parentDocument.Close();
         }
     }
 }
