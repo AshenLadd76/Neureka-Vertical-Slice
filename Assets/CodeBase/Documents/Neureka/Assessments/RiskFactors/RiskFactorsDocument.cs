@@ -66,13 +66,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
             AddPageRecipes();
             
-            //Open a welcome back/ continue page when previous progress exists.
-            // if (_riskFactorsDataHandler.CheckAssessmentState() == AssessmentState.Continuing)
-            //     LoadContinuePage();
-            // else
-            //     CheckAssessmentProgress();
-            
-            Open( root );
+            //Open( root );
         }
         
         public override void Open(VisualElement visualElement)

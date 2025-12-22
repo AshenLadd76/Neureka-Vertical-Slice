@@ -66,14 +66,10 @@ namespace UiFrameWork.RunTime
 
         private void OnRequestOpenDocument(DocumentID documentID)
         {
-            Logger.Log($"RequestOpenDocument: DocumentID: {documentID}");
             
             if (_cachedDocuments.TryGetValue(documentID, out var activeDocument))
             {
-                
-                Logger.Log($"Docuement is cached: {activeDocument}");
                 _cachedDocuments[documentID].Open(_rootVisualElement);
-               // TryOpenDocument(activeDocument);
                 return;
             }
             
@@ -88,7 +84,7 @@ namespace UiFrameWork.RunTime
             _cachedDocuments[documentID] = document;
 
              document.Build(_rootVisualElement);
-             //document.Open(_rootVisualElement);
+             document.Open(_rootVisualElement);
             
             
    
