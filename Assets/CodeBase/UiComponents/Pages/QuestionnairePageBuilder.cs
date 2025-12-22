@@ -162,6 +162,8 @@ namespace CodeBase.UiComponents.Pages
                 {
                     HapticsHelper.RequestHaptics();
                     Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
+                    //Quit the questionnaire so load the navpage...
+                    MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Neureka );
                     Close();
                     
                 })
@@ -287,13 +289,11 @@ namespace CodeBase.UiComponents.Pages
             _confirmationPopup = popUpBuilder.Build();
             
             popUpBuilder.SetCancelButtonActive(false);
-            
         }
 
         //private void RequestHaptics(HapticType hapticType) => MessageBus.Instance.Broadcast( HapticsMessages.OnHapticsRequest, hapticType );
         
         private void RequestDataUpload( WebData webData ) =>  MessageBus.Broadcast( WebServiceMessages.OnPostRequestMessage, webData );
-        
         
         
       //Ensure all questionnaire visual elements are removed and GC collected
@@ -308,7 +308,6 @@ namespace CodeBase.UiComponents.Pages
             _confirmationPopup?.RemoveFromHierarchy();
             _confirmationPopup = null;
             
-            //_parentDocument?.Close();
         }
     }
 }
