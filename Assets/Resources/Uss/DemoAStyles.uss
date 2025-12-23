@@ -194,7 +194,7 @@
     border-radius: 24px; /* optional */
 }
 
-.menu-card-content-contiainer 
+.menu-card-content-container 
 {
     flex: 1; /* fill remaining horizontal space */
     display: flex;
@@ -236,7 +236,7 @@
     white-space: normal;      /* allows wrapping */
     overflow: visible;        /* ensures text isn’t clipped */
     flex-wrap: wrap;          /* extra safety in flex containers */
-    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Bold-sdf.asset");
 }
 
 .info-page-text {
