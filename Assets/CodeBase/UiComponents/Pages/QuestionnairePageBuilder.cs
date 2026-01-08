@@ -39,12 +39,9 @@ namespace CodeBase.UiComponents.Pages
 
         private readonly Action _onFinished;
         
-        private readonly IDocument _parentDocument;
-        
         private QuestionnaireSubmissionHandler _questionnaireSubmissionHandler;
         
-        private VisualElement _confirmationPopup;
-        
+        private Button _submitButton;
         
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer, IDocument parentDocument = null, Action onFinished = null)
         {
@@ -64,13 +61,7 @@ namespace CodeBase.UiComponents.Pages
             
             _onFinished = onFinished;
             
-            _parentDocument = parentDocument;
-            
             InitializeAnswerDictionary(questionnaireData);
-            
-            
-            
-            
         }
 
         private void InitializeAnswerDictionary(StandardQuestionnaireTemplate questionnaireData)
@@ -92,7 +83,6 @@ namespace CodeBase.UiComponents.Pages
         }
         
         
-
         private void CreateIntroPage(VisualElement root)
         {
             var introPage = new ContainerBuilder().AddClass("overlay-root").AttachTo(root).Build();
@@ -100,7 +90,7 @@ namespace CodeBase.UiComponents.Pages
             CreateHeader(introPage);
             
             //Build the content container
-            var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(introPage).Build();
+            new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(introPage).Build();
             
             var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(introPage).Build();
             
@@ -217,42 +207,14 @@ namespace CodeBase.UiComponents.Pages
             
             _progressBarController.SetFillAmount(0);
         }
+        
 
-
-    
-        // private void CreateQuitPopUp()
-        // {
-        //     HapticsHelper.RequestHaptics(HapticType.Low);
-        //     
-        //     _quitPopup = new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
-        //         .SetContentText($"If you do you will.....KILL SCIENCE!")
-        //         .SetPercentageHeight( 60 )
-        //         .SetImage( $"Sprites/panicked_scientist")
-        //         .SetConfirmAction(() =>
-        //         {
-        //             HapticsHelper.RequestHaptics();
-        //             Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
-        //             //Quit the questionnaire so load the navpage...
-        //             MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Neureka );
-        //             Close();
-        //             
-        //         })
-        //         .SetCancelAction(() =>
-        //         {
-        //             HapticsHelper.RequestHaptics();
-        //             Logger.Log( $"Canceling the quit!!!" );
-        //         })
-        //         .AttachTo(_root).Build();
-        // }
-
-
-        private Button _submitButton;
         private void CreateFooter(VisualElement parent)
         {
             
             var questionnaireSubmissionHandler =
                 new QuestionnaireSubmissionHandler(_questionnaireData, _answerDataDictionary, _jsonSerializer,
-                    () => { _confirmationPopup = PopupFactory.CreateConfirmationPopup(_root , "Thank You!", "For taking the time to complete this questionnaire", ConfirmFinished);  });
+                    () => { PopupFactory.CreateConfirmationPopup(_root , "Thank You!", "For taking the time to complete this questionnaire", ConfirmFinished);  });
             
             var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
             
