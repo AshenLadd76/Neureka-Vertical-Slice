@@ -112,6 +112,8 @@ namespace CodeBase.Documents.Neureka.Components
        
         public VisualElement Build()
         {
+            const long slideInDelay = 1;
+            
             _background = BuildBackgroundOverlay(_root);
             
             _popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(_background).Build();
@@ -147,7 +149,7 @@ namespace CodeBase.Documents.Neureka.Components
             _popUpContainer.schedule.Execute(_ =>
             {
                 _popUpContainer.style.bottom = 0; // slide into view
-            }).StartingIn(1);
+            }).StartingIn(slideInDelay);
             
             return _background;
         }
