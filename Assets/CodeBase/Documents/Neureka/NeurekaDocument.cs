@@ -13,9 +13,9 @@ namespace CodeBase.Documents.Neureka
            // PageRecipes[PageID.NavPage] = () => new NavPage(this);
            // PageRecipes[PageID.InfoPage] = () => new InfoPage(this);
             
-            PageRecipes[PageID.Splash] =  new SplashPage(this);
-            PageRecipes[PageID.NavPage] =  new NavPage(this);
-            PageRecipes[PageID.InfoPage] =  new InfoPage(this);
+            ActivePages[PageID.Splash] =  new SplashPage(this);
+            ActivePages[PageID.NavPage] =  new NavPage(this);
+            ActivePages[PageID.InfoPage] =  new InfoPage(this);
         }
         
         public override void Build(VisualElement root)

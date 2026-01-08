@@ -111,7 +111,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
            // PageRecipes[pageId] = () => new InfoPage(this, content);
            
-           PageRecipes[pageId] = new InfoPage(this, content);
+           ActivePages[pageId] = new InfoPage(this, content);
         }
         
         
@@ -187,10 +187,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
         private void CloseInfoPages()
         {
-            foreach (var page in PageRecipes)
-            {
+            foreach (var page in ActivePages)
                 page.Value.Close();
-            }
         }
     }
 }

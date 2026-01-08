@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Extensions;
 using UiFrameWork.Components;
@@ -18,9 +17,9 @@ namespace CodeBase.Documents
 
         protected DocumentID DocumentID;
         
-         protected readonly Dictionary<PageID, IPage> PageRecipes = new();
+         protected readonly Dictionary<PageID, IPage> ActivePages = new();
         //protected readonly Dictionary<PageID, Func<IPage>> PageRecipes = new();
-        protected Dictionary<PageID, IPage> ActivePages = new();
+       // protected Dictionary<PageID, IPage> ActivePages = new();
 
 
         private bool _isBuilt = false;
@@ -64,21 +63,10 @@ namespace CodeBase.Documents
         
         public void OpenPage(PageID id)
         {
-            // if (ActivePages.TryGetValue(id, out var page))
-            // {
-            //     Logger.Log( $"Page : {id} is already loaded....opening" );
-            //     page.Open(DocumentRoot,this);
-            //     return;
-            // }
-
-
-            if (PageRecipes.IsNullOrEmpty())
-            {
+            if (ActivePages.IsNullOrEmpty())
                 return;
-            }
             
-            
-            var pageToOpen = PageRecipes[id];
+            var pageToOpen = ActivePages[id];
             
             pageToOpen.PageIdentifier = id;
             
@@ -122,7 +110,7 @@ namespace CodeBase.Documents
         {
             //RemoveActivePage(id);
             
-            PageRecipes.Remove(id);
+            ActivePages.Remove(id);
             
             RemovePageFromDocument(page);
         }

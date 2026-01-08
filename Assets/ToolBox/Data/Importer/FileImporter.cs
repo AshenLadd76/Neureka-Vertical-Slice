@@ -19,7 +19,7 @@ namespace ToolBox.Data.Importer
     /// </summary>
     public class FileImporter : AssetPostprocessor
     {
-        private static IFileDispatcher _cachedFileDispatcher;
+        private static readonly IFileDispatcher DispatchManager;
 
         private const string SearchPath = "Assets/Resources/FileImports";
         
@@ -27,7 +27,32 @@ namespace ToolBox.Data.Importer
         private const string SearchForObject = "t:DispatchManagerSo"; 
         
         private const string SubPath = "Assets/";
-        
+
+
+        static FileImporter()
+        {
+            var guids = AssetDatabase.FindAssets(SearchForObject, new[] { SearchPath });
+
+            if (guids.Length == 0)
+            {
+                Logger.LogWarning("No DispatchManagerSo found in project.");
+                return;
+            }
+            
+            
+            var so = AssetDatabase.LoadAssetAtPath<ScriptableObject>(AssetDatabase.GUIDToAssetPath(guids[0]));
+
+            if (so is IFileDispatcher dispatcher)
+            {
+                DispatchManager = dispatcher;
+                Logger.Log("DispatchManager initialized successfully.");
+            }
+            else
+            {
+                Logger.LogWarning("Found ScriptableObject does not implement IFileDispatcher.");
+            }
+        }
+         
      
         /// <summary>
         /// Called automatically by Unity when assets are imported, deleted, or moved.
@@ -51,7 +76,11 @@ namespace ToolBox.Data.Importer
 
         private static void ProcessFile(string assetPath)
         {
-            if (string.IsNullOrEmpty(assetPath)) return;
+            if (string.IsNullOrEmpty(assetPath))
+            {
+                Logger.Log( $"Asset path is null or empty" );
+                return;
+            }
 
             var fullPath = GetFullPath(assetPath);
             
@@ -74,38 +103,7 @@ namespace ToolBox.Data.Importer
         {
             if (string.IsNullOrEmpty(fullPath) || string.IsNullOrEmpty(assetPath)) return;
 
-            if (_cachedFileDispatcher != null)
-            {
-                _cachedFileDispatcher?.Dispatch(assetPath, fullPath);
-                return;
-            }
-
-            var searchFolders = new[] { SearchPath };
-            
-            var guids = AssetDatabase.FindAssets(SearchForObject, searchFolders);
-
-            IFileDispatcher dispatcher = null;
-
-            foreach (var guid in guids)
-            {
-                var so = AssetDatabase.LoadAssetAtPath<ScriptableObject>(AssetDatabase.GUIDToAssetPath(guid));
-                
-                if (so is not IFileDispatcher d) continue;
-                
-                dispatcher = d;
-                
-                break;
-            }
-
-            if (dispatcher != null)
-            {
-                _cachedFileDispatcher = dispatcher;
-                dispatcher.Dispatch(assetPath, fullPath);
-            }
-            else
-            {
-                Logger.LogWarning("No ScriptableObject implementing IFileDispatcher found in project.");
-            }
+            DispatchManager?.Dispatch(assetPath, fullPath);
         }
         
         /// <summary>
