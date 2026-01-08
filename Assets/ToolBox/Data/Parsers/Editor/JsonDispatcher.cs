@@ -34,9 +34,7 @@ namespace ToolBox.Data.Parsers.Editor
             
             InitDictionary();
         }
-
-
-
+        
 
         private void InitDictionary()
         {
@@ -73,7 +71,7 @@ namespace ToolBox.Data.Parsers.Editor
                 Logger.LogError("path is null or empty");
                 return;
             }
-
+            
             var jsonTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(path);
 
             if (jsonTextAsset == null)
@@ -113,7 +111,6 @@ namespace ToolBox.Data.Parsers.Editor
             {
                 QuestionnaireWrapper wrapper = _serializer.Deserialize<QuestionnaireWrapper>(textAsset.text); 
                 
-               //var jObject = JsonConvert.DeserializeObject<JObject>(textAsset.text);
                 if (wrapper.MetaData == null)
                 {
                     Logger.LogWarning("MetaData section missing in JSON");
@@ -122,9 +119,9 @@ namespace ToolBox.Data.Parsers.Editor
 
                 var metaData = wrapper.MetaData;
                 
-                return metaData.ParseType;
+                return metaData.ParseType.Trim().ToLower();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Logger.LogError($"Failed to parse MetaData: {e}");
                 return string.Empty;

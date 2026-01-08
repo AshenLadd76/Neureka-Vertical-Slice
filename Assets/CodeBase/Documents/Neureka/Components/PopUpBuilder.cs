@@ -30,6 +30,8 @@ namespace CodeBase.Documents.Neureka.Components
         
         private const string MissingText = "Missing Text";
 
+        private bool _cancelButtonActiveOnBuild = true;
+
 
         public PopUpBuilder SetPercentageHeight(float height)
         {
@@ -90,6 +92,12 @@ namespace CodeBase.Documents.Neureka.Components
             _cancelAction = cancelAction;
             return this;
         }
+        
+        public PopUpBuilder SetCancelButtonActiveOnBuild(bool isActive)
+        {
+            _cancelButtonActiveOnBuild = isActive; // store internally
+            return this;
+        }
 
         public PopUpBuilder AttachTo(VisualElement parent)
         {
@@ -118,19 +126,25 @@ namespace CodeBase.Documents.Neureka.Components
            BuildContentText(popUpContent);
            
             var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(popUpContent).Build();
-            
-            _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction , popupFooter);
-                _confirmButton.AddToClassList( DemoHubUssDefinitions.MenuButton );
-            
-            _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
-            {
-                _cancelAction?.Invoke();
-                Close(popUpContainer,background);
 
-            }, popupFooter);
-                
-                _cancelButton.AddToClassList( DemoHubUssDefinitions.MenuButton );
-            
+            if (_confirmAction != null)
+            {
+                _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction, popupFooter);
+                _confirmButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
+            }
+
+            if (_cancelAction != null)
+            {
+                    _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
+                    {
+                        _cancelAction?.Invoke();
+                        Close(popUpContainer, background);
+
+                    }, popupFooter);
+
+                    _cancelButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
+            }
+
             _root.MarkDirtyRepaint();
             popUpContainer.schedule.Execute(_ =>
             {

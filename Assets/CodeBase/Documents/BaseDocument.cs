@@ -23,6 +23,8 @@ namespace CodeBase.Documents
 
 
         private bool _isBuilt = false;
+        
+        protected bool ShouldCache = false;
 
         
         public virtual void Open(VisualElement root)
@@ -74,36 +76,6 @@ namespace CodeBase.Documents
             
             pageToOpen.Open(DocumentRoot, this);
             
-            // if (PageRecipes.TryGetValue(id, out var recipe))
-            // {
-            //     Logger.Log($"BaseDocument.OpenPage() starting... id: {id}");
-            //
-            //     // Instantiate the page from the recipe
-            //     var pageToOpen = PageRecipes[id];
-            //
-            //     if (pageToOpen == null)
-            //     {
-            //         Logger.LogError($"Failed to create page for id: {id}");
-            //         return;
-            //     }
-            //
-            //     // Add to ActivePages
-            //     ActivePages[id] = pageToOpen;
-            //
-            //     // Open the page with the document's root and pass the document itself
-            //     pageToOpen.PageIdentifier = id;
-            //     
-            //     if( DocumentRoot == null ) Logger.Log( $"Document Root is null." );
-            //     
-            //     SetDocumentRoot();
-            //     
-            //     Logger.Log( $"Opening the page...." );
-            //     pageToOpen.Open(DocumentRoot, this);
-            // }
-            // else
-            // {
-            //     Logger.LogError($"BaseDocument.OpenPage() page not found... id: {id}");
-            // }
         }
 
         public void ClosePage(PageID id, VisualElement page)

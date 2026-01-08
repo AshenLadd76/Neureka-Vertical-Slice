@@ -59,8 +59,12 @@ namespace ToolBox.Data.Parsers
             var ext = GetFileExtension(assetPath);
             
             Logger.Log( $"Dispatch asset path '{assetPath}' ext: {ext}" );
-            
-            if (string.IsNullOrEmpty(ext)) return;
+
+            if (string.IsNullOrEmpty(ext))
+            {
+                Logger.LogError( $"this file doest not have a file extension : {assetPath}" );
+                return;
+            }
 
             var dispatcher = GetDispatcher(ext);
 

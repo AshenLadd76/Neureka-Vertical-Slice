@@ -297,6 +297,21 @@ popup-title-container
      color:#0C1353;
 }
 
+.overlay-root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    justify-content: center;
+    align-items: center;
+
+      /* optional */
+    background-color: #fff
+}
+
+
 
 
 
