@@ -43,6 +43,8 @@ namespace CodeBase.UiComponents.Pages
         
         private QuestionnaireSubmissionHandler _questionnaireSubmissionHandler;
         
+        private VisualElement _confirmationPopup;
+        
         
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer, IDocument parentDocument = null, Action onFinished = null)
         {
@@ -73,10 +75,10 @@ namespace CodeBase.UiComponents.Pages
 
         private void InitializeAnswerDictionary(StandardQuestionnaireTemplate questionnaireData)
         {
-            for (int x = 0; x < _questionCount; ++x)
+            for (var x = 0; x < _questionCount; x++)
             {
-                int questionNumber = x + 1;
-                string questionText = questionnaireData.Questions[x];
+                var questionNumber = x + 1;
+                var questionText = questionnaireData.Questions[x];
                
                 _answerDataDictionary.Add(questionNumber, new AnswerData(questionNumber, questionText, "" ));
             }
@@ -84,13 +86,9 @@ namespace CodeBase.UiComponents.Pages
         
         public void Build()
         {
-            
-            
-            CreateQuestionnaire();
+            CreateQuestionnaire(_root);
             
             CreateIntroPage(_root);
-            
-            
         }
         
         
@@ -115,9 +113,9 @@ namespace CodeBase.UiComponents.Pages
             }).AttachTo(footerContainer).Build();
         }
 
-        private void CreateQuestionnaire()
+        private void CreateQuestionnaire(VisualElement root)
         {
-            _documentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(_root).Build();
+            _documentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(root).Build();
             
             //Build the container
             var pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(_documentRoot).Build();
@@ -221,31 +219,31 @@ namespace CodeBase.UiComponents.Pages
         }
 
 
-        private VisualElement _popup;
-        private void CreateQuitPopUp()
-        {
-            HapticsHelper.RequestHaptics(HapticType.Low);
-            
-            _popup = new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
-                .SetContentText($"If you do you will.....KILL SCIENCE!")
-                .SetPercentageHeight( 60 )
-                .SetImage( $"Sprites/panicked_scientist")
-                .SetConfirmAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
-                    //Quit the questionnaire so load the navpage...
-                    MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Neureka );
-                    Close();
-                    
-                })
-                .SetCancelAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Canceling the quit!!!" );
-                })
-                .AttachTo(_root).Build();
-        }
+    
+        // private void CreateQuitPopUp()
+        // {
+        //     HapticsHelper.RequestHaptics(HapticType.Low);
+        //     
+        //     _quitPopup = new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
+        //         .SetContentText($"If you do you will.....KILL SCIENCE!")
+        //         .SetPercentageHeight( 60 )
+        //         .SetImage( $"Sprites/panicked_scientist")
+        //         .SetConfirmAction(() =>
+        //         {
+        //             HapticsHelper.RequestHaptics();
+        //             Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
+        //             //Quit the questionnaire so load the navpage...
+        //             MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Neureka );
+        //             Close();
+        //             
+        //         })
+        //         .SetCancelAction(() =>
+        //         {
+        //             HapticsHelper.RequestHaptics();
+        //             Logger.Log( $"Canceling the quit!!!" );
+        //         })
+        //         .AttachTo(_root).Build();
+        // }
 
 
         private Button _submitButton;
@@ -316,86 +314,12 @@ namespace CodeBase.UiComponents.Pages
         }
         
         
-        private VisualElement _confirmationPopup;
-        // private void CreateConfirmationPopUp()
-        // {
-        //
-        //     var popUpBuilder = new PopUpBuilder().SetTitleText("Thank you!")
-        //         .SetContentText($"For taking the time to complete this questionnaire")
-        //         .SetPercentageHeight(40)
-        //         //.SetImage( $"Sprites/panicked_scientist")
-        //         .SetConfirmAction(() =>
-        //         {
-        //             HapticsHelper.RequestHaptics();
-        //             Logger.Log($"Quitting the questionnaire");
-        //
-        //             _onFinished?.Invoke();
-        //
-        //             Close();
-        //
-        //         })
-        //         .AttachTo(_root);
-        //     
-        //     _confirmationPopup = popUpBuilder.Build();
-        //     
-        //     popUpBuilder.SetCancelButtonActive(false);
-        // }
-        
         
       //Ensure all questionnaire visual elements are removed and GC collected
         private void Close()
         {
             _documentRoot?.RemoveFromHierarchy();
             _documentRoot = null;
-
-            _popup?.RemoveFromHierarchy();
-            _popup = null;
-            
-            _confirmationPopup?.RemoveFromHierarchy();
-            _confirmationPopup = null;
         }
     }
-    
-    public static class PopupFactory
-    {
-        public static VisualElement CreateConfirmationPopup(VisualElement root, string title, string message, Action onConfirm)
-        {
-           return new PopUpBuilder()
-                .SetTitleText(title)
-                .SetContentText(message)
-                .SetPercentageHeight(40)
-                .SetConfirmAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    onConfirm?.Invoke();
-                })
-                .AttachTo(root).Build();
-           
-        }
-
-        public static VisualElement CreateQuitPopup(VisualElement root, string title, string message, Action onConfirm, Action onCancel)
-        {
-            return new PopUpBuilder()
-                .SetTitleText(title)
-                .SetContentText(message)
-                .SetPercentageHeight(60)
-                .SetImage("Sprites/panicked_scientist")
-                .SetConfirmAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    onConfirm?.Invoke();
-                })
-                .SetCancelAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    onCancel?.Invoke();
-                })
-                .AttachTo(root)
-                .Build();
-            
-        }
-
-        // Add more popup types as needed...
-    }
-
 }

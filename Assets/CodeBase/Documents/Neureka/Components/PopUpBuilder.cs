@@ -31,6 +31,9 @@ namespace CodeBase.Documents.Neureka.Components
         private const string MissingText = "Missing Text";
 
         private bool _cancelButtonActiveOnBuild = true;
+        
+        private VisualElement _popUpContainer;
+        private VisualElement _background;
 
 
         public PopUpBuilder SetPercentageHeight(float height)
@@ -110,54 +113,46 @@ namespace CodeBase.Documents.Neureka.Components
         private Button _cancelButton;
         public VisualElement Build()
         {
-            var background = BuildBackgroundOverlay(_root);
+            _background = BuildBackgroundOverlay(_root);
             
-            var popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(background).Build();
+            _popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(_background).Build();
             
             if (_percentageHeight.value > 0)
-                popUpContainer.style.height = _percentageHeight;
+                _popUpContainer.style.height = _percentageHeight;
             
-            var popUpContent =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContentStyle).AttachTo(popUpContainer).Build();
+            var popUpContent =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContentStyle).AttachTo(_popUpContainer).Build();
             
-           BuildImage(popUpContent);
+            BuildImage(popUpContent);
            
-           BuildTitle( popUpContent );
+            BuildTitle( popUpContent );
            
-           BuildContentText(popUpContent);
+            BuildContentText(popUpContent);
            
             var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(popUpContent).Build();
 
             if (_confirmAction != null)
             {
-                _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _confirmAction, popupFooter);
-                _confirmButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
+               _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", () => { ExecuteAndClose(_confirmAction); }, popupFooter);
+               _confirmButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
             }
 
             if (_cancelAction != null)
             {
-                    _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () =>
-                    {
-                        _cancelAction?.Invoke();
-                        Close(popUpContainer, background);
+                _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () => { ExecuteAndClose(_cancelAction); }, popupFooter);
 
-                    }, popupFooter);
-
-                    _cancelButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
+                _cancelButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
             }
 
             _root.MarkDirtyRepaint();
-            popUpContainer.schedule.Execute(_ =>
+            
+            _popUpContainer.schedule.Execute(_ =>
             {
-                popUpContainer.style.bottom = 0; // slide into view
+                _popUpContainer.style.bottom = 0; // slide into view
             }).StartingIn(1);
-
-
-            return background;
+            
+            return _background;
         }
         
-        public void SetConfirmButtonActive( bool isActive ) => _confirmButton.style.display = isActive ? DisplayStyle.Flex : DisplayStyle.None;
-        public void SetCancelButtonActive( bool isActive ) => _cancelButton.style.display = isActive ?  DisplayStyle.Flex : DisplayStyle.None;
-
         private VisualElement BuildBackgroundOverlay(VisualElement parent)
         {
             const long startInMs = 5;
@@ -223,30 +218,40 @@ namespace CodeBase.Documents.Neureka.Components
         }
 
 
-        private void Close(VisualElement popUpContainer, VisualElement background)
+        private void ExecuteAndClose(Action action)
+        {
+            action?.Invoke();
+            Close();
+        }
+
+        private void Close()
         {
             const long backgroundStartingInMs = 1;
             const long popUpContainerStartingInMs = 500;
             
-            SlideOut(popUpContainer);
+            SlideOut(_popUpContainer);
                 
-            background.schedule.Execute(_ =>
+            _background.schedule.Execute(_ =>
             {
-                background.AddToClassList(PopupBuilderUssClassNames.BackgroundInactiveStyle);
+                _background.AddToClassList(PopupBuilderUssClassNames.BackgroundInactiveStyle);
             }).StartingIn(backgroundStartingInMs);
 
-            popUpContainer.schedule.Execute(_ =>
+            _popUpContainer.schedule.Execute(_ =>
             {
                 
-                popUpContainer?.RemoveFromHierarchy();
-                popUpContainer = null;
+                _popUpContainer?.RemoveFromHierarchy();
+                _popUpContainer = null;
                 
-                background?.RemoveFromHierarchy();
-                background = null;
+                _background?.RemoveFromHierarchy();
+                _background = null;
                 
                 Reset();
                 
             }).StartingIn(popUpContainerStartingInMs);
+            
+            _background?.RemoveFromHierarchy();
+            _popUpContainer.RemoveFromHierarchy();
+            
         }
         
         private void SlideOut(VisualElement popup)
