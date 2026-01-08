@@ -10,6 +10,11 @@ namespace CodeBase.Documents.Neureka.Components
 {
     public class PopUpBuilder
     {
+        // Matches USS --popup-close-duration
+        private const long CloseAnimationDurationMs = 250;
+        const long BackgroundStartingInMs = 1;
+
+        
         private string _blurbText;
         
         private VisualElement _root;
@@ -29,11 +34,12 @@ namespace CodeBase.Documents.Neureka.Components
         private string _contentText;
         
         private const string MissingText = "Missing Text";
-
-        private bool _cancelButtonActiveOnBuild = true;
         
         private VisualElement _popUpContainer;
         private VisualElement _background;
+        
+        private Button _confirmButton;
+        private Button _cancelButton;
 
 
         public PopUpBuilder SetPercentageHeight(float height)
@@ -96,12 +102,6 @@ namespace CodeBase.Documents.Neureka.Components
             return this;
         }
         
-        public PopUpBuilder SetCancelButtonActiveOnBuild(bool isActive)
-        {
-            _cancelButtonActiveOnBuild = isActive; // store internally
-            return this;
-        }
-
         public PopUpBuilder AttachTo(VisualElement parent)
         {
             _root = parent;
@@ -109,8 +109,7 @@ namespace CodeBase.Documents.Neureka.Components
         }
 
         
-        private Button _confirmButton;
-        private Button _cancelButton;
+       
         public VisualElement Build()
         {
             _background = BuildBackgroundOverlay(_root);
@@ -196,13 +195,13 @@ namespace CodeBase.Documents.Neureka.Components
 
         private void BuildTitle(VisualElement parent)
         {
-            var spacer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpSpacerStyle).AttachTo(parent).Build();
+            new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpSpacerStyle).AttachTo(parent).Build();
             
             var titleContainer = new ContainerBuilder().AttachTo(parent).AddClass( PopupBuilderUssClassNames.PopUpTitleStyle ).Build();
 
             _blurbText ??= MissingText;
             
-            var popupTitle = new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(titleContainer).Build();
+            new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(titleContainer).Build();
         }
 
         private void BuildContentText(VisualElement parent)
@@ -220,25 +219,24 @@ namespace CodeBase.Documents.Neureka.Components
 
         private void ExecuteAndClose(Action action)
         {
-            action?.Invoke();
-            Close();
+            Close(action);
+      
         }
 
-        private void Close()
+        private void Close(Action action = null)
         {
-            const long backgroundStartingInMs = 1;
-            const long popUpContainerStartingInMs = 500;
+            if (_popUpContainer == null || _background == null)
+                return;
             
             SlideOut(_popUpContainer);
                 
             _background.schedule.Execute(_ =>
             {
                 _background.AddToClassList(PopupBuilderUssClassNames.BackgroundInactiveStyle);
-            }).StartingIn(backgroundStartingInMs);
+            }).StartingIn(BackgroundStartingInMs);
 
             _popUpContainer.schedule.Execute(_ =>
             {
-                
                 _popUpContainer?.RemoveFromHierarchy();
                 _popUpContainer = null;
                 
@@ -247,10 +245,9 @@ namespace CodeBase.Documents.Neureka.Components
                 
                 Reset();
                 
-            }).StartingIn(popUpContainerStartingInMs);
-            
-            _background?.RemoveFromHierarchy();
-            _popUpContainer.RemoveFromHierarchy();
+                action?.Invoke();
+                
+            }).StartingIn(CloseAnimationDurationMs);
             
         }
         
@@ -272,7 +269,6 @@ namespace CodeBase.Documents.Neureka.Components
             _imageHeight = 0;
             _root = null;
         }
-
     }
 
     public static class PopupBuilderUssClassNames
