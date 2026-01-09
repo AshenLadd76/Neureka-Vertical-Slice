@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
+using CodeBase.Helpers;
 using CodeBase.Questionnaires;
+using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
@@ -10,6 +12,7 @@ using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
 using UiFrameWork.RunTime;
+using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -78,29 +81,19 @@ namespace CodeBase.UiComponents.Pages
         public void Build()
         {
             CreateQuestionnaire(_root);
-            
             CreateIntroPage(_root);
         }
         
         
         private void CreateIntroPage(VisualElement root)
         {
-            var introPage = new ContainerBuilder().AddClass("overlay-root").AttachTo(root).Build();
-            
-            CreateHeader(introPage);
-            
-            //Build the content container
-            new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(introPage).Build();
-            
-            var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(introPage).Build();
-            
-            _submitButton = new ButtonBuilder().SetText("Start").AddClass("questionnaire-footer-button").OnClick(() =>
-            {
-                HapticsHelper.RequestHaptics( HapticType.Low );
-                introPage.RemoveFromHierarchy();
-              
-                
-            }).AttachTo(footerContainer).Build();
+            var introPage =  new IntroPageBuilder(root)
+                .SetTitle(_questionnaireData.QuestionnaireName)
+                .SetContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.")
+                .SetImagePath("Assessments/RiskFactors/Images/intro_image_2")
+                .SetConfirmQuit(ConfirmQuit)
+                .SetCancelQuit(CancelQuit)
+                .Build();
         }
 
         private void CreateQuestionnaire(VisualElement root)
@@ -160,11 +153,7 @@ namespace CodeBase.UiComponents.Pages
             new ContainerBuilder().AddClass("header-spacer").AttachTo(headerNav).Build();
             
             new ButtonBuilder().SetText("X")
-                .OnClick(() =>
-                {
-                    PopupFactory.CreateQuitPopup(_root, "Quitting !!!", "If you do you will.....KILL SCIENCE!",
-                        ConfirmQuit, CancelQuit);
-                })
+                .OnClick(() => { PopupFactory.CreateQuitPopup(_root, "Quitting !!!", "If you do you will.....KILL SCIENCE!", ConfirmQuit, CancelQuit); })
                 .AddClass("demo-header-button")
                 .AddClass(UiStyleClassDefinitions.HeaderLabel)
                 .AttachTo(headerNav)
@@ -172,10 +161,9 @@ namespace CodeBase.UiComponents.Pages
             
             var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
 
-            var label = new LabelBuilder().SetText(_questionnaireData.QuestionnaireName).AddClass("header-label").AttachTo(headerTitle).Build();
-
+            new LabelBuilder().SetText(_questionnaireData.QuestionnaireName).AddClass("header-label").AttachTo(headerTitle).Build();
         }
-
+        
         private void ConfirmQuit()
         {
             HapticsHelper.RequestHaptics();
@@ -211,7 +199,6 @@ namespace CodeBase.UiComponents.Pages
 
         private void CreateFooter(VisualElement parent)
         {
-            
             var questionnaireSubmissionHandler =
                 new QuestionnaireSubmissionHandler(_questionnaireData, _answerDataDictionary, _jsonSerializer,
                     () => { PopupFactory.CreateConfirmationPopup(_root , "Thank You!", "For taking the time to complete this questionnaire", ConfirmFinished);  });

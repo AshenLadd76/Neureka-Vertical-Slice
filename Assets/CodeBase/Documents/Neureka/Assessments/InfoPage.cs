@@ -4,7 +4,7 @@ using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.UiComponents.Page;
-using CodeBase.UiComponents.Styles;
+using CodeBase.UiComponents.Pages;
 using ToolBox.Extensions;
 using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
@@ -17,7 +17,7 @@ namespace CodeBase.Documents.Neureka.Assessments
 {
     public class InfoPage : BasePage
     {
-        private int _blurbIndex = 0;
+        private int _blurbIndex;
         private int _blurbContentCount;
         
         private const string MainContainerStyle = "fullscreen-container";
@@ -38,8 +38,6 @@ namespace CodeBase.Documents.Neureka.Assessments
         
         private bool _hasScheduledFinalAction;
 
-        private IDocument _parentDocument;
-        
         
         public InfoPage(IDocument document, InfoPageContent content) : base(document)
         {
@@ -49,8 +47,6 @@ namespace CodeBase.Documents.Neureka.Assessments
             _blurbContentList = _infoPageContent.ContentList;
             
             _onFinishedIntro = _infoPageContent.OnFinished;
-            
-            _parentDocument = document;
         }
         
         protected override void Build()
@@ -105,7 +101,7 @@ namespace CodeBase.Documents.Neureka.Assessments
                 .SetParent(parent)
                 .SetTitle(_infoPageContent.Title)
                 .SetBackButton(Previous)
-                .SetQuitButton(CreateQuitPopUp)
+                .SetQuitButton(()=> PopupFactory.CreateQuitPopup(Root,"Quitting Already", "That's a good idea, Take a break and come back Fresh.", ConfirmQuit, CancelQuit ))
                 .SetHeaderStyle("header-nav")
                 .SetTitleTextStyle("header-label")
                 .SetButtonStyle("demo-header-button")
@@ -200,31 +196,14 @@ namespace CodeBase.Documents.Neureka.Assessments
             _footer.SetPrimaryButtonActive(!isLastPage);
             _footer.SetSecondaryButtonActive(isLastPage);
         }
-        
-        
-        private VisualElement _popup;
-        private void CreateQuitPopUp()
+
+        private void ConfirmQuit()
         {
-            HapticsHelper.RequestHaptics(HapticType.Low);
-            
-            _popup = new PopUpBuilder().SetTitleText("Don't quit Nooooo!!!")
-                .SetContentText($"If you do you will.....KILL SCIENCE!")
-                .SetPercentageHeight( 60 )
-                .SetImage( $"Sprites/panicked_scientist")
-                .SetConfirmAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Quitting the questionnaire" );
-                    Close();
-                    
-                })
-                .SetCancelAction(() =>
-                {
-                    HapticsHelper.RequestHaptics();
-                    Logger.Log( $"Canceling the quit!!!" );
-                })
-                .AttachTo(Root).Build();
+            HapticsHelper.RequestHaptics();
+            Close();
         }
+
+        private void CancelQuit() => HapticsHelper.RequestHaptics();
         
         private void OnFinishedIntro()
         {
@@ -236,9 +215,6 @@ namespace CodeBase.Documents.Neureka.Assessments
         {
             _pageRoot?.RemoveFromHierarchy();
             _pageRoot = null;
-
-            _popup?.RemoveFromHierarchy();
-            _popup = null;
             
             base.Close();
         }
