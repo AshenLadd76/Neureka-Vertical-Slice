@@ -33,8 +33,10 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         private const string RiskFactorsSoPath = "Assessments/RiskFactors/RiskFactorsSO";
         
         private RiskFactorsSO _riskFactorsSo;
-        
-        
+
+       // public override bool ShouldCache => true;
+
+
         /// <summary>
         /// Creates a new RiskFactorsDocument instance.
         /// </summary>
@@ -81,6 +83,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         
         private void AddPageRecipes()
         {
+            ActivePages.Clear();
+            
             CreatePage(PageID.RiskFactorsIntro, _riskFactorsSo.IntroTitle, _riskFactorsSo.IntroButtonText, _riskFactorsSo.IntroBlurbContents, OnIntroCompleted);
             CreatePage(PageID.RiskFactorsContinue, _riskFactorsSo.ContinueTitle, _riskFactorsSo.ContinueButtonText, _riskFactorsSo.ContinueBlurbContents, CheckAssessmentProgress);
             CreatePage(PageID.RiskFactorsOutro, _riskFactorsSo.OutroTitle, _riskFactorsSo.OutroButtonText, _riskFactorsSo.OutroBlurbContents, OnAssessmentCompleted);
@@ -111,7 +115,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
            // PageRecipes[pageId] = () => new InfoPage(this, content);
            
-           ActivePages[pageId] = new InfoPage(this, content);
+           ActivePages[pageId] = new InfoPage(this, content, DocumentRoot);
         }
         
         
@@ -175,10 +179,10 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             
             CloseInfoPages();
             
-            OpenHub();
+            OpenNav();
         }
         
-        private void OpenHub() => MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Neureka);
+        private void OpenNav() => MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nav);
         
         private void LoadIntroPage() => OpenPage(PageID.RiskFactorsIntro);
         private void LoadContinuePage() => OpenPage(PageID.RiskFactorsContinue);
@@ -189,6 +193,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         {
             foreach (var page in ActivePages)
                 page.Value.Close();
+            
+            DocumentRoot.RemoveFromHierarchy();
         }
     }
 }

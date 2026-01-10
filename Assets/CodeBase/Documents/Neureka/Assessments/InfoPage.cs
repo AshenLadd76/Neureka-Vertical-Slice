@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
-using CodeBase.Documents.Neureka.Components;
 using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Pages;
 using ToolBox.Extensions;
+using ToolBox.Messaging;
 using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
@@ -34,25 +34,33 @@ namespace CodeBase.Documents.Neureka.Assessments
 
         private string _footerButtonText;
 
+        private VisualElement _parent;
         private VisualElement _pageRoot;
         
+        
+        
         private bool _hasScheduledFinalAction;
+        
+        private IDocument _document;
 
         
-        public InfoPage(IDocument document, InfoPageContent content) : base(document)
+        public InfoPage(IDocument document, InfoPageContent content, VisualElement parent) : base(document)
         {
             PageIdentifier = PageID.InfoPage;
+            
             _infoPageContent = content;
 
             _blurbContentList = _infoPageContent.ContentList;
             
             _onFinishedIntro = _infoPageContent.OnFinished;
+            
+            _document = document;
+            _parent = parent;
+            
         }
         
         protected override void Build()
         {
-            base.Build();
-            
             CreatePage();
         }
         
@@ -60,7 +68,7 @@ namespace CodeBase.Documents.Neureka.Assessments
         {
             Logger.Log( $"Creating Page {PageIdentifier}" );
             
-            _pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(Root).Build();
+            _pageRoot = new ContainerBuilder().AddClass(MainContainerStyle).AttachTo(_parent).Build();
             
             CreateHeader(_pageRoot);
             
@@ -71,6 +79,7 @@ namespace CodeBase.Documents.Neureka.Assessments
             _header.SetBackButtonActive(false);
             
             ToggleFooterButtons();
+            
         }
 
         
@@ -101,7 +110,7 @@ namespace CodeBase.Documents.Neureka.Assessments
                 .SetParent(parent)
                 .SetTitle(_infoPageContent.Title)
                 .SetBackButton(Previous)
-                .SetQuitButton(()=> PopupFactory.CreateQuitPopup(Root,"Quitting Already", "That's a good idea, Take a break and come back Fresh.", ConfirmQuit, CancelQuit ))
+                .SetQuitButton(() => PopupFactory.CreateQuitPopup(_parent,"Quitting Already!", "\nThat's a good idea! \nTake a break and come back Fresh. You did good work.", ConfirmQuit, CancelQuit ))
                 .SetHeaderStyle("header-nav")
                 .SetTitleTextStyle("header-label")
                 .SetButtonStyle("demo-header-button")
@@ -200,6 +209,8 @@ namespace CodeBase.Documents.Neureka.Assessments
         private void ConfirmQuit()
         {
             HapticsHelper.RequestHaptics();
+            MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nav);
+            
             Close();
         }
 
@@ -213,10 +224,17 @@ namespace CodeBase.Documents.Neureka.Assessments
 
         public override void Close()
         {
+            _document.Close();
+            
+            _parent.RemoveFromHierarchy();
+            
             _pageRoot?.RemoveFromHierarchy();
             _pageRoot = null;
             
             base.Close();
+            
+          
+            
         }
     }
 }

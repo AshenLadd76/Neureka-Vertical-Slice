@@ -11,51 +11,43 @@ namespace CodeBase.Documents
 {
     public class BaseDocument : IDocument
     {
+        public virtual bool ShouldCache => false;
+
         protected VisualElement Root;
-        
-        protected VisualElement DocumentRoot;
+
+        public VisualElement DocumentRoot { get; set; }
 
         protected DocumentID DocumentID;
         
-         protected readonly Dictionary<PageID, IPage> ActivePages = new();
-        //protected readonly Dictionary<PageID, Func<IPage>> PageRecipes = new();
-       // protected Dictionary<PageID, IPage> ActivePages = new();
-
-
-        private bool _isBuilt = false;
+        protected readonly Dictionary<PageID, IPage> ActivePages = new();
         
-        protected bool ShouldCache = false;
-
         
         public virtual void Open(VisualElement root)
         {
-            Root = root ?? throw new System.ArgumentNullException(nameof(root));
-            
-            Logger.Log( $"Open Document : {Root.name}" );
-            
-           // Root.style.display = DisplayStyle.Flex;
+            if (DocumentRoot != null) DocumentRoot.style.display = DisplayStyle.Flex;
         }
 
         public virtual void Close()
         {
-            Logger.Log( $"Close Document : {Root.name} that means Document root is getting nulled which is what we dont want at all..." );
-            
-            //
-            //if (DocumentRoot == null) return;
-            //
-           // Root.Remove( DocumentRoot );
-            
-            Root.style.display = DisplayStyle.None;
-        
+            if (DocumentRoot == null)
+            {
+                Logger.Log( $"Document root is nulllllllllllll" );
+                return;
+            }
+
+            if (ShouldCache)
+                DocumentRoot.style.display = DisplayStyle.None;
+            else
+                DocumentRoot.RemoveFromHierarchy();
         }
 
         public virtual void Build(VisualElement root)
         {
             Logger.Log( $"BaseDocument.Build() starting..." );
             
-            Root = root ?? throw new System.ArgumentNullException(nameof(root));
             
-            SetDocumentRoot();
+            DocumentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(root).Build();
+            
         }
 
         private void SetDocumentRoot()
@@ -65,8 +57,7 @@ namespace CodeBase.Documents
         
         public void OpenPage(PageID id)
         {
-            if (ActivePages.IsNullOrEmpty())
-                return;
+            if (ActivePages.IsNullOrEmpty()) return;
             
             var pageToOpen = ActivePages[id];
             
@@ -75,7 +66,6 @@ namespace CodeBase.Documents
             SetDocumentRoot();
             
             pageToOpen.Open(DocumentRoot, this);
-            
         }
 
         public void ClosePage(PageID id, VisualElement page)
@@ -108,5 +98,6 @@ namespace CodeBase.Documents
                 Logger.LogWarning($"Page {pageID} was not in ActivePages");
             }
         }
+        
     }
 }

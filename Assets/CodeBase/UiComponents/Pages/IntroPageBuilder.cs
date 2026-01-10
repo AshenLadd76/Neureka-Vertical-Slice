@@ -94,28 +94,19 @@ namespace CodeBase.UiComponents.Pages
         private void CreateContent(VisualElement parent)
         {
             //Build the content container
-            var content = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SharedContent).AttachTo(parent).Build();
+            var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(parent).Build();
             
             //ScrollView
-            //var scrollview = new ScrollViewBuilder().AddClass(UiStyleClassDefinitions.SharedScrollViewNoScrollBars).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+            var scrollview = new ScrollViewBuilder().AddClass(UiStyleClassDefinitions.SharedScrollViewNoScrollBars).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
             
-            BuildContentImage(content);
+            BuildContentImage(scrollview);
             
-          var textContainer = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SharedContent).AttachTo(content).Build();
-            
-            new LabelBuilder().SetText( _contentText ).AddClass(UiStyleClassDefinitions.SharedContentText).AttachTo(textContainer).Build();
-            
-           
-            
+            new LabelBuilder().SetText( _contentText ).AddClass("info-page-content-text").AttachTo(scrollview).Build();
         }
         
         private void BuildContentImage(VisualElement parent)
         {
-            Logger.Log( $"{_imagePath}" );
-            
-            var imageContainer = new ContainerBuilder().AddClass(UiStyleClassDefinitions.ImageContainer).AttachTo(parent).Build();
-            
-            new StandardImageBuilder().SetWidth(800).SetHeight(600).SetScaleMode(ScaleMode.ScaleToFit).SetResourcePath(_imagePath).AddClass("rounded-image").AttachTo(imageContainer).Build();
+            new StandardImageBuilder().SetWidth(800).SetHeight(600).SetScaleMode(ScaleMode.ScaleToFit).SetResourcePath(_imagePath).AddClass("rounded-image").AttachTo(parent).Build();
         }
 
         private void CreateFooter(VisualElement parent)

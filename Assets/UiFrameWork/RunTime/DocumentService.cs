@@ -19,15 +19,17 @@ namespace UiFrameWork.RunTime
     [RequireComponent(typeof(UIDocument))]
     public class DocumentService : BaseService
     {
-        [Validate] private Dictionary<DocumentID, Func<IDocument>> _documents;
+        private Dictionary<DocumentID, Func<IDocument>> _documents;
 
-        [Validate] private Dictionary<DocumentID, IDocument> _cachedDocuments;
+        private Dictionary<DocumentID, IDocument> _cachedDocuments;
         
         [Validate] private UIDocument _uiDocument;
         
         [Validate] private VisualElement _rootVisualElement;
         
         [Validate] private IFileDataService _fileDataService;
+        
+        [Validate] private ICoroutineRunner _coroutineRunner;
         
         private const string DefaultFileExtension = ".json";
 
@@ -38,8 +40,11 @@ namespace UiFrameWork.RunTime
             InitUi();
             
             InitFileDataService();
+
+            _coroutineRunner = new CoroutineRunner(this);
             
             InitRecipeDictionaries();
+            
         }
 
         private void InitUi()
@@ -55,7 +60,9 @@ namespace UiFrameWork.RunTime
         {
             _documents = new Dictionary<DocumentID, Func<IDocument>>
             {
-                [DocumentID.Neureka] = () => new NeurekaDocument(),
+                [DocumentID.Splash] = () => new SplashDocument(_coroutineRunner),
+                [DocumentID.Nav] = () => new NavDocument(),
+                [DocumentID.Neureka] = () => new NeurekaDocument(_coroutineRunner),
                 [DocumentID.Hub] = () => new HubDocument(),
                 [DocumentID.TestDocument] = () => new TestDocument(),
                 [DocumentID.RiskFactors] = () => new RiskFactorsDocument(_fileDataService)
@@ -66,7 +73,6 @@ namespace UiFrameWork.RunTime
 
         private void OnRequestOpenDocument(DocumentID documentID)
         {
-            
             if (_cachedDocuments.TryGetValue(documentID, out var activeDocument))
             {
                 _cachedDocuments[documentID].Open(_rootVisualElement);
@@ -80,53 +86,26 @@ namespace UiFrameWork.RunTime
             }
             
             IDocument document = documentFunc();
-            
-            _cachedDocuments[documentID] = document;
 
-             document.Build(_rootVisualElement);
-             document.Open(_rootVisualElement);
-            
-            
-   
-            //_cachedDocuments.Remove(documentID);
-        }
+            if (document.ShouldCache)
+            {
+                Logger.Log($"Document {documentID} cached");
+                _cachedDocuments[documentID] = document;
+            }
 
-        private void OnRequestCloseDocument(DocumentID documentID) => Logger.Log($"Document {documentID} has been closed");
-        
-        
-        /// <summary>
-        /// Tries to open a document and logs any errors that occur.
-        /// Returns true if successful, false otherwise.
-        /// </summary>
-        // private bool TryOpenDocument(IDocument document)
-        // {
-        //     try
-        //     {
-        //         document.Open(_rootVisualElement);
-        //         return true;
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Logger.LogError($"Failed to open document {document.GetType().Name}: {ex.Message}");
-        //         return false;
-        //     }
-        // }
-        
-        protected override void SubscribeToService()
-        {
-            MessageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
-            //MessageBus.Instance.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument  );
+            document.Build(_rootVisualElement);
+            document.Open(_rootVisualElement);
         }
-
-        protected override void UnsubscribeFromService()
-        {
-            MessageBus.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
-           // MessageBus.Instance.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestCloseDocument), OnRequestCloseDocument);
-        }
+        
+        protected override void SubscribeToService() => MessageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
+        
+        protected override void UnsubscribeFromService() => MessageBus.RemoveListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );
     }
 
     public enum DocumentID
     { 
+        Splash,
+        Nav,
         Hub,
         Neureka,
         TestDocument,

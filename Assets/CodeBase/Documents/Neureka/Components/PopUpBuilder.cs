@@ -134,14 +134,14 @@ namespace CodeBase.Documents.Neureka.Components
             if (_confirmAction != null)
             {
                _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", () => { ExecuteAndClose(_confirmAction); }, popupFooter);
-               _confirmButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
+               _confirmButton.AddToClassList("questionnaire-footer-button-inverted");
             }
 
             if (_cancelAction != null)
             {
                 _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () => { ExecuteAndClose(_cancelAction); }, popupFooter);
 
-                _cancelButton.AddToClassList(DemoHubUssDefinitions.MenuButton);
+                _cancelButton.AddToClassList("questionnaire-footer-button-inverted");
             }
 
             _root.MarkDirtyRepaint();
@@ -203,7 +203,7 @@ namespace CodeBase.Documents.Neureka.Components
 
             _blurbText ??= MissingText;
             
-            new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(titleContainer).Build();
+            new LabelBuilder().SetText(_blurbText).AddClass(PopupBuilderUssClassNames.PopUpLabelStyle).AttachTo(parent).Build();
         }
 
         private void BuildContentText(VisualElement parent)
@@ -215,7 +215,7 @@ namespace CodeBase.Documents.Neureka.Components
             
             var contentText = new LabelBuilder()
                 .SetText(_contentText)
-                .AttachTo(scrollview.contentContainer).AddClass(PopupBuilderUssClassNames.PopUpContentTextStyle).Build();
+                .AttachTo(scrollview.contentContainer).AddClass("info-page-content-text").Build();
         }
 
 
@@ -280,7 +280,7 @@ namespace CodeBase.Documents.Neureka.Components
         public const string BackgroundInactiveStyle = "fullscreen-fade-container-inactive";
         
         public const string PopUpContainerStyle = "popup-container";
-        public const string PopUpTitleStyle = "popup-title-container";
+        public const string PopUpTitleStyle = "popup-title-container-centre";
         public const string PopUpContentStyle = "popup-content";
         public const string PopUpScrollViewStyle = "popup-scrollview";
         public const string PopUpContentTextStyle = "popup-content-text";

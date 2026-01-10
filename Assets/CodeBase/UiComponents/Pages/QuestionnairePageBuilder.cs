@@ -45,6 +45,8 @@ namespace CodeBase.UiComponents.Pages
         private QuestionnaireSubmissionHandler _questionnaireSubmissionHandler;
         
         private Button _submitButton;
+
+        private VisualElement _introPage;
         
         public QuestionnairePageBuilder(StandardQuestionnaireTemplate questionnaireData, VisualElement root, ISerializer jsonSerializer, IDocument parentDocument = null, Action onFinished = null)
         {
@@ -87,7 +89,7 @@ namespace CodeBase.UiComponents.Pages
         
         private void CreateIntroPage(VisualElement root)
         {
-            var introPage =  new IntroPageBuilder(root)
+            _introPage =  new IntroPageBuilder(root)
                 .SetTitle(_questionnaireData.QuestionnaireName)
                 .SetContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.")
                 .SetImagePath("Assessments/RiskFactors/Images/intro_image_2")
@@ -111,8 +113,7 @@ namespace CodeBase.UiComponents.Pages
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
             
             //Build the scrollview and add it to the content container
-            _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
-                .AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
+            _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
             
             var answers = _questionnaireData.Answers;
             
@@ -169,7 +170,7 @@ namespace CodeBase.UiComponents.Pages
             HapticsHelper.RequestHaptics();
             Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
             //Quit the questionnaire so load the navpage...
-            MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Neureka );
+            MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Nav );
             Close();
         }
 
@@ -267,6 +268,8 @@ namespace CodeBase.UiComponents.Pages
       //Ensure all questionnaire visual elements are removed and GC collected
         private void Close()
         {
+            _introPage.RemoveFromHierarchy();
+            
             _documentRoot?.RemoveFromHierarchy();
             _documentRoot = null;
         }

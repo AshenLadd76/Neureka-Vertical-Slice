@@ -14,6 +14,11 @@ namespace UiFrameWork.RunTime
         public void OpenPage(PageID id);
         
         public void ClosePage(PageID id, VisualElement page);
-
+        
+        /// <summary>
+        /// Indicates whether the document should be cached by the DocumentService.
+        /// </summary>
+        bool ShouldCache { get; }
+        
     }
 }

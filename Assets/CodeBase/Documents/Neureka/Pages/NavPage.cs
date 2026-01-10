@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
-using CodeBase.Services;
+
 using ToolBox.Extensions;
-using ToolBox.Messaging;
+
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
@@ -28,41 +28,7 @@ namespace CodeBase.Documents.Neureka.Pages
 
         protected override void Build()
         {
-            Logger.Log("Building Nav Page");
-            
-            if (Root == null)
-            {
-                Logger.Log("Splash Page Build Failed");
-                return;
-            }
-            
-            base.Build();
-            
-            LoadSectionDataList();
-            
-            PageRoot = new ContainerBuilder().AddClass(UssClassNames.MainContainer).AttachTo(Root).Build();
-            
-            //Build header 
-          //   var header = new ContainerBuilder().AddClass(UssClassNames.HeaderContainer).AttachTo(PageRoot).Build();
-
-          //  var headerText = new LabelBuilder().SetText("Hi, Dean \n Welcome back!").AddClass(UssClassNames.HeaderLabel).AttachTo(header).Build();
-            
-           // var headerImage = new ContainerBuilder().AddClass(UssClassNames.HeaderImage).AttachTo(header).Build();
-            
-            //Build content
-            var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(PageRoot).Build();
-            
-            var scrollView = new ScrollViewBuilder().EnableInertia(true).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
-
-           var topSpacer = new ContainerBuilder().AddClass("scrollview-top-spacer").AttachTo(scrollView).Build();
-           
-           LoadNavSections(scrollView); 
-           
-           BuildFooter();
-           
-           SelectNavPage(_allPages[0]);
-           
-           new FadeHelper(content, true, true);
+          
         }
 
 
@@ -86,11 +52,9 @@ namespace CodeBase.Documents.Neureka.Pages
 
             for (int x = 0; x < sectionData.CardCount; x++)
             {
-                Logger.Log($"Adding card {x}");
-                
                 new MenuCardBuilder()
                     .SetParent(container)
-                    .SetTitle($"{sectionData.Title} {x+1}")
+                    .SetTitle($"{sectionData.Title}")
                     .SetProgress(Random.Range(0f, 1f))
                     .SetIconBackgroundColor( sectionData.Color )
                     .SetAction(MenuActions.RequestDocument(sectionData.DcoumentID))
@@ -157,46 +121,5 @@ namespace CodeBase.Documents.Neureka.Pages
     }
     
     
-    public static class MenuActions
-    {
-        public static Action RequestDocument(string questionnaireId)
-        {
-            return () => 
-            {
-                Logger.Log( $"{questionnaireId}" );
-                MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors );
-                //MessageBus.Broadcast(QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId);
-            };
-        }
-    }
-
-
-    public class SectionData
-    {
-        public string Title { get; set; }
-        public int CardCount { get; set; }
-        public Color Color { get; set; }
-        
-        public string DcoumentID { get; set; }
-
-        // Constructor with validation
-        public SectionData(string title, int cardCount, Color color, string dcoumentID)
-        {
-            if (string.IsNullOrWhiteSpace(title))
-                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
-
-            if (cardCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(cardCount), "CardCount cannot be negative.");
-
-            // Color is a struct, it can't be null, but you can add checks if needed
-            // For example, you might not want fully transparent colors:
-            if (color.a < 0f || color.a > 1f)
-                throw new ArgumentOutOfRangeException(nameof(color), "Color alpha must be between 0 and 1.");
-
-            Title = title;
-            CardCount = cardCount;
-            Color = color;
-            DcoumentID = dcoumentID;
-        }
-    }
+    
 }
