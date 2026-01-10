@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CodeBase.Documents;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
+using CodeBase.Documents.Neureka.Navigation;
 using CodeBase.Pages;
 using ToolBox.Helpers;
 using ToolBox.Messaging;

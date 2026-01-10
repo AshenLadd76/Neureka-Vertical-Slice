@@ -1,0 +1,70 @@
+/* Header container */
+.nav-header-container {
+    height: 8%; /* 10% of parent height (screen if root) */
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between; /* push left and right items to edges */
+    align-items: center; /* vertically center content */
+    padding-left: 16px; /* optional spacing */
+    padding-right: 16px;
+    background-color: #fff; /* dark background for contrast */
+    border-radius: 1px;
+}
+
+/* Header image on the left */
+.nav-header-image {
+    width: 64px;   /* fixed size, adjust as needed */
+    height: 64px;
+    object-fit: contain; /* keep aspect ratio */
+}
+
+/* Header button on the right */
+.nav-header-button {
+    width: 48px;  /* button size */
+    height: 48px;
+    border-radius: 4px;
+    unity-font-style: bold;
+        /* Transparent background */
+    
+
+    text-align: center;
+}
+
+
+
+/* Footer container */
+.nav-footer-container {
+    height: 12%; /* 12% of parent height (screen if root) */
+    width: 100%;
+    background-color: #3382CC; /* Dodger blue background */
+    
+    /* Curved top edge */
+    border-top-left-radius: 48px;
+    border-top-right-radius: 48px;
+
+    /* Flex for content layout if needed */
+    flex-direction: row;
+    justify-content: space-around; /* optional, adjust as needed */
+    align-items: center;
+    
+    padding-top: 12px; /* optional, for spacing inside curve */
+}
+
+
+
+
+
+/* Default nav button */
+.nav-footer-button {
+    background-color: transparent;
+    padding: 8px;
+   
+}
+
+/* Icon inside the button */
+.nav-footer-icon {
+    width: 96px;
+    height: 96px;
+    
+}
+

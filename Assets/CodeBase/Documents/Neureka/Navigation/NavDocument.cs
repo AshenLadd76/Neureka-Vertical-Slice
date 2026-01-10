@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using ToolBox.Extensions;
-using ToolBox.Messaging;
+using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
@@ -12,7 +11,7 @@ using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 using Random = UnityEngine.Random;
 
-namespace CodeBase.Documents.Neureka
+namespace CodeBase.Documents.Neureka.Navigation
 {
     public class NavDocument : BaseDocument
     {
@@ -20,9 +19,18 @@ namespace CodeBase.Documents.Neureka
         
         private readonly List<VisualElement> _allPages = new();
 
+        private const string NavIconResourcePath = "Navigation/NavIconsSo";
+
         private VisualElement _navRoot;
         private VisualElement _content;
         private ScrollView _scrollView;
+        
+        private List<Image> _imageList = new();
+        
+        private Color unSelectedColor = new Color(.56f, .74f, .89f, 1f);  
+        private Color selectedColor = new Color(1f, 1f, 1f, 1f);
+        
+       
 
         public override bool ShouldCache => true;
 
@@ -41,6 +49,8 @@ namespace CodeBase.Documents.Neureka
             LoadSectionDataList();
             
             _navRoot = new ContainerBuilder().AddClass(UssClassNames.MainContainer).AttachTo(DocumentRoot).Build();
+            
+            var header = new ContainerBuilder().AddClass(NavUssClassNames.NavHeader).AttachTo(_navRoot).Build();
             
             //Build content
             _content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(_navRoot).Build();
@@ -115,23 +125,63 @@ namespace CodeBase.Documents.Neureka
         }
         private void BuildFooter()
         {
+            
+            Logger.Log( $"Loading nav icons" );
+            var iconList = LoadNavIcons();
+
+            if (iconList.IsNullOrEmpty())
+            {
+                Logger.LogError("Loading nav icons failed ...icon list is empty");
+            }
+            
+            
             //Build footer
-            var footer = new ContainerBuilder().AddClass(UssClassNames.FooterContainer).AttachTo(_navRoot).Build();
+            var footer = new ContainerBuilder().AddClass(NavUssClassNames.NaVFooter).AttachTo(_navRoot).Build();
             
             Logger.Log($"All pages count : {_allPages.Count}");
+            
+            _imageList.Clear();
             
             for (int i = 0; i < _allPages.Count; i++)
             {
                 int index = i;
                 
-                var footerButton = new ButtonBuilder().AddClass(UssClassNames.FooterButton).OnClick(() =>
+                var footerButton = new ContainerBuilder().AddClass(NavUssClassNames.NavFooterButton).OnClick(() =>
                 {
                     if (_allPages.IsNullOrEmpty()) return;
                     
+                    SelectIconImage(index);
                     SelectNavPage(_allPages[index]);
                         
                 }).AttachTo(footer).Build();
+
+
+                if (i < iconList.Count)
+                {
+                    Logger.Log( $"Adding Icon: {iconList[i].Name}" );
+                    var iconImage = new ImageBuilder().SetSprite(iconList[i].Selected).AddClass(NavUssClassNames.NavFooterIcon).AttachTo(footerButton).Build();
+                    
+                    iconImage.tintColor = unSelectedColor;
+                    
+                    _imageList.Add(iconImage);
+                }
+                else
+                    Logger.LogWarning($"No nav icon assigned for page index {i}");
             }
+            
+            SelectIconImage(0);
+        }
+
+        private List<NavIcon> LoadNavIcons()
+        {
+            var navIconsSO = Resources.Load<NavigationIconsSo>(NavIconResourcePath);
+
+            if (navIconsSO != null && !navIconsSO.NavIconList.IsNullOrEmpty()) return navIconsSO.NavIconList;
+            
+            Debug.LogError("Failed to load NavIcons SO!");
+            
+            return new List<NavIcon>();
+
         }
 
 
@@ -154,6 +204,16 @@ namespace CodeBase.Documents.Neureka
                 page.style.display = page == pageToShow ? DisplayStyle.Flex : DisplayStyle.None;
             }
             
+        }
+
+        private void SelectIconImage(int index)
+        {
+            if (!_imageList.IsIndexValid(index)) return;
+            
+            foreach (var image in _imageList)
+                image.tintColor = unSelectedColor;
+            
+            _imageList[index].tintColor = selectedColor;
         }
         
         
@@ -185,47 +245,14 @@ namespace CodeBase.Documents.Neureka
         }
 
     }
-    
-    public static class MenuActions
+
+
+    public static class NavUssClassNames
     {
-        public static Action RequestDocument(string questionnaireId)
-        {
-            return () => 
-            {
-                Logger.Log( $"{questionnaireId}" );
-                MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors );
-            };
-        }
-    }
-
-
-    public class SectionData
-    {
-        public string Title { get; set; }
-        public int CardCount { get; set; }
-        public Color Color { get; set; }
-        
-        public string DcoumentID { get; set; }
-
-        // Constructor with validation
-        public SectionData(string title, int cardCount, Color color, string dcoumentID)
-        {
-            if (string.IsNullOrWhiteSpace(title))
-                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
-
-            if (cardCount < 0)
-                throw new ArgumentOutOfRangeException(nameof(cardCount), "CardCount cannot be negative.");
-
-            // Color is a struct, it can't be null, but you can add checks if needed
-            // For example, you might not want fully transparent colors:
-            if (color.a < 0f || color.a > 1f)
-                throw new ArgumentOutOfRangeException(nameof(color), "Color alpha must be between 0 and 1.");
-
-            Title = title;
-            CardCount = cardCount;
-            Color = color;
-            DcoumentID = dcoumentID;
-        }
-        
+        public const string NavHeader = "nav-header-container";
+        public const string NaVFooter = "nav-footer-container";
+        public const string NavFooterButton = "nav-footer-button";
+        public const string NavFooterIcon = "nav-footer-icon";
+       
     }
 }

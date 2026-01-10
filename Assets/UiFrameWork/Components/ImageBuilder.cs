@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using Logger = ToolBox.Utils.Logger;
 
 namespace UiFrameWork.Builders
 {
@@ -9,15 +10,26 @@ namespace UiFrameWork.Builders
         
         public ImageBuilder SetSprite(Sprite sprite)
         {
-            if (sprite == null) return this;
+            if (sprite == null)
+            {
+                Logger.LogError( $"Supplied Sprite is null" );
+                return this;
+            }
+            
+            Logger.Log( $"Sprite is aok !!!!!" );
+
             VisualElement.sprite = sprite;
             return this;
         }
 
         public ImageBuilder SetTexture(Texture2D texture)
         {
-            if (texture == null) return this;
-            
+            if (texture == null)
+            {
+                Logger.LogError( $"Supplied Texture is null" );
+                return this;
+            }
+
             _texture = texture;
             VisualElement.image = texture;
             return this;

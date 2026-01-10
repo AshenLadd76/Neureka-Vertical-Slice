@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
+using CodeBase.Documents.Neureka.Navigation;
 using CodeBase.Helpers;
 
 using ToolBox.Extensions;
