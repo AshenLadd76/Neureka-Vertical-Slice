@@ -5,7 +5,7 @@
     flex-direction: column; /* vertical stacking */
     justify-content: flex-start; /* default top to bottom */
     align-items: stretch;      /* children stretch to width */
-    background-color: #111;    /* placeholder background */
+    background-color: #fff;    /* placeholder background */
 }
 
 
@@ -165,7 +165,13 @@
      background-color: #F7F8FA;
     margin-bottom: 50px;       /* spacing between cards */
     border-radius: 48px;        /* optional rounded corners */
-    padding: 0px;
+    border-top-width: 0px;
+    border-right-width: 4px;
+    border-bottom-width: 8px;
+    border-left-width: 0px;
+    border-color: #eaeaea; /* medium grey */
+
+
 }
 
 .menu-card-icon-contiainer {
@@ -178,10 +184,8 @@
     justify-content: center;
     align-items: center;
 
-    border-top-left-radius: 48px;
-    border-bottom-left-radius: 48px;
-
-    unity-box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.25);
+    border-top-left-radius: 46px;
+    border-bottom-left-radius: 46px;
 }
 
 .menu-card-icon {
@@ -206,6 +210,7 @@
     border-top-right-radius: 48px;
     border-bottom-right-radius: 48px;
     background-color: #F7F8FA;
+ 
 }
 
 .menu-card-right-container {

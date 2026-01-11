@@ -16,11 +16,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         
         private AssessmentState _currentAssessmentState;
         
-        public RiskFactorsData RiskFactorsData
-        {
-            get => _riskFactorsData;
-            set => _riskFactorsData = value;
-        }
         
         public RiskFactorsDataHandler(IFileDataService fileDataService)
         {
@@ -39,6 +34,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
             _riskFactorsData = new RiskFactorsData
             {
+                //Demo questionnaires
                 AssessmentIdList = new List<string>
                 {
                     "hhi-10",
@@ -59,10 +55,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         
         public bool CheckForEndAssessment() => _riskFactorsData == null || _riskFactorsData.ProgressIndex >= _riskFactorsData.AssessmentIdList.Count;
         
-        private void LoadRiskFactorsData()
-        {
-            _riskFactorsData = _fileDataService.Load<RiskFactorsData>(Directory, FileName).Value;
-        }
+        private void LoadRiskFactorsData() => _riskFactorsData = _fileDataService.Load<RiskFactorsData>(Directory, FileName).Value;
+        
 
         public void DeleteAssessmentData()
         {
@@ -71,7 +65,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             _riskFactorsData = null;
             
             _currentAssessmentState = AssessmentState.New;
-
         }
         
         public void IncrementProgressIndex()
@@ -99,18 +92,12 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
                 LoadRiskFactorsData();
 
             if (_riskFactorsData == null)
-            {
                 _currentAssessmentState = AssessmentState.New;
-            }
             else if (_riskFactorsData.ProgressIndex >= _riskFactorsData.AssessmentIdList.Count)
-            {
                 _currentAssessmentState = AssessmentState.Completed;
-            }
             else
-            {
                 _currentAssessmentState = AssessmentState.Continuing;
-            }
-
+            
             return _currentAssessmentState;
         }
         

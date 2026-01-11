@@ -11,6 +11,18 @@
     border-radius: 1px;
 }
 
+/* Header logo */
+.header-logo {
+    width: 256px;         /* adjust size as needed */
+    height: 128px;
+    padding-left: 16px;         /* adjust height */
+    
+    background-size: contain;              /* scale to fit while keeping aspect ratio */
+    background-repeat: no-repeat;          /* don’t tile the image */
+    background-position: left center;      /* align to left center */
+}
+
+
 /* Header image on the left */
 .nav-header-image {
     width: 64px;   /* fixed size, adjust as needed */

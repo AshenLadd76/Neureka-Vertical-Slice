@@ -3,6 +3,7 @@ using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using ToolBox.Extensions;
+using ToolBox.Utils;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
@@ -20,6 +21,7 @@ namespace CodeBase.Documents.Neureka.Navigation
         private readonly List<VisualElement> _allPages = new();
 
         private const string NavIconResourcePath = "Navigation/NavIconsSo";
+        private const string LogoTexturePath = "Sprites/Neureka/logo_neureka";
 
         private VisualElement _navRoot;
         private VisualElement _content;
@@ -27,8 +29,9 @@ namespace CodeBase.Documents.Neureka.Navigation
         
         private List<Image> _imageList = new();
         
-        private Color unSelectedColor = new Color(.56f, .74f, .89f, 1f);  
-        private Color selectedColor = new Color(1f, 1f, 1f, 1f);
+        private Color _unSelectedColor = new Color(.56f, .74f, .89f, 1f);  
+        private Color _selectedColor = new Color(1f, 1f, 1f, 1f);
+        private Color _logoColor = new Color(.2f, .5f, .8f, 1f);
         
        
 
@@ -51,6 +54,16 @@ namespace CodeBase.Documents.Neureka.Navigation
             _navRoot = new ContainerBuilder().AddClass(UssClassNames.MainContainer).AttachTo(DocumentRoot).Build();
             
             var header = new ContainerBuilder().AddClass(NavUssClassNames.NavHeader).AttachTo(_navRoot).Build();
+            
+            var logo = new ContainerBuilder().AddClass(NavUssClassNames.NavHeaderLogo).AttachTo(header).Build();
+            
+            var logoTexture = Resources.Load<Texture2D>("Sprites/Neureka/logo_neureka");
+            Logger.Log(logoTexture != null ? "Loaded successfully!" : "Failed to load!");
+            
+            
+            var logoImage = new ImageBuilder().SetTexture(logoTexture).AddClass("header-logo").AttachTo(logo).Build();
+
+            logoImage.tintColor = _logoColor;
             
             //Build content
             _content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(_navRoot).Build();
@@ -108,7 +121,7 @@ namespace CodeBase.Documents.Neureka.Navigation
 
             for (int x = 0; x < sectionData.CardCount; x++)
             {
-                new MenuCardBuilder()
+                var card = new MenuCardBuilder()
                     .SetParent(container)
                     .SetTitle($"{sectionData.Title}")
                     .SetProgress(Random.Range(0f, 1f))
@@ -161,7 +174,7 @@ namespace CodeBase.Documents.Neureka.Navigation
                     Logger.Log( $"Adding Icon: {iconList[i].Name}" );
                     var iconImage = new ImageBuilder().SetSprite(iconList[i].Selected).AddClass(NavUssClassNames.NavFooterIcon).AttachTo(footerButton).Build();
                     
-                    iconImage.tintColor = unSelectedColor;
+                    iconImage.tintColor = _unSelectedColor;
                     
                     _imageList.Add(iconImage);
                 }
@@ -211,9 +224,9 @@ namespace CodeBase.Documents.Neureka.Navigation
             if (!_imageList.IsIndexValid(index)) return;
             
             foreach (var image in _imageList)
-                image.tintColor = unSelectedColor;
+                image.tintColor = _unSelectedColor;
             
-            _imageList[index].tintColor = selectedColor;
+            _imageList[index].tintColor = _selectedColor;
         }
         
         
@@ -250,6 +263,7 @@ namespace CodeBase.Documents.Neureka.Navigation
     public static class NavUssClassNames
     {
         public const string NavHeader = "nav-header-container";
+        public const string NavHeaderLogo = "nav-header-logo";
         public const string NaVFooter = "nav-footer-container";
         public const string NavFooterButton = "nav-footer-button";
         public const string NavFooterIcon = "nav-footer-icon";

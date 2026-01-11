@@ -57,8 +57,12 @@ namespace CodeBase.Documents
         
         public void OpenPage(PageID id)
         {
-            if (ActivePages.IsNullOrEmpty()) return;
-            
+            if (ActivePages.IsNullOrEmpty())
+            {
+                Logger.Log( $"OpenPage() starting...Acitve pages are empty" );
+                return;
+            }
+
             var pageToOpen = ActivePages[id];
             
             pageToOpen.PageIdentifier = id;
