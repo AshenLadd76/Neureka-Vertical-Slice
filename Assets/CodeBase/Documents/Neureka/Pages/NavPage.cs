@@ -58,7 +58,7 @@ namespace CodeBase.Documents.Neureka.Pages
                     .SetTitle($"{sectionData.Title}")
                     .SetProgress(Random.Range(0f, 1f))
                     .SetIconBackgroundColor( sectionData.Color )
-                    .SetAction(MenuActions.RequestDocument(sectionData.DcoumentID))
+                    .SetAction(MenuActions.RequestQuestionnaire(sectionData.DcoumentID))
                     .Build();
             }
             

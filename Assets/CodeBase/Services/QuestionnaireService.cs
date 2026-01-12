@@ -24,30 +24,34 @@ namespace CodeBase.Services
     public class QuestionnaireService : BaseService
     {
         // Reference to the UIDocument containing the root UI element.
-        private UIDocument _uiDocument;
+        private UiDocumentManager _uiDocumentManager;
         
         // Root VisualElement parent of all questionnaires
         private VisualElement _rootVisualElement;
+        private VisualElement _safeAreaContainer;
         
         //Dictionary of scriptable objects that contain questionniare data
         private readonly Dictionary<string, StandardQuestionnaireSo> _standardQuestionnaires = new();
+        
+        private IReadOnlyDictionary<string, StandardQuestionnaireSo> StandardQuestionnaires => _standardQuestionnaires;
         
         private ISerializer _jsonSerializer;
         
         private const string PathToQuestionnaires = "Questionnaires";
         public const string OnRequestQuestionnaireMessage = "OnRequestQuestionnaire";
         public const string OnRequestAssessmentQuestionnaireMessage = "OnRequestAssessmentQuestionnaire";
+        public const string OnRequestAllQuestionnaireDataMessage= "OnRequestAllQuestionnaireData";
         
         private void Awake() => Init();
         
 
         private void Init()
         {
-            _uiDocument = GetComponent<UIDocument>();
+            _uiDocumentManager = GetComponent<UiDocumentManager>();
             
-            ObjectValidator.Validate(_uiDocument);
-            
-            _rootVisualElement = _uiDocument.rootVisualElement;
+            ObjectValidator.Validate(_uiDocumentManager);
+
+            _safeAreaContainer = _uiDocumentManager.SafeAreaContainer;
             
             _jsonSerializer = new JsonSerializer();
             
@@ -90,8 +94,6 @@ namespace CodeBase.Services
 
                 if (!_standardQuestionnaires.TryAdd(normalizedId, standardQuestionnaireSo))
                     Logger.LogWarning($"Duplicate questionnaire ID: {rawId}");
-                else
-                    Logger.Log($"Added questionnaire ID: {rawId}");
             }
         }
         
@@ -133,7 +135,7 @@ namespace CodeBase.Services
                 return;
             }
             
-            var builder = new QuestionnairePageBuilder(data, _rootVisualElement, _jsonSerializer, parentDocument, onComplete);
+            var builder = new QuestionnairePageBuilder(data, _safeAreaContainer, _jsonSerializer, parentDocument, onComplete);
             
             builder.Build();
         }
@@ -154,6 +156,12 @@ namespace CodeBase.Services
         /// <param name="parentDocument">The parent document for an assessment, only relevant if questionnaire is called from an assessment</param> 
         /// <param name="onComplete">Callback to invoke when the assessment is complete.</param>
         private void OnRequestAssessmentQuestionnaire(string id,IDocument parentDocument, Action onComplete) => BuildQuestionnairePage(id,parentDocument,onComplete);
+
+
+        private void OnRequestAllQuestionnaireData(Action<IReadOnlyDictionary<string, StandardQuestionnaireSo> > callback)
+        {
+            callback?.Invoke(StandardQuestionnaires);
+        }
        
         
         // Subscribes to message bus events when the service is enabled.
@@ -161,6 +169,8 @@ namespace CodeBase.Services
         {
             MessageBus.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
             MessageBus.AddListener<string, IDocument,  Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
+            MessageBus.AddListener<Action<IReadOnlyDictionary<string, StandardQuestionnaireSo>>>( OnRequestAllQuestionnaireDataMessage, OnRequestAllQuestionnaireData );
+            
 
         }
 

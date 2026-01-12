@@ -166,8 +166,8 @@
     margin-bottom: 50px;       /* spacing between cards */
     border-radius: 48px;        /* optional rounded corners */
     border-top-width: 0px;
-    border-right-width: 4px;
-    border-bottom-width: 8px;
+    border-right-width: 5px;
+    border-bottom-width: 10px;
     border-left-width: 0px;
     border-color: #eaeaea; /* medium grey */
 

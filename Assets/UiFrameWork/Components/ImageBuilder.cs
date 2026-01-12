@@ -32,6 +32,7 @@ namespace UiFrameWork.Builders
 
             _texture = texture;
             VisualElement.image = texture;
+            
             return this;
         }
 
@@ -63,7 +64,7 @@ namespace UiFrameWork.Builders
             return this;
         }
 
-        public ImageBuilder SetTent(Color color)
+        public ImageBuilder SetTint(Color color)
         {
             VisualElement.tintColor = color;
             return this;

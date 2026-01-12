@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
+using CodeBase.Services;
+using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
-using ToolBox.Utils;
+using ToolBox.Messaging;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
-using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -32,6 +34,8 @@ namespace CodeBase.Documents.Neureka.Navigation
         private Color _unSelectedColor = new Color(.56f, .74f, .89f, 1f);  
         private Color _selectedColor = new Color(1f, 1f, 1f, 1f);
         private Color _logoColor = new Color(.2f, .5f, .8f, 1f);
+
+        private IReadOnlyDictionary<string, StandardQuestionnaireSo> _standardQuestionnaireDictionary;
         
        
 
@@ -72,6 +76,8 @@ namespace CodeBase.Documents.Neureka.Navigation
 
             var topSpacer = new ContainerBuilder().AddClass("scrollview-top-spacer").AttachTo(_scrollView).Build();
            
+            MessageBus.Broadcast<Action<IReadOnlyDictionary<string, StandardQuestionnaireSo>>>( QuestionnaireService.OnRequestAllQuestionnaireDataMessage, QuestionnaireDataDictionaryCallBack );
+            
             LoadNavSections(_scrollView); 
            
             BuildFooter();
@@ -86,7 +92,6 @@ namespace CodeBase.Documents.Neureka.Navigation
             base.Open(root);
             
             Logger.Log($"Opening Nav Document { _allPages.Count }");
-           
             
             _navRoot.style.display = DisplayStyle.Flex;
             _content.style.display = DisplayStyle.Flex;
@@ -118,17 +123,34 @@ namespace CodeBase.Documents.Neureka.Navigation
         private VisualElement BuildNavSection(ScrollView scrollView, SectionData sectionData)
         {
             var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+            
+            var blurb  = _standardQuestionnaireDictionary[sectionData.DcoumentID.ToLower().Trim()].Data.QuestionnaireDescription;
+            var icon = _standardQuestionnaireDictionary[sectionData.DcoumentID.ToLower().Trim()].Icon;
+            
+            var card = new MenuCardBuilder()
+                .SetParent(container)
+                .SetTitle($"{sectionData.Title}")
+                .SetBlurb(blurb)
+                .SetIcon(icon)
+                .SetProgress(Random.Range(0f, 1f))
+                .SetIconBackgroundColor( sectionData.Color )
+                .SetAction(MenuActions.RequestQuestionnaire(sectionData.DcoumentID))
+                .Build();
+            
+            
+            
 
-            for (int x = 0; x < sectionData.CardCount; x++)
-            {
-                var card = new MenuCardBuilder()
-                    .SetParent(container)
-                    .SetTitle($"{sectionData.Title}")
-                    .SetProgress(Random.Range(0f, 1f))
-                    .SetIconBackgroundColor( sectionData.Color )
-                    .SetAction(MenuActions.RequestDocument(sectionData.DcoumentID))
-                    .Build();
-            }
+            // for (int x = 0; x < sectionData.CardCount; x++)
+            // {
+            //     var card = new MenuCardBuilder()
+            //         .SetParent(container)
+            //         .SetTitle($"{sectionData.Title}")
+            //       
+            //         .SetProgress(Random.Range(0f, 1f))
+            //         .SetIconBackgroundColor( sectionData.Color )
+            //         .SetAction(MenuActions.RequestQuestionnaire(sectionData.DcoumentID))
+            //         .Build();
+            // }
             
             container.style.display = DisplayStyle.Flex;
             
@@ -234,10 +256,10 @@ namespace CodeBase.Documents.Neureka.Navigation
         {
             _sectionDataList.Clear();
             
-            _sectionDataList.Add( new SectionData( "RiskFactors", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), nameof(DocumentID.RiskFactors)));
-            _sectionDataList.Add( new SectionData( "Games", 23, new Color(0.172549f, 0.66f, 0.78f, 1f), "CESD-20"));
-            _sectionDataList.Add( new SectionData( "Assessment", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "CESD-20" ));
-            _sectionDataList.Add(new SectionData("Settings", 1, new Color(0.6f, 0.61f, 0.98f, 1f), "CESD-20")); 
+            _sectionDataList.Add( new SectionData( "Hearing", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "HHI-10"));
+           // _sectionDataList.Add( new SectionData( "Games", 23, new Color(0.172549f, 0.66f, 0.78f, 1f), "CESD-20"));
+            //_sectionDataList.Add( new SectionData( "Assessment", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "CESD-20" ));
+          //  _sectionDataList.Add(new SectionData("Settings", 1, new Color(0.6f, 0.61f, 0.98f, 1f), "CESD-20")); 
         }
 
         public virtual void ShowRootAndActivePage()
@@ -254,6 +276,22 @@ namespace CodeBase.Documents.Neureka.Navigation
 
                 // Show only the last selected page, or the first page
                 page.style.display = page == _lastSelectedPage ? DisplayStyle.Flex : DisplayStyle.None;
+            }
+        }
+
+        private void QuestionnaireDataDictionaryCallBack( IReadOnlyDictionary<string, StandardQuestionnaireSo> dictionary )
+        {
+            if (dictionary.IsNullOrEmpty())
+            {
+                Logger.LogError( $"Dictionary is null or empty!" );
+                return;
+            }
+
+            _standardQuestionnaireDictionary = dictionary;
+
+            foreach (var item in _standardQuestionnaireDictionary)
+            {
+                Logger.Log( $"{item.Key}: {item.Value}" );
             }
         }
 

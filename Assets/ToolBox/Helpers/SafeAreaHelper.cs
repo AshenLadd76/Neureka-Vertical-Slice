@@ -47,7 +47,7 @@ namespace ToolBox.Helpers
 
             // Set padding in pixels correctly
             _rootVisualElement.style.paddingTop = safeArea.yMin;
-            _rootVisualElement.style.paddingBottom = Screen.height - safeArea.yMax;
+            _rootVisualElement.style.paddingBottom = safeArea.y;
             _rootVisualElement.style.paddingLeft = safeArea.xMin;
             _rootVisualElement.style.paddingRight = Screen.width - safeArea.xMax;
 

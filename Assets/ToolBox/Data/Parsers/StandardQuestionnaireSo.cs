@@ -8,8 +8,11 @@ namespace ToolBox.Data.Parsers
     public class StandardQuestionnaireSo : ScriptableObject
     {
         [SerializeField] private StandardQuestionnaireTemplate data;
+        [SerializeField] private Sprite icon;
 
         public StandardQuestionnaireTemplate Data => data;
+
+        public Sprite Icon { get; set; }
 
         public void SetData(StandardQuestionnaireTemplate template)
         {
@@ -18,6 +21,12 @@ namespace ToolBox.Data.Parsers
             EditorUtility.SetDirty(this); // Marks the asset dirty so Unity saves changes
 #endif
         }
+
+        public void SetIcon(Sprite sprite)
+        {
+            icon = sprite;
+        }
+        
     }
     
 }

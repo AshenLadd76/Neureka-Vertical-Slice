@@ -12,7 +12,9 @@ namespace CodeBase.Questionnaires
         [SerializeField] private string assessmentId;
         [SerializeField] private string questionnaireID;
         [SerializeField] private string questionnaireName;
+        [SerializeField] private string questionnaireIntroductionImage;
         [SerializeField] private string questionnaireDescription;
+        [SerializeField] private string questionnaireIntroduction;
         [SerializeField] private string questionnaireIcon;
         [SerializeField] private string[] questions;
         [SerializeField] private string[] answers;
@@ -27,6 +29,11 @@ namespace CodeBase.Questionnaires
         public string AssessmentId { get => assessmentId; set => assessmentId = value; }
         public string QuestionnaireID { get => questionnaireID; set => questionnaireID = value; }
         public string QuestionnaireName { get => questionnaireName; set => questionnaireName = value; }
+        
+        public string QuestionnaireIntroduction { get => questionnaireIntroduction; set => questionnaireIntroduction = value; }
+        
+        public string QuestionnaireIntroductionImage { get => questionnaireIntroductionImage; set => questionnaireIntroductionImage = value; }
+        
         public string QuestionnaireDescription { get => questionnaireDescription; set => questionnaireDescription = value; }
         public string QuestionnaireIcon { get => questionnaireIcon; set => questionnaireIcon = value; }
         public string[] Questions { get => questions; set => questions = value; }

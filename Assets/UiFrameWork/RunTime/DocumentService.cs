@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CodeBase;
 using CodeBase.Documents;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
@@ -11,6 +12,7 @@ using ToolBox.Services;
 using ToolBox.Services.Data;
 using ToolBox.Services.Encryption;
 using ToolBox.Utils.Validation;
+using UiFrameWork.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -24,9 +26,11 @@ namespace UiFrameWork.RunTime
 
         private Dictionary<DocumentID, IDocument> _cachedDocuments;
         
-        [Validate] private UIDocument _uiDocument;
+        [Validate] private UiDocumentManager _uiDocumentManager;
         
-        [Validate] private VisualElement _rootVisualElement;
+        [Validate] private VisualElement _safeAreaContainer;
+        
+        
         
         [Validate] private IFileDataService _fileDataService;
         
@@ -50,9 +54,10 @@ namespace UiFrameWork.RunTime
 
         private void InitUi()
         {
-            _uiDocument = GetComponent<UIDocument>();
-            
-            _rootVisualElement = _uiDocument.rootVisualElement;
+            _uiDocumentManager = GetComponent<UiDocumentManager>();
+
+            _safeAreaContainer = _uiDocumentManager.SafeAreaContainer;
+
         }
         
         private void InitFileDataService() => _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), DefaultFileExtension);
@@ -76,7 +81,7 @@ namespace UiFrameWork.RunTime
         {
             if (_cachedDocuments.TryGetValue(documentID, out var activeDocument))
             {
-                _cachedDocuments[documentID].Open(_rootVisualElement);
+                _cachedDocuments[documentID].Open(_safeAreaContainer);
                 return;
             }
             
@@ -94,8 +99,8 @@ namespace UiFrameWork.RunTime
                 _cachedDocuments[documentID] = document;
             }
 
-            document.Build(_rootVisualElement);
-            document.Open(_rootVisualElement);
+            document.Build(_safeAreaContainer);
+            document.Open(_safeAreaContainer);
         }
         
         protected override void SubscribeToService() => MessageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );

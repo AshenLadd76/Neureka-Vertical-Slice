@@ -5,6 +5,7 @@ using CodeBase.Questionnaires;
 using ToolBox.Helpers;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using JsonSerializer = ToolBox.Helpers.JsonSerializer;
 using Logger = ToolBox.Utils.Logger;
 
@@ -23,6 +24,8 @@ namespace ToolBox.Data.Parsers
         [SerializeField] private string questionnaireSavePath = "Assets/Resources/Questionnaires/";
         [SerializeField] private string questionnaireSuffix = "_questionnaire";
         [SerializeField] private string textAssetExt = ".asset";
+        
+        [SerializeField] private Sprite iconImage;
         
         private ISerializer _serializer;
 
@@ -62,6 +65,31 @@ namespace ToolBox.Data.Parsers
             standardQuestionnaireTemplate = wrapper.Questionnaire;
             
             BuildQuestionnaireSo(pathToSourceFile);
+
+            
+        }
+
+
+        private const string iconPath = "Sprites/Questionnaires/";
+        private Sprite LoadIconImage(string iconName)
+        {
+            if (string.IsNullOrEmpty(iconName))
+            {
+                Logger.LogError("The icon name is null or empty");
+                return null;
+            }
+            
+            Logger.Log(iconPath + iconName);
+            
+            var sprite = Resources.Load<Sprite>(iconPath + iconName);
+
+            if (sprite == null)
+            {
+                Logger.LogError("The icon resource could not be found: " + iconPath + iconName);
+                return null;
+            }
+            
+            return sprite;
         }
         
         /// <summary>
@@ -74,7 +102,17 @@ namespace ToolBox.Data.Parsers
         {
             var asset = CreateInstance<StandardQuestionnaireSo>();
             
-            asset.SetData( standardQuestionnaireTemplate ); 
+            asset.SetData( standardQuestionnaireTemplate );
+
+            var icon = LoadIconImage(standardQuestionnaireTemplate.QuestionnaireIcon);
+
+            if (!icon)
+            {
+                Logger.LogError( $"Icon could not be loaded from {pathToSourceFile}" );
+            }
+
+            asset.SetIcon(icon);
+            
             asset.name = $"{standardQuestionnaireTemplate.ScientificId}{questionnaireSuffix}";
 
             var fileName = $"{standardQuestionnaireTemplate.ScientificId}{textAssetExt}";
@@ -85,6 +123,10 @@ namespace ToolBox.Data.Parsers
                 Directory.CreateDirectory(questionnaireSavePath);
                 Logger.Log($"Created folder: {questionnaireSavePath}");
             }
+//             
+// #if UNITY_EDITOR       
+//             EditorUtility.SetDirty(asset);
+// #endif
             
             try
             {
@@ -102,7 +144,6 @@ namespace ToolBox.Data.Parsers
             
             if (!DeleteSourceFile(pathToSourceFile))
                 Logger.LogWarning($"Failed to delete source file: {pathToSourceFile}");
-
         }
     }
 }
