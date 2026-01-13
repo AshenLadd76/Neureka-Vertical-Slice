@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using CodeBase.Services;
@@ -37,14 +36,10 @@ namespace CodeBase.Documents.Neureka.Navigation
 
         private IReadOnlyDictionary<string, StandardQuestionnaireSo> _standardQuestionnaireDictionary;
         
-       
-
         public override bool ShouldCache => true;
 
         public override void Build(VisualElement root)
         {
-            Logger.Log("Building Nav Document");
-            
             if (root == null)
             {
                 Logger.Log("Splash Page Build Failed");
@@ -52,8 +47,6 @@ namespace CodeBase.Documents.Neureka.Navigation
             }
             
             base.Build(root);
-            
-           // LoadSectionDataList();
             
             _navRoot = new ContainerBuilder().AddClass(UssClassNames.MainContainer).AttachTo(DocumentRoot).Build();
             

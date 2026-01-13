@@ -10,6 +10,11 @@ namespace ToolBox.Services.Haptics
         
         private void Awake()
         {
+           InitHapticCongiguration();
+        }
+
+        private void InitHapticCongiguration()
+        {
             _hapticConfigs.Add( HapticType.Low, new HapticConfig( 50, 75 ) );
             _hapticConfigs.Add( HapticType.Medium, new HapticConfig( 200, 150 ) );
             _hapticConfigs.Add( HapticType.High, new HapticConfig( 250, 225 ) );

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Questionnaires;
@@ -18,7 +17,6 @@ namespace CodeBase.UiComponents.Pages
 {
     public class QuestionnairePageBuilder
     {
-        
         private const string ImagePath = "Assessments/RiskFactors/Images/";
         private const string MainContainerStyle = "fullscreen-container";
         private readonly int _questionCount;
@@ -167,22 +165,18 @@ namespace CodeBase.UiComponents.Pages
         private void ConfirmQuit()
         {
             HapticsHelper.RequestHaptics();
-            Logger.Log( $"Quitting the questionnaire { _questionnaireData.QuestionnaireName }" );
-            //Quit the questionnaire so load the navpage...
+  
             MessageBus.Broadcast( DocumentServiceMessages.OnRequestOpenDocument.ToString(), DocumentID.Nav );
+            
             Close();
         }
 
-        private void CancelQuit()
-        {
-            HapticsHelper.RequestHaptics();
-            Logger.Log( $"Canceling the quit!!!" );
-        }
-
+        private void CancelQuit() => HapticsHelper.RequestHaptics();
+           
+        
         private void ConfirmFinished()
         {
             HapticsHelper.RequestHaptics(); 
-            Logger.Log($"Quitting the questionnaire");
             
             _onFinished?.Invoke();
             

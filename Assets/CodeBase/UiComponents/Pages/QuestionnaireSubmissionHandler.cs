@@ -28,8 +28,7 @@ namespace CodeBase.UiComponents.Pages
         {
             try
             {
-                var questionnaireData = new QuestionnaireDataBuilder().SetTemplate(_questionnaireData)
-                    .SetAnswers(_answerDataDictionary).Build();
+                var questionnaireData = new QuestionnaireDataBuilder().SetTemplate(_questionnaireData).SetAnswers(_answerDataDictionary).Build();
 
                 var jsonData = _jsonSerializer.Serialize(questionnaireData);
 

@@ -20,6 +20,7 @@ namespace CodeBase.Bootstrap
         public static void Execute()
         {
             var systemPrefab = Resources.Load<GameObject>(ResourceToLoad);
+            
             if (systemPrefab == null)
             {
                 Debug.LogError($"Failed to find the \"{ResourceToLoad}\" prefab resource. Make sure it exists in the Resources folder.");
