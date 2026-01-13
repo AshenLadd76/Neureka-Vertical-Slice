@@ -27,6 +27,8 @@ namespace ToolBox.Data.Importer
         private const string SearchForObject = "t:DispatchManagerSo"; 
         
         private const string SubPath = "Assets/";
+        
+        private const string TargetFolder = "Assets/Resources/Questionnaires";
 
 
         static FileImporter()
@@ -66,7 +68,11 @@ namespace ToolBox.Data.Importer
         public static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
             foreach (var assetPath in importedAssets)
+            {
+                if (!assetPath.StartsWith(TargetFolder)) continue;
+                
                 ProcessFile(assetPath);
+            }
         }
 
         /// <summary>

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a9ccd036c8e2b40b6b6c84d1b1c5a5, type: 3}
+  m_Name: SHAPS
+  m_EditorClassIdentifier: 
+  data:
+    playerId: 0001
+    scientificId: SHAPS
+    scientificName: Snaith-Hamilton Pleasure Scale
+    assessmentId: SHAPS-14
+    questionnaireID: SHAPS-14
+    questionnaireName: Snaith-Hamilton Pleasure Scale
+    questionnaireIntroductionImage: 
+    questionnaireDescription: Measure your ability to experience pleasure in everyday
+      activities.
+    questionnaireIntroduction: 
+    questionnaireIcon: 
+    questions:
+    - I would enjoy my favorite television or radio program.
+    - I would enjoy reading a book.
+    - I would enjoy a warm bath or shower.
+    - I would enjoy my favorite meal.
+    - I would enjoy a beautiful landscape or view.
+    - I would enjoy a pleasant conversation with a friend.
+    - I would enjoy a favorite hobby or pastime.
+    - I would enjoy a cup of tea or coffee.
+    - I would enjoy a social event with friends or family.
+    - I would enjoy a compliment from someone I respect.
+    - I would enjoy listening to my favorite music.
+    - I would enjoy shopping for something I like.
+    - I would enjoy a pleasant surprise.
+    - I would enjoy an unexpected gift.
+    answers:
+    - Strongly disagree
+    - Disagree
+    - Agree
+    - Strongly agree
+    reverseScored: 
+    answerComponentType: MultipleChoice
+  icon: {fileID: 0}

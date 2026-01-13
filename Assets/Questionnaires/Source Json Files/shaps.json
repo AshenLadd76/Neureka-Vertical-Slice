@@ -1,0 +1,40 @@
+{
+  "MetaData": {
+    "ParseType": "standard"
+  },
+  "Questionnaire": {
+    "PlayerId": "0001",
+    "ScientificId": "SHAPS",
+    "ScientificName": "Snaith-Hamilton Pleasure Scale",
+    "AssessmentId": "SHAPS-14",
+    "QuestionnaireID": "SHAPS-14",
+    "QuestionnaireName": "Snaith-Hamilton Pleasure Scale",
+    "QuestionnaireDescription": "Measure your ability to experience pleasure in everyday activities.",
+    "QuestionnireIntroduction":"The Snaith-Hamilton Pleasure Scale (SHAPS) is a self-report questionnaire designed to assess an individual’s ability to experience pleasure, known as hedonic capacity. It helps identify areas of reduced pleasure in daily life, which can be important for understanding emotional well-being and detecting anhedonia.",
+    "IconName": "shaps_icon",
+    "Questions": [
+      "I would enjoy my favorite television or radio program.",
+      "I would enjoy reading a book.",
+      "I would enjoy a warm bath or shower.",
+      "I would enjoy my favorite meal.",
+      "I would enjoy a beautiful landscape or view.",
+      "I would enjoy a pleasant conversation with a friend.",
+      "I would enjoy a favorite hobby or pastime.",
+      "I would enjoy a cup of tea or coffee.",
+      "I would enjoy a social event with friends or family.",
+      "I would enjoy a compliment from someone I respect.",
+      "I would enjoy listening to my favorite music.",
+      "I would enjoy shopping for something I like.",
+      "I would enjoy a pleasant surprise.",
+      "I would enjoy an unexpected gift."
+    ],
+    "Answers": [
+      "Strongly disagree",
+      "Disagree",
+      "Agree",
+      "Strongly agree"
+    ],
+    "ReverseScored": [],
+    "AnswerComponentType": "MultipleChoice"
+  }
+}

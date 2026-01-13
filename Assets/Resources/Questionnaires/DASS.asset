@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a9ccd036c8e2b40b6b6c84d1b1c5a5, type: 3}
+  m_Name: DASS
+  m_EditorClassIdentifier: 
+  data:
+    playerId: 0001
+    scientificId: DASS
+    scientificName: Depression Anxiety Stress Scale
+    assessmentId: DASS-21
+    questionnaireID: DASS-21
+    questionnaireName: Depression Anxiety Stress Scale
+    questionnaireIntroductionImage: intro_image_1
+    questionnaireDescription: A 21-item questionnaire measuring levels of depression,
+      anxiety, and stress.
+    questionnaireIntroduction: "The Depression, Anxiety, and Stress Scale (DASS)
+      is a self-report questionnaire designed to measure the severity of symptoms
+      across three emotional domains: depression, anxiety, and stress. \r\n\r\nIt
+      helps individuals understand their current emotional state and identify areas
+      that may benefit from support or intervention."
+    questionnaireIcon: 
+    questions:
+    - I found it hard to wind down.
+    - I was aware of dryness of my mouth.
+    - I couldn't seem to experience any positive feeling at all.
+    - I experienced breathing difficulty (e.g., excessively rapid breathing, breathlessness
+      in the absence of physical exertion).
+    - I found it difficult to work up the initiative to do things.
+    - I tended to over-react to situations.
+    - I experienced trembling (e.g., in the hands).
+    - I felt that I was using a lot of nervous energy.
+    - I was worried about situations in which I might panic and make a fool of myself.
+    - I felt down-hearted and blue.
+    - I found it difficult to relax.
+    - I felt I was close to panic.
+    - I was unable to become enthusiastic about anything.
+    - I felt I wasn't worth much as a person.
+    - I felt that I was rather touchy.
+    - I was aware of the action of my heart in the absence of physical exertion (e.g.,
+      sense of heart rate increase, heart missing a beat).
+    - I felt scared without any good reason.
+    - I felt that life was meaningless.
+    - I found myself getting agitated.
+    - I experienced nausea or stomach upset.
+    - I felt I had nothing to look forward to.
+    answers:
+    - Did not apply to me at all
+    - Some degree, or some of the time
+    - A good part of the time
+    - Most of the time
+    reverseScored: 
+    answerComponentType: MultipleChoice
+  icon: {fileID: 0}
