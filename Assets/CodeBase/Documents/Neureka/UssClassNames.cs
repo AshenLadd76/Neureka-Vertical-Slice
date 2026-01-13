@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace CodeBase.Documents.DemoA
+namespace CodeBase.Documents.Neureka
 {
     public static class UssClassNames 
     {

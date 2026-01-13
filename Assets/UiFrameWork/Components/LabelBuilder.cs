@@ -9,7 +9,7 @@ namespace UiFrameWork.Components
     {
         public LabelBuilder SetText(string text)
         {
-            VisualElement.text = text;
+            VisualElement.text = text ?? string.Empty;
             return this;
         }
 
@@ -51,18 +51,15 @@ namespace UiFrameWork.Components
             VisualElement.style.unityTextAlign = alignment;
             return this;
         }
-
-        public void Hide(bool hide)
-        {
-            VisualElement.style.display = hide ? DisplayStyle.Flex : DisplayStyle.None;
-         }
-
+        
         public LabelBuilder SetVisibility(Visibility visibility)
         {
             VisualElement.style.visibility = visibility;
             return this;
             
         }
+        
+        public void Hide(bool hide) => VisualElement.style.display = hide ? DisplayStyle.None : DisplayStyle.Flex;
         
     }
 }
