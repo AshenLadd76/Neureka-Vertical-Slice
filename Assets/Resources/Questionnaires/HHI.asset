@@ -16,8 +16,8 @@ MonoBehaviour:
     playerId: 0001
     scientificId: HHI
     scientificName: Hearing Handicap Inventory
-    assessmentId: HHI-10
-    questionnaireID: HHI-10
+    assessmentId: HHI
+    questionnaireID: HHI
     questionnaireName: Hearing Handicap Inventory
     questionnaireIntroductionImage: intro_image_1
     questionnaireDescription: A 10-item questionnaire assessing how hearing difficulties
@@ -26,11 +26,11 @@ MonoBehaviour:
       questionnaire designed to evaluate how hearing difficulties impact your daily
       life.
 
-      
 
-      It helps identify the emotional and social effects of
-      hearing loss, including challenges in conversations, social interactions, and
-      routine activities.'
+
+      It helps identify the emotional and social effects of hearing
+      loss, including challenges in conversations, social interactions, and routine
+      activities.'
     questionnaireIcon: hhi_icon
     questions:
     - Do you have difficulty hearing when someone speaks in a whisper?

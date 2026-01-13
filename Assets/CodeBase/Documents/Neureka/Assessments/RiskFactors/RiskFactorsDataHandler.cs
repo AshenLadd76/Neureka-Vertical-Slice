@@ -37,12 +37,12 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
                 //Demo questionnaires
                 AssessmentIdList = new List<string>
                 {
-                    "hhi-10",
+                    "HHI",
                     "AQ",
-                    "cesd-20",
-                    "sqs-30",
-                    "hhi-10",
-                    "cesd-20"
+                    "SQS",
+                    "DASS",
+                    "MCQ-30",
+                    "HRSI"
                 }
             };
             

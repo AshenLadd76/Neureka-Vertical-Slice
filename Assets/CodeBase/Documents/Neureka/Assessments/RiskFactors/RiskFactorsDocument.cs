@@ -11,7 +11,6 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 {
-    
     /// <summary>
     /// Controls the Risk Factors assessment document lifecycle.
     /// 
@@ -28,15 +27,12 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
     
     public class RiskFactorsDocument : BaseDocument
     {
-        private  RiskFactorsDataHandler _riskFactorsDataHandler;
+        private readonly RiskFactorsDataHandler _riskFactorsDataHandler;
         
         private const string RiskFactorsSoPath = "Assessments/RiskFactors/RiskFactorsSO";
         
         private RiskFactorsSO _riskFactorsSo;
-
-       // public override bool ShouldCache => true;
-
-
+        
         /// <summary>
         /// Creates a new RiskFactorsDocument instance.
         /// </summary>
@@ -113,8 +109,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
             var content = new InfoPageContent(title, buttonText, blurbs, onCompleted);
             
-           // PageRecipes[pageId] = () => new InfoPage(this, content);
-           
            ActivePages[pageId] = new InfoPage(this, content, DocumentRoot);
         }
         

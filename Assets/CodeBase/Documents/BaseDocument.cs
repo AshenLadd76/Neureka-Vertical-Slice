@@ -31,7 +31,6 @@ namespace CodeBase.Documents
         {
             if (DocumentRoot == null)
             {
-                Logger.Log( $"Document root is nulllllllllllll" );
                 return;
             }
 
@@ -43,11 +42,7 @@ namespace CodeBase.Documents
 
         public virtual void Build(VisualElement root)
         {
-            Logger.Log( $"BaseDocument.Build() starting..." );
-            
-            
             DocumentRoot = new ContainerBuilder().AddClass(UiStyleClassDefinitions.DocumentRoot).AttachTo(root).Build();
-            
         }
 
         private void SetDocumentRoot()

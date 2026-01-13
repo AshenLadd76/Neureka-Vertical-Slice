@@ -16,5 +16,14 @@ namespace CodeBase.Documents.Neureka.Navigation
                 MessageBus.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, questionnaireId );
             };
         }
+
+        public static Action RequestAssessment(string assessmentId)
+        {
+            return () => 
+            {
+                Logger.Log( $"{assessmentId}" );
+                MessageBus.Broadcast( QuestionnaireService.OnRequestQuestionnaireMessage, assessmentId );
+            };
+        }
     }
 }

@@ -16,8 +16,8 @@ MonoBehaviour:
     playerId: 0001
     scientificId: HRSI
     scientificName: Health-Related Stress Inventory
-    assessmentId: HRSI-20
-    questionnaireID: HRSI-20
+    assessmentId: HRSI
+    questionnaireID: HRSI
     questionnaireName: Health-Related Stress Inventory
     questionnaireIntroductionImage: intro_image_1
     questionnaireDescription: Assess your current stress levels and how they affect

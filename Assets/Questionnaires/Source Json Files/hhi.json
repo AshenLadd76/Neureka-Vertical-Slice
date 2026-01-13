@@ -6,9 +6,9 @@
         "PlayerId": "0001",
         "ScientificId": "HHI",
         "ScientificName": "Hearing Handicap Inventory",
-        "AssessmentId": "HHI-10",
-        "QuestionnaireID": "HHI-10",
-        "QuestionnaireName": "Hearing Handicap Inventory",
+        "AssessmentId": "HHI",
+        "QuestionnaireID": "HHI",
+        "QuestionnaireName": "Hearing",
         "QuestionnaireIntroductionImage": "intro_image_1",
         "QuestionnaireDescription": "A 10-item questionnaire assessing how hearing difficulties affects daily life.",
         "QuestionnaireIntroduction":"The Hearing Handicap Inventory (HHI) is a self-assessment questionnaire designed to evaluate how hearing difficulties impact your daily life.

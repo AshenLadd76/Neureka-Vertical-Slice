@@ -6,9 +6,9 @@
     "PlayerId": "0001",
     "ScientificId": "SQS",
     "ScientificName": "Sleep Quality Scale",
-    "AssessmentId": "SQS-30",
-    "QuestionnaireID": "SQS-30",
-    "QuestionnaireName": "Sleep Quality Scale",
+    "AssessmentId": "SQS",
+    "QuestionnaireID": "SQS",
+    "QuestionnaireName": "Sleep",
     "QuestionnaireDescription": "A 30-item self-report scale designed to assess overall sleep quality, disturbances, and daytime sleepiness.",
     "Questions": [
       "I have trouble falling asleep at night.",

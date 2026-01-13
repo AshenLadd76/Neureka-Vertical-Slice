@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     playerId: 0001
-    scientificId: MCQ30
+    scientificId: MCQ-30
     scientificName: Mindful Attention Awareness Scale
     assessmentId: MCQ-30
     questionnaireID: MCQ-30
-    questionnaireName: Mindful Attention Awareness Scale
+    questionnaireName: Awareness
     questionnaireIntroductionImage: 
     questionnaireDescription: Evaluate your level of present-moment awareness and
       attentiveness.

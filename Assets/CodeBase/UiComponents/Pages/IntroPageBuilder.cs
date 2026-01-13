@@ -1,18 +1,16 @@
 ﻿using System;
-using CodeBase.Documents.DemoA;
+
 using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.UiComponents.Pages
 {
     public class IntroPageBuilder
     {
-        
         private readonly VisualElement _root;
 
         private Action _confirmQuit;
@@ -54,6 +52,7 @@ namespace CodeBase.UiComponents.Pages
         public IntroPageBuilder SetCancelQuit(Action cancelQuit)
         {
             _cancelQuit = cancelQuit;
+            
             return this;
         }
         
@@ -96,9 +95,6 @@ namespace CodeBase.UiComponents.Pages
             //Build the content container
             var content = new ContainerBuilder().AddClass("centered-container").AttachTo(parent).Build();
             
-            //ScrollView
-            //var scrollview = new ScrollViewBuilder().AddClass(UiStyleClassDefinitions.SharedScrollViewNoScrollBars).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
-            
             BuildContentImage(content);
             
             new LabelBuilder().SetText( _contentText ).AddClass("info-page-content-text").AttachTo(content).Build();
@@ -117,7 +113,6 @@ namespace CodeBase.UiComponents.Pages
             {
                 HapticsHelper.RequestHaptics( HapticType.Low );
                 parent.RemoveFromHierarchy();
-              
                 
             }).AttachTo(footerContainer).Build();
         }

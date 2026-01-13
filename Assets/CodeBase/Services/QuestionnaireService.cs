@@ -158,11 +158,14 @@ namespace CodeBase.Services
         private void OnRequestAssessmentQuestionnaire(string id,IDocument parentDocument, Action onComplete) => BuildQuestionnairePage(id,parentDocument,onComplete);
 
 
+        /// <summary>
+        /// Returns the dictionary of questionnaire data to requester
+        /// </summary>
+        /// <param name="callback">Callback that is invoked when a request is recieved. Passes the QuestionnairDictionary</param>
         private void OnRequestAllQuestionnaireData(Action<IReadOnlyDictionary<string, StandardQuestionnaireSo> > callback)
         {
             callback?.Invoke(StandardQuestionnaires);
         }
-       
         
         // Subscribes to message bus events when the service is enabled.
         protected override void SubscribeToService()
@@ -170,8 +173,6 @@ namespace CodeBase.Services
             MessageBus.AddListener<string>(OnRequestQuestionnaireMessage,OnRequestQuestionnaire );
             MessageBus.AddListener<string, IDocument,  Action>( OnRequestAssessmentQuestionnaireMessage, OnRequestAssessmentQuestionnaire );
             MessageBus.AddListener<Action<IReadOnlyDictionary<string, StandardQuestionnaireSo>>>( OnRequestAllQuestionnaireDataMessage, OnRequestAllQuestionnaireData );
-            
-
         }
 
         // Unsubscribes from message bus events when the service is disabled.

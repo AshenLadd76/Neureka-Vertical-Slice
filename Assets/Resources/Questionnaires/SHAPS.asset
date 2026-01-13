@@ -16,8 +16,8 @@ MonoBehaviour:
     playerId: 0001
     scientificId: SHAPS
     scientificName: Snaith-Hamilton Pleasure Scale
-    assessmentId: SHAPS-14
-    questionnaireID: SHAPS-14
+    assessmentId: SHAPS
+    questionnaireID: SHAPS
     questionnaireName: Snaith-Hamilton Pleasure Scale
     questionnaireIntroductionImage: 
     questionnaireDescription: Measure your ability to experience pleasure in everyday

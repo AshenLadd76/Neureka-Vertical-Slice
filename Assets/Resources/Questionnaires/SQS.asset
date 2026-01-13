@@ -16,8 +16,8 @@ MonoBehaviour:
     playerId: 0001
     scientificId: SQS
     scientificName: Sleep Quality Scale
-    assessmentId: SQS-30
-    questionnaireID: SQS-30
+    assessmentId: SQS
+    questionnaireID: SQS
     questionnaireName: Sleep Quality Scale
     questionnaireIntroductionImage: 
     questionnaireDescription: A 30-item self-report scale designed to assess overall

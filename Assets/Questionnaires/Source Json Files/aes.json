@@ -6,9 +6,9 @@
         "PlayerId": "0001",
         "ScientificId": "AES",
         "ScientificName": "Apathy Evaluation Scale",
-        "AssessmentId": "AES-18",
-        "QuestionnaireID": "AES-18",
-        "QuestionnaireName": "Apathy Evaluation Scale",
+        "AssessmentId": "AES",
+        "QuestionnaireID": "AES",
+        "QuestionnaireName": "Apathy",
         "QuestionnaireDescription": "An 18-item questionnaire assessing apathy and motivation levels.",
         "Questions": [
             {

@@ -46,7 +46,7 @@
 
 /* Footer container */
 .nav-footer-container {
-    height: 12%; /* 12% of parent height (screen if root) */
+    height: 8%; /* 12% of parent height (screen if root) */
     width: 100%;
     background-color: #3382CC; /* Dodger blue background */
     
@@ -60,6 +60,8 @@
     align-items: center;
     
     padding-top: 12px; /* optional, for spacing inside curve */
+    padding-left:60px;
+    padding-right:60px;
 }
 
 
@@ -75,8 +77,8 @@
 
 /* Icon inside the button */
 .nav-footer-icon {
-    width: 96px;
-    height: 96px;
+    width: 64px;
+    height: 64px;
     
 }
 

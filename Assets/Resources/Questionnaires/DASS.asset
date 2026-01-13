@@ -16,8 +16,8 @@ MonoBehaviour:
     playerId: 0001
     scientificId: DASS
     scientificName: Depression Anxiety Stress Scale
-    assessmentId: DASS-21
-    questionnaireID: DASS-21
+    assessmentId: DASS
+    questionnaireID: DASS
     questionnaireName: Depression Anxiety Stress Scale
     questionnaireIntroductionImage: intro_image_1
     questionnaireDescription: A 21-item questionnaire measuring levels of depression,

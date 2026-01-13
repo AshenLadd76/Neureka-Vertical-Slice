@@ -6,9 +6,9 @@
     "PlayerId": "0001",
     "ScientificId": "HRSI",
     "ScientificName": "Health-Related Stress Inventory",
-    "AssessmentId": "HRSI-20",
-    "QuestionnaireID": "HRSI-20",
-    "QuestionnaireName": "Health-Related Stress Inventory",
+    "AssessmentId": "HRSI",
+    "QuestionnaireID": "HRSI",
+    "QuestionnaireName": "Stress",
     "QuestionnaireIntroductionImage": "intro_image_1",
     "QuestionnaireIntroduction": "The Health-Related Stress Inventory (HRSI) is a self-report questionnaire designed to assess stress levels related to health, lifestyle, and daily responsibilities. 
 
