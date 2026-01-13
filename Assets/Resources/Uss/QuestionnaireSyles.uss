@@ -306,25 +306,36 @@ popup-title-container-centre
 
 .rounded-image {
     
- 
- 
+
+    alin-self:center;
     /* Make sure the image scales properly */
     background-size: cover;
     background-repeat: no-repeat;
 
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
-.info-page-content-text
-{
+.info-page-content-text {
+    
+    padding-top: 100px;
+    padding-left: 45px;
+    padding-right: 30px;
 
-   padding: 5px;
-   font-size: 42px;
-   white-space: normal;
+    font-size: 42px;
+    white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word; /* extra safety for long words */
-   -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Bold-sdf.asset");
-     color:#0C1353;
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Bold-sdf.asset");
+    color: #0C1353;
+
+    /* Flex / alignment */
+    align-self: center;      /* centers the element in its parent flex container */
+    text-align: left;        /* optional: keeps text left-aligned inside the box */
+
+    /* Text spacing tweaks */
+    unity-line-height: 60px;    /* sets line spacing */
+    letter-spacing: 4px;        /* spacing between letters */
+    word-spacing: 4px;          /* spacing between words */
 }
 
 .overlay-root {
@@ -340,6 +351,23 @@ popup-title-container-centre
       /* optional */
     background-color: #fff
 }
+
+.centered-container {
+    display: flex;           /* make it a flex container */
+    flex-direction: column;  /* stack children vertically */
+    justify-content: flex-start; 
+         /* center children horizontally */
+
+    /* optional full size */
+    width: 100%;
+    height: 100%;
+
+    /* optional background for debugging */
+    background-color: #ffffff;
+   align-items:center;
+    
+}
+
 
 
 

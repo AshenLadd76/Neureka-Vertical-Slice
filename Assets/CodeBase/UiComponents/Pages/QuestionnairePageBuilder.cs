@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents.DemoA;
 using CodeBase.Documents.Neureka.Components;
-using CodeBase.Helpers;
 using CodeBase.Questionnaires;
-using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
@@ -12,7 +10,6 @@ using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
 using UiFrameWork.RunTime;
-using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -20,6 +17,8 @@ namespace CodeBase.UiComponents.Pages
 {
     public class QuestionnairePageBuilder
     {
+        
+        private const string ImagePath = "Assessments/RiskFactors/Images/";
         private const string MainContainerStyle = "fullscreen-container";
         private readonly int _questionCount;
         private int _questionsAnsweredCount;
@@ -86,13 +85,12 @@ namespace CodeBase.UiComponents.Pages
             CreateIntroPage(_root);
         }
         
-        
         private void CreateIntroPage(VisualElement root)
         {
             _introPage =  new IntroPageBuilder(root)
                 .SetTitle(_questionnaireData.QuestionnaireName)
-                .SetContentText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.")
-                .SetImagePath("Assessments/RiskFactors/Images/intro_image_2")
+                .SetContentText(_questionnaireData.QuestionnaireIntroduction)
+                .SetImagePath(ImagePath+_questionnaireData.QuestionnaireIntroductionImage)
                 .SetConfirmQuit(ConfirmQuit)
                 .SetCancelQuit(CancelQuit)
                 .Build();
@@ -220,7 +218,6 @@ namespace CodeBase.UiComponents.Pages
                 questionnaireSubmissionHandler.Submit();
                 
             }).AttachTo(footerContainer).Build();
-            
         }
         
         private void SetAnswer(int questionNumber, string answerText)
@@ -262,7 +259,6 @@ namespace CodeBase.UiComponents.Pages
 
             _builtQuestionsList[questionIndex].ToggleWarningOutline(false);
         }
-        
         
         
       //Ensure all questionnaire visual elements are removed and GC collected

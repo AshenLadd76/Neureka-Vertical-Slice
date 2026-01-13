@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a9ccd036c8e2b40b6b6c84d1b1c5a5, type: 3}
+  m_Name: AQ
+  m_EditorClassIdentifier: 
+  data:
+    playerId: 0001
+    scientificId: AQ
+    scientificName: Autism-Spectrum Quotient
+    assessmentId: AQ
+    questionnaireID: AQ
+    questionnaireName: Autism-Spectrum Quotient
+    questionnaireIntroductionImage: intro_image_1
+    questionnaireDescription: Assesses autistic traits across social, communication,
+      attention, and imagination domains.
+    questionnaireIntroduction: "The Autism Spectrum Quotient (AQ) is a self-report
+      questionnaire designed to measure the extent of autistic traits in adults.
+      It assesses social skills, attention to detail, attention switching, communication,
+      and imagination. \r\n\r\nThe AQ provides a standardized way to understand characteristics
+      associated with the autism spectrum, helping individuals and clinicians identify
+      areas of strength and challenge in daily life."
+    questionnaireIcon: hhi_icon
+    questions:
+    - I prefer to do things with others rather than on my own.
+    - I prefer to do things the same way over and over again.
+    - I find it difficult to imagine what it would be like to be someone else.
+    - I am fascinated by numbers or patterns.
+    - I notice small changes in my environment.
+    - I frequently get so strongly absorbed in one thing that I lose sight of other
+      things.
+    - I find social situations easy.
+    - I enjoy social chit-chat.
+    - I find it easy to work out what someone is thinking or feeling.
+    - I like to plan things carefully.
+    - I am fascinated by dates.
+    - "I find it difficult to work out people\u2019s intentions."
+    - I tend to notice details that others do not.
+    - I would rather go to a library than a party.
+    - I find it hard to make new friends.
+    - I enjoy meeting new people.
+    - I tend to have very strong interests.
+    - I enjoy doing things spontaneously.
+    - I find it hard to tell if someone is interested in me.
+    - I am good at social chit-chat.
+    - I am fascinated by patterns in things like music, numbers, or art.
+    - I find it difficult to understand what is meant by indirect speech.
+    - I like to collect information about categories of things.
+    - I find it difficult to imagine what it would be like to be in someone else's
+      shoes.
+    - I like to do things in a particular order.
+    - I am often the last to understand a joke.
+    - I like to know exactly how things will happen in advance.
+    - I find it difficult to keep a conversation going.
+    - I enjoy social events.
+    - I notice patterns in things all the time.
+    - I find it easy to see why someone might be upset.
+    - I get upset if my daily routine is disturbed.
+    - I enjoy social gatherings.
+    - I find it difficult to do more than one thing at once.
+    - I am interested in other people's feelings.
+    - I tend to focus on details rather than the bigger picture.
+    - I prefer work that is predictable.
+    - I enjoy meeting new people.
+    - I often notice small sounds when others do not.
+    - I am good at understanding how someone feels based on their tone of voice.
+    - I tend to have narrow interests.
+    - I enjoy social interactions.
+    - I like to collect facts about things I am interested in.
+    - I find it hard to judge how someone is feeling.
+    - I am fascinated by patterns and sequences.
+    - I prefer to plan rather than act spontaneously.
+    - I find it easy to understand sarcasm.
+    - I enjoy discussing abstract ideas.
+    - I like to know the rules in advance.
+    - I find it difficult to interpret other people's facial expressions.
+    - I am interested in patterns in numbers or shapes.
+    answers:
+    - Definitely Agree
+    - Slightly Agree
+    - Slightly Disagree
+    - Definitely Disagree
+    reverseScored: 010000000200000004000000050000000a0000000b0000000f00000010000000120000001300000017000000180000001a0000001b0000001e0000001f000000230000002400000027000000280000002c0000002d0000003000000031000000
+    answerComponentType: MultipleChoice
+  icon: {fileID: 21300000, guid: 31980931a35ae964fbaedb27825685ea, type: 3}

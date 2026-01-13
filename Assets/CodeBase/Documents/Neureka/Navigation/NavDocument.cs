@@ -256,7 +256,7 @@ namespace CodeBase.Documents.Neureka.Navigation
         {
             _sectionDataList.Clear();
             
-            _sectionDataList.Add( new SectionData( "Hearing", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "HHI-10"));
+            _sectionDataList.Add( new SectionData( "Stress", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "HRSI-20"));
            // _sectionDataList.Add( new SectionData( "Games", 23, new Color(0.172549f, 0.66f, 0.78f, 1f), "CESD-20"));
             //_sectionDataList.Add( new SectionData( "Assessment", 1,   new Color(0.43f, 0.61f, 0.98f, 1f), "CESD-20" ));
           //  _sectionDataList.Add(new SectionData("Settings", 1, new Color(0.6f, 0.61f, 0.98f, 1f), "CESD-20")); 

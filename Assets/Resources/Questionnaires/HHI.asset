@@ -19,16 +19,18 @@ MonoBehaviour:
     assessmentId: HHI-10
     questionnaireID: HHI-10
     questionnaireName: Hearing Handicap Inventory
-    questionnaireIntroductionImage: hhi_intro_image.png
+    questionnaireIntroductionImage: intro_image_1
     questionnaireDescription: A 10-item questionnaire assessing how hearing difficulties
       affects daily life.
-    questionnaireIntroduction: The Hearing Handicap Inventory (HHI) is a self-assessment
+    questionnaireIntroduction: 'The Hearing Handicap Inventory (HHI) is a self-assessment
       questionnaire designed to evaluate how hearing difficulties impact your daily
-      life. It helps identify the emotional and social effects of hearing loss, including
-      challenges in conversations, social interactions, and routine activities. By
-      completing this questionnaire, you provide valuable information that can guide
-      hearing care professionals in understanding your specific needs and planning
-      appropriate interventions.
+      life.
+
+      
+
+      It helps identify the emotional and social effects of
+      hearing loss, including challenges in conversations, social interactions, and
+      routine activities.'
     questionnaireIcon: hhi_icon
     questions:
     - Do you have difficulty hearing when someone speaks in a whisper?

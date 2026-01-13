@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a9ccd036c8e2b40b6b6c84d1b1c5a5, type: 3}
+  m_Name: HRSI
+  m_EditorClassIdentifier: 
+  data:
+    playerId: 0001
+    scientificId: HRSI
+    scientificName: Health-Related Stress Inventory
+    assessmentId: HRSI-20
+    questionnaireID: HRSI-20
+    questionnaireName: Health-Related Stress Inventory
+    questionnaireIntroductionImage: intro_image_1
+    questionnaireDescription: Assess your current stress levels and how they affect
+      your daily life.
+    questionnaireIntroduction: "The Health-Related Stress Inventory (HRSI) is a self-report
+      questionnaire designed to assess stress levels related to health, lifestyle,
+      and daily responsibilities. \r\n\r\nIt helps individuals identify sources of
+      stress and understand how stress impacts their physical and mental well-being."
+    questionnaireIcon: 
+    questions:
+    - I feel tense or 'wound up'.
+    - I find it hard to relax.
+    - I get upset easily or feel impatient.
+    - I feel overwhelmed by responsibilities.
+    - I struggle to focus due to stress.
+    - I feel anxious about my health.
+    - I have trouble sleeping because of stress.
+    - I feel irritable or moody.
+    - I experience headaches or physical tension.
+    - I feel under pressure from work or study.
+    - I worry excessively about the future.
+    - I feel mentally exhausted.
+    - I find it hard to enjoy leisure activities.
+    - I notice my stress affecting relationships.
+    - I feel a lack of control over my daily life.
+    - I have difficulty managing multiple tasks.
+    - I feel nervous in social situations.
+    - I feel fatigued even after rest.
+    - I experience physical symptoms like stomach upset.
+    - I feel that stress impacts my decision-making.
+    answers:
+    - Never
+    - Sometimes
+    - Often
+    - Always
+    reverseScored: 0200000005000000070000000a0000000c0000000f00000011000000
+    answerComponentType: MultipleChoice
+  icon: {fileID: 0}

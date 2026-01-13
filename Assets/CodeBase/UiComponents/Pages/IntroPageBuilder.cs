@@ -94,14 +94,14 @@ namespace CodeBase.UiComponents.Pages
         private void CreateContent(VisualElement parent)
         {
             //Build the content container
-            var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(parent).Build();
+            var content = new ContainerBuilder().AddClass("centered-container").AttachTo(parent).Build();
             
             //ScrollView
-            var scrollview = new ScrollViewBuilder().AddClass(UiStyleClassDefinitions.SharedScrollViewNoScrollBars).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
+            //var scrollview = new ScrollViewBuilder().AddClass(UiStyleClassDefinitions.SharedScrollViewNoScrollBars).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(content).Build();
             
-            BuildContentImage(scrollview);
+            BuildContentImage(content);
             
-            new LabelBuilder().SetText( _contentText ).AddClass("info-page-content-text").AttachTo(scrollview).Build();
+            new LabelBuilder().SetText( _contentText ).AddClass("info-page-content-text").AttachTo(content).Build();
         }
         
         private void BuildContentImage(VisualElement parent)
