@@ -10,9 +10,15 @@ namespace ToolBox.Data.Parsers
         [SerializeField] private StandardQuestionnaireTemplate data;
         [SerializeField] private Sprite icon;
 
+        public Sprite Icon
+        {
+            get => icon;
+            set => icon = value;
+        }
+
         public StandardQuestionnaireTemplate Data => data;
 
-        public Sprite Icon { get; set; }
+     
 
         public void SetData(StandardQuestionnaireTemplate template)
         {

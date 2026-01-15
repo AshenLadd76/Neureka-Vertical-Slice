@@ -27,7 +27,7 @@ MonoBehaviour:
       across three emotional domains: depression, anxiety, and stress. \r\n\r\nIt
       helps individuals understand their current emotional state and identify areas
       that may benefit from support or intervention."
-    questionnaireIcon: 
+    questionnaireIcon: hhi_icon
     questions:
     - I found it hard to wind down.
     - I was aware of dryness of my mouth.
@@ -59,4 +59,4 @@ MonoBehaviour:
     - Most of the time
     reverseScored: 
     answerComponentType: MultipleChoice
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 31980931a35ae964fbaedb27825685ea, type: 3}

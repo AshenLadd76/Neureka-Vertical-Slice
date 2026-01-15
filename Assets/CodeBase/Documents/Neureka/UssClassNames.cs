@@ -22,6 +22,7 @@ namespace CodeBase.Documents.Neureka
         //Menu Card
         public const string MenuCard = "menu-card";
         public const string MenuCardIconContainer = "menu-card-icon-contiainer";
+        public const string MenuIconBackground = "menu-card-icon-background";
         public const string MenuCardIcon = "menu-card-icon";
         public const string MenuCardContentContainer = "menu-card-content-container";
         public const string MenuCardTitle = "menu-card-title";

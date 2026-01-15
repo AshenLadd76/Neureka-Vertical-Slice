@@ -27,7 +27,7 @@ MonoBehaviour:
       and attention to present-moment experiences. \r\n\r\nIt helps evaluate how
       often a person is attentive to their thoughts, feelings, and environment, providing
       insight into mindfulness and everyday awareness."
-    questionnaireIcon: 
+    questionnaireIcon: awareness_icon
     questions:
     - I could be experiencing some emotion and not be conscious of it until sometime
       later.
@@ -73,4 +73,4 @@ MonoBehaviour:
     - Always
     reverseScored: 01000000020000000300000004000000050000000600000007000000090000000a0000000c0000000f00000012000000140000001500000018000000190000001a0000001c0000001d000000
     answerComponentType: MultipleChoice
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1f3436955e4f1b64db8321763fa746d6, type: 3}

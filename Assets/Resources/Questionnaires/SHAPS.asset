@@ -18,12 +18,12 @@ MonoBehaviour:
     scientificName: Snaith-Hamilton Pleasure Scale
     assessmentId: SHAPS
     questionnaireID: SHAPS
-    questionnaireName: Snaith-Hamilton Pleasure Scale
+    questionnaireName: Pleasure
     questionnaireIntroductionImage: 
     questionnaireDescription: Measure your ability to experience pleasure in everyday
       activities.
     questionnaireIntroduction: 
-    questionnaireIcon: 
+    questionnaireIcon: hhi_icon
     questions:
     - I would enjoy my favorite television or radio program.
     - I would enjoy reading a book.
@@ -46,4 +46,4 @@ MonoBehaviour:
     - Strongly agree
     reverseScored: 
     answerComponentType: MultipleChoice
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c1309654e3e45f04587691f2217415fd, type: 3}

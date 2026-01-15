@@ -43,6 +43,8 @@ namespace CodeBase.Documents.Neureka.Components
             return this;
         }
 
+        
+        
         public MenuCardBuilder SetIcon(Sprite icon)
         {
             _icon = icon;
@@ -128,11 +130,18 @@ namespace CodeBase.Documents.Neureka.Components
                 .AttachTo(menuCard)
                 .Build();
 
+
+            if (_icon == null)
+            {
+                Logger.Log( $"Menu card icon is null." );
+            }
+            
+            var menuCardIconBackground = new ContainerBuilder().AddClass(UssClassNames.MenuIconBackground).AttachTo(menuCardIconContainer).Build();
             
             new ImageBuilder()
                 .SetSprite(_icon)
                 .AddClass(UssClassNames.MenuCardIcon)
-                .AttachTo(menuCardIconContainer)
+                .AttachTo(menuCardIconBackground)
                 .Build();
             
 

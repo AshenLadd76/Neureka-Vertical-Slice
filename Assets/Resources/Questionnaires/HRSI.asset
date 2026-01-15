@@ -26,7 +26,7 @@ MonoBehaviour:
       questionnaire designed to assess stress levels related to health, lifestyle,
       and daily responsibilities. \r\n\r\nIt helps individuals identify sources of
       stress and understand how stress impacts their physical and mental well-being."
-    questionnaireIcon: 
+    questionnaireIcon: hhi_icon
     questions:
     - I feel tense or 'wound up'.
     - I find it hard to relax.
@@ -55,4 +55,4 @@ MonoBehaviour:
     - Always
     reverseScored: 0200000005000000070000000a0000000c0000000f00000011000000
     answerComponentType: MultipleChoice
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 31980931a35ae964fbaedb27825685ea, type: 3}

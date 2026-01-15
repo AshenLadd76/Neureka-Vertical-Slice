@@ -48,6 +48,7 @@ namespace UiFrameWork.Builders
             return this;
         }
 
+        
         public ImageBuilder SetScaleMode(ScaleMode mode)
         {
             VisualElement.scaleMode = mode;

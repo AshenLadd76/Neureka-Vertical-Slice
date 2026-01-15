@@ -23,7 +23,7 @@ MonoBehaviour:
     questionnaireDescription: A 30-item self-report scale designed to assess overall
       sleep quality, disturbances, and daytime sleepiness.
     questionnaireIntroduction: 
-    questionnaireIcon: 
+    questionnaireIcon: hhi_icon
     questions:
     - I have trouble falling asleep at night.
     - I wake up during the night and have difficulty getting back to sleep.
@@ -62,4 +62,4 @@ MonoBehaviour:
     - Most or all of the time
     reverseScored: 030000000a0000001100000014000000150000001e000000
     answerComponentType: MultipleChoice
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 31980931a35ae964fbaedb27825685ea, type: 3}

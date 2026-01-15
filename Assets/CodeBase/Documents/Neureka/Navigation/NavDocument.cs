@@ -136,13 +136,20 @@ namespace CodeBase.Documents.Neureka.Navigation
 
         private void BuildAssessment(ScrollView scrollView)
         {
+             var iconSprite = Resources.Load<Sprite>("Sprites/Assessments/risk_factors_icon");
+
+             if (iconSprite == null)
+             {
+                 Logger.Log("Building Assessment Failed Sprite is null");
+             }
+            
             var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
             
             new MenuCardBuilder()
                 .SetParent(container)
                 .SetTitle($"RiskFactors")
                 .SetBlurb("TEST")
-              //  .SetIcon("")
+                .SetIcon(iconSprite)
                 .SetProgress(Random.Range(0f, 1f))
                 .SetIconBackgroundColor( UiColourHelper.GetRandomAccentColor() )
                 .SetAction( ()=> { MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors); })
@@ -166,6 +173,11 @@ namespace CodeBase.Documents.Neureka.Navigation
             var title = standardQuestionnaireData.Data.QuestionnaireName;
             var blurb  = standardQuestionnaireData.Data.QuestionnaireDescription;
             var icon = standardQuestionnaireData.Icon;
+
+            if (icon == null)
+            {
+                Logger.LogError("Building Menu Card Failed icon is null or empty");
+            }
             
             new MenuCardBuilder()
                 .SetParent(container)
