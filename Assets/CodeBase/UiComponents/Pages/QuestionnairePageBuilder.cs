@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Components;
+using CodeBase.Documents.Neureka.Navigation;
+using CodeBase.Helpers;
 using CodeBase.Questionnaires;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
@@ -22,7 +24,7 @@ namespace CodeBase.UiComponents.Pages
         private readonly int _questionCount;
         private int _questionsAnsweredCount;
         
-        private ScrollView _scrollview;
+        private ScrollView _scrollView;
         
         private VisualElement _root;
 
@@ -110,16 +112,20 @@ namespace CodeBase.UiComponents.Pages
             var content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(pageRoot).Build();
             
             //Build the scrollview and add it to the content container
-            _scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position).AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
+            _scrollView = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position).AddClass(NavUssClassNames.NavScrollViewContainer).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).Build();
+            
+            new ContainerBuilder().AddClass(NavUssClassNames.NavScrollSpacer).AttachTo(_scrollView).Build();
             
             var answers = _questionnaireData.Answers;
             
             //use question builder to add questions to the scroll view
-            CreateAndAddQuestionsToScrollView(_questionnaireData, answers, _scrollview);
+            CreateAndAddQuestionsToScrollView(_questionnaireData, answers, _scrollView);
             
-            content.Add(_scrollview);
+            content.Add(_scrollView);
             
             CreateFooter(pageRoot);
+            
+            new FadeHelper(content, true, true);
         }
 
         private void CreateAndAddQuestionsToScrollView(StandardQuestionnaireTemplate questionnaireTemplate, string[] answers, ScrollView scrollView)
@@ -201,7 +207,7 @@ namespace CodeBase.UiComponents.Pages
             
             _submitButton = new ButtonBuilder().SetText("Check").AddClass("questionnaire-footer-button").OnClick(() =>
             {
-                if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollview))
+                if (!QuestionnaireValidator.ValidateAnswers(_builtQuestionsList, _scrollView))
                 {
                     HapticsHelper.RequestHaptics( HapticType.High );
                     Logger.LogWarning("answers incomplete - failed validation.");
@@ -250,7 +256,7 @@ namespace CodeBase.UiComponents.Pages
             int nextQuestionNumber = questionIndex + 1;
             
             if (nextQuestionNumber < _questionCount)
-                ScrollViewHelper.JumpToElementSmooth( _scrollview, _builtQuestionsList[nextQuestionNumber].RootVisualElement, 0.3f,  300);
+                ScrollViewHelper.JumpToElementSmooth( _scrollView, _builtQuestionsList[nextQuestionNumber].RootVisualElement, 0.3f,  300);
 
             _builtQuestionsList[questionIndex].ToggleWarningOutline(false);
         }

@@ -45,7 +45,7 @@ namespace CodeBase.Helpers
             if (_enableTopFader)
             {
                 _topFade = new ContainerBuilder().AddClass(UiStyleClassDefinitions.SharedScrollFadeTop).AttachTo(_parent).Build();
-                new ImageBuilder().SetTexture(_gradientTexture).FlipVertical().AttachTo(_topFade).SetScaleMode(ScaleMode.StretchToFill).AddClass(UiStyleClassDefinitions.SplashGradient).Build();
+                new ImageBuilder().SetTexture(_gradientTexture).AttachTo(_topFade).FlipVertical().SetScaleMode(ScaleMode.StretchToFill).AddClass(UiStyleClassDefinitions.SplashGradient).Build();
             }
 
 

@@ -76,15 +76,15 @@
 }
 
 .shared-scroll-fade-top {
-    top: 25;
-    height:10%;
+    top: 0;
+    height:6%;
    
     
 }
 
 .shared-scroll-fade-bottom {
-    bottom: 0;
-    height:5%;
+    bottom: 15;
+    height:6%;
   
 }
 

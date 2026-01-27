@@ -22,6 +22,8 @@ namespace CodeBase.Documents.Neureka.Navigation
         
         private string[] _aboutMeIds = (new []{ "MCQ-30", "DASS", "AQ", "HHI", "HRSI", "SHAPS", "SQS" }); 
         
+        private Color[] _colors = (new []{ new Color( 0.99f, 0.58f, 0.24f  ), new Color(0.17f, 0.66f, 0.79f ), new Color(0.8f, 0.2f, 0.45f), new Color(0.44f, 0.615f, 0.98f ), new Color(0.52f, 0.50f, 0.67f),  new Color(0.38f, 0.8f, 0.51f ), new Color( 0.36f, 0.45f, 0.76f ) });
+        
         private const string NavIconResourcePath = "Navigation/NavIconsSo";
         
         private VisualElement _navRoot;
@@ -35,6 +37,8 @@ namespace CodeBase.Documents.Neureka.Navigation
         private Color _logoColor = new Color(.2f, .5f, .8f, 1f);
 
         private IReadOnlyDictionary<string, StandardQuestionnaireSo> _standardQuestionnaireDictionary;
+        
+        private const string BackgroundGradientPath = "Gradients/fade_2";
         
         public override bool ShouldCache => true;
 
@@ -54,12 +58,14 @@ namespace CodeBase.Documents.Neureka.Navigation
             
             LoadLogo(header);
             
+            var divider = new ContainerBuilder().AddClass(NavUssClassNames.NavDivider).AttachTo(_navRoot).Build();
+            
             //Build content
             _content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(_navRoot).Build();
             
-            _scrollView = new ScrollViewBuilder().EnableInertia().AddClass(UssClassNames.ScrollView).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(_content).Build();
+            _scrollView = new ScrollViewBuilder().EnableInertia().AddClass(NavUssClassNames.NavScrollViewContainer).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(_content).Build();
 
-            new ContainerBuilder().AddClass("scrollview-top-spacer").AttachTo(_scrollView).Build();
+            new ContainerBuilder().AddClass(NavUssClassNames.NavScrollSpacer).AttachTo(_scrollView).Build();
            
             MessageBus.Broadcast<Action<IReadOnlyDictionary<string, StandardQuestionnaireSo>>>( QuestionnaireService.OnRequestAllQuestionnaireDataMessage, QuestionnaireDataDictionaryCallBack );
             
@@ -127,10 +133,16 @@ namespace CodeBase.Documents.Neureka.Navigation
             }
             
             var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
-            
+
+            int count = 0;
+
             foreach (var t in ids)
-                BuildMenuCard(container,t);
-            
+            {   
+                BuildMenuCard(container, t, _colors[count]);
+
+                count++;
+            }
+
             _sectionPages.Add(container);
         }
 
@@ -151,14 +163,14 @@ namespace CodeBase.Documents.Neureka.Navigation
                 .SetBlurb("TEST")
                 .SetIcon(iconSprite)
                 .SetProgress(Random.Range(0f, 1f))
-                .SetIconBackgroundColor( UiColourHelper.GetRandomAccentColor() )
+                .SetIconBackgroundColor( _colors[2] )
                 .SetAction( ()=> { MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.RiskFactors); })
                 .Build();
             
             _sectionPages.Add(container); 
         }
 
-        private void BuildMenuCard(VisualElement container,  string id)
+        private void BuildMenuCard(VisualElement container,  string id, Color color)
         {
             if (_standardQuestionnaireDictionary.IsNullOrEmpty())
             {
@@ -185,7 +197,7 @@ namespace CodeBase.Documents.Neureka.Navigation
                 .SetBlurb(blurb)
                 .SetIcon(icon)
                 .SetProgress(Random.Range(0f, 1f))
-                .SetIconBackgroundColor( UiColourHelper.GetRandomAccentColor() )
+                .SetIconBackgroundColor( color )
                 .SetAction(MenuActions.RequestQuestionnaire(cleanId))
                 .Build();
             
@@ -209,14 +221,21 @@ namespace CodeBase.Documents.Neureka.Navigation
             {
                 int index = i;
                 
-                var footerButton = new ContainerBuilder().AddClass(NavUssClassNames.NavFooterButton).OnClick(() =>
+                // Only assign click event to the first two buttons
+                var builder = new ContainerBuilder().AddClass(NavUssClassNames.NavFooterButton);
+
+                if (i < 2) // first two buttons
                 {
-                    if (_sectionPages.IsNullOrEmpty()) return;
-                    
-                    SelectNavPage(_sectionPages[index]);
-                    SelectIconImage(index);
-                        
-                }).AttachTo(footer).Build();
+                    builder.OnClick(() =>
+                    {
+                        if (_sectionPages.IsNullOrEmpty()) return;
+
+                        SelectNavPage(_sectionPages[index]);
+                        SelectIconImage(index);
+                    });
+                }
+
+                var footerButton = builder.AttachTo(footer).Build();
                 
                 if (i < iconList.Count)
                 {
@@ -251,7 +270,6 @@ namespace CodeBase.Documents.Neureka.Navigation
             if (pageToShow == null && !_sectionPages.IsNullOrEmpty())
                 pageToShow = _sectionPages[0];
             
-            _lastSelectedPage = pageToShow;
             
             foreach (var page in _sectionPages)
             {
@@ -263,6 +281,8 @@ namespace CodeBase.Documents.Neureka.Navigation
 
                 page.style.display = page == pageToShow ? DisplayStyle.Flex : DisplayStyle.None;
             }
+            
+            _lastSelectedPage = pageToShow;
         }
 
         private void SelectIconImage(int index)
@@ -308,9 +328,13 @@ namespace CodeBase.Documents.Neureka.Navigation
     public static class NavUssClassNames
     {
         public const string NavHeader = "nav-header-container";
+        public const string NavBodyContainer = "nav-body-container";
+        public const string NavScrollViewContainer = "nav-scroll-no-scroll-bars";
+        public const string NavDivider = "nav-divider";
         public const string NavHeaderLogo = "nav-header-logo";
         public const string NaVFooter = "nav-footer-container";
         public const string NavFooterButton = "nav-footer-button";
         public const string NavFooterIcon = "nav-footer-icon";
+        public const string NavScrollSpacer = "nav-scroll-view-top-spacer";
     }
 }
