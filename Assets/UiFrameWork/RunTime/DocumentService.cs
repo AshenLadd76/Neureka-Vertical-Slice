@@ -29,8 +29,6 @@ namespace UiFrameWork.RunTime
         
         [Validate] private VisualElement _safeAreaContainer;
         
-        
-        
         [Validate] private IFileDataService _fileDataService;
         
         [Validate] private ICoroutineRunner _coroutineRunner;
@@ -48,7 +46,6 @@ namespace UiFrameWork.RunTime
             _coroutineRunner = new CoroutineRunner(this);
             
             InitRecipeDictionaries();
-            
         }
 
         private void InitUi()
@@ -56,7 +53,6 @@ namespace UiFrameWork.RunTime
             _uiDocumentManager = GetComponent<UiDocumentManager>();
 
             _safeAreaContainer = _uiDocumentManager.SafeAreaContainer;
-
         }
         
         private void InitFileDataService() => _fileDataService = new FileDataService(new EncryptionService(), new JsonSerializer(), DefaultFileExtension);
