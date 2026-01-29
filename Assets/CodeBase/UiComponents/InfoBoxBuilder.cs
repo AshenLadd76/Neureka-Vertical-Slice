@@ -3,7 +3,7 @@ using UiFrameWork.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace CodeBase.Documents.Neureka.Navigation
+namespace CodeBase.UiComponents
 {
     public class InfoBoxBuilder
     {

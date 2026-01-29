@@ -74,6 +74,11 @@
     -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");
 }
 
+.demo-header-button-image
+{
+   background-image: url("/Assets/Resources/Sprites/quit.png");
+}
+
 .demo-menu-button {
     width: 80%;
     height:128px;

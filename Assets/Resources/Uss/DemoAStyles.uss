@@ -165,8 +165,8 @@
     flex-direction: row;       /* horizontal layout */
     justify-content: flex-start; /* content starts from left */
     align-items: center;       /* vertically center content */
-     background-color: rgba(192, 192, 192, 1f); /* very faint silver */
-     background-color: #F7F8FA;
+   background-color: #F0F2F5;
+
     margin-bottom: 50px;       /* spacing between cards */
     border-radius: 48px;        /* optional rounded corners */
 
@@ -232,7 +232,8 @@
     flex-direction: column; /* stack title, blurb, and progress bar vertically */
     justify-content: space-between; /* title top, progress bar bottom */
     padding: 0px 16px;
-    background-color: rgba(192, 192, 192, 0.3);
+    background-color: #F0F2F5;
+
   
      /* or transparent if card has bg */
 }

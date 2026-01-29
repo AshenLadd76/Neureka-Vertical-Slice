@@ -85,6 +85,8 @@ namespace CodeBase.UiComponents.Pages
                 .AttachTo(headerNav)
                 .Build();
             
+            var buttonImage =  new ContainerBuilder().AddClass("button-image").AttachTo(headerNav).Build();
+            
             var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
 
             new LabelBuilder().SetText(_title).AddClass("header-label").AttachTo(headerTitle).Build();
