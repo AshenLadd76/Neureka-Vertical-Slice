@@ -1,8 +1,9 @@
+using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace UiFrameWork.Builders
+namespace UiFrameWork.Components
 {
     public class ImageBuilder : BaseBuilder<Image, ImageBuilder>
     {
@@ -15,8 +16,6 @@ namespace UiFrameWork.Builders
                 Logger.LogError( $"Supplied Sprite is null" );
                 return this;
             }
-            
-            Logger.Log( $"Sprite is aok !!!!!" );
 
             VisualElement.sprite = sprite;
             return this;

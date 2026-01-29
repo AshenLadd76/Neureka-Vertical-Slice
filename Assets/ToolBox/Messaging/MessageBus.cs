@@ -11,7 +11,7 @@ namespace ToolBox.Messaging
     /// 
     /// Example usage:
     /// <code>
-    /// MessagBus.AddListener("OnPlayerDeath", OnPlayerDeath);
+    /// MessageBus.AddListener("OnPlayerDeath", OnPlayerDeath);
     /// MessageBus.RemoveListener("OnPlayerDeath", OnPlayerDeath);
     /// 
     /// MessageBus.Broadcast("OnPlayerDeath");

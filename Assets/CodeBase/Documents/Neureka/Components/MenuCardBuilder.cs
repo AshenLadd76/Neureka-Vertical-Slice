@@ -76,7 +76,7 @@ namespace CodeBase.Documents.Neureka.Components
 
             var menuCardParent = new ContainerBuilder().AttachTo(_parent).Build();
             
-            var shadow =  new ContainerBuilder().AddClass("menu-card-shadow").AttachTo(menuCardParent).Build();
+           // var shadow =  new ContainerBuilder().AddClass("menu-card-shadow").AttachTo(menuCardParent).Build();
             
             // Outer container
             var menuCard = new ContainerBuilder()

@@ -137,4 +137,91 @@
     flex-shrink: 0;    /* Prevent it from shrinking */
 }
 
+/* ScrollView container */
+.nav-scroll-no-scroll-bars
+{
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+    width: 100%;
+    height: 100%;
+    
+    show-vertical-scroller: false;
+    show-horizontal-scroller: false;
+    background-color: #fff;
+    padding: 0px 50px 20px 50px;
+
+    overflow: scroll;
+}
+
+/* Info box with background image and dynamic height */
+.info-box
+{
+
+    position:relative;
+    border-radius: 48px;
+
+    padding-top: 70px;
+    padding-bottom:70px;
+    padding-left: 40px;
+    padding-right:40px; 
+
+    overflow: hidden; /* ensures border-radius clips background image */
+
+    /* background image stretched */
+    background-image: url("/Assets/Resources/Gradients/Blue.png");
+    background-size: cover;       /* stretch to cover */
+    background-position: center;  /* center image */
+    background-repeat: no-repeat;
+
+    display: flex;
+    flex-direction: column;   /* stack children vertically */
+    justify-content: flex-start; /* allow height to expand */
+    align-items: center;         /* center children horizontally */
+
+    flex-shrink: 0; /* prevents flex container from squishing */
+    height: auto;   /* dynamic height based on content */
+    width: 100%;    /* fill horizontal space */
+
+   margin-bottom:75px;
+
+
+    opacity:1;
+    scale: 1 1;
+   transform-origin: top center;
+   transition-property: opacity, scale;
+    transition-duration: 500ms;
+    transition-timing-function: ease-out;
+
+}
+
+/* Content inside the box */
+.info-box > .content
+{
+    flex-shrink: 0;
+    overflow-wrap: break-word; /* ensure long text wraps */
+}
+
+
+.info-box-label
+{
+  color:white;
+  font-size:34px;
+  
+  white-space:  normal;
+  overflow-wrap: break-word;
+	
+}
+
+.info-box-close-button
+{
+    position: absolute;
+    top: 36px;
+    right: 36px;
+   
+    width:32px;
+    height:32px;
+    background-image: url("/Assets/Resources/Sprites/quit.png");
+}
+
 

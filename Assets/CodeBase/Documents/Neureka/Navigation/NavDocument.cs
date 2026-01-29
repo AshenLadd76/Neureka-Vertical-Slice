@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using CodeBase.Services;
+using CodeBase.UiComponents.Styles;
 using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
 using ToolBox.Messaging;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -25,6 +27,7 @@ namespace CodeBase.Documents.Neureka.Navigation
         private Color[] _colors = (new []{ new Color( 0.99f, 0.58f, 0.24f  ), new Color(0.17f, 0.66f, 0.79f ), new Color(0.8f, 0.2f, 0.45f), new Color(0.44f, 0.615f, 0.98f ), new Color(0.52f, 0.50f, 0.67f),  new Color(0.38f, 0.8f, 0.51f ), new Color( 0.36f, 0.45f, 0.76f ) });
         
         private const string NavIconResourcePath = "Navigation/NavIconsSo";
+       
         
         private VisualElement _navRoot;
         private VisualElement _content;
@@ -39,6 +42,7 @@ namespace CodeBase.Documents.Neureka.Navigation
         private IReadOnlyDictionary<string, StandardQuestionnaireSo> _standardQuestionnaireDictionary;
         
         private const string BackgroundGradientPath = "Gradients/fade_2";
+        private const string InfoBoxBackgroundGradientPath = "Gradients/blue";
         
         public override bool ShouldCache => true;
 
@@ -61,10 +65,11 @@ namespace CodeBase.Documents.Neureka.Navigation
             var divider = new ContainerBuilder().AddClass(NavUssClassNames.NavDivider).AttachTo(_navRoot).Build();
             
             //Build content
-            _content = new ContainerBuilder().AddClass(UssClassNames.BodyContainer).AttachTo(_navRoot).Build();
+            _content = new ContainerBuilder().AddClass(NavUssClassNames.NavBodyContainer).AttachTo(_navRoot).Build();
             
             _scrollView = new ScrollViewBuilder().EnableInertia().AddClass(NavUssClassNames.NavScrollViewContainer).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(_content).Build();
 
+            
             new ContainerBuilder().AddClass(NavUssClassNames.NavScrollSpacer).AttachTo(_scrollView).Build();
            
             MessageBus.Broadcast<Action<IReadOnlyDictionary<string, StandardQuestionnaireSo>>>( QuestionnaireService.OnRequestAllQuestionnaireDataMessage, QuestionnaireDataDictionaryCallBack );
@@ -133,7 +138,13 @@ namespace CodeBase.Documents.Neureka.Navigation
             }
             
             var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
-
+            
+            new InfoBoxBuilder().SetText("This section shows examples of questionnaires from the original app, " +
+                                         "dynamically generated using UI Toolkit and a custom UI framework. " +
+                                         "They demonstrate how the app creates interactive, responsive questionnaires on the fly.")
+                .SetAction(() => { Debug.Log("This works ok"); })
+                .AttachTo(container).Build();
+            
             int count = 0;
 
             foreach (var t in ids)
@@ -155,12 +166,15 @@ namespace CodeBase.Documents.Neureka.Navigation
                  Logger.Log("Building Assessment Failed Sprite is null");
              }
             
-            var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+             var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+             
+             new InfoBoxBuilder().SetText("This is a sample assessment, dynamically created using a custom UI framework built on top of UI Toolkit. " +
+                                          "It represents an assessment from the release version of the app.").AttachTo(container).Build();
             
             new MenuCardBuilder()
                 .SetParent(container)
-                .SetTitle($"RiskFactors")
-                .SetBlurb("TEST")
+                .SetTitle($"Risk Factors")
+                .SetBlurb("The assessment looks at key factors associated with increased likelihood of cognitive, behavioral, or neurological decline")
                 .SetIcon(iconSprite)
                 .SetProgress(Random.Range(0f, 1f))
                 .SetIconBackgroundColor( _colors[2] )
@@ -321,6 +335,21 @@ namespace CodeBase.Documents.Neureka.Navigation
             }
 
             _standardQuestionnaireDictionary = dictionary;
+        }
+
+        
+        
+        private void SetBackGroundGradientTexture(VisualElement parent)
+        {
+            var gradientTexture = Resources.Load<Texture2D>(InfoBoxBackgroundGradientPath);
+
+            if (gradientTexture == null)
+            {
+                Logger.Log("Splash Page Build Failed to load Gradient Texture");
+                return;
+            }
+
+            new ImageBuilder().SetTexture(gradientTexture).AttachTo(parent).SetScaleMode(ScaleMode.StretchToFill).AddClass(UiStyleClassDefinitions.SplashGradient).Build();
         }
     }
 

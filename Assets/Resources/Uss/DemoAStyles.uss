@@ -169,11 +169,7 @@
      background-color: #F7F8FA;
     margin-bottom: 50px;       /* spacing between cards */
     border-radius: 48px;        /* optional rounded corners */
-    border-top-width: 0px;
-    border-right-width: 5px;
-    border-bottom-width: 10px;
-    border-left-width: 0px;
-    border-color: #eaeaea; /* medium grey */
+
 
 
 }
@@ -252,7 +248,7 @@
 
 
 .menu-card-blurb {
-    font-size: 38px;
+    font-size: 34px;
     white-space: normal;      /* allows wrapping */
     overflow: visible;        /* ensures text isn’t clipped */
     flex-wrap: wrap;          /* extra safety in flex containers */
