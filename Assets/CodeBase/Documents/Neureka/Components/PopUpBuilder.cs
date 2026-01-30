@@ -181,6 +181,8 @@ namespace CodeBase.Documents.Neureka.Components
 
         private void BuildTitle(VisualElement parent)
         {
+            if (_blurbText == null) return;
+            
             new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpSpacerStyle).AttachTo(parent).Build();
             
             var titleContainer = new ContainerBuilder().AttachTo(parent).AddClass( PopupBuilderUssClassNames.PopUpTitleStyle ).Build();
@@ -192,7 +194,7 @@ namespace CodeBase.Documents.Neureka.Components
 
         private void BuildContentText(VisualElement parent)
         {
-            _contentText ??= MissingText;
+            if (_contentText == null) return;
             
             var scrollview = new ScrollViewBuilder().EnableInertia(true).SetPickingMode(PickingMode.Position)
                 .AddClass(PopupBuilderUssClassNames.PopUpContentStyle).HideScrollBars( ScrollerVisibility.Hidden, ScrollerVisibility.Hidden ).AttachTo(parent).Build();

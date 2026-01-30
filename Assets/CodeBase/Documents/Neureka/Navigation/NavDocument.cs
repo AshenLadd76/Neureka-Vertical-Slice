@@ -17,6 +17,8 @@ using Random = UnityEngine.Random;
 
 namespace CodeBase.Documents.Neureka.Navigation
 {
+    
+    //TODO REFACTOR !!!
     public class NavDocument : BaseDocument
     {
         private readonly List<VisualElement> _sectionPages = new();

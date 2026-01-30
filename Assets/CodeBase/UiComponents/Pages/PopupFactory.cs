@@ -10,9 +10,10 @@ namespace CodeBase.UiComponents.Pages
         public static VisualElement CreateConfirmationPopup(VisualElement root, string title, string message, Action onConfirm)
         {
             return new PopUpBuilder()
-                .SetTitleText(title)
+                //.SetTitleText(title)
                 .SetContentText(message)
                 .SetPercentageHeight(40)
+                .SetImage("Sprites/thanks", 1200, 900)
                 .SetConfirmAction(() =>
                 {
                     HapticsHelper.RequestHaptics();
@@ -28,7 +29,6 @@ namespace CodeBase.UiComponents.Pages
                 .SetTitleText(title)
                 .SetContentText(message)
                 .SetPercentageHeight(60)
-                .SetImage("Sprites/panicked_scientist")
                 .SetConfirmAction(() =>
                 {
                     HapticsHelper.RequestHaptics();

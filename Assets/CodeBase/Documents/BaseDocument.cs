@@ -97,6 +97,5 @@ namespace CodeBase.Documents
                 Logger.LogWarning($"Page {pageID} was not in ActivePages");
             }
         }
-        
     }
 }
