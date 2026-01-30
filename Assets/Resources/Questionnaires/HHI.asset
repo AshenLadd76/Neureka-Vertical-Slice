@@ -18,8 +18,8 @@ MonoBehaviour:
     scientificName: Hearing Handicap Inventory
     assessmentId: HHI
     questionnaireID: HHI
-    questionnaireName: Hearing Handicap Inventory
-    questionnaireIntroductionImage: intro_image_1
+    questionnaireName: Hearing
+    questionnaireIntroductionImage: hearing_intro
     questionnaireDescription: A 10-item questionnaire assessing how hearing difficulties
       affects daily life.
     questionnaireIntroduction: 'The Hearing Handicap Inventory (HHI) is a self-assessment

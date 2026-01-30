@@ -26,8 +26,6 @@ namespace CodeBase.Services
         // Reference to the UIDocument containing the root UI element.
         private UiDocumentManager _uiDocumentManager;
         
-        // Root VisualElement parent of all questionnaires
-        private VisualElement _rootVisualElement;
         private VisualElement _safeAreaContainer;
         
         //Dictionary of scriptable objects that contain questionniare data
@@ -128,12 +126,6 @@ namespace CodeBase.Services
         private void BuildQuestionnairePage(string id, IDocument parentDocument = null,Action onComplete = null)
         {
             var data = GetQuestionnaireData(id);
-            
-            if (data == null)
-            {
-                Logger.LogError($"Questionnaire not found: {id}");
-                return;
-            }
             
             var builder = new QuestionnairePageBuilder(data, _safeAreaContainer, _jsonSerializer, parentDocument, onComplete);
             

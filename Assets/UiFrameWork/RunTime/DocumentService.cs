@@ -5,7 +5,6 @@ using CodeBase.Documents;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
 using CodeBase.Documents.Neureka.Navigation;
-using CodeBase.Pages;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
 using ToolBox.Services;
@@ -95,7 +94,7 @@ namespace UiFrameWork.RunTime
             }
 
             document.Build(_safeAreaContainer);
-            document.Open(_safeAreaContainer);
+      
         }
         
         protected override void SubscribeToService() => MessageBus.AddListener<DocumentID>( nameof(DocumentServiceMessages.OnRequestOpenDocument), OnRequestOpenDocument );

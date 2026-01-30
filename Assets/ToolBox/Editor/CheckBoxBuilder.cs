@@ -22,7 +22,7 @@ namespace ToolBox.Editor
         }
 
         public CheckBoxBuilder Width(int w) { _toggle.style.width = w; return this; }
-        public CheckBoxBuilder Height(int h) { _toggle.style.height = h; return this; return this; }
+        public CheckBoxBuilder Height(int h) { _toggle.style.height = h; return this; }
         
         public Toggle Build() => _toggle;
     }

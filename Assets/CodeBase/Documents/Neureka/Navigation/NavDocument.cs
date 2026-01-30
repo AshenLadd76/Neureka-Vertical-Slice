@@ -8,10 +8,8 @@ using CodeBase.UiComponents.Styles;
 using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
 using ToolBox.Messaging;
-using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
@@ -82,13 +80,13 @@ namespace CodeBase.Documents.Neureka.Navigation
             SelectNavPage(_sectionPages[0]);
            
             new FadeHelper(_content, true, true);
+            
+            Open(root);
         }
 
         public override void Open(VisualElement root)
         {
             base.Open(root);
-            
-            Logger.Log($"Opening Nav Document { _sectionPages.Count }");
             
             _navRoot.style.display = DisplayStyle.Flex;
             _content.style.display = DisplayStyle.Flex;

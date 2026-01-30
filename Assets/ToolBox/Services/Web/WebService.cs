@@ -16,8 +16,6 @@ namespace ToolBox.Services.Web
         private ISerializer _serializer;
         private ICoroutineRunner _coroutineRunner;
         private ITokenService _tokenService;
-
-        private string _token = "";
         
         public WebService(ISerializer serializer, ITokenService tokenService, ICoroutineRunner coroutineRunner)
         {

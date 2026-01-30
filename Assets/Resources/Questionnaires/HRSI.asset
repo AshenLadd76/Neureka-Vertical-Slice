@@ -18,8 +18,8 @@ MonoBehaviour:
     scientificName: Health-Related Stress Inventory
     assessmentId: HRSI
     questionnaireID: HRSI
-    questionnaireName: Health-Related Stress Inventory
-    questionnaireIntroductionImage: intro_image_1
+    questionnaireName: Stress
+    questionnaireIntroductionImage: stress_intro
     questionnaireDescription: Assess your current stress levels and how they affect
       your daily life.
     questionnaireIntroduction: "The Health-Related Stress Inventory (HRSI) is a self-report

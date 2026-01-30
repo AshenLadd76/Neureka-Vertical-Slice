@@ -18,8 +18,7 @@ namespace ToolBox.Performance.Fps
         [SerializeField] private int lowFpsThreshold = 25;
 
         private int _currentTargetFrameRate;
-        private bool _isBoosted = false;
-
+        
         private IEventHandler _targetFrameRateEventHandler;
         
         private ITimedFrameRateBooster _timedFrameRateBooster;

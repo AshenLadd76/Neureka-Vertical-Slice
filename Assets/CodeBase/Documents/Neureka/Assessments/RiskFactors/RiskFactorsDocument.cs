@@ -64,7 +64,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
 
             AddPageRecipes();
             
-            //Open( root );
+            Open( root );
         }
         
         public override void Open(VisualElement visualElement)

@@ -20,8 +20,6 @@ namespace UiFrameWork.Components
         private float _currentFill;
 
         public VisualElement FillElement { get; set; }
-
-        private string _fillClassName = "default-progress-fill";
         
         // UI elements
         private readonly VisualElement _root;

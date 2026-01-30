@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     playerId: 0001
-    scientificId: MCQ-30
+    scientificId: MCQ30
     scientificName: Mindful Attention Awareness Scale
     assessmentId: MCQ-30
     questionnaireID: MCQ-30
     questionnaireName: Awareness
-    questionnaireIntroductionImage: 
+    questionnaireIntroductionImage: awareness_intro
     questionnaireDescription: Evaluate your level of present-moment awareness and
       attentiveness.
     questionnaireIntroduction: "The Mindful Attention Awareness Scale (MAAS) is a

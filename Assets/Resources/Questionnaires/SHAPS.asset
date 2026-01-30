@@ -22,8 +22,12 @@ MonoBehaviour:
     questionnaireIntroductionImage: 
     questionnaireDescription: Measure your ability to experience pleasure in everyday
       activities.
-    questionnaireIntroduction: 
-    questionnaireIcon: hhi_icon
+    questionnaireIntroduction: "The Snaith-Hamilton Pleasure Scale (SHAPS) is a self-report
+      questionnaire designed to assess an individual\u2019s ability to experience
+      pleasure, known as hedonic capacity.   It helps identify areas of reduced pleasure
+      in daily life, which can be important for understanding emotional well-being
+      and detecting anhedonia."
+    questionnaireIcon: pleasure_icon
     questions:
     - I would enjoy my favorite television or radio program.
     - I would enjoy reading a book.

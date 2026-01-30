@@ -48,9 +48,11 @@ namespace UiFrameWork.Helpers
         
         public static void JumpToElementSmooth(ScrollView scrollView, VisualElement element, float duration = 0.3f, long delay = 100)
         {
+            const int topOffset = 100;
+            
             if (scrollView == null || element == null) return;
 
-            float elementTop = element.resolvedStyle.top;
+            float elementTop = element.resolvedStyle.top - topOffset;
             float maxY = scrollView.contentContainer.layout.height - scrollView.contentViewport.layout.height;
             float targetY = Mathf.Clamp(elementTop, 0, Mathf.Max(0, maxY));
 
@@ -74,10 +76,7 @@ namespace UiFrameWork.Helpers
             scrollView.schedule.Execute(repeat).ExecuteLater(delay);
         }
 
-
-
-
-    
+        
         public static void JumpTo(ScrollView scrollView, float verticalOffset)
         {
             var offset = scrollView.scrollOffset;

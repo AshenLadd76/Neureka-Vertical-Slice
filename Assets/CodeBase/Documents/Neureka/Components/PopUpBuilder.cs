@@ -12,8 +12,8 @@ namespace CodeBase.Documents.Neureka.Components
     {
         // Matches USS --popup-close-duration
         private const long CloseAnimationDurationMs = 250;
-        const long BackgroundStartingInMs = 1;
-
+        private const long BackgroundStartingInMs = 1;
+        private const long SlideInDelay = 1;
         
         private string _blurbText;
         
@@ -88,8 +88,6 @@ namespace CodeBase.Documents.Neureka.Components
             return this;
         }
         
-      
-
         public PopUpBuilder SetConfirmAction(Action confirmAction)
         {
             _confirmAction = confirmAction;
@@ -107,13 +105,9 @@ namespace CodeBase.Documents.Neureka.Components
             _root = parent;
             return this;
         }
-
         
-       
         public VisualElement Build()
         {
-            const long slideInDelay = 1;
-            
             _background = BuildBackgroundOverlay(_root);
             
             _popUpContainer =  new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpContainerStyle).AttachTo(_background).Build();
@@ -128,30 +122,20 @@ namespace CodeBase.Documents.Neureka.Components
             BuildTitle( popUpContent );
            
             BuildContentText(popUpContent);
-           
-            var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(popUpContent).Build();
-
-            if (_confirmAction != null)
-            {
-               _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", () => { ExecuteAndClose(_confirmAction); }, popupFooter);
-               _confirmButton.AddToClassList("questionnaire-footer-button-inverted");
-            }
-
-            if (_cancelAction != null)
-            {
-                _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () => { ExecuteAndClose(_cancelAction); }, popupFooter);
-
-                _cancelButton.AddToClassList("questionnaire-footer-button-inverted");
-            }
-
-            _root.MarkDirtyRepaint();
             
+            BuildFooter(popUpContent);
+            
+            AnimatePopUp();
+            
+            return _background;
+        }
+
+        private void AnimatePopUp()
+        {
             _popUpContainer.schedule.Execute(_ =>
             {
                 _popUpContainer.style.bottom = 0; // slide into view
-            }).StartingIn(slideInDelay);
-            
-            return _background;
+            }).StartingIn(SlideInDelay);
         }
         
         private VisualElement BuildBackgroundOverlay(VisualElement parent)
@@ -218,11 +202,28 @@ namespace CodeBase.Documents.Neureka.Components
                 .AttachTo(scrollview.contentContainer).AddClass("info-page-content-text").Build();
         }
 
+        private void BuildFooter(VisualElement parent)
+        {
+            var popupFooter = new ContainerBuilder().AddClass(PopupBuilderUssClassNames.PopUpFooterStyle).AttachTo(parent).Build();
+
+            if (_confirmAction != null)
+            {
+                _confirmButton = ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", () => { ExecuteAndClose(_confirmAction); }, popupFooter);
+                _confirmButton.AddToClassList("questionnaire-footer-button-inverted");
+            }
+
+            if (_cancelAction != null)
+            {
+                _cancelButton = ButtonFactory.CreateButton(ButtonType.Cancel, "Cancel", () => { ExecuteAndClose(_cancelAction); }, popupFooter);
+
+                _cancelButton.AddToClassList("questionnaire-footer-button-inverted");
+            }
+        }
+
 
         private void ExecuteAndClose(Action action)
         {
             Close(action);
-      
         }
 
         private void Close(Action action = null)
@@ -253,11 +254,7 @@ namespace CodeBase.Documents.Neureka.Components
             
         }
         
-        private void SlideOut(VisualElement popup)
-        {
-            float h = popup.resolvedStyle.height;
-            popup.style.bottom = -h;
-        }
+        private void SlideOut(VisualElement popup) => popup.style.bottom = new Length(-60, LengthUnit.Percent);
         
         private void Reset()
         {

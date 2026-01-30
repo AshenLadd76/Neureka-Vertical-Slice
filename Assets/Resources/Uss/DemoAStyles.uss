@@ -232,7 +232,7 @@
     flex-direction: column; /* stack title, blurb, and progress bar vertically */
     justify-content: space-between; /* title top, progress bar bottom */
     padding: 0px 16px;
-    background-color: #F0F2F5;
+    background-color:  #F0F2F5;
 
   
      /* or transparent if card has bg */

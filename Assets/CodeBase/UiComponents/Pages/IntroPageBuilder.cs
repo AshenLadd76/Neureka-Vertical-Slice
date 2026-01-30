@@ -1,5 +1,4 @@
 ﻿using System;
-
 using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Services.Haptics;
@@ -71,25 +70,16 @@ namespace CodeBase.UiComponents.Pages
         
         private void CreateHeader(VisualElement parent)
         {
-            var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
-            
-            new ContainerBuilder().AddClass("header-spacer").AttachTo(headerNav).Build();
-            
-            new ButtonBuilder().SetText("X")
-                .OnClick(() =>
-                {
-                    PopupFactory.CreateQuitPopup(_root, "Quitting huh ?!", "That makes sense. You have been working hard. Take a nice break and come back fresh!", _confirmQuit, _cancelQuit);
-                })
-                .AddClass("demo-header-button")
-                .AddClass(UiStyleClassDefinitions.HeaderLabel)
-                .AttachTo(headerNav)
+            var header = new StandardHeader.Builder()
+                .SetParent(parent)
+                .SetTitle(_title)
+                .SetQuitButton(() => PopupFactory.CreateQuitPopup(parent,"Quitting Already!", "\nThat's a good idea! \nTake a break and come back Fresh. You did good work.", _confirmQuit, _cancelQuit ))
+                .SetHeaderStyle("header-nav")
+                .SetTitleTextStyle("header-label")
+                .SetButtonStyle("demo-header-button")
                 .Build();
             
-            var buttonImage =  new ContainerBuilder().AddClass("button-image").AttachTo(headerNav).Build();
-            
-            var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
-
-            new LabelBuilder().SetText(_title).AddClass("header-label").AttachTo(headerTitle).Build();
+            header.SetBackButtonActive(false);
         }
 
         private void CreateContent(VisualElement parent)

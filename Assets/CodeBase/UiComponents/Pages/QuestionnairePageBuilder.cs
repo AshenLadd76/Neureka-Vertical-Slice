@@ -5,6 +5,7 @@ using CodeBase.Documents.Neureka.Components;
 using CodeBase.Documents.Neureka.Navigation;
 using CodeBase.Helpers;
 using CodeBase.Questionnaires;
+using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
@@ -12,6 +13,7 @@ using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UiFrameWork.Helpers;
 using UiFrameWork.RunTime;
+using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
@@ -19,7 +21,7 @@ namespace CodeBase.UiComponents.Pages
 {
     public class QuestionnairePageBuilder
     {
-        private const string ImagePath = "Assessments/RiskFactors/Images/";
+        private const string ImagePath = "Sprites/Questionnaires/";
         private const string MainContainerStyle = "fullscreen-container";
         private readonly int _questionCount;
         private int _questionsAnsweredCount;
@@ -91,7 +93,7 @@ namespace CodeBase.UiComponents.Pages
             _introPage =  new IntroPageBuilder(root)
                 .SetTitle(_questionnaireData.QuestionnaireName)
                 .SetContentText(_questionnaireData.QuestionnaireIntroduction)
-                .SetImagePath(ImagePath+_questionnaireData.QuestionnaireIntroductionImage)
+                .SetImagePath($"{ImagePath}{_questionnaireData.QuestionnaireIntroductionImage}")
                 .SetConfirmQuit(ConfirmQuit)
                 .SetCancelQuit(CancelQuit)
                 .Build();
@@ -152,20 +154,18 @@ namespace CodeBase.UiComponents.Pages
 
         private void CreateHeader(VisualElement parent)
         {
-            var headerNav = new ContainerBuilder().AddClass("header-nav").AttachTo(parent).Build();
+            var header = new StandardHeader.Builder()
+                .SetParent(parent)
+                .SetTitle(_questionnaireData.QuestionnaireName)
             
-            new ContainerBuilder().AddClass("header-spacer").AttachTo(headerNav).Build();
-            
-            new ButtonBuilder().SetText("X")
-                .OnClick(() => { PopupFactory.CreateQuitPopup(_root, "Quitting !!!", "If you do you will.....KILL SCIENCE!", ConfirmQuit, CancelQuit); })
-                .AddClass("demo-header-button")
-                .AddClass(UiStyleClassDefinitions.HeaderLabel)
-                .AttachTo(headerNav)
+                .SetQuitButton(() => PopupFactory.CreateQuitPopup(parent,"Quitting Already!", "\nThat's a good idea! \nTake a break and come back Fresh. You did good work.", ConfirmQuit, CancelQuit ))
+                .SetHeaderStyle("header-nav")
+                .SetTitleTextStyle("header-label")
+                .SetButtonStyle("demo-header-button")
                 .Build();
             
-            var headerTitle =  new ContainerBuilder().AddClass("header-title").AttachTo(parent).Build();
-
-            new LabelBuilder().SetText(_questionnaireData.QuestionnaireName).AddClass("header-label").AttachTo(headerTitle).Build();
+            header.SetBackButtonActive(false);
+            
         }
         
         private void ConfirmQuit()

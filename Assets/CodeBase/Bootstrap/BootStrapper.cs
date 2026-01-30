@@ -3,7 +3,7 @@ using UnityEngine;
 namespace CodeBase.Bootstrap
 {
     /// <summary>
-    /// The Bootstrapper class is responsible for initializing and persisting systems or objects
+    /// responsible for initializing and persisting systems or objects
     /// in the game at the start of the application before the scene loads.
     /// </summary>
     public static class Bootstrapper

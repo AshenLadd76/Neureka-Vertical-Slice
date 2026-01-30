@@ -1,7 +1,7 @@
 using CodeBase.Services;
 using CodeBase.UiComponents.Factories;
-using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
+using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Messaging;
 using UiFrameWork.Components;

@@ -1,6 +1,7 @@
 using System;
 using CodeBase.UiComponents.Styles;
 using UiFrameWork.Components;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace CodeBase.UiComponents.Page
@@ -11,19 +12,17 @@ namespace CodeBase.UiComponents.Page
         private Action _quitAction;
         
         private string _titleText = "Standard Header";
-        
-        private string _backButtonText  = "<";
-        private string _quitButtonText  = "X";
+      
         private VisualElement _parent;
        
         private string _headerStyle = "header-nav";
         private string _buttonStyle = "demo-header-button";
-        private string _headerTitleContainerStyle = "header-title";
-       
+        
+        private readonly string _headerTitleContainerStyle = "header-title";
         
         private string _titleTextStyle = "header-label";
 
-        public VisualElement _root { get; private set; }
+        public VisualElement Root { get; private set; }
 
         private Button _backButton { get; set;  }
         private Button _quitButton { get; set;  }
@@ -42,7 +41,7 @@ namespace CodeBase.UiComponents.Page
         {
             var headerNav = new ContainerBuilder().AddClass(_headerStyle).AttachTo(_parent).Build();
 
-            _backButton = new ButtonBuilder().SetText(_backButtonText)
+            _backButton = new ButtonBuilder()
                 .OnClick(() =>
                 {
                     _backAction?.Invoke();
@@ -54,20 +53,36 @@ namespace CodeBase.UiComponents.Page
             
             new ContainerBuilder().AttachTo(headerNav).AddClass("header-spacer").Build();
             
-            new ButtonBuilder().SetText(_quitButtonText)
+           _quitButton = new ButtonBuilder()
                 .OnClick(() =>
                 {
-                    _quitAction?.Invoke();
+                    _quitAction.Invoke();
                     
                 })
                 .AddClass(_buttonStyle)
                 .AddClass(UiStyleClassDefinitions.HeaderLabel)
                 .AttachTo(headerNav)
                 .Build();
+           
+            LoadButtonImage(_quitButton, "Sprites/quit", 48,48);
             
+            LoadButtonImage(_backButton, "Sprites/back", 36, 48);
+         
             var headerTitle =  new ContainerBuilder().AddClass(_headerTitleContainerStyle).AttachTo(_parent).Build();
-
+            
             var label = new LabelBuilder().SetText(_titleText).AddClass(_titleTextStyle).AttachTo(headerTitle).Build();
+        }
+
+
+        private void LoadButtonImage(Button button, string imagePath, int width, int height)
+        {
+            Texture2D backgroundTexture = Resources.Load<Texture2D>(imagePath);
+
+            button.style.backgroundImage = new StyleBackground(backgroundTexture);
+
+            button.style.backgroundSize = new BackgroundSize( new Length(width, LengthUnit.Pixel), new Length(height, LengthUnit.Pixel) );
+
+
         }
         
         // Builder nested class
@@ -90,14 +105,14 @@ namespace CodeBase.UiComponents.Page
             public Builder SetBackButton(Action action, string text = "<")
             {
                 _header._backAction= action;
-                _header._backButtonText = text;
+     
                 return this;
             }
 
             public Builder SetQuitButton(Action action, string text = "X")
             {
                 _header._quitAction = action;
-                _header._quitButtonText = text;
+              
                 return this;
             }
             

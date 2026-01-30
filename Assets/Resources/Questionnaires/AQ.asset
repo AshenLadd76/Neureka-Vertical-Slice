@@ -18,8 +18,8 @@ MonoBehaviour:
     scientificName: Autism-Spectrum Quotient
     assessmentId: AQ
     questionnaireID: AQ
-    questionnaireName: Autism-Spectrum Quotient
-    questionnaireIntroductionImage: intro_image_1
+    questionnaireName: Autism Spectrum
+    questionnaireIntroductionImage: autism_intro
     questionnaireDescription: Assesses autistic traits across social, communication,
       attention, and imagination domains.
     questionnaireIntroduction: "The Autism Spectrum Quotient (AQ) is a self-report
@@ -28,7 +28,7 @@ MonoBehaviour:
       and imagination. \r\n\r\nThe AQ provides a standardized way to understand characteristics
       associated with the autism spectrum, helping individuals and clinicians identify
       areas of strength and challenge in daily life."
-    questionnaireIcon: hhi_icon
+    questionnaireIcon: spectrum_icon
     questions:
     - I prefer to do things with others rather than on my own.
     - I prefer to do things the same way over and over again.
@@ -90,4 +90,4 @@ MonoBehaviour:
     - Definitely Disagree
     reverseScored: 010000000200000004000000050000000a0000000b0000000f00000010000000120000001300000017000000180000001a0000001b0000001e0000001f000000230000002400000027000000280000002c0000002d0000003000000031000000
     answerComponentType: MultipleChoice
-  icon: {fileID: 21300000, guid: 31980931a35ae964fbaedb27825685ea, type: 3}
+  icon: {fileID: 21300000, guid: 4455bc5e24e97084d95028e19405e573, type: 3}

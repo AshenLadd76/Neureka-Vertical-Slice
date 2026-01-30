@@ -18,10 +18,10 @@ MonoBehaviour:
     scientificName: Depression Anxiety Stress Scale
     assessmentId: DASS
     questionnaireID: DASS
-    questionnaireName: Depression Anxiety Stress Scale
-    questionnaireIntroductionImage: intro_image_1
-    questionnaireDescription: A 21-item questionnaire measuring levels of depression,
-      anxiety, and stress.
+    questionnaireName: Depression
+    questionnaireIntroductionImage: depression_intro
+    questionnaireDescription: A  questionnaire measuring levels of depression, anxiety,
+      and stress.
     questionnaireIntroduction: "The Depression, Anxiety, and Stress Scale (DASS)
       is a self-report questionnaire designed to measure the severity of symptoms
       across three emotional domains: depression, anxiety, and stress. \r\n\r\nIt

@@ -10,7 +10,9 @@
     "QuestionnaireID": "SHAPS",
     "QuestionnaireName": "Pleasure",
     "QuestionnaireDescription": "Measure your ability to experience pleasure in everyday activities.",
-    "QuestionnireIntroduction":"The Snaith-Hamilton Pleasure Scale (SHAPS) is a self-report questionnaire designed to assess an individual’s ability to experience pleasure, known as hedonic capacity. It helps identify areas of reduced pleasure in daily life, which can be important for understanding emotional well-being and detecting anhedonia.",
+    "QuestionnireIntroduction":"The Snaith-Hamilton Pleasure Scale (SHAPS) is a self-report questionnaire designed to assess an individual’s ability to experience pleasure, known as hedonic capacity. 
+
+It helps identify areas of reduced pleasure in daily life, which can be important for understanding emotional well-being and detecting anhedonia.",
     "IconName": "pleasure_icon",
     "Questions": [
       "I would enjoy my favorite television or radio program.",

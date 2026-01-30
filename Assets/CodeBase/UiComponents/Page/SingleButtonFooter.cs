@@ -1,12 +1,11 @@
 using System;
 using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Styles;
-using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace CodeBase.UiComponents.Footers
+namespace CodeBase.UiComponents.Page
 {
     public class SingleButtonFooter
     {
@@ -17,9 +16,9 @@ namespace CodeBase.UiComponents.Footers
         private readonly string _buttonText;
         private readonly VisualElement _parent;
         
-        private readonly string _defaultContainerStyleClass = "questionnaire-footer";
-        private readonly string _defaultButtonStyleClass = "btn-large";
-        private readonly string _defaultButtonText = "Click Me";
+       // private readonly string _defaultContainerStyleClass = "questionnaire-footer";
+       // private readonly string _defaultButtonStyleClass = "btn-large";
+        private const string DefaultButtonText = "Confirm";
         private readonly Action _defaultAction = () => {  Logger.Log( $"Hey i need you to add a proper action!" ); }; 
 
         public SingleButtonFooter(Action buttonAction, string buttonText, VisualElement parent = null)
@@ -39,7 +38,7 @@ namespace CodeBase.UiComponents.Footers
                 .Build();
 
 
-            ButtonFactory.CreateButton(ButtonType.Confirm, "Confirm", _buttonAction, container );
+            ButtonFactory.CreateButton(ButtonType.Confirm, DefaultButtonText, _buttonAction, container );
             
             return container;
         }

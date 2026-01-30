@@ -20,18 +20,5 @@ namespace UiFrameWork.Components
             _hapticType = hapticType;
             return this;
         }
-        
-        
-        // public override ButtonBuilder OnClick(Action callback)
-        // {
-        //     base.OnClick(callback);
-        //     
-        //     
-        //
-        //     return this;
-        // }
-
-        
-        
     }
 }

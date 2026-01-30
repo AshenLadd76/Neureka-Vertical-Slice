@@ -317,15 +317,15 @@ popup-title-container-centre
 
 .info-page-content-text {
     
-    padding-top: 100px;
+    padding-top: 50px;
     padding-left: 45px;
     padding-right: 30px;
 
-    font-size: 42px;
+    font-size: 40px;
     white-space: normal;
     overflow-wrap: break-word;
-    word-break: break-word; /* extra safety for long words */
-    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Bold-sdf.asset");
+  
+    -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-bold-sdf.asset");
     color: #0C1353;
 
     /* Flex / alignment */

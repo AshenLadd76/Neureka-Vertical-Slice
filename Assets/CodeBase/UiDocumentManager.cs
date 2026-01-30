@@ -20,12 +20,12 @@ namespace CodeBase
         private void Awake()
         {
             _uiDocument = GetComponent<UIDocument>();
+            
+            ObjectValidator.Validate(this, this, true);
 
             SafeAreaContainer = new ContainerBuilder().AddClass("safe-area-container")
                 .AttachTo(_uiDocument.rootVisualElement).Build();
             
-            ObjectValidator.Validate(_uiDocument);
-
             UssLoader.LoadAllUssFromFolder(_uiDocument.rootVisualElement, UssPath);
         }
 

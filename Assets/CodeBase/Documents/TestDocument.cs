@@ -1,16 +1,14 @@
-using CodeBase.Documents;
-using CodeBase.UiComponents.Footers;
 using CodeBase.UiComponents.Headers;
+using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Messaging;
-using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace CodeBase.Pages
+namespace CodeBase.Documents
 {
     public class TestDocument : BaseDocument
     {
@@ -18,7 +16,7 @@ namespace CodeBase.Pages
         
         private VisualElement _documentRoot;
         
-        public void Close()
+        public override void Close()
         {
             if (_documentRoot == null) return;
             
