@@ -156,8 +156,12 @@ namespace CodeBase.Documents.Neureka.Components
         {
             Texture2D texture = ResolveTexture();
 
-            if (texture == null) return;
-            
+            if (texture == null)
+            {
+                Logger.Log(  $"Texture could not be resolved");
+                return;
+            }
+
             // Use local variables for width/height, fallback to texture native size
             int width = _imageWidth != 0 ? _imageWidth : texture.width;
             int height = _imageHeight != 0 ? _imageHeight : texture.height;
@@ -174,6 +178,8 @@ namespace CodeBase.Documents.Neureka.Components
         
         private Texture2D ResolveTexture()
         {
+            Logger.Log( $"Resolving : { _imageResourcePath  }" );
+            
             return _imageTexture2D 
                    ?? _imageSprite?.texture 
                    ?? (!string.IsNullOrEmpty(_imageResourcePath) ? Resources.Load<Texture2D>(_imageResourcePath) : null);

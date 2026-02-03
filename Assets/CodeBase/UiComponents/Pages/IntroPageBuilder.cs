@@ -73,7 +73,7 @@ namespace CodeBase.UiComponents.Pages
             var header = new StandardHeader.Builder()
                 .SetParent(parent)
                 .SetTitle(_title)
-                .SetQuitButton(() => PopupFactory.CreateQuitPopup(parent,"Quitting Already!", "\nThat's a good idea! \nTake a break and come back Fresh. You did good work.", _confirmQuit, _cancelQuit ))
+                .SetQuitButton(() => PopupFactory.CreateQuitPopup(parent,"Quitting Already!", "\nTime for a break? That's a good idea, you earned it.", _confirmQuit, _cancelQuit ))
                 .SetHeaderStyle("header-nav")
                 .SetTitleTextStyle("header-label")
                 .SetButtonStyle("demo-header-button")

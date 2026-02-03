@@ -4,7 +4,6 @@ using CodeBase.Documents.Neureka.Components;
 using CodeBase.Helpers;
 using CodeBase.Services;
 using CodeBase.UiComponents;
-using CodeBase.UiComponents.Styles;
 using ToolBox.Data.Parsers;
 using ToolBox.Extensions;
 using ToolBox.Messaging;
@@ -28,7 +27,10 @@ namespace CodeBase.Documents.Neureka.Navigation
         private Color[] _colors = (new []{ new Color( 0.99f, 0.58f, 0.24f  ), new Color(0.17f, 0.66f, 0.79f ), new Color(0.8f, 0.2f, 0.45f), new Color(0.44f, 0.615f, 0.98f ), new Color(0.52f, 0.50f, 0.67f),  new Color(0.38f, 0.8f, 0.51f ), new Color( 0.36f, 0.45f, 0.76f ) });
         
         private const string NavIconResourcePath = "Navigation/NavIconsSo";
-       
+
+        private const string RiskFactorsInfo = "Risk Factors is one example of an assessment in the original Neureka app, designed to collect user responses in a structured and interactive format.";
+        
+        private const string QuestionnaireInfo = "This section shows examples of questionnaires from the original app, They demonstrate how the app creates interactive, responsive questionnaires on the fly using the ui framework.";
         
         private VisualElement _navRoot;
         private VisualElement _content;
@@ -44,6 +46,8 @@ namespace CodeBase.Documents.Neureka.Navigation
         
         private const string BackgroundGradientPath = "Gradients/fade_2";
         private const string InfoBoxBackgroundGradientPath = "Gradients/blue";
+        private const string LogoTexturePath = "Sprites/Neureka/logo_neureka";
+        private const string RiskFactorsIconPath = "Sprites/Assessments/risk_factors_icon";
         
         public override bool ShouldCache => true;
 
@@ -107,11 +111,11 @@ namespace CodeBase.Documents.Neureka.Navigation
         {
             var logo = new ContainerBuilder().AddClass(NavUssClassNames.NavHeaderLogo).AttachTo(parent).Build();
             
-            var logoTexture = Resources.Load<Texture2D>("Sprites/Neureka/logo_neureka");
+            var logoTexture = Resources.Load<Texture2D>(LogoTexturePath);
             
             Logger.Log(logoTexture != null ? "Loaded successfully!" : "Failed to load!");
             
-            var logoImage = new ImageBuilder().SetTexture(logoTexture).AddClass("header-logo").AttachTo(logo).Build();
+            var logoImage = new ImageBuilder().SetTexture(logoTexture).AddClass(NavUssClassNames.HeaderLogo).AttachTo(logo).Build();
 
             logoImage.tintColor = _logoColor;
         }
@@ -124,7 +128,7 @@ namespace CodeBase.Documents.Neureka.Navigation
             
             BuildAssessment(scrollView);
             
-            var emptyContainer = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+            var emptyContainer = new ContainerBuilder().AddClass(NavUssClassNames.NavScrollViewContent).AttachTo(scrollView).Build();
             
             _sectionPages.Add(emptyContainer);
             _sectionPages.Add(emptyContainer);
@@ -138,39 +142,30 @@ namespace CodeBase.Documents.Neureka.Navigation
                 return;
             }
             
-            var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+            var container = new ContainerBuilder().AddClass(NavUssClassNames.NavScrollViewContent).AttachTo(scrollView).Build();
             
-            new InfoBoxBuilder().SetText("This section shows examples of questionnaires from the original app, " +
-                                         "dynamically generated using UI Toolkit and a custom UI framework. " +
-                                         "They demonstrate how the app creates interactive, responsive questionnaires on the fly.")
-                .SetAction(() => { Debug.Log("This works ok"); })
-                .AttachTo(container).Build();
+            new InfoBoxBuilder().SetText(QuestionnaireInfo).AttachTo(container).Build();
             
-            int count = 0;
-
-            foreach (var t in ids)
-            {   
-                BuildMenuCard(container, t, _colors[count]);
-
-                count++;
-            }
-
+            for(var i =0; i < ids.Length; i++)
+                TryBuildMenuCard(container, ids[i], _colors[i]);
+                
             _sectionPages.Add(container);
         }
 
         private void BuildAssessment(ScrollView scrollView)
         {
-             var iconSprite = Resources.Load<Sprite>("Sprites/Assessments/risk_factors_icon");
+             var iconSprite = Resources.Load<Sprite>(RiskFactorsIconPath);
 
              if (iconSprite == null)
              {
                  Logger.Log("Building Assessment Failed Sprite is null");
              }
             
-             var container = new ContainerBuilder().AddClass("scroll-view-content").AttachTo(scrollView).Build();
+             var container = new ContainerBuilder().AddClass(NavUssClassNames.NavScrollViewContent).AttachTo(scrollView).Build();
              
-             new InfoBoxBuilder().SetText("This is a sample assessment, dynamically created using a custom UI framework built on top of UI Toolkit. " +
-                                          "It represents an assessment from the release version of the app.").AttachTo(container).Build();
+             
+             
+             new InfoBoxBuilder().SetText(RiskFactorsInfo).AttachTo(container).Build();
             
             new MenuCardBuilder()
                 .SetParent(container)
@@ -185,7 +180,8 @@ namespace CodeBase.Documents.Neureka.Navigation
             _sectionPages.Add(container); 
         }
 
-        private void BuildMenuCard(VisualElement container,  string id, Color color)
+
+        private void TryBuildMenuCard(VisualElement container,  string id, Color color)
         {
             if (_standardQuestionnaireDictionary.IsNullOrEmpty())
             {
@@ -194,9 +190,20 @@ namespace CodeBase.Documents.Neureka.Navigation
             }
             
             var cleanId = id.Trim().ToLower();
-            
-            var standardQuestionnaireData = _standardQuestionnaireDictionary[cleanId];
 
+            if (!_standardQuestionnaireDictionary.TryGetValue(cleanId,
+                    out StandardQuestionnaireSo standardQuestionnaireData))
+            {
+                Logger.Log("Building Menu Card Failed required data not available");
+                return;
+            }
+            
+            BuildMenuCard(container, standardQuestionnaireData, color, cleanId);
+        }
+        
+        private void BuildMenuCard(VisualElement container, StandardQuestionnaireSo standardQuestionnaireData, Color color, string id)
+        {
+            
             var title = standardQuestionnaireData.Data.QuestionnaireName;
             var blurb  = standardQuestionnaireData.Data.QuestionnaireDescription;
             var icon = standardQuestionnaireData.Icon;
@@ -213,7 +220,7 @@ namespace CodeBase.Documents.Neureka.Navigation
                 .SetIcon(icon)
                 .SetProgress(Random.Range(0f, 1f))
                 .SetIconBackgroundColor( color )
-                .SetAction(MenuActions.RequestQuestionnaire(cleanId))
+                .SetAction(MenuActions.RequestQuestionnaire(id))
                 .Build();
             
             container.style.display = DisplayStyle.Flex;
@@ -337,21 +344,6 @@ namespace CodeBase.Documents.Neureka.Navigation
 
             _standardQuestionnaireDictionary = dictionary;
         }
-
-        
-        
-        private void SetBackGroundGradientTexture(VisualElement parent)
-        {
-            var gradientTexture = Resources.Load<Texture2D>(InfoBoxBackgroundGradientPath);
-
-            if (gradientTexture == null)
-            {
-                Logger.Log("Splash Page Build Failed to load Gradient Texture");
-                return;
-            }
-
-            new ImageBuilder().SetTexture(gradientTexture).AttachTo(parent).SetScaleMode(ScaleMode.StretchToFill).AddClass(UiStyleClassDefinitions.SplashGradient).Build();
-        }
     }
 
 
@@ -361,10 +353,12 @@ namespace CodeBase.Documents.Neureka.Navigation
         public const string NavBodyContainer = "nav-body-container";
         public const string NavScrollViewContainer = "nav-scroll-no-scroll-bars";
         public const string NavDivider = "nav-divider";
+        public const string HeaderLogo = "header-logo";
         public const string NavHeaderLogo = "nav-header-logo";
         public const string NaVFooter = "nav-footer-container";
         public const string NavFooterButton = "nav-footer-button";
         public const string NavFooterIcon = "nav-footer-icon";
         public const string NavScrollSpacer = "nav-scroll-view-top-spacer";
+        public const string NavScrollViewContent = "nav-scroll-view-content";
     }
 }

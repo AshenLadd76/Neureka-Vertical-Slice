@@ -19,7 +19,7 @@ MonoBehaviour:
     assessmentId: SHAPS
     questionnaireID: SHAPS
     questionnaireName: Pleasure
-    questionnaireIntroductionImage: 
+    questionnaireIntroductionImage: pleasure_intro
     questionnaireDescription: Measure your ability to experience pleasure in everyday
       activities.
     questionnaireIntroduction: "The Snaith-Hamilton Pleasure Scale (SHAPS) is a self-report

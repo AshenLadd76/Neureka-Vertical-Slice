@@ -109,7 +109,7 @@ namespace CodeBase.Documents.Neureka.Assessments
                 .SetParent(parent)
                 .SetTitle(_infoPageContent.Title)
                 .SetBackButton(Previous)
-                .SetQuitButton(() => PopupFactory.CreateQuitPopup(_parent,"Quitting Already!", "\nThat's a good idea! \nTake a break and come back Fresh. You did good work.", ConfirmQuit, CancelQuit ))
+                .SetQuitButton(() => PopupFactory.CreateQuitPopup(_parent,"Quitting Already!", "\nTime for a break? That's a good idea, you earned it.", ConfirmQuit, CancelQuit ))
                 .SetHeaderStyle("header-nav")
                 .SetTitleTextStyle("header-label")
                 .SetButtonStyle("demo-header-button")

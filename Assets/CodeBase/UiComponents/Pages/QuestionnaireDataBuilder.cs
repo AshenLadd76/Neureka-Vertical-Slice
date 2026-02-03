@@ -7,7 +7,7 @@ namespace CodeBase.UiComponents.Pages
     public class QuestionnaireDataBuilder
     {
         private StandardQuestionnaireTemplate _template;
-        private Dictionary<int, AnswerData> _answers = new();
+        private Dictionary<int, AnswerData>  _answers = new();
 
         public QuestionnaireDataBuilder SetTemplate(StandardQuestionnaireTemplate template)
         {
@@ -36,7 +36,7 @@ namespace CodeBase.UiComponents.Pages
                 AssessmentId = _template.AssessmentId,
                 QuestionnaireID = _template.QuestionnaireID,
                 QuestionnaireName = _template.QuestionnaireName,
-                QuestionnaireDescription = _template.QuestionnaireName,
+                QuestionnaireDescription = _template.QuestionnaireDescription,
                 Answers = _answers,
                 ReverseScored = _template.ReverseScored.ToList()
             };

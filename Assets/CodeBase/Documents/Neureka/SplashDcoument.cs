@@ -1,7 +1,7 @@
+using System.Collections;
 using CodeBase.UiComponents.Styles;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
-using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
@@ -14,6 +14,7 @@ namespace CodeBase.Documents.Neureka
     {
         private const string BackgroundGradientPath = "Gradients/blue";
         private const string LogoTexturePath = "Sprites/Neureka/logo_neureka";
+        private const string SpinnerPath = "Sprites/spinner";
     
         private ICoroutineRunner _coroutineRunner;
         private Coroutine _openPageCoroutine;
@@ -45,7 +46,8 @@ namespace CodeBase.Documents.Neureka
             var logoImage = new ImageBuilder().SetTexture(logoTexture).AddClass("logo").AttachTo(overlayContainer).Build();
             
             Logger.Log("Splash Page Build Success");
-            
+
+            _coroutineRunner.StartCoroutine(CountDownToLoadPageCr(overlayContainer));
         }
         
         private void SetBackGroundGradientTexture(VisualElement parent)
@@ -64,11 +66,38 @@ namespace CodeBase.Documents.Neureka
         private void OnClickAction(bool closeSelf)
         {
            Logger.Log($"OnClickAction splash document {closeSelf}");
-           MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nav);
            
-           _pageRoot.RemoveFromHierarchy();
-           Close();
+           LoadAndClose();
+        }
 
+        private IEnumerator CountDownToLoadPageCr(VisualElement parent)
+        {
+            float speed = 45f;
+            float timeLimit = 1.5f;
+            float spinnerImageSize = 96;
+            float startTime = Time.time;
+            
+            var gradientTexture = Resources.Load<Texture2D>(SpinnerPath);
+            
+            var icon = new ImageBuilder().SetTexture(gradientTexture).AttachTo(parent).SetWidth(spinnerImageSize).SetHeight(spinnerImageSize).AddClass(UiStyleClassDefinitions.SplashGradient).Build();
+            
+            while(Time.time - startTime < timeLimit)
+            {
+                icon.style.rotate = new Rotate((Time.time - startTime) * speed);
+                
+                yield return null;
+            }
+            
+            LoadAndClose();
+        }
+
+        private void LoadAndClose()
+        {
+            MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nav);
+           
+            _pageRoot.RemoveFromHierarchy();
+            
+            Close();
         }
     }
 }

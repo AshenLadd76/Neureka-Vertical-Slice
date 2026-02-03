@@ -32,6 +32,8 @@ namespace CodeBase.UiComponents.Pages
 
                 var jsonData = _jsonSerializer.Serialize(questionnaireData);
 
+                
+                //Debug
                 Logger.Log(jsonData);
 
                 var webData = new WebData

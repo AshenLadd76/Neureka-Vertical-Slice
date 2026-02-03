@@ -26,9 +26,10 @@ namespace CodeBase.UiComponents.Pages
         public static VisualElement CreateQuitPopup(VisualElement root, string title, string message, Action onConfirm, Action onCancel)
         {
             return new PopUpBuilder()
-                .SetTitleText(title)
+                //.SetTitleText(title)
                 .SetContentText(message)
-                .SetPercentageHeight(60)
+                .SetPercentageHeight(50)
+                .SetImage("Sprites/break")
                 .SetConfirmAction(() =>
                 {
                     HapticsHelper.RequestHaptics();
@@ -43,7 +44,5 @@ namespace CodeBase.UiComponents.Pages
                 .Build();
             
         }
-
-        // Add more popup types as needed...
     }
 }

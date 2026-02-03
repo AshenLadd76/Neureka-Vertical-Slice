@@ -33,7 +33,7 @@
     background-color: #fff;
     width:100%;
     min-height: 5%;
-    padding-top: 10px;
+    padding-top: 0px;
     padding-left: 40px;
     padding-right: 20px;
     padding-bottom: 20px;
@@ -75,7 +75,7 @@
 
 /* Header label */
 .header-label {
-   
+    
     font-size: 56px;
     color: #0C1353; /* medium grey */
     -unity-font-definition: url("/Assets/Resources/Fonts/Lato/Lato-Heavy-sdf.asset");

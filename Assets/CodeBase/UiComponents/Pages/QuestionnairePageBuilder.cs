@@ -157,8 +157,7 @@ namespace CodeBase.UiComponents.Pages
             var header = new StandardHeader.Builder()
                 .SetParent(parent)
                 .SetTitle(_questionnaireData.QuestionnaireName)
-            
-                .SetQuitButton(() => PopupFactory.CreateQuitPopup(parent,"Quitting Already!", "\nThat's a good idea! \nTake a break and come back Fresh. You did good work.", ConfirmQuit, CancelQuit ))
+                .SetQuitButton(() => PopupFactory.CreateQuitPopup(parent,"Quitting Already!", "\nTake a break and come back Fresh. You did good work.", ConfirmQuit, CancelQuit ))
                 .SetHeaderStyle("header-nav")
                 .SetTitleTextStyle("header-label")
                 .SetButtonStyle("demo-header-button")
@@ -201,7 +200,7 @@ namespace CodeBase.UiComponents.Pages
         {
             var questionnaireSubmissionHandler =
                 new QuestionnaireSubmissionHandler(_questionnaireData, _answerDataDictionary, _jsonSerializer,
-                    () => { PopupFactory.CreateConfirmationPopup(_root , "Thank You!", "For taking the time to complete this questionnaire", ConfirmFinished);  });
+                    () => { PopupFactory.CreateConfirmationPopup(_root , "Thank You!", "For taking the time to complete this questionnaire.", ConfirmFinished);  });
             
             var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
             
