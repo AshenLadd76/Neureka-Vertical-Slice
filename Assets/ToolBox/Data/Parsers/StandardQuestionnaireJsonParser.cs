@@ -132,7 +132,7 @@ namespace ToolBox.Data.Parsers
             {
                 AssetDatabase.CreateAsset(asset, $"{fullPath}");
                 AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
+            
             }
             catch (Exception e)
             {
@@ -144,6 +144,9 @@ namespace ToolBox.Data.Parsers
             
             if (!DeleteSourceFile(pathToSourceFile))
                 Logger.LogWarning($"Failed to delete source file: {pathToSourceFile}");
+            
+            
+            AssetDatabase.Refresh();
         }
     }
 }

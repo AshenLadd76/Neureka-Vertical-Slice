@@ -37,26 +37,6 @@ namespace UiFrameWork.Components
             
             return this;
         }
-
-        // public ContainerBuilder SetOnClick(Action onClick)
-        // {
-        //     if (onClick == null)
-        //         throw new System.ArgumentNullException(nameof(onClick));
-        //     
-        //     VisualElement.RegisterCallback<ClickEvent>(evt =>
-        //     {
-        //         onClick?.Invoke();
-        //     });
-        //     return this;
-        //     
-        //
-        // }
         
-        
-        // public PanelBuilder OnGeometryChanged(EventCallback<GeometryChangedEvent> callback)
-        // {
-        //     _visualElement.RegisterCallback(callback);
-        //     return this;
-        // }
     }
 }

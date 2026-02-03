@@ -17,6 +17,28 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace UiFrameWork.RunTime
 {
+    /// <summary>
+    /// Manages the creation, caching, and display of application documents within a UIDocument context.
+    /// <para>
+    /// This service maintains a dictionary of document factories (<see cref="_documents"/>) to build
+    /// documents on demand, and a cache (<see cref="_cachedDocuments"/>) for documents that should persist
+    /// across multiple openings, such as the navigation document. Documents are displayed within the
+    /// <see cref="_safeAreaContainer"/> of the associated <see cref="UiDocumentManager"/>.
+    /// </para>
+    /// <para>
+    /// For prototypes, only the navigation document is cached; other documents are built and disposed
+    /// on demand. The service listens for <see cref="DocumentServiceMessages.OnRequestOpenDocument"/>
+    /// messages to open documents.
+    /// </para>
+    /// <param name="UIDocument">Requires a UIDocument component on the GameObject to manage the UI hierarchy.</param>
+    /// <param name="_uiDocumentManager">Reference to the UIDocument manager providing the safe area container.</param>
+    /// <param name="_safeAreaContainer">The VisualElement that acts as the parent container for all document UI.</param>
+    /// <param name="_fileDataService">Handles loading and saving of document data, such as JSON files.</param>
+    /// <param name="_coroutineRunner">Provides coroutine support for documents that require async operations.</param>
+    /// </summary>
+    ///
+    /// 
+    
     [RequireComponent(typeof(UIDocument))]
     public class DocumentService : BaseService
     {

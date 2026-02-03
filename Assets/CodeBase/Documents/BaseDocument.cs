@@ -9,6 +9,11 @@ using Logger = ToolBox.Utils.Logger;
 
 namespace CodeBase.Documents
 {
+    /// <summary>
+    /// Base class for all documents in the application.
+    /// Handles opening, closing, building, and managing pages within a document.
+    /// </summary>
+    
     public class BaseDocument : IDocument
     {
         public virtual bool ShouldCache => false;
