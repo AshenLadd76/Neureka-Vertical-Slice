@@ -9,8 +9,8 @@
         "AssessmentId": "HHI",
         "QuestionnaireID": "HHI",
         "QuestionnaireName": "Hearing",
-        "QuestionnaireIntroductionImage": "intro_image_1",
-        "QuestionnaireDescription": "A 10-item questionnaire assessing how hearing difficulties affects daily life.",
+        "QuestionnaireIntroductionImage": "hearing_intro",
+        "QuestionnaireDescription": "Assesses how hearing difficulties affects daily life.",
         "QuestionnaireIntroduction":"The Hearing Handicap Inventory (HHI) is a self-assessment questionnaire designed to evaluate how hearing difficulties impact your daily life.
 
 It helps identify the emotional and social effects of hearing loss, including challenges in conversations, social interactions, and routine activities.",

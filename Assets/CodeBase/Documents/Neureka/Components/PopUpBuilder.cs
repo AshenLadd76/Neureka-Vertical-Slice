@@ -168,12 +168,14 @@ namespace CodeBase.Documents.Neureka.Components
 
             Logger.Log($"Displaying image {_imageResourcePath ?? "<passed texture/sprite>"} at {width}x{height}");
 
-            new ImageBuilder()
+            var image = new ImageBuilder()
                 .SetTexture(texture)
                 .SetWidth(width)
                 .SetHeight(height)
                 .AttachTo(parent)
                 .Build();
+
+            image.style.paddingTop = new Length(60, LengthUnit.Pixel );
         }
         
         private Texture2D ResolveTexture()

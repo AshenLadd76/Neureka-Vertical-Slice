@@ -18,15 +18,15 @@ MonoBehaviour:
     scientificName: Sleep Quality Scale
     assessmentId: SQS
     questionnaireID: SQS
-    questionnaireName: Sleep Quality Scale
+    questionnaireName: Sleep
     questionnaireIntroductionImage: sleep_intro
-    questionnaireDescription: A 30-item self-report scale designed to assess overall
-      sleep quality, disturbances, and daytime sleepiness.
-    questionnaireIntroduction: "The Sleep Quality Scale is a standardized questionnaire
-      designed to assess overall sleep quality over a defined period. It evaluates
-      factors such as sleep duration, disturbances, restfulness, and perceived sleep
-      satisfaction to provide insight into an individual\u2019s sleep patterns and
-      potential sleep-related issues."
+    questionnaireDescription: Assess your sleep habits and sleep quality.
+    questionnaireIntroduction: "The Sleep Questionnaire (SQS) is a standardized assessment
+      tool designed to evaluate sleep patterns, quality, and disturbances. \r\n\r\nIt
+      gathers self-reported data on aspects such as bedtime routines, sleep duration,
+      night-time awakenings, and subjective sleep quality. The questionnaire helps
+      identify potential sleep issues and supports research or clinical decision-making
+      in sleep health."
     questionnaireIcon: sleep_icon
     questions:
     - I have trouble falling asleep at night.

@@ -28,7 +28,7 @@ namespace CodeBase.UiComponents.Pages
             return new PopUpBuilder()
                 //.SetTitleText(title)
                 .SetContentText(message)
-                .SetPercentageHeight(50)
+                .SetPercentageHeight(52)
                 .SetImage("Sprites/break")
                 .SetConfirmAction(() =>
                 {

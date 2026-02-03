@@ -18,7 +18,7 @@ MonoBehaviour:
     scientificName: Autism-Spectrum Quotient
     assessmentId: AQ
     questionnaireID: AQ
-    questionnaireName: Autism Spectrum
+    questionnaireName: Autism-Spectrum
     questionnaireIntroductionImage: autism_intro
     questionnaireDescription: Assesses autistic traits across social, communication,
       attention, and imagination domains.

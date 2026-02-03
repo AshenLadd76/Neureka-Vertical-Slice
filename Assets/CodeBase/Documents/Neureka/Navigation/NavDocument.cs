@@ -30,7 +30,7 @@ namespace CodeBase.Documents.Neureka.Navigation
 
         private const string RiskFactorsInfo = "Risk Factors is one example of an assessment in the original Neureka app, designed to collect user responses in a structured and interactive format.";
         
-        private const string QuestionnaireInfo = "This section shows examples of questionnaires from the original app, They demonstrate how the app creates interactive, responsive questionnaires on the fly using the ui framework.";
+        private const string QuestionnaireInfo = "This section shows examples of questionnaires from the original app, \n\nThey demonstrate how the app creates interactive, responsive questionnaires on the fly using the FluentUI framework.\n\nPlease not that the game and settings sections are disabled at this time.";
         
         private VisualElement _navRoot;
         private VisualElement _content;
