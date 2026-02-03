@@ -1,11 +1,9 @@
-using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class GridOverlayBuilder : BaseBuilder<VisualElement, GridOverlayBuilder>
+    public class GridOverlayBuilder : FluentUI.Builders.BaseBuilder<VisualElement, GridOverlayBuilder>
     {
 
         private int _originalImageWidth;

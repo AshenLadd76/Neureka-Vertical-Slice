@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Helpers
+namespace FluentUI.Helpers
 {
     public class Recipe<T>
     {

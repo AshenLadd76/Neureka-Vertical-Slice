@@ -1,14 +1,14 @@
 #if UNITY_EDITOR
 
+using FluentUI.Components;
+using FluentUI.Tools;
 using UiFrameWork.Builders;
-using UiFrameWork.Components;
 using UiFrameWork.Helpers;
-using UiFrameWork.Tools;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Editor
+namespace FluentUI.Editor
 {
     public class TestEditorWindow : EditorWindow
     {

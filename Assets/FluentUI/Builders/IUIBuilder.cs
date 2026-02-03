@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace FluentUI.Builders
 {
     /// <summary>
     /// A generic fluent interface for building UI Toolkit elements.

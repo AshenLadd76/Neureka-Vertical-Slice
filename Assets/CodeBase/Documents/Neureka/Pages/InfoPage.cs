@@ -1,6 +1,7 @@
 using CodeBase.Documents.DemoA.Components;
 using CodeBase.Helpers;
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine.UIElements;

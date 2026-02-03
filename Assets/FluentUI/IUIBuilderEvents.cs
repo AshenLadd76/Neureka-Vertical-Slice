@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace UiFrameWork
+namespace FluentUI
 {
     public interface IUIBuilderEvents<TElement, TBuilder>
         where TElement : VisualElement

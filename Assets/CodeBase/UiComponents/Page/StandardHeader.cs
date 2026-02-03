@@ -1,5 +1,6 @@
 using System;
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
 using UiFrameWork.Components;
 using UnityEngine;
 using UnityEngine.UIElements;

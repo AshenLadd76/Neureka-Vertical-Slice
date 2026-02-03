@@ -1,9 +1,8 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace FluentUI.Components
 {
-    public class RadioButtonBuilder : BaseBuilder<RadioButton, RadioButtonBuilder>
+    public class RadioButtonBuilder : FluentUI.Builders.BaseBuilder<RadioButton, RadioButtonBuilder>
     {
         
     }

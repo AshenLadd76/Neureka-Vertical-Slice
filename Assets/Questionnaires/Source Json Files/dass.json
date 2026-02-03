@@ -9,12 +9,12 @@
     "AssessmentId": "DASS",
     "QuestionnaireID": "DASS",
     "QuestionnaireName": "Depression",
-    "QuestionnaireDescription": "A 21-item questionnaire measuring levels of depression, anxiety, and stress.",
-     "QuestionnaireIntroductionImage": "intro_image_1",
+    "QuestionnaireDescription": "Measures levels of depression, anxiety, and stress.",
+     "QuestionnaireIntroductionImage": "depression_intro",
     "QuestionnaireIntroduction": "The Depression, Anxiety, and Stress Scale (DASS) is a self-report questionnaire designed to measure the severity of symptoms across three emotional domains: depression, anxiety, and stress. 
 
 It helps individuals understand their current emotional state and identify areas that may benefit from support or intervention.",
-    "IconName": "dass_icon",
+    "QuestionnaireIcon": "dass_icon",
 
     "Questions": [
       "I found it hard to wind down.",

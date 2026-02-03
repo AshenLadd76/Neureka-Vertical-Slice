@@ -1,6 +1,7 @@
 using System;
 using CodeBase.Documents.DemoA;
 using CodeBase.UiComponents.Headers;
+using FluentUI.Components;
 using ToolBox.Extensions;
 using ToolBox.Utils;
 using UiFrameWork.Builders;

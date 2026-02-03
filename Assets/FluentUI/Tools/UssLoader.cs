@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Tools
+namespace FluentUI.Tools
 {
     public static class UssLoader 
     {

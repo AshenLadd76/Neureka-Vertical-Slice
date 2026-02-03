@@ -1,9 +1,8 @@
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace FluentUI.Builders
 {
-    public class UIDocumentConfigurator : BaseBuilder<VisualElement, UIDocumentConfigurator>
+    public class UIDocumentConfigurator : FluentUI.Builders.BaseBuilder<VisualElement, UIDocumentConfigurator>
     {
         private UIDocument _uiDocument;
 
@@ -19,17 +18,6 @@ namespace UiFrameWork.Builders
             VisualElement = _uiDocument.rootVisualElement;
             return this;
         }
-
-        // Example additional convenience
-        // public UIDocumentBuilder ApplySafeArea()
-        // {
-        //     var safe = Screen.safeArea;
-        //     _visualElement.style.paddingTop = safe.yMin;
-        //     _visualElement.style.paddingBottom = Screen.height - safe.yMax;
-        //     _visualElement.style.paddingLeft = safe.xMin;
-        //     _visualElement.style.paddingRight = Screen.width - safe.xMax;
-        //     return this;
-        // }
     }
 }
 

@@ -2,7 +2,7 @@ using UnityEngine.UIElements;
 
 namespace UiFrameWork.Builders
 {
-    public class SpaceBuilder : BaseBuilder<VisualElement, SpaceBuilder>
+    public class SpaceBuilder : FluentUI.Builders.BaseBuilder<VisualElement, SpaceBuilder>
     {
         public SpaceBuilder Horizontal(float width)
         {

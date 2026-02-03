@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Helpers
+namespace FluentUI.Helpers
 {
     public class SimplePointerHelper
     {

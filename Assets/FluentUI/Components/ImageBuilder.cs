@@ -1,11 +1,10 @@
-using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class ImageBuilder : BaseBuilder<Image, ImageBuilder>
+    public class ImageBuilder : FluentUI.Builders.BaseBuilder<Image, ImageBuilder>
     {
         private Texture2D _texture;
         
@@ -70,11 +69,6 @@ namespace UiFrameWork.Components
             return this;
         }
         
-        public ImageBuilder SetNineSlice(RectOffset border)
-        {
-            return this;
-        }
-
         public ImageBuilder FlipVertical()
         {
             VisualElement.transform.scale = new Vector3(1, -1, 1);

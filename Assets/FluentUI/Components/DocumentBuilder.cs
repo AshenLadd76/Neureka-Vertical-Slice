@@ -2,7 +2,7 @@ using UnityEngine.UIElements;
 
 namespace UiFrameWork.Builders
 {
-    public class DocumentBuilder : BaseBuilder<VisualElement,DocumentBuilder>
+    public class DocumentBuilder : FluentUI.Builders.BaseBuilder<VisualElement,DocumentBuilder>
     {
         
     }

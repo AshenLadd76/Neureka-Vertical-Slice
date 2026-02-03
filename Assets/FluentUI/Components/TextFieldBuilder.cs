@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace UiFrameWork.Builders
 {
-    public class TextFieldBuilder : BaseBuilder<TextField, TextFieldBuilder>
+    public class TextFieldBuilder : FluentUI.Builders.BaseBuilder<TextField, TextFieldBuilder>
     {
         public TextFieldBuilder SetText(string text)
         {

@@ -1,6 +1,7 @@
 using System;
 using CodeBase.UiComponents.Factories;
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
 using UiFrameWork.Components;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;

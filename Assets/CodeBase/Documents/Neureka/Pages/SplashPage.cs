@@ -1,4 +1,5 @@
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;

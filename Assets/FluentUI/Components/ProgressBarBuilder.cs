@@ -1,12 +1,10 @@
 using System;
-using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Logger = ToolBox.Utils.Logger;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class ProgressBarBuilder : BaseBuilder<VisualElement, ProgressBarBuilder>
+    public class ProgressBarBuilder : Builders.BaseBuilder<VisualElement, ProgressBarBuilder>
     {
         private const string DefaultFillClass = "progress-bar-fill";
         private const string DefaultRootClass = "progress-bar-new";
@@ -47,7 +45,6 @@ namespace UiFrameWork.Components
             // Root element (always exists)
             VisualElement.AddToClassList(_rootClass);
             _root = VisualElement; // BaseBuilder.VisualElement is now the root
-            
             
             // Track element (background)
             _track = new ContainerBuilder()

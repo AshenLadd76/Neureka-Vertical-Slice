@@ -1,4 +1,5 @@
 using CodeBase.UiComponents.Headers;
+using FluentUI.Components;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UnityEngine;

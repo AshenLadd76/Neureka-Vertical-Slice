@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace FluentUI.Components
 {
-    public class SliderBuilder : BaseBuilder<Slider, SliderBuilder>
+    public class SliderBuilder : Builders.BaseBuilder<Slider, SliderBuilder>
     {
         private float _minValue;
         private float _maxValue;

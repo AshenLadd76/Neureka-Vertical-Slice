@@ -4,7 +4,7 @@ using ToolBox.Extensions;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
- namespace UiFrameWork.Builders
+ namespace FluentUI.Builders
  {
      public partial class BaseBuilder<TElement, TBuilder> : IUIBuilder<TElement, TBuilder>
          where TElement : VisualElement, new()

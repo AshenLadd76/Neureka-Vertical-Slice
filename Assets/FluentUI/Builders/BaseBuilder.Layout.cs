@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Builders
+namespace FluentUI.Builders
 {
     public partial class BaseBuilder<TElement, TBuilder> 
     {
         
         #region Layout & Styling
         
-        public TBuilder SetPosition(Position position) { VisualElement.style.position = position; return (TBuilder)this; }
+        public TBuilder SetPosition(Position position) {VisualElement.style.position = position; return (TBuilder)this; }
         
         public TBuilder SetWidth(float width) { VisualElement.style.width = width; return (TBuilder)this; }
 

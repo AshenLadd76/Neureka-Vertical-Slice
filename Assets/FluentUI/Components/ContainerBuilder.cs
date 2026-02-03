@@ -1,10 +1,8 @@
-using System;
-using UiFrameWork.Builders;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class ContainerBuilder : BaseBuilder<VisualElement, ContainerBuilder>
+    public class ContainerBuilder : FluentUI.Builders.BaseBuilder<VisualElement, ContainerBuilder>
     {
         public ContainerBuilder SetMinWidth(int minWidth)
         {

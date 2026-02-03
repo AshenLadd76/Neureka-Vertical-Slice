@@ -1,6 +1,7 @@
 ﻿using System;
 using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
 using ToolBox.Services.Haptics;
 using UiFrameWork.Components;
 using UnityEngine;

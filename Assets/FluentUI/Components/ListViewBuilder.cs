@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace UiFrameWork.Components
 {
-    public class ListViewBuilder : BaseBuilder<ListView, ListViewBuilder>
+    public class ListViewBuilder : FluentUI.Builders.BaseBuilder<ListView, ListViewBuilder>
     {
         private Vector3 _lastPointerPosition;
         private Vector2 _velocity;

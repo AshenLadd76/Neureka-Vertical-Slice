@@ -1,11 +1,10 @@
 using System;
-using UiFrameWork.Builders;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class LabelBuilder : BaseBuilder<Label, LabelBuilder>
+    public class LabelBuilder : FluentUI.Builders.BaseBuilder<Label, LabelBuilder>
     {
         public LabelBuilder SetText(string text)
         {

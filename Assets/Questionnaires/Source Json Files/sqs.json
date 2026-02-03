@@ -9,7 +9,11 @@
     "AssessmentId": "SQS",
     "QuestionnaireID": "SQS",
     "QuestionnaireName": "Sleep",
-    "QuestionnaireDescription": "A 30-item self-report scale designed to assess overall sleep quality, disturbances, and daytime sleepiness.",
+    "QuestionnaireIntroductionImage": "sleep_intro",
+    "QuestionnaireDescription": "Assess your sleep habits and sleep quality.",
+    "QuestionnaireIntroduction":"The Sleep Questionnaire (SQS) is a standardized assessment tool designed to evaluate sleep patterns, quality, and disturbances. 
+
+It gathers self-reported data on aspects such as bedtime routines, sleep duration, night-time awakenings, and subjective sleep quality. The questionnaire helps identify potential sleep issues and supports research or clinical decision-making in sleep health.",
     "Questions": [
       "I have trouble falling asleep at night.",
       "I wake up during the night and have difficulty getting back to sleep.",
@@ -49,6 +53,7 @@
       "Most or all of the time"
     ],
     "ReverseScored": [3, 10, 17, 20, 21, 30],
-    "AnswerComponentType": "MultipleChoice"
+    "AnswerComponentType": "MultipleChoice",
+    "QuestionnaireIcon": "sleep_icon"
   }
 }

@@ -2,7 +2,7 @@
 
 using UnityEditor;
 
-namespace UiFrameWork.Builders
+namespace FluentUI.Builders
 {
     public interface IEditorUIBuilder 
     {

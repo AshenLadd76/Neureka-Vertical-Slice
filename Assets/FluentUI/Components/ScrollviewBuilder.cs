@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using UiFrameWork.Builders;
+using FluentUI.Helpers;
 using UiFrameWork.Helpers;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class ScrollViewBuilder : BaseBuilder<ScrollView, ScrollViewBuilder>
+    public class ScrollViewBuilder : FluentUI.Builders.BaseBuilder<ScrollView, ScrollViewBuilder>
     {
         private Vector3 _lastPointerPosition;
         private Vector2 _velocity;

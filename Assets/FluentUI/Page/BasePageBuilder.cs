@@ -1,6 +1,7 @@
 using CodeBase.Documents;
 using CodeBase.UiComponents.Headers;
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
 using UiFrameWork.Builders;
 using UiFrameWork.Components;
 using UiFrameWork.RunTime;

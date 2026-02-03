@@ -1,10 +1,9 @@
 using System;
-using UiFrameWork.Builders;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class CheckBoxBuilder : BaseBuilder<Toggle, CheckBoxBuilder>
+    public class CheckBoxBuilder : Builders.BaseBuilder<Toggle, CheckBoxBuilder>
     {
         public CheckBoxBuilder SetLabel(string text)
         {

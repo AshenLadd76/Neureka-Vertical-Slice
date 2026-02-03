@@ -9,12 +9,12 @@
     "AssessmentId": "HRSI",
     "QuestionnaireID": "HRSI",
     "QuestionnaireName": "Stress",
-    "QuestionnaireIntroductionImage": "intro_image_1",
+    "QuestionnaireIntroductionImage": "stress_intro",
     "QuestionnaireIntroduction": "The Health-Related Stress Inventory (HRSI) is a self-report questionnaire designed to assess stress levels related to health, lifestyle, and daily responsibilities. 
 
 It helps individuals identify sources of stress and understand how stress impacts their physical and mental well-being.",
     "QuestionnaireDescription": "Assess your current stress levels and how they affect your daily life.",
-    "IconName": "stress_icon",
+    "questionnaireIcon": "stress_icon",
     "Questions": [
       "I feel tense or 'wound up'.",
       "I find it hard to relax.",

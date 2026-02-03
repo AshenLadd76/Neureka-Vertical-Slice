@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace UiFrameWork.Helpers.Editor
+namespace FluentUI.Helpers.Editor
 {
     /// <summary>
     /// Provides safe loading of USS (Unity StyleSheets) assets from the project.

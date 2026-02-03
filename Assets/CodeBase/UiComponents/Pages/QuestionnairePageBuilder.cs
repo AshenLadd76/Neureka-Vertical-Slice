@@ -7,6 +7,8 @@ using CodeBase.Helpers;
 using CodeBase.Questionnaires;
 using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
+using FluentUI.Components;
+using FluentUI.Helpers;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
 using ToolBox.Services.Haptics;
