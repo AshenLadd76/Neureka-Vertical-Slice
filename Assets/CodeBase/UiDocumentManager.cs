@@ -2,7 +2,6 @@ using FluentUI.Components;
 using FluentUI.Tools;
 using ToolBox.Messaging;
 using ToolBox.Utils.Validation;
-using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,6 +14,7 @@ namespace CodeBase
         public VisualElement SafeAreaContainer { get; private set; }
 
         private const string UssPath = "Uss/";
+        private const string SafeAreaContainerName = "safe-area-container";
 
         [SerializeField] private DocumentID entryPointDocument;
 
@@ -24,7 +24,7 @@ namespace CodeBase
             
             ObjectValidator.Validate(this, this, true);
 
-            SafeAreaContainer = new ContainerBuilder().AddClass("safe-area-container")
+            SafeAreaContainer = new ContainerBuilder().AddClass(SafeAreaContainerName)
                 .AttachTo(_uiDocument.rootVisualElement).Build();
             
             UssLoader.LoadAllUssFromFolder(_uiDocument.rootVisualElement, UssPath);

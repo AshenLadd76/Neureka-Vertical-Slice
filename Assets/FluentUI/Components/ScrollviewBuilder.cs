@@ -17,7 +17,7 @@ namespace FluentUI.Components
         private float _deceleration = 10f;
         
         private readonly Queue<Vector2> _velocityHistory = new Queue<Vector2>();
-        private readonly int _maxHistoryFrames = 10;
+      
 
         public ScrollViewBuilder EnableInertia(bool enable = true, float deceleration = 5)
         {

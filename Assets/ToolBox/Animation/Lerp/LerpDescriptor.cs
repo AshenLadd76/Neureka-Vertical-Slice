@@ -33,7 +33,7 @@ namespace ToolBox.Animation.Lerp
 
         public float T;
 
-        public EaseType EaseType { get; set; } = EaseType.Linear;
+        public EaseType EaseType { get; set; }
 
         public Action OnComplete { get; set; }
 
@@ -41,7 +41,7 @@ namespace ToolBox.Animation.Lerp
         public LerpDescriptor NextLerpDescriptor { get; set; }
         
         public bool IsPingPong { get; set; }
-        private int _loopCount = 0;
+        private int _loopCount;
         
         
         //Chainable Methods 
@@ -80,9 +80,9 @@ namespace ToolBox.Animation.Lerp
         }
 
 
-        private float _elapsedTime = 0;
+   
         private bool _isForward = true;
-        private int _completedLoops = 0;
+        private int _completedLoops;
         private float _pingPongTime;
 
         public float HandlePingPong(float deltaTime)

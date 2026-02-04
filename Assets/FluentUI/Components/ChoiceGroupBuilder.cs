@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
-using FluentUI.Components;
-using UiFrameWork.Builders;
 using UnityEngine.UIElements;
 
-namespace UiFrameWork.Components
+namespace FluentUI.Components
 {
-    public class ChoiceGroupBuilder : FluentUI.Builders.BaseBuilder<VisualElement, ChoiceGroupBuilder>
+    public class ChoiceGroupBuilder : Builders.BaseBuilder<VisualElement, ChoiceGroupBuilder>
     {
         private readonly List<VisualElement> _options = new();
-        private bool _allowMultipleSelection = false;
-        private int? _selectedIndex = null;
+        private bool _allowMultipleSelection;
+     
         
         public ChoiceGroupBuilder AllowMultipleSelection(bool allowMultipleSelection)
         {

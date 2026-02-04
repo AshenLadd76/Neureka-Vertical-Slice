@@ -5,16 +5,13 @@ using ToolBox.Utils.Interpolation;
 public class LerpTest : MonoBehaviour
 {
     [Header("Interpolation Settings")]
-    [SerializeField] private LerpRecipes lerpRecipeSO;
+    [SerializeField] private LerpRecipes lerpRecipeSo;
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform endPoint;
     [SerializeField, Range(0f, 5f)] private float duration = 4f;
 
     private float _timer;
-    private bool _forward = true;
-
-    private float _elapsedTime = 0f;
-    
+ 
     private void Start()
     {
         EzTween.Move(transform, startPoint.position, endPoint.position, duration)

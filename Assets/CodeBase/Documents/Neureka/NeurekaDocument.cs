@@ -8,8 +8,6 @@ namespace CodeBase.Documents.Neureka
     public class NeurekaDocument : BaseDocument
     {
         private bool _isBuilt;
-
-        private float _splashDelay = 3f;
         
         private ICoroutineRunner _coroutineRunner;
         private Coroutine _openPageCoroutine;

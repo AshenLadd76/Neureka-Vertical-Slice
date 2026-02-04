@@ -5,7 +5,6 @@ using CodeBase.UiComponents.Page;
 using CodeBase.UiComponents.Styles;
 using FluentUI.Components;
 using ToolBox.Messaging;
-using UiFrameWork.Components;
 using UiFrameWork.RunTime;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
