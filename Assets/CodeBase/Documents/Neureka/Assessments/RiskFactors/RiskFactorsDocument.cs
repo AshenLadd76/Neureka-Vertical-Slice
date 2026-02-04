@@ -20,9 +20,6 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
     /// - Managing assessment flow (new, continuing, completed)
     /// - Requesting questionnaires and handling completion callbacks
     /// - Cleaning up persisted assessment data and returning to the hub
-    /// 
-    /// This document acts as the orchestration layer between UI pages,
-    /// persisted assessment state, and the questionnaire service.
     /// </summary>
     
     public class RiskFactorsDocument : BaseDocument
@@ -43,6 +40,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="fileDataService"/> is null.
         /// </exception>
+        
         public RiskFactorsDocument(IFileDataService fileDataService)
         {
             if( fileDataService == null )
@@ -51,7 +49,15 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             _riskFactorsDataHandler = new RiskFactorsDataHandler(fileDataService);
         }
 
-        
+        /// <summary>
+        /// Builds the Risk Factors assessment.
+        /// 
+        /// Responsibilities:
+        /// - Building the assessment schedule
+        /// - Building the intro, continue, and outro pages
+        /// </summary>
+        /// <param name="root">The parent visual element. Must not be null.</param>
+       
         public override void Build(VisualElement root)
         {
             base.Build(root);
@@ -67,7 +73,17 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             Open( root );
         }
         
-        public override void Open(VisualElement visualElement)
+        
+        /// <summary>
+        /// Opens and manages the state of the active assessment.
+        /// 
+        /// Responsibilities:
+        /// - Checking the current status of the assessment
+        /// - Opening the corresponding pages
+        /// </summary>
+        /// <param name="root">The parent visual element. Must not be null.</param>
+        
+        public override void Open(VisualElement root)
         {
             //Open a welcome back/ continue page when previous progress exists.
             if (_riskFactorsDataHandler.CheckAssessmentState() == AssessmentState.Continuing)
@@ -76,6 +92,9 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
                 CheckAssessmentProgress();
         }
         
+        /// <summary>
+        /// Adds the intro, continue, and outro pages to the assessment.
+        /// </summary>
         
         private void AddPageRecipes()
         {
@@ -86,6 +105,12 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             CreatePage(PageID.RiskFactorsOutro, _riskFactorsSo.OutroTitle, _riskFactorsSo.OutroButtonText, _riskFactorsSo.OutroBlurbContents, OnAssessmentCompleted);
         }
 
+        
+        /// <summary>
+        /// Loads ScriptableObject data from the Resources folder.
+        /// </summary>
+        /// <returns>True if loaded successfully; otherwise, false.</returns>
+        
         private bool LoadRiskFactorsSo()
         {
             _riskFactorsSo = Resources.Load<RiskFactorsSO>(RiskFactorsSoPath);
@@ -99,6 +124,15 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             return true;
         }
         
+        /// <summary>
+        /// Creates a page with the specified content and registers it in ActivePages.
+        /// </summary>
+        /// <param name="pageId">The page identifier.</param>
+        /// <param name="title">The page title.</param>
+        /// <param name="buttonText">The button text for the page.</param>
+        /// <param name="blurbs">The list of blurb content.</param>
+        /// <param name="onCompleted">Optional callback when the page is completed.</param>
+
         private void CreatePage(PageID pageId, string title, string buttonText, List<BlurbContent> blurbs, Action onCompleted = null)
         {
             if (blurbs.IsNullOrEmpty())
@@ -117,6 +151,7 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
         /// Determines the current assessment state and routes the user
         /// to the appropriate page or questionnaire flow.
         /// </summary>
+
         private void CheckAssessmentProgress()
         {
             switch (_riskFactorsDataHandler.CheckAssessmentState())
@@ -128,6 +163,10 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             }
         }
         
+        /// <summary>
+        /// Called when the intro page is completed. Initializes assessment data and continues the flow.
+        /// </summary>
+        
         private void OnIntroCompleted()
         {
             _riskFactorsDataHandler.CreateAssessmentData();
@@ -135,6 +174,11 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             CheckAssessmentProgress();
         }
         
+        /// <summary>
+        /// Requests the next questionnaire from the questionnaire service.
+        /// Broadcasts a callback to be triggered upon completion.
+        /// </summary>
+       
         private void RequestQuestionnaire()
         {
             if (!_riskFactorsDataHandler.HasData())
@@ -151,9 +195,17 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
                 return;
             }
             
+            //Makes a request to the questionnaire builder to load a questionnaire.
+            //Passes a call back that is triggered when the questionnaire is completed
             MessageBus.Broadcast<string, IDocument, Action>(QuestionnaireService.OnRequestAssessmentQuestionnaireMessage, nextAssessmentId, this, OnFinishedQuestionnaire);
         }
         
+        
+        /// <summary>
+        /// Callback invoked when a questionnaire is completed.
+        /// Updates progress and requests the next step in the assessment.
+        /// </summary>
+       
         private void OnFinishedQuestionnaire()
         {
             _riskFactorsDataHandler.IncrementProgressIndex();
@@ -167,6 +219,11 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             RequestQuestionnaire();
         }
 
+        /// <summary>
+        /// Handles completion of the assessment.
+        /// Deletes local assessment data and returns to the navigation screens.
+        /// </summary>
+       
         private void OnAssessmentCompleted()
         {
             _riskFactorsDataHandler.DeleteAssessmentData();
@@ -176,12 +233,22 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
             OpenNav();
         }
         
+        /// <summary>
+        /// Opens the navigation screen.
+        /// </summary>
+       
         private void OpenNav() => MessageBus.Broadcast( nameof(DocumentServiceMessages.OnRequestOpenDocument), DocumentID.Nav);
         
+        
+        //Pages Loader helpers
         private void LoadIntroPage() => OpenPage(PageID.RiskFactorsIntro);
         private void LoadContinuePage() => OpenPage(PageID.RiskFactorsContinue);
         private void LoadOutroPage() => OpenPage(PageID.RiskFactorsOutro);
 
+
+        /// <summary>
+        /// Closes all active info pages and removes the document root from hierarchy.
+        /// </summary>
 
         private void CloseInfoPages()
         {
@@ -189,6 +256,8 @@ namespace CodeBase.Documents.Neureka.Assessments.RiskFactors
                 page.Value.Close();
             
             DocumentRoot.RemoveFromHierarchy();
+            
+            ActivePages.Clear();
         }
     }
 }

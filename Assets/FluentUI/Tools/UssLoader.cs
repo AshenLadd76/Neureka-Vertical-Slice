@@ -5,15 +5,19 @@ namespace FluentUI.Tools
 {
     public static class UssLoader 
     {
-        // Load all USS files from a folder inside Resources
+        /// <summary>
+        /// Loads all USS files from a Resources folder and adds them to the root VisualElement.
+        /// </summary>
+        /// <param name="root">Root VisualElement to apply stylesheets to.</param>
+        /// <param name="folderPath">Path inside Resources folder.</param>
+
         public static void LoadAllUssFromFolder(VisualElement root, string folderPath)
         {
             // Load all StyleSheets in the folder
             StyleSheet[] sheets = Resources.LoadAll<StyleSheet>(folderPath);
             
-           
          
-            if (sheets == null || sheets.Length == 0)
+            if (sheets.Length == 0)
             {
                 Debug.LogWarning($"No USS found in Resources/{folderPath}");
                 return;
@@ -27,7 +31,8 @@ namespace FluentUI.Tools
                     continue;
                 }
 
-                root.styleSheets.Add(sheet);
+                if (!root.styleSheets.Contains(sheet))
+                    root.styleSheets.Add(sheet);
             }
         }
     }

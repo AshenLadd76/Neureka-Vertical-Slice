@@ -32,7 +32,6 @@ namespace CodeBase.Documents.Neureka.Components
             _progressBarBuilder.Build();
 
             _progressBarBuilder.SetMaxFill(maxFillAmount).SetFillAmount(0).OnMaxReached(OnComplete);
-
         }
 
         public void SetFillAmount(float fillAmount) => _progressBarBuilder.SetFillAmount(fillAmount);

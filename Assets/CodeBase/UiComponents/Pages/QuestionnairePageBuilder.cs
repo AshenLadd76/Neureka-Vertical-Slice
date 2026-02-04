@@ -12,10 +12,7 @@ using FluentUI.Helpers;
 using ToolBox.Helpers;
 using ToolBox.Messaging;
 using ToolBox.Services.Haptics;
-using UiFrameWork.Components;
-using UiFrameWork.Helpers;
 using UiFrameWork.RunTime;
-using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
