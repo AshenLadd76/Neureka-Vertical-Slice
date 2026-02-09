@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.ashenladd.messagebus": {
+      "version": "https://github.com/AshenLadd76/MessageBus.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "60b417e7fc4a6d6ebf95a0b6ce34e11f14ac7813"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

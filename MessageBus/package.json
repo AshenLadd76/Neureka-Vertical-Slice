@@ -1,0 +1,12 @@
+{
+  "name": "com.ashenladd.messagebus",
+  "version": "0.1.0",
+  "displayName": "MessageBus",
+  "description": "A lightweight, strongly-typed message bus for broadcasting events",
+  "unity": "2021.3",
+  "author": {
+    "name": "Ashen Ladd",
+    "email": "ashen.ladd76@gmail.com"
+  },
+  "dependencies": {}
+}

@@ -6,7 +6,7 @@ namespace ToolBox.Messaging
 {
     
     /// <summary>
-    /// A centralized message bus for broadcasting and subscribing to events
+    /// A centralized message hub for broadcasting and subscribing to events
     /// using strongly-typed delegates. Supports zero to three parameters per event.
     /// 
     /// Example usage:
