@@ -1,16 +1,18 @@
 
 
-\# Neureka Vertical Slice
+\# Neureka Vertical App Slice
 
 
 
-\## This repository contains a Unity app slice built to explore fast, maintainable delivery of dynamic, data-driven content in a production-style environment.
+This repository contains a \*\*vertical slice\*\* of the original app, built to explore fast, maintainable delivery of dynamic, data-driven content in Unity.
 
 
 
-The slice focuses on enabling non-technical users to add and update assessments and questionnaires via JSON and CSV files, while remaining easy for developers to extend through modular, self-contained systems.
+The slice demonstrates modular architecture, event-driven systems, and data ingestion from JSON/CSV files, making content updates accessible to non-technical users while remaining easy for developers to extend.
 
 
 
-It also serves as an experiment in using Unity UI Toolkit for rapid UI construction, favouring code-driven UI and self-managed modules over UXML and tightly coupled lifecycle patterns.
+It also experiments with \*\*Unity UI Toolkit\*\* to evaluate code-driven UI versus UXML and traditional workflows.
+
+
 
