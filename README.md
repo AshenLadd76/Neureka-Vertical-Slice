@@ -6,9 +6,9 @@ This vertical slice demonstrates how modular architecture and dynamic content ge
 
 
 ## Screenshots
-![Navigation Page](ScreenShots/intro.png)
-![Navigation Page](Screenshots/navigation.png)
-![Questionnaire Example](ScreenShots/questionnaire.png)
+
+![Navigation Page](ScreenShots/appslice.png)
+
 
 
 
