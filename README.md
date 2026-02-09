@@ -11,6 +11,7 @@ This vertical slice demonstrates how modular architecture and dynamic content ge
 - Modular architecture with self-contained systems
 - Event-driven messaging between modules using a custom message bus, imaginatively named Message Bus 
 - Rapid prototyping and experimentation with UI and content
+- UI styling is handled via USS, allowing layouts and visual themes to be adjusted, extended, or replaced without modifying code
 
 
 
@@ -24,6 +25,9 @@ The Questionnaire Service is a bootstrapped service responsible for building and
 
 ### Document Service. 
 In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents (only loaded when needed) that are dynamically built and can be optionally cached for persistent use. Document requests are handled via the Message Bus, and each document builds its own UI and manages its own state. 
+
+### Message Bus
+The message bus facilitates communication between all relevant services and coordinates interactions between scene-level systems and the UI, removing the need for direct dependencies.
 
 
 
