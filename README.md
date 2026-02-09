@@ -52,9 +52,9 @@ The Data Upload Service handles requests from other services to upload data to a
 ### Fluent UI
 Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
 
+###
 
-
-### Conclusion
+## Conclusion
 This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. It highlights how complex functionality can be made easy to extend for developers while remaining accessible for non-technical users.
 
 
