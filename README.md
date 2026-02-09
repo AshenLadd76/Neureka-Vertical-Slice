@@ -8,13 +8,17 @@ This vertical slice demonstrates how modular architecture and dynamic content ge
 
 - UI Toolkit & Fluent UI framework for editor and runtime UI
 - Dynamic content generation from JSON/CSV files
+- Core services are automatically bootstrapped and persist across scene loads, with full support for single-scene and multi-scene projects.
 - Modular architecture with self-contained systems
 - Event-driven messaging between modules using a custom message bus, imaginatively named Message Bus 
 - Rapid prototyping and experimentation with UI and content
+- UI styling is handled via USS, allowing layouts and visual themes to be adjusted, extended, or replaced without modifying code
+
+  
 
 
 
-### Core Systems.
+## Core Systems
 
 #### File Importer
 File Importer, which encompasses the Drag and Drop file importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. This system lets you drag and drop JSON or CSV files into the project, automatically generating the corresponding questionnaire ScriptableObjects which are available for loading by the questionnaire service. 
@@ -24,6 +28,9 @@ The Questionnaire Service is a bootstrapped service responsible for building and
 
 ### Document Service. 
 In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents (only loaded when needed) that are dynamically built and can be optionally cached for persistent use. Document requests are handled via the Message Bus, and each document builds its own UI and manages its own state. 
+
+### Message Bus
+The message bus facilitates communication between all relevant services and coordinates interactions between scene-level systems and the UI, removing the need for direct dependencies.
 
 
 
