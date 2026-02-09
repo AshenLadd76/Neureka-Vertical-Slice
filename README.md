@@ -1,8 +1,8 @@
-\#Neureka Vertical Slice
+#Neureka Vertical Slice
 
 
 
-\## This repository contains a Unity app slice built to explore fast, maintainable delivery of dynamic, data-driven content in a production-style environment.
+## This repository contains a Unity app slice built to explore fast, maintainable delivery of dynamic, data-driven content in a production-style environment.
 
 
 
