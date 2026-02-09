@@ -17,11 +17,13 @@ This vertical slice demonstrates how modular architecture and dynamic content ge
 ### Core Systems.
 
 #### File Importer
-File Importer, which encompasses the Drag and Drop file importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. This system lets you drag and drop JSON or CSV files into the project, automatically generating the corresponding questionnaire ScriptableObjects.
+File Importer, which encompasses the Drag and Drop file importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. This system lets you drag and drop JSON or CSV files into the project, automatically generating the corresponding questionnaire ScriptableObjects which are available for loading by the questionnaire service. 
 
 ### Questionnaire Service  
-
 The Questionnaire Service is a bootstrapped service responsible for building and displaying questionnaires. It listens for incoming requests via the Message Bus, loads the correct questionnaire ScriptableObject, and uses its data along with Fluent UI to dynamically construct the questionnaire UI for the user. This system makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
+
+### Document Service. 
+In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents that are dynamically built and can be optionally cached for persistent use.
 
 
 
