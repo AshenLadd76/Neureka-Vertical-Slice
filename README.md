@@ -1,16 +1,11 @@
 # Neureka Vertical Slice
 
+## The original Neureka App was designed to gamify interactive cognitive assessments and collect data using questionnaires and tasks.
 
-
-## This repository contains a Unity app slice built to explore fast, maintainable delivery of dynamic, data-driven content in a production-style environment.
-
-
-
-The slice focuses on enabling non-technical users to add and update assessments and questionnaires via JSON and CSV files, while remaining easy for developers to extend through modular, self-contained systems.
+## This vertical slice demonstrates how modular architecture and dynamic content generation can make an app easy to extend for developers and simple to update for non-technical users.
 
 
 
-It also serves as an experiment in using Unity UI Toolkit for rapid UI construction, favouring code-driven UI and self-managed modules over UXML and tightly coupled lifecycle patterns.
 
 
 
