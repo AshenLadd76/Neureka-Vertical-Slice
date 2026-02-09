@@ -8,6 +8,7 @@ This vertical slice demonstrates how modular architecture and dynamic content ge
 ![Navigation Page](ScreenShots/appslice.png)
 
 
+
 ## Key Features
 
 - UI Toolkit & Fluent UI framework for editor and runtime UI
@@ -17,6 +18,7 @@ This vertical slice demonstrates how modular architecture and dynamic content ge
 - Event-driven messaging between modules using a custom message bus, imaginatively named Message Bus 
 - Rapid prototyping and experimentation with UI and content
 - UI styling is handled via USS, allowing layouts and visual themes to be adjusted, extended, or replaced without modifying code
+
 
   
 ## Core Systems
