@@ -27,7 +27,7 @@ File Importer, which encompasses the Drag and Drop file importer, the Dispatch M
 The Questionnaire Service is a bootstrapped service responsible for building and displaying questionnaires. It listens for incoming requests via the Message Bus, loads the correct questionnaire ScriptableObject, and uses its data along with Fluent UI to dynamically construct the questionnaire UI for the user. This system makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
 
 
-### Document Service. 
+### Document Service 
 In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents (only loaded when needed) that are dynamically built and can be optionally cached for persistent use. Document requests are handled via the Message Bus, and each document builds its own UI and manages its own state. 
 
 
@@ -37,6 +37,9 @@ The message bus facilitates communication between all relevant services and coor
 
 ### Data Upload Service
 The Data Upload Service handles requests from other services to upload data to a web server. It saves data locally and then uses a plain C# web service instance to perform the upload. Once the upload is successful, the local copy is deleted. This design separates the Unity-specific service from the web upload logic, keeping the system modular and easily testable.
+
+### Fluent UI
+Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling UI to be built dynamically from data entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
 
 
 
