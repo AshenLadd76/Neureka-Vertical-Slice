@@ -18,9 +18,20 @@ namespace CodeBase
 
         [SerializeField] private DocumentID entryPointDocument;
 
+        private VisualElement _root;
+        
+        public const string ToggleUiMessage = "ToggleUI";
+
+        private void OnEnable() =>MessageBus.AddListener( ToggleUiMessage, ToggleUi );
+        
+
+        private void OnDisable() => MessageBus.RemoveListener( ToggleUiMessage, ToggleUi );
+        
         private void Awake()
         {
             _uiDocument = GetComponent<UIDocument>();
+            
+            _root = _uiDocument.rootVisualElement;
             
             ObjectValidator.Validate(this, this, true);
 
@@ -38,5 +49,13 @@ namespace CodeBase
             //Call the default document
             MessageBus.Broadcast(nameof(DocumentServiceMessages.OnRequestOpenDocument), entryPointDocument);
         }
+
+        private bool _isUiActive = true;
+        private void ToggleUi()
+        {
+            _isUiActive = !_isUiActive;
+            _root.style.display = _isUiActive ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
     }
 }
