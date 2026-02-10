@@ -64,7 +64,7 @@ This vertical slice demonstrates a modular, event-driven Unity architecture with
 ## Documentation
 
 - [Architecture Diagram (PDF)](docs/ArchitectureDiagram.pdf) – Shows system interactions and core service relationships.
-- [File Importer Flow (PDF)](docs/FileImporterFlow.pdf) – Step-by-step flow of how imported questionnaire data is processed.
+- [File Importer Flow (PDF)](documentation/File_Import_Architecture.pdf) – Step-by-step flow of how imported questionnaire data is processed.
 
 
 
