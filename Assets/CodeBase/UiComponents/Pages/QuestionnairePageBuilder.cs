@@ -199,7 +199,7 @@ namespace CodeBase.UiComponents.Pages
         {
             var questionnaireSubmissionHandler =
                 new QuestionnaireSubmissionHandler(_questionnaireData, _answerDataDictionary, _jsonSerializer,
-                    () => { PopupFactory.CreateConfirmationPopup(_root , "Thank You!", "For taking the time to complete this questionnaire.", ConfirmFinished);  });
+                    () => { PopupFactory.CreateConfirmationPopup(_root , ConfirmFinished);  });
             
             var footerContainer  = new ContainerBuilder().AddClass("questionnaire-footer").AttachTo(parent).Build();
             

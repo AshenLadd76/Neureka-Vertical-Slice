@@ -7,13 +7,13 @@ namespace CodeBase.UiComponents.Pages
 {
     public static class PopupFactory
     {
-        public static VisualElement CreateConfirmationPopup(VisualElement root, string title, string message, Action onConfirm)
+        public static VisualElement CreateConfirmationPopup(VisualElement root, Action onConfirm, string title = null, string message = null )
         {
             return new PopUpBuilder()
                 //.SetTitleText(title)
                 .SetContentText(message)
                 .SetPercentageHeight(40)
-                .SetImage("Sprites/thanks", 1200, 900)
+                .SetImage("Sprites/thanks", 700, 468)
                 .SetConfirmAction(() =>
                 {
                     HapticsHelper.RequestHaptics();
