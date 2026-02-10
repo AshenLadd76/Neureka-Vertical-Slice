@@ -53,10 +53,21 @@ The Data Upload Service handles requests from other services to upload data to a
 Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
 
 
+### Haptics 
+A custom Java plugin I built that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it lets me control the duration and intensity of the vibration, giving more flexibility for feedback in the app.
 
 
 ## Conclusion
 This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. It highlights how complex functionality can be made easy to extend for developers while remaining accessible for non-technical users.
+
+
+## Documentation
+
+- [Architecture Diagram (PDF)](docs/ArchitectureDiagram.pdf) – Shows system interactions and core service relationships.
+- [File Importer Flow (PDF)](documentation/File_Import_Architecture.pdf) – Step-by-step flow of how imported questionnaire data is processed.
+
+
+
 
 
 
