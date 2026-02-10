@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 8091185381942464749}
   - component: {fileID: 938868512499027366}
   m_Layer: 0
-  m_Name: WebService
+  m_Name: DataUploadService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
