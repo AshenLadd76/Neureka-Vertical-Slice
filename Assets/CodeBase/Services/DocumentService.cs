@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CodeBase;
 using CodeBase.Documents;
 using CodeBase.Documents.Neureka;
 using CodeBase.Documents.Neureka.Assessments.RiskFactors;
@@ -11,11 +10,12 @@ using ToolBox.Services;
 using ToolBox.Services.Data;
 using ToolBox.Services.Encryption;
 using ToolBox.Utils.Validation;
+using UiFrameWork.RunTime;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Logger = ToolBox.Utils.Logger;
 
-namespace UiFrameWork.RunTime
+namespace CodeBase.Services
 {
     /// <summary>
     /// Manages the creation, caching, and display of application documents within a UIDocument context.
