@@ -58,8 +58,7 @@ A custom Java plugin I built that gives direct access to an Android device’s v
 
 
 ## Conclusion
-This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. It highlights how complex functionality can be made easy to extend for developers while remaining accessible for non-technical users.
-
+This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. 
 
 ## Documentation
 
