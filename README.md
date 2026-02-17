@@ -26,7 +26,10 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 ### File Importer
 File Importer, which encompasses the Drag and Drop file importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. This system lets you drag and drop JSON or CSV files into the project, automatically generating the corresponding questionnaire ScriptableObjects which are available for loading by the questionnaire service. 
+- [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
 
+
+<br>
 
 
 ### Questionnaire Service  
@@ -58,8 +61,7 @@ A custom Java plugin I built that gives direct access to an Android device’s v
 
 
 ## Conclusion
-This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. It highlights how complex functionality can be made easy to extend for developers while remaining accessible for non-technical users.
-
+This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. 
 
 ## Documentation
 
