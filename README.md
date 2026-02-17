@@ -6,6 +6,8 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 
 ![Navigation Page](ScreenShots/appslice.png)
+<br>
+<br>
 
 
 
@@ -26,47 +28,49 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 ### File Importer
 File Importer, which encompasses the Drag and Drop file importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. This system lets you drag and drop JSON or CSV files into the project, automatically generating the corresponding questionnaire ScriptableObjects which are available for loading by the questionnaire service. 
-- [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
-
-
+[File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
 <br>
-
+<br>
 
 ### Questionnaire Service  
 The Questionnaire Service is a bootstrapped service responsible for building and displaying questionnaires. It listens for incoming requests via the Message Bus, loads the correct questionnaire ScriptableObject, and uses its data along with Fluent UI to dynamically construct the questionnaire UI for the user. This system makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
-
-
+[Questionnaire Service Flow (PDF)](Documentation/Questionnaire_Service_Diagram.pdf)
+<br>
+<br>
 
 ### Document Service 
 In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents that are dynamically built and loaded only when needed and can be optionally cached for persistent use. Document requests are handled via the Message Bus, and each document builds its own UI and manages its own state. 
-
+<br>
+<br>
 
 
 ### Message Bus
 The message bus facilitates communication between all relevant services and coordinates interactions between scene-level systems and the UI, removing the need for direct dependencies.
-
+<br>
+<br>
 
 
 ### Data Upload Service
 The Data Upload Service handles requests from other services to upload data to a web server. It saves data locally and then uses a plain C# web service instance to perform the upload. Once the upload is successful, the local copy is deleted. This design separates the Unity-specific service from the web upload logic, keeping the system modular and easily testable.
-
+<br>
+<br>
 
 
 ### Fluent UI
 Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
-
+<br>
+<br>
 
 ### Haptics 
 A custom Java plugin I built that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it lets me control the duration and intensity of the vibration, giving more flexibility for feedback in the app.
+<br>
+<br>
 
 
 ## Conclusion
 This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. 
 
-## Documentation
 
-- [Architecture Diagram (PDF)](docs/ArchitectureDiagram.pdf) – Shows system interactions and core service relationships.
-- [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf) – Step-by-step flow of how imported questionnaire data is processed.
 
 
 
