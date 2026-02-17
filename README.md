@@ -6,6 +6,8 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 
 ![Navigation Page](ScreenShots/appslice.png)
+<br>
+<br>
 
 
 
