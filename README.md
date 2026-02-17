@@ -63,10 +63,7 @@ A custom Java plugin I built that gives direct access to an Android device’s v
 ## Conclusion
 This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. 
 
-## Documentation
 
-- [Architecture Diagram (PDF)](docs/ArchitectureDiagram.pdf) – Shows system interactions and core service relationships.
-- [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf) – Step-by-step flow of how imported questionnaire data is processed.
 
 
 
