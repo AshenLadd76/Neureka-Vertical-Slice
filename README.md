@@ -36,7 +36,10 @@ File Importer, which encompasses the Drag and Drop file importer, the Dispatch M
 <br>
 
 ### Questionnaire Service  
-The Questionnaire Service is a bootstrapped service responsible for building and displaying questionnaires. It listens for incoming requests via the Message Bus, loads the correct questionnaire ScriptableObject, and uses its data along with Fluent UI to dynamically construct the questionnaire UI for the user. This system makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
+The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **Fluent UI** to dynamically construct the questionnaire interface.
+
+This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
+<br>
 [Questionnaire Service Flow (PDF)](Documentation/Questionnaire_Service_Diagram.pdf)
 <br>
 <br>
