@@ -29,7 +29,14 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 
 ### File Importer
-The **File Importer** system includes the Drag and Drop importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. It allows you to drag and drop JSON or CSV files into the project, automatically generating the corresponding **questionnaire ScriptableObjects**, which can then be loaded by the **Questionnaire Service**.
+The **File Importer** system includes:
+- Drag and Drop file importer
+- Dispatch Manager
+- Parser Manager
+- Individual file parsers
+- Can easily be extended to support other file types
+
+You can drag JSON or CSV files into the project, and the system automatically generates the corresponding **questionnaire ScriptableObjects**, ready to be used by the **Questionnaire Service**.
 <br>
   [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
 <br>
