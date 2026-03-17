@@ -8,6 +8,10 @@ The original app was implemented using UGUI, while this vertical slice is built 
 ![Navigation Page](ScreenShots/appslice.png)
 <br>
 <br>
+### App Slice Demo
+Check out the short demo of the App Slice system:
+
+[![Watch the demo](ScreenShots/appslice.png)](https://youtube.com/shorts/NCF4dDHToxI?feature=share)
 
 
 
