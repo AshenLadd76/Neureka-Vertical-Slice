@@ -42,7 +42,11 @@ The Questionnaire Service is a bootstrapped service responsible for building and
 <br>
 
 ### Document Service 
-In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents that are dynamically built and loaded only when needed and can be optionally cached for persistent use. Document requests are handled via the Message Bus, and each document builds its own UI and manages its own state. 
+In this context, a document is a self-contained portion of the app — for example, the navigation UI, a game, or an assessment. 
+
+The Document Service manages a collection of documents that are **lazy-loaded**: each document is built and loaded only when needed. Documents can also be **optionally cached** for persistent use. 
+
+All document requests go through the **Message Bus**, and each document is responsible for building its own UI and managing its own state.
 <br>
 <br>
 
