@@ -7,7 +7,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 [![Watch the demo](ScreenShots/appslice.png)](https://youtube.com/shorts/NCF4dDHToxI?feature=share)
 <p align="center">
-  Click on the above image to view the video demo:
+  Click on the above image to view the video demo
 </p>
 <br>
 <br>
