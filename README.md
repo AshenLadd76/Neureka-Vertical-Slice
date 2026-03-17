@@ -5,14 +5,12 @@ The original Neureka App was designed to gamify interactive cognitive assessment
 The original app was implemented using UGUI, while this vertical slice is built with UI Toolkit and demonstrates how modular architecture and dynamic content generation can make the app easy to extend for developers and simple to update for non-technical users.<br/><br/>
 
 
-
-
-
 [![Watch the demo](ScreenShots/appslice.png)](https://youtube.com/shorts/NCF4dDHToxI?feature=share)
-Click on the image to view the video demo:
+<p align="center">
+  Click on the above image to view the video demo:
+</p>
 <br>
 <br>
-
 
 
 ## Key Features
