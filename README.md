@@ -154,9 +154,14 @@ A custom Java plugin that gives direct access to an Android device’s vibration
 ## Conclusion
 This vertical slice demonstrates a modular, event-driven Unity architecture with dynamic content, bootstrapped services, and a flexible UI framework. 
 
+<br>
+<br>
 
+[Neureka Screenshot](Documentation/screenshot.png)
 
-
+<br>
+<br>
+###
 
 
 
