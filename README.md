@@ -9,7 +9,7 @@ Neureka gamifies cognitive assessments, collecting data through questionnaires a
 </p>
 
 <br>
-The original live version of Neureka was built using UGUI, while this vertical slice is built with UI Toolkit and my custom framework, Fluent UI, which sits on top of VisualElement and enables fast, dynamic UI generation from code. 
+The original live version of Neureka was built using UGUI, while this vertical slice is data driven, is built with UI Toolkit and my custom framework, Fluent UI, which sits on top of VisualElement and enables fast, dynamic UI content generation. 
 
 <br>
 <br>
