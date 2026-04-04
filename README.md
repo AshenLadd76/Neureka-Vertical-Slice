@@ -26,7 +26,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 
 ## Table of Contents
 - [Overview](#neureka-vertical-slice)
-- [How to install and run](#how-to-install-and-run)
+- [How to install and run](#installation)
 - [Features](#features)
 - [Core Systems](#core-systems)
     - [FLuentUi](#fluentui)
@@ -48,7 +48,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 <br>
 <br>
   
-## 📌 How to install and run
+## 📌 Installation
 
 - Install Unity Hub
 - Install Unity 6.3 LTS (6000.3.11f1) via Unity Hub
