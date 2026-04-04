@@ -29,7 +29,8 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 - [Features](#features)
 - [Core Systems](#core-systems)
     - [FLuentUi](#fluenui)
-    - [Setup Steps](#setup-steps)
+    - [Document Service](#document-service)
+    - [Questionnaire Service](#questionnaire-service)
 - [How to Run / Install](#how-to-run--install)
 - [Code Highlights / Architecture](#code-highlights--architecture)
 - [Future Work / Roadmap](#future-work--roadmap)
@@ -71,13 +72,34 @@ cd Neureka-Vertical-Slice
 - UI styling is handled via USS, allowing layouts and visual themes to be adjusted, extended, or replaced without modifying code
 
 
-  
+<br>
+<br>
 ## Core Systems
 
 
 ### FluentUi
 Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
 
+<br>
+<br>
+
+### Document Service 
+In this context, a document is a self-contained portion of the app — for example, the navigation UI, a game, or an assessment. 
+
+The Document Service manages a collection of documents that are **lazy-loaded**: each document is built and loaded only when needed. Documents can also be **optionally cached** for persistent use. 
+
+All document requests go through the **Message Bus**, and each document is self contained and responsible for building its own UI and managing its own state.
+<br>
+<br>
+
+### Questionnaire Service  
+The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **Fluent UI** to dynamically construct the questionnaire interface.
+
+This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
+<br>
+[Questionnaire Service Flow (PDF)](Documentation/Questionnaire_Service_Diagram.pdf)
+<br>
+<br>
 
 ### File Importer
 The **File Importer** system includes:
@@ -102,14 +124,7 @@ This design makes adding or updating questionnaires straightforward and keeps th
 <br>
 <br>
 
-### Document Service 
-In this context, a document is a self-contained portion of the app — for example, the navigation UI, a game, or an assessment. 
 
-The Document Service manages a collection of documents that are **lazy-loaded**: each document is built and loaded only when needed. Documents can also be **optionally cached** for persistent use. 
-
-All document requests go through the **Message Bus**, and each document is responsible for building its own UI and managing its own state.
-<br>
-<br>
 
 
 ### Message Bus
@@ -124,10 +139,7 @@ The Data Upload Service handles requests from other services to upload data to a
 <br>
 
 
-### Fluent UI
-Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
-<br>
-<br>
+
 
 ### Haptics 
 A custom Java plugin I built that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it lets me control the duration and intensity of the vibration, giving more flexibility for feedback in the app.
