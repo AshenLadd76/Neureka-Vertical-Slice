@@ -30,14 +30,12 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 - Install Unity Hub
 - Install Unity 6.3 LTS (6000.3.11f1) via Unity Hub
-
-Clone the repository:
+- Clone the repository:
 
 ```
 bash git clone https://github.com/AshenLadd76/Neureka-Vertical-Slice.git
 
 cd Neureka-Vertical-Slice
-
 ```
 
 - Add the project in Unity Hub and open it with Unity 6.3 LTS
