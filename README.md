@@ -20,7 +20,9 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 ## Table of Contents
 - [How to install and run](#how-to-install-and-run)
 - [Features](##features)
-- [Demos / Screenshots](#demos--screenshots)
+- [Core Systems](#core-systems)
+    - [System Requirements](#system-requirements)
+    - [Setup Steps](#setup-steps)
 - [How to Run / Install](#how-to-run--install)
 - [Code Highlights / Architecture](#code-highlights--architecture)
 - [Future Work / Roadmap](#future-work--roadmap)
@@ -47,6 +49,8 @@ cd Neureka-Vertical-Slice
 - Hit Play ▶️ in the Editor to run the project
 
 
+<br>
+<br>
 
 
 ## Features
