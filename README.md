@@ -2,9 +2,7 @@
 
 
 The purpose of this vertical slice is to architect a core framework that enables fast, modular design of apps and games. It demonstrates how a data-driven, flexible architecture combined with UI Toolkit and my custom Fluent UI framework allows developers to quickly build and extend interactive systems while keeping content easy to update for non-technical users.
-
-
-
+<br>
 <br>
 
 <p align="center">
@@ -13,7 +11,8 @@ The purpose of this vertical slice is to architect a core framework that enables
 
 <br>
 The original Neureka app gamifies cognitive assessments, collecting data through questionnaires and interactive tasks to support research in dementia and mental health. This vertical slice demonstrates the core functionality of the app, allowing users to complete tasks, view results, and interact with dynamic content in a realistic environment.
-
+<br>
+<br>
 The app was built using UGUI, while this vertical slice is data driven, is built with UI Toolkit and my custom framework, Fluent UI, which sits on top of VisualElement and enables fast, dynamic UI content generation. 
 
 <br>
