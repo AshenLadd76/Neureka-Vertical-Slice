@@ -15,8 +15,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 ## Table of Contents
 
-- [Key Features](#KeyFeatures--KeyFeatures)
-- [Features](#features)
+- [Features](##features)
 - [Demos / Screenshots](#demos--screenshots)
 - [How to Run / Install](#how-to-run--install)
 - [Code Highlights / Architecture](#code-highlights--architecture)
@@ -25,7 +24,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 - [Contact / Links](#contact--links)
 
 
-## Key Features
+##Features
 
 - UI Toolkit & Fluent UI framework for editor and runtime UI
 - Dynamic content generation from JSON/CSV files
