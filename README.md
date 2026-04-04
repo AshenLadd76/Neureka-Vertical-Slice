@@ -38,6 +38,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
     - [File Importer](#file-importer)
     - [Message Bus](#message-bus)
     - [Haptics Service](#haptics-service)
+ - [Conclusion](#conclusion)
 
 
 
