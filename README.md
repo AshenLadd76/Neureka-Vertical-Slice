@@ -5,13 +5,30 @@ The original Neureka App was designed to gamify interactive cognitive assessment
 The original app was implemented using UGUI, while this vertical slice is built with UI Toolkit and demonstrates how modular architecture and dynamic content generation can make the app easy to extend for developers and simple to update for non-technical users.<br/><br/>
 
 
-![Navigation Page](ScreenShots/appslice.png)
+[![Watch the demo](ScreenShots/appslice.png)](https://youtube.com/shorts/NCF4dDHToxI?feature=share)
+<p align="center">
+  Click on the above image to view the video demo
+</p>
 <br>
 <br>
 
 
+## Table of Contents
+- [Installation](##Installation)
+- [Features](##features)
+- [Demos / Screenshots](#demos--screenshots)
+- [How to Run / Install](#how-to-run--install)
+- [Code Highlights / Architecture](#code-highlights--architecture)
+- [Future Work / Roadmap](#future-work--roadmap)
+- [Credits / Acknowledgements](#credits--acknowledgements)
+- [Contact / Links](#contact--links)
 
-## Key Features
+
+## Installation
+
+
+
+## Features
 
 - UI Toolkit & Fluent UI framework for editor and runtime UI
 - Dynamic content generation from JSON/CSV files
@@ -27,19 +44,34 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 
 ### File Importer
-File Importer, which encompasses the Drag and Drop file importer, the Dispatch Manager, the Parser Manager, and the parsers themselves. This system lets you drag and drop JSON or CSV files into the project, automatically generating the corresponding questionnaire ScriptableObjects which are available for loading by the questionnaire service. 
-[File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
+The **File Importer** system includes:
+- Drag and Drop file importer
+- Dispatch Manager
+- Parser Manager
+- Individual file parsers
+- Can easily be extended to support other file types
+
+You can drag JSON or CSV files into the project, and the system automatically generates the corresponding **questionnaire ScriptableObjects**, ready to be used by the **Questionnaire Service**.
+<br>
+  [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
 <br>
 <br>
 
 ### Questionnaire Service  
-The Questionnaire Service is a bootstrapped service responsible for building and displaying questionnaires. It listens for incoming requests via the Message Bus, loads the correct questionnaire ScriptableObject, and uses its data along with Fluent UI to dynamically construct the questionnaire UI for the user. This system makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
+The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **Fluent UI** to dynamically construct the questionnaire interface.
+
+This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
+<br>
 [Questionnaire Service Flow (PDF)](Documentation/Questionnaire_Service_Diagram.pdf)
 <br>
 <br>
 
 ### Document Service 
-In this context, a document represents a self-contained portion of the app, for example, the navigation UI, a game, or an assessment. The Document Service maintains a dictionary of lazy-loaded documents that are dynamically built and loaded only when needed and can be optionally cached for persistent use. Document requests are handled via the Message Bus, and each document builds its own UI and manages its own state. 
+In this context, a document is a self-contained portion of the app — for example, the navigation UI, a game, or an assessment. 
+
+The Document Service manages a collection of documents that are **lazy-loaded**: each document is built and loaded only when needed. Documents can also be **optionally cached** for persistent use. 
+
+All document requests go through the **Message Bus**, and each document is responsible for building its own UI and managing its own state.
 <br>
 <br>
 
