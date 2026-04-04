@@ -1,6 +1,6 @@
 # Neureka Vertical Slice
 
-
+Neureka gamifies cognitive assessments, collecting data through questionnaires and interactive tasks to support research in dementia and mental health. This vertical slice demonstrates the core functionality of the app, allowing users to complete tasks, view results, and interact with dynamic content in a realistic environment.
 
 <br>
 
@@ -9,9 +9,7 @@
 </p>
 
 <br>
-The original Neureka App was designed to gamify interactive cognitive assessments and collect data using questionnaires and tasks. Its purpose is to support research into dementia and mental health.
-
-The original app was implemented using UGUI, while this vertical slice is built with UI Toolkit and demonstrates how modular architecture and dynamic content generation can make the app easy to extend for developers and simple to update for non-technical users.<br/><br/>
+This version is built with UI Toolkit and a custom framework, Fluent UI, which sits on top of VisualElement and enables fast, dynamic UI generation from code. The app is data-driven and modular, so developers can quickly extend it and non-technical users can update content or tasks without changing code. This architecture was designed to make the app maintainable, flexible, and easy to iterate on, while demonstrating a scalable approach to building interactive cognitive assessment software.
 
 <br>
 <br>
