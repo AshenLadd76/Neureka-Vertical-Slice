@@ -1,6 +1,6 @@
 # Neureka Vertical Slice
 
-Neureka gamifies cognitive assessments, collecting data through questionnaires and interactive tasks to support research in dementia and mental health. This vertical slice demonstrates the core functionality of the app, allowing users to complete tasks, view results, and interact with dynamic content in a realistic environment.
+The original Neureka app gamifies cognitive assessments, collecting data through questionnaires and interactive tasks to support research in dementia and mental health. This vertical slice demonstrates the core functionality of the app, allowing users to complete tasks, view results, and interact with dynamic content in a realistic environment.
 
 <br>
 
