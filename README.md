@@ -95,6 +95,8 @@ Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Cu
 
 ## Audio Service
 A Unity audio system for managing SFX and music. Handles one-shot sounds, positional audio, and looped tracks with optional cross-fading. Uses object pooling for audio sources to minimize runtime allocations, and coroutines to automatically clean up finished sounds. Everything is triggered through a simple message bus, making it easy to play or stop audio from anywhere in your project. Can also be accessed directly or injected into classes via dependency injection via interface
+<br>
+<br>
 
 ## Document Service 
 In this context, a document is a self-contained portion of the app — for example, the navigation UI, a game, or an assessment. 
