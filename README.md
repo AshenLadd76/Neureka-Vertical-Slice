@@ -14,7 +14,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 
 ## Table of Contents
-- [How to install and run)](#how_to_install_and_run)
+- [How to install and run](#how-to-install-and-run)
 - [Features](##features)
 - [Demos / Screenshots](#demos--screenshots)
 - [How to Run / Install](#how-to-run--install)
