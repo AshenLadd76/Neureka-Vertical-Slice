@@ -13,6 +13,18 @@ The original app was implemented using UGUI, while this vertical slice is built 
 <br>
 
 
+## Table of Contents
+
+- [Key Features](#Key Features)
+- [Features](#features)
+- [Demos / Screenshots](#demos--screenshots)
+- [How to Run / Install](#how-to-run--install)
+- [Code Highlights / Architecture](#code-highlights--architecture)
+- [Future Work / Roadmap](#future-work--roadmap)
+- [Credits / Acknowledgements](#credits--acknowledgements)
+- [Contact / Links](#contact--links)
+
+
 ## Key Features
 
 - UI Toolkit & Fluent UI framework for editor and runtime UI
