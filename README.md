@@ -21,7 +21,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 - [How to install and run](#how-to-install-and-run)
 - [Features](##features)
 - [Core Systems](#core-systems)
-    - [FLuentUi](#FLuenUi)
+    - [FLuentUi](#fluenui)
     - [Setup Steps](#setup-steps)
 - [How to Run / Install](#how-to-run--install)
 - [Code Highlights / Architecture](#code-highlights--architecture)
