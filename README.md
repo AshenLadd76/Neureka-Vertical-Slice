@@ -24,7 +24,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 - [Contact / Links](#contact--links)
 
 
-##Features
+## Features
 
 - UI Toolkit & Fluent UI framework for editor and runtime UI
 - Dynamic content generation from JSON/CSV files
