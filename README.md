@@ -9,7 +9,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
   <img src="documentation/neureka.gif" width="480" alt="Neureka Demo"/>
 </p>
 
-![Neureka Demo](documentation/neureka.gif)
+![Neureka Demo](Documentation/neureka.gif)
 
 
 <br>
