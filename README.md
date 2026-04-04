@@ -115,11 +115,13 @@ The Questionnaire Service builds and displays questionnaires for the user. It li
 This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
 <br>
 [Questionnaire Service Flow (PDF)](Documentation/Questionnaire_Service_Diagram.pdf)
+
 <br>
 <br>
 
 ## Web Service
 The Web Service handles requests from other services to handle web requests such as upload data to a web server. 
+
 <br>
 <br>
 
@@ -135,19 +137,21 @@ The **File Importer** system includes:
 You can drag JSON or CSV files into the project, and the system automatically generates the corresponding **questionnaire ScriptableObjects**, ready to be used by the **Questionnaire Service**. It's easy to extend and support new file types and add new parsers
 <br>
   [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
+  
 <br>
 <br>
 
 
 ## [Message Bus](https://github.com/AshenLadd76/MessageBus)
 The message bus facilitates communication between all relevant services and coordinates interactions between scene-level systems and the UI, removing the need for direct dependencies.
-<br>
-<br>
 
+<br>
+<br>
 
 
 ## Haptics Service
 A custom Java plugin that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it enables control of the duration and intensity of the vibration, giving more flexibility for feedback in the app.
+
 <br>
 <br>
 
