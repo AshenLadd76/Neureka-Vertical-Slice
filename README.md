@@ -26,7 +26,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 
 ## Table of Contents
 - [Overview](#neureka-vertical-slice)
-- [How to install and run](#installation)
+- [Installation](#installation)
 - [Features](#features)
 - [Core Systems](#core-systems)
     - [FLuentUi](#fluentui)
