@@ -25,17 +25,24 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 
 
 ## Table of Contents
+- [Overview](#neureka-vertical-slice)
 - [How to install and run](#how-to-install-and-run)
 - [Features](#features)
 - [Core Systems](#core-systems)
     - [FLuentUi](#fluentui)
     - [Document Service](#document-service)
     - [Questionnaire Service](#questionnaire-service)
-- [How to Run / Install](#how-to-run--install)
-- [Code Highlights / Architecture](#code-highlights--architecture)
-- [Future Work / Roadmap](#future-work--roadmap)
-- [Credits / Acknowledgements](#credits--acknowledgements)
-- [Contact / Links](#contact--links)
+    - [Audio Service](#audio-service)
+    - [Web Service](#Web-service)
+    - [Audio Service](#audio-service)
+    - [File Importer](#file-importer)
+    - [Message Bus](#message-bus)
+    - [Haptics Service](#haptics-service)
+
+
+
+
+
 
 <br>
 <br>
@@ -90,6 +97,7 @@ In this context, a document is a self-contained portion of the app — for examp
 The Document Service manages a collection of documents that are **lazy-loaded**: each document is built and loaded only when needed. Documents can also be **optionally cached** for persistent use. 
 
 All document requests go through the **Message Bus**, and each document is self contained and responsible for building its own UI and managing its own state.
+
 <br>
 <br>
 
@@ -102,8 +110,8 @@ This design makes adding or updating questionnaires straightforward and keeps th
 <br>
 <br>
 
-### Data Upload Service
-The Data Upload Service handles requests from other services to upload data to a web server. It saves data locally and then uses a plain C# web service instance to perform the upload. Once the upload is successful, the local copy is deleted. This design separates the Unity-specific service from the web upload logic, keeping the system modular and easily testable.
+### Web Service
+The Web Service handles requests from other services to handle web requests such as upload data to a web server. 
 <br>
 <br>
 
@@ -116,12 +124,11 @@ The **File Importer** system includes:
 - Individual file parsers
 - Can easily be extended to support other file types
 
-You can drag JSON or CSV files into the project, and the system automatically generates the corresponding **questionnaire ScriptableObjects**, ready to be used by the **Questionnaire Service**.
+You can drag JSON or CSV files into the project, and the system automatically generates the corresponding **questionnaire ScriptableObjects**, ready to be used by the **Questionnaire Service**. It's easy to extend and support new file types and add new parsers
 <br>
   [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
 <br>
 <br>
-
 
 
 ### Message Bus
@@ -130,16 +137,9 @@ The message bus facilitates communication between all relevant services and coor
 <br>
 
 
-### Data Upload Service
-The Data Upload Service handles requests from other services to upload data to a web server. It saves data locally and then uses a plain C# web service instance to perform the upload. Once the upload is successful, the local copy is deleted. This design separates the Unity-specific service from the web upload logic, keeping the system modular and easily testable.
-<br>
-<br>
 
-
-
-
-### Haptics 
-A custom Java plugin I built that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it lets me control the duration and intensity of the vibration, giving more flexibility for feedback in the app.
+### Haptics Service
+A custom Java plugin that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it enables control of the duration and intensity of the vibration, giving more flexibility for feedback in the app.
 <br>
 <br>
 
