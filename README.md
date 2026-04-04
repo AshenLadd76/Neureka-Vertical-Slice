@@ -24,7 +24,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 - [Contact / Links](#contact--links)
 
 
-## Installation
+## 📌 Installation & Run Guide (Summary)
 
 
 
