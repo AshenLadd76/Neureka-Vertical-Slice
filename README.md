@@ -33,8 +33,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 Clone the repository:
 
-
-    ``` bash git clone https://github.com/AshenLadd76/Neureka-Vertical-Slice.git 
+    ``` bash git clone https://github.com/AshenLadd76/Neureka-Vertical-Slice.git  ```
 
 
 - Add the project in Unity Hub and open it with Unity 6.3 LTS
