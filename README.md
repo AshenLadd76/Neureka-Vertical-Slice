@@ -32,7 +32,11 @@ The original app was implemented using UGUI, while this vertical slice is built 
 - Install Unity 6.3 LTS (6000.3.11f1) via Unity Hub
 
 Clone the repository:
-
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
     ``` bash git clone https://github.com/AshenLadd76/Neureka-Vertical-Slice.git  ```
 
 
