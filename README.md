@@ -158,7 +158,7 @@ This vertical slice demonstrates a modular, event-driven Unity architecture with
 <br>
 
 <p align="center">
-  <img src="Screenshots/appslice.png"  alt="Neureka Demo"/>
+  <img src="ScreenShots/appslice.png"  alt="Neureka Demo"/>
 </p>
 
 <br>
