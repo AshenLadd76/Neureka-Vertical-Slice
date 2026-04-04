@@ -86,13 +86,13 @@ cd Neureka-Vertical-Slice
 ## Core Systems
 
 
-### FluentUi
+## FluentUi
 Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
 
 <br>
 <br>
 
-### Document Service 
+## Document Service 
 In this context, a document is a self-contained portion of the app — for example, the navigation UI, a game, or an assessment. 
 
 The Document Service manages a collection of documents that are **lazy-loaded**: each document is built and loaded only when needed. Documents can also be **optionally cached** for persistent use. 
@@ -102,7 +102,7 @@ All document requests go through the **Message Bus**, and each document is self 
 <br>
 <br>
 
-### Questionnaire Service  
+## Questionnaire Service  
 The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **Fluent UI** to dynamically construct the questionnaire interface.
 
 This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
@@ -111,13 +111,13 @@ This design makes adding or updating questionnaires straightforward and keeps th
 <br>
 <br>
 
-### Web Service
+## Web Service
 The Web Service handles requests from other services to handle web requests such as upload data to a web server. 
 <br>
 <br>
 
 
-### File Importer
+## File Importer
 The **File Importer** system includes:
 - Drag and Drop file importer
 - Dispatch Manager
@@ -132,14 +132,14 @@ You can drag JSON or CSV files into the project, and the system automatically ge
 <br>
 
 
-### Message Bus
+## Message Bus
 The message bus facilitates communication between all relevant services and coordinates interactions between scene-level systems and the UI, removing the need for direct dependencies.
 <br>
 <br>
 
 
 
-### Haptics Service
+## Haptics Service
 A custom Java plugin that gives direct access to an Android device’s vibration functionality. Unlike Unity’s basic vibrate call, it enables control of the duration and intensity of the vibration, giving more flexibility for feedback in the app.
 <br>
 <br>
