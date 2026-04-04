@@ -34,7 +34,6 @@ The app is data-driven and modular, so developers can quickly extend it and non-
     - [Questionnaire Service](#questionnaire-service)
     - [Audio Service](#audio-service)
     - [Web Service](#Web-service)
-    - [Audio Service](#audio-service)
     - [File Importer](#file-importer)
     - [Message Bus](#message-bus)
     - [Haptics Service](#haptics-service)
