@@ -6,7 +6,7 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 
 <p align="center">
-  <img src="documentation/neureka.gif" width="480" />
+  <img src="documentation/neureka.gif" width="480" alt="Neureka Demo"/>
 </p>
 
 ![Neureka Demo](documentation/neureka.gif)
