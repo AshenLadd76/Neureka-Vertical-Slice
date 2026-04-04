@@ -26,6 +26,18 @@ The original app was implemented using UGUI, while this vertical slice is built 
 
 ## 📌 How to install and run
 
+- Install Unity Hub
+- Install Unity 6.3 LTS (6000.3.11f1) via Unity Hub
+
+Clone the repository:
+
+- git clone https://github.com/AshenLadd76/Neureka-Vertical-Slice.git
+- cd Neureka-Vertical-Slice
+- Add the project in Unity Hub and open it with Unity 6.3 LTS
+- Open the main scene: Assets/Scenes/NeurekaAppSlice.unity
+- Hit Play ▶️ in the Editor to run the project
+
+
 
 
 ## Features
