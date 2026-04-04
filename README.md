@@ -48,7 +48,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 <br>
 <br>
   
-## 📌 Installation
+## Installation
 
 - Install Unity Hub
 - Install Unity 6.3 LTS (6000.3.11f1) via Unity Hub
