@@ -28,7 +28,7 @@ The app is data-driven and modular, so developers can quickly extend it and non-
 - [How to install and run](#how-to-install-and-run)
 - [Features](#features)
 - [Core Systems](#core-systems)
-    - [FLuentUi](#fluenui)
+    - [FLuentUi](#fluentui)
     - [Document Service](#document-service)
     - [Questionnaire Service](#questionnaire-service)
 - [How to Run / Install](#how-to-run--install)
@@ -101,6 +101,12 @@ This design makes adding or updating questionnaires straightforward and keeps th
 <br>
 <br>
 
+### Data Upload Service
+The Data Upload Service handles requests from other services to upload data to a web server. It saves data locally and then uses a plain C# web service instance to perform the upload. Once the upload is successful, the local copy is deleted. This design separates the Unity-specific service from the web upload logic, keeping the system modular and easily testable.
+<br>
+<br>
+
+
 ### File Importer
 The **File Importer** system includes:
 - Drag and Drop file importer
@@ -114,16 +120,6 @@ You can drag JSON or CSV files into the project, and the system automatically ge
   [File Importer Flow (PDF)](Documentation/File_Import_Architecture.pdf)
 <br>
 <br>
-
-### Questionnaire Service  
-The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **Fluent UI** to dynamically construct the questionnaire interface.
-
-This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
-<br>
-[Questionnaire Service Flow (PDF)](Documentation/Questionnaire_Service_Diagram.pdf)
-<br>
-<br>
-
 
 
 
