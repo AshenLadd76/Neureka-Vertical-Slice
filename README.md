@@ -6,7 +6,7 @@ A modular, data-driven Unity framework built with **UI Toolkit** and my custom *
 <br>
 
 <p align="center">
-  <img src="Documentation/neureka.gif" width="240" alt="Loading Neureka Vertical Slice Demot"/>
+  <img src="Documentation/neureka.gif" width="320" alt="Loading Neureka Vertical Slice Demo"/>
 </p>
 
 <br>
