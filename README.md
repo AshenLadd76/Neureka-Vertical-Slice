@@ -7,7 +7,7 @@ A modular, data-driven Unity framework built with **UI Toolkit** and my custom *
 
 <p align="center">
   <strong>Loading demo GIF (40 seconds)...</strong><br><br>
-  <img src="Documentation/neureka.gif" width="480" alt="Neureka Vertical Slice Demo: Dynamic questionnaires, FluentUi interactions, and drag-and-drop file import"/>
+  <img src="Documentation/neureka.gif" width="240" alt="Neureka Vertical Slice Demo: Dynamic questionnaires, FluentUi interactions, and drag-and-drop file import"/>
 </p>
 
 <br>
