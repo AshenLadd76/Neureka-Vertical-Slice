@@ -23,7 +23,7 @@ This vertical slice modernizes the original Neureka cognitive assessment app, wh
 - [Installation](#installation)
 - [Features](#features)
 - [Core Systems](#core-systems)
-    - [FLuentUi](#fluentui)
+    - [Ui](#fluentui)
     - [Document Service](#document-service)
     - [Questionnaire Service](#questionnaire-service)
     - [Audio Service](#audio-service)
@@ -64,7 +64,7 @@ cd Neureka-Vertical-Slice
 
 ## Features
 
-- UI Toolkit & Fluent UI framework for editor and runtime UI
+- UI Toolkit & FluentUi framework for editor and runtime UI
 - Dynamic content generation from JSON/CSV files
 - Core services are automatically bootstrapped and persist across scene loads, with full support for single-scene and multi-scene projects.
 - Modular architecture with self-contained systems
@@ -81,7 +81,7 @@ cd Neureka-Vertical-Slice
 <br>
 
 ## FluentUi
-Fluent UI is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. Fluent UI supports both editor and runtime UI.
+FluentUi is a lightweight framework built on top of UI Toolkit that uses the Curiously Recurring Template Pattern (CRTP) to implement a fluent builder for low-level UI components like buttons, labels, and containers. It was created as an alternative to UXML, enabling data-driven UI to be built entirely in code, with each component self-contained and independent of the scene. FluentUi supports both editor and runtime UI.
 
 <br>
 <br>
@@ -103,7 +103,7 @@ All document requests go through the **Message Bus**, and each document is self 
 <br>
 
 ## Questionnaire Service  
-The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **Fluent UI** to dynamically construct the questionnaire interface.
+The Questionnaire Service builds and displays questionnaires for the user. It listens for requests via the **Message Bus**, loads the correct **questionnaire ScriptableObject**, and uses its data with **FluentUi** to dynamically construct the questionnaire interface.
 
 This design makes adding or updating questionnaires straightforward and keeps the UI fully decoupled from other services.
 <br>
