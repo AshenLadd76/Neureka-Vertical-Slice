@@ -18,11 +18,6 @@ This vertical slice modernizes the original Neureka cognitive assessment app, wh
 <br>
 <br>
 
-The app is data-driven and modular, so developers can quickly extend it and non-technical users can update content or tasks without changing code. This architecture makes the app easy to maintain, extend, and iterate on, and could be applied to other apps or games requiring modular, data-driven design.
-
-<br>
-<br>
-
 
 ## Table of Contents
 - [Overview](#neureka-vertical-slice)
